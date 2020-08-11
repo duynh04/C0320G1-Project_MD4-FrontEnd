@@ -1,8 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { PaymentCenterComponent } from './payment-center/payment-center.component';
+import { combineLatest } from 'rxjs';
+import { DeliveryAddressComponent } from './delivery-address/delivery-address.component';
 
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '', component: PaymentCenterComponent,
+    children: [
+      { path: '', component: DeliveryAddressComponent }
+    ]
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
