@@ -20,10 +20,12 @@ export class PaymentService {
   private locationUrl = 'assets/locations.json';
   constructor(private http: HttpClient) { }
 
+  // get all cities/provinces in vietnam
   getCities(): Observable<Location[]> {
     return this.http.get<Location[]>(this.locationUrl);
   }
 
+  // get all districts
   getDistricts(cityName: string): Observable<Location[]> {
     return this.getCities().pipe(
       map((cities: Location[]) => {
@@ -33,7 +35,8 @@ export class PaymentService {
     );
   }
 
-  getAllWards(cityName: string, districtName: string): Observable<Location[]> {
+  // get all wards
+  getWards(cityName: string, districtName: string): Observable<Location[]> {
     return this.getDistricts(cityName).pipe(
       map((districts: Location[]) => {
         let wards = districts.filter(val => val.name == districtName);

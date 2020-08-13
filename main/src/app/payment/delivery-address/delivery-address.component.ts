@@ -2,7 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PaymentService } from 'src/app/shared/services/payment.service';
 import { Location } from '../../shared/models/dtos/location';
 import { Observable, Subscription } from 'rxjs';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CartService } from 'src/app/shared/services/cart.service';
+import { DeliveryAddress } from './../../shared/models/delivery-address';
+import { Router, ActivatedRoute } from '@angular/router';
+import { DELIVERRY_MESSAGES } from './../../shared/validations/error-messages';
+import { validPhoneNumber } from 'src/app/shared/validations/custom-validators';
 
 @Component({
   selector: 'app-delivery-address',
@@ -11,6 +16,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class DeliveryAddressComponent implements OnInit, OnDestroy {
 
+  // get error messages
+  errors = DELIVERRY_MESSAGES;
   cities: Location[];
   districts: Location[];
   wards: Location[];
@@ -20,6 +27,9 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
   //address form
   addressForm: FormGroup;
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private cartService: CartService,
     private fb: FormBuilder,
     private paymentService: PaymentService
   ) { }
@@ -29,13 +39,13 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
     this.addressForm = this.fb.group({
       firstName: [''],
       lastName: [''],
-      city: [''],
-      district: [''],
-      ward: [''],
-      street: [''],
-      nation: ['Việt Nam'],
+      city: ['', [Validators.required]],
+      district: ['', [Validators.required]],
+      ward: ['', [Validators.required]],
+      street: ['', [Validators.required, Validators.maxLength(30)]],
+      nation: [''],
       email: [''],
-      phoneNumber: [''],
+      phoneNumber: ['', [Validators.required, validPhoneNumber]],
       instruction: ['']
     });
     // get cities from json
@@ -44,16 +54,28 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
         this.cities = cities;
       });
     this.addressForm.patchValue({
-      city: 'Tỉnh Tiền Giang'
+      firstName: 'Duy',
+      lastName: 'Nguyen',
+      city: '',
+      district: '',
+      ward: '',
+      street: '',
+      nation: 'Việt Nam',
+      email: 'abc@gmail.com',
+      phoneNumber: '',
     })
   }
 
   onSubmit() {
-
+    let deliveryAddress = this.addressForm.value as DeliveryAddress;
   }
 
   onCityChange(cityName: string) {
     this.wards = [];
+    this.addressForm.patchValue({
+      district: '',
+      ward: ''
+    });
     this.subscr[1] = this.paymentService.getDistricts(cityName).subscribe(
       (districts: Location[]) => {
         this.districts = districts;
@@ -61,7 +83,10 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
   }
 
   onDistrictChange(cityName: string, districtName: string) {
-    this.subscr[2] = this.paymentService.getAllWards(cityName, districtName).subscribe(
+    this.addressForm.patchValue({
+      ward: ''
+    });
+    this.subscr[2] = this.paymentService.getWards(cityName, districtName).subscribe(
       (wards: Location[]) => {
         this.wards = wards;
       });
@@ -73,12 +98,17 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
         sub.unsubscribe();
     })
   }
+
   // getter
+
   get firstName() {
     return this.addressForm.get('firstName');
   }
   get lastName() {
     return this.addressForm.get('lastName');
+  }
+  get nation() {
+    return this.addressForm.get('nation');
   }
   get city() {
     return this.addressForm.get('city');
@@ -88,5 +118,14 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
   }
   get ward() {
     return this.addressForm.get('ward');
+  }
+  get street() {
+    return this.addressForm.get('street');
+  }
+  get email() {
+    return this.addressForm.get('email');
+  }
+  get phoneNumber() {
+    return this.addressForm.get('phoneNumber');
   }
 }
