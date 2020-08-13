@@ -7,31 +7,35 @@
             <span class="progress_bar d-md-table-cell align-middle"><a href="">Tình trạng đơn hàng</a></span>
         </div>
         <div id="progress_addr" class="pt-md-3">
+            <pre>{{ addressForm.value | json }} </pre>
+            <pre>{{ city.value }} </pre>
             <div>
                 <h3>Địa chỉ gửi hàng</h3>
             </div>
-            <form class="px-md-5">
+            <form class="px-md-5" [formGroup]="addressForm" (ngSubmit)="onSubmit()">
                 <div class="form-group row">
                     <label for="firstName" class="col-md-4 col-form-label">Tên <span
                             class="text-danger">*</span></label>
                     <div class="col-md-8">
-                        <input required type="text" disabled class="form-control" id="firstName" placeholder="Duy">
+                        <input required type="text" disabled class="form-control" id="firstName" placeholder="Duy"
+                            formControlName="firstName">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="lastName" class="col-md-4 col-form-label">Họ <span class="text-danger">*</span></label>
                     <div class="col-md-8">
-                        <input required type="text" disabled class="form-control" id="lastName" placeholder="Nguyễn">
+                        <input required type="text" disabled class="form-control" id="lastName" placeholder="Nguyễn"
+                            formControlName="lastName">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="city" class="col-md-4 col-form-label">Thành Phố/Tỉnh <span
                             class="text-danger">*</span></label>
                     <div class="col-md-8">
-                        <select required class="form-control" id="city">
-                            <option value="1" selected>TP Hồ Chí Minh</option>
-                            <option value="2">Đà Nẵng</option>
-                            <option value="3">Hà Nôi</option>
+                        <select #indexCity (change)="onCityChange($event.target.value)" required class="form-control"
+                            id="city" formControlName="city">
+                            <option value="" disabled></option>
+                            <option *ngFor="let _city of cities" value="{{_city.name}}">{{_city.name}}</option>
                         </select>
                     </div>
                 </div>
@@ -39,27 +43,21 @@
                     <label for="district" class="col-md-4 col-form-label">Quận/Huyện <span
                             class="text-danger">*</span></label>
                     <div class="col-md-8">
-                        <select required class="form-control" id="district">
-                            <option value="1">Quận 1</option>
-                            <option value="2">Quận 2</option>
-                            <option value="3">Quận 3</option>
-                            <option value="4">Quận 4</option>
-                            <option value="5">Quận 5</option>
-                            <option value="6" selected>Bình Thạnh</option>
+                        <select (change)="onDistrictChange(indexCity.value, $event.target.value)" required
+                            class="form-control" id="district" formControlName="district">
+                            <option value="" selected disabled></option>
+                            <option *ngFor="let district of districts" value="{{district.name}}">{{district.name}}
+                            </option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="subDistrict" class="col-md-4 col-form-label">Phường/Xã <span
+                    <label for="ward" class="col-md-4 col-form-label">Phường/Xã <span
                             class="text-danger">*</span></label>
                     <div class="col-md-8">
-                        <select required class="form-control" id="subDistrict">
-                            <option value="1">Phường 1</option>
-                            <option value="2">Phường 2</option>
-                            <option value="3">Phường 3</option>
-                            <option value="4">Phường 4</option>
-                            <option value="5">Phường 5</option>
-                            <option value="24" selectegiơd>Phường 24</option>
+                        <select required class="form-control" id="ward" formControlName="ward">
+                            <option value="" selected disabled></option>
+                            <option *ngFor="let ward of wards" value="{{ward.name}}">{{ward.name}}</option>
                         </select>
                         <div id="error-ward"></div>
                     </div>
@@ -68,7 +66,7 @@
                     <label for="addr" class="col-md-4 col-form-label">Địa chỉ <span class="text-danger">*</span></label>
                     <div class="col-md-8">
                         <input required maxlength="30" type="text" class="form-control" id="addr"
-                            value="123 Lê Hữu Trác">
+                            value="123 Lê Hữu Trác" formControlName="street">
                         <div id="error-addr"></div>
                     </div>
                 </div>
@@ -76,28 +74,30 @@
                     <label for="nation" class="col-md-4 col-form-label">Quốc gia <span
                             class="text-danger">*</span></label>
                     <div class="col-md-8">
-                        <input required type="text" disabled class="form-control" id="nation" placeholder="Việt Nam">
+                        <input required type="text" disabled class="form-control" id="nation" placeholder="Việt Nam"
+                            formControlName="nation">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="email" class="col-md-4 col-form-label">Email <span class="text-danger">*</span></label>
                     <div class="col-md-8">
                         <input required type="email" disabled class="form-control" id="email"
-                            placeholder="abc@gmail.com">
+                            placeholder="abc@gmail.com" formControlName="email">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="phone" class="col-md-4 col-form-label">Di Động <span
                             class="text-danger">*</span></label>
                     <div class="col-md-8">
-                        <input required type="text" class="form-control" id="phone">
+                        <input required type="text" class="form-control" id="phone" formControlName="phoneNumber">
                         <div id="error-phone"></div>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="instruct" class="col-md-4 col-form-label">Hướng dẫn giao hàng</label>
                     <div class="col-md-8">
-                        <textarea class="form-control" id="instruct" placeholder="(Không bắt buộc)"></textarea>
+                        <textarea class="form-control" id="instruct" placeholder="(Không bắt buộc)"
+                            formControlName="instruction"></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -119,7 +119,7 @@
         <div class="row">
             <div class="col px-md-0 pt-md-5">
                 <ul class="list-group">
-                    <li class="list-group-item active card-header-customer">Tổng kết đơn hàng</li>
+                    <li class="list-group-item active card-header-custom">Tổng kết đơn hàng</li>
                     <li class="list-group-item">
                         <span class="order_item_label"> Giao hàng tiêu chuẩn - giao hàng tận nơi. </span>
                         <span class="order_item_price">49.000</span>
