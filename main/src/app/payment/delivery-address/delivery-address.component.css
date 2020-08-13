@@ -5,16 +5,16 @@ select {
     -webkit-appearance: none;
 }
 
-input:required,  select:required {
+.mark-success {
     /* background-image: url(https://cdn.chilindo.com/gfx/checkmark-green.png); */
     background-image: url('/assets/checkmark-green.png');
     background-position: right center;
     background-repeat: no-repeat;
 }
 
-input:invalid, input:out-of-range, select:invalid {
+/* input:invalid, input:out-of-range, select:invalid {
     background-image: none;
-}
+} */
 
 .progress_bar {
     background-color: #eee;
