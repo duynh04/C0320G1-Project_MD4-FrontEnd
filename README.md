@@ -1,6 +1,8 @@
-# C0320G1-Project_MD4-FrontEnd
+# Mọi người vào folder main, mở cmd gõ: npm i. --> để tạo node_module
 
 # Project sử dụng angular 8.3.28
+
+# Mình đã add bootstrap 4.5 cdn trong index.html, nên không cần install từ npm.
 
 # Chia làm các module sau (mình đã tạo sẵn) 
 
@@ -10,10 +12,6 @@
 	4. payment module: order, cart,...
 
 # Các folder:
-
 	1. services: tất cả các service cho các module.
 	2. model: các model cho các module.
 	3. shared: dành cho các file khác để share (validate)
-
-
-# Note: Trang chủ sẽ làm trên app.component.html.
