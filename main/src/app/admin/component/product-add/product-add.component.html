@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" href="/style.css"> -->
+</head>
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+    <button type="button" class="btn btn-primary ml-3 mt-3" data-toggle="modal" data-target="#addProduct">
+      Thêm sản phẩm
+      </button>
+
+
+      
+      <!-- Modal -->
+      <div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" >
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-primary" id="exampleModalLabel">Thêm sản phẩm</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+
+              <div class="container-fluid">
+
+                  <div class="container-fluid px-3 m-2">
+                    <!-- <h3 style="padding-bottom: 30px">Cập nhật sản phẩm</h3> -->
+                    <form [formGroup]="formAddNewProduct">
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-3">
+                            <label>Tên sản phẩm <span class="text-danger">*</span> </label>
+                          </div>
+                          <div class="col-8">
+                            <input type="text" class="form-control" formControlName="name" id="tenSP">
+                          </div>
+
+                          <div  class="col-1" style="float: right;" id="checkten" >
+                            <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                          </div>
+                        </div>
+                      </div>
+
+                        <!-- <div class="form-group">
+                          <div class="row">
+                            <div class="col-3">
+                              <label>ID người đăn <span class="text-danger">*</span>g</label>
+                            </div>
+                            <div class="col-9">
+                              <div class="row">
+                                  <div class="col-9 mr-0 pr-2">
+                                      <input type="text" class="form-control w-90 m-0 p-0" formControlName="IdNguoiDang">
+                                  </div>
+                                  <div class="col-3 m-0 pl-0 w-100">
+                                      <button class="btn btn-primary" data-toggle="button">Kiểm tra</button>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+                      <div class="form-group">
+                        <!-- <div class="container"> -->
+                          <div class="row">
+                            <div class="col-3">
+                              <label>ID người đăng<span class="text-danger">*</span></label>
+                            </div>
+
+                            <div class="col-8">
+                              <div class="row">
+                                  <div class="col-lg-9 col-md-6 col-sm-6">
+                                      <input type="number" class="form-control w-85@ m-0 p-0" formControlName="owner" id="idNguoiDang">
+                                  </div>
+                                  <div class="col-lg-3 col-md-5 col-sm-6">
+                                      <button class="btn btn-light" type="button" data-toggle="button" style="width: 100%; display: block; text-align: center;" id="kiemtra"> Kiểm tra </button>
+                                  </div>
+                              </div>
+                            </div>
+                            <div  class="col-1" style="float: right;" id="checkID">
+                              <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                            </div>
+                          </div>
+                        <!-- </div> -->
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-3">
+                            <label >Thông tin người đăng</label>
+                          </div>
+                          <div class="col-8">
+                                <textarea class="form-control" rows="3" id="thongTinNguoiDang" >
+                  <!--                ID: {{id}}-->
+                  <!--                Tên đầy đủ: {{name}}-->
+                  <!--                Email: {{emali}}--> 
+                  <!--                Sau chuyen thanh divtag -->
+
+                                </textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-3">
+                            <label>Chủng loại <span class="text-danger">*</span> </label>
+                          </div>
+                          <div class="col-8">
+                            <select class="form-control" formControlName="category" id="chungloai">
+                              <option value="" disabled selected>Chọn chủng loại </option>
+                              <option>Điện thoại - Máy tính bảng</option>
+                              <option>Điện tử - Điện lạnh</option>
+                              <option>Phụ kiện - Thiết bị số</option>
+                              <option>Laptop - Thiết bị IT</option>
+                              <option>Điện gia dụng</option>
+                              <option>Thời trang</option>
+                              <option>Hàng quốc tế</option>
+                              <option>Đồng hồ ngoại</option>
+                            </select>
+                          </div>
+                          <div  class="col-1" style="float: right;" id="checkChungLoai">
+                            <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-3">
+                            <label >Giá ban đầu <span class="text-danger">*</span> </label>
+                          </div>
+                          <div class="col-8">
+                            <input type="number" class="form-control" formControlName="initialPrice"  id="giabandau">
+                          </div>
+                          <div  class="col-1" style="float: right;" id="checkgiabandau">
+                            <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-3">
+                            <label >Bước giá <span class="text-danger">*</span> </label>
+                          </div>
+                          <div class="col-8">
+                            <input type="number" class="form-control" placeholder="Là giá thấp nhất trong mỗi lần tăng giá" formControlName="increaseAmount" id="buocgia">
+                          </div>
+                          <div  class="col-1" style="float: right;" id="checkbuocgia">
+                            <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-3">
+                            <label>Hình ảnh sản phẩm <span class="text-danger">*</span> </label>
+                          </div>
+                          <div class="col-8">
+                            <input type="file" class="form-control" id="hinhanh">
+                          </div>
+                          <div  class="col-1" style="float: right;" id="checkhinhanh">
+                            <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- <div class="form-group">
+                        <div class="row">
+                          <div class="col-3">
+                            <label>Hình ảnh sản phẩm <span class="text-danger">*</span> </label>
+                          </div>
+                          <div class="col-8">
+                            <div class="input-group">
+                              <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                                <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                              </div>
+                              <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Append</button>
+                              </div>
+                            </div>
+                          </div>
+                          <div  class="col-1" style="float: right;">
+                            <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                          </div>
+                        </div>
+                      </div> -->
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-3">
+                            <label >Thời gian bắt đầu <span class="text-danger">*</span> </label>
+                          </div>
+                          <div class="col-8">
+                            <!-- <input type="date" class="form-control" placeholder="name@example.com" formControlName="startDate" id="ngaybatdau"> -->
+                            <!-- <button mat-button color="primary">Basic</button> -->
+                            <mat-form-field>
+                              <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="startDate" style="display: block">
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+
+                          </div>
+                          <div  class="col-1" style="float: right;" id="checkngaybatdau">
+                            <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-3">
+                            <label >Thời gian kết thúc <span class="text-danger">*</span> </label>
+                          </div>
+                          <div class="col-8">
+                            <!-- <input type="date" class="form-control" placeholder="name@example.com" formControlName="endDate" id='ngayketthuc'> -->
+                            <mat-form-field>
+                              <input matInput [matDatepicker]="picker1" placeholder="Choose a date" formControlName="endDate" style="display: block">
+                              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                              <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+                          <div  class="col-1" style="float: right;" id="checkngayketthuc">
+                            <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-3">
+                            <label >Thông tin chi tiết <span class="text-danger">*</span> </label>
+                          </div>
+                          <div class="col-8">
+                            <textarea class="form-control" rows="3" formControlName="description" id="thongtinchitiet"></textarea >
+                          </div>
+                          <div  class="col-1" style="float: right;" id="checkthongtinchitiet">
+                            <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-warning" data-dismiss="modal">Đóng</button>
+              <button type="button" class="btn btn-secondary">Nhập lại</button>
+              <button type="button" class="btn btn-primary" (click)=" addNewProduct()" >Lưu lại</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script>
+        // giai quyet van de ...
+      $(document).ready(function(){
+        $("#checkten").hide();
+
+        $("#tenSP").change(function(){
+          $("#checkten").show(1000);
+
+          // alert("Input has been changed.");
+        });
+      });
+
+      $(document).ready(function(){
+        $("#checkID").hide();
+
+        $("#idNguoiDang").change(function(){
+          $("#checkID").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+
+      $(document).ready(function(){
+        $("#checkID").hide();
+
+        $("#idNguoiDang").change(function(){
+          $("#checkID").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+      $(document).ready(function(){
+        $("#checkChungLoai").hide();
+
+        $("#chungloai").change(function(){
+          $("#checkChungLoai").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+      $(document).ready(function(){
+        $("#checkgiabandau").hide();
+
+        $("#giabandau").change(function(){
+          $("#checkgiabandau").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+
+      $(document).ready(function(){
+        $("#checkbuocgia").hide();
+
+        $("#buocgia").change(function(){
+          $("#checkbuocgia").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+      $(document).ready(function(){
+        $("#checkhinhanh").hide();
+
+        $("#hinhanh").change(function(){
+          $("#checkhinhanh").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+      $(document).ready(function(){
+        $("#checkngaybatdau").hide();
+
+        $("#ngaybatdau").change(function(){
+          $("#checkngaybatdau").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+      $(document).ready(function(){
+        $("#checkngayketthuc").hide();
+
+        $("#ngayketthuc").change(function(){
+          $("#checkngayketthuc").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+      $(document).ready(function(){
+        $("#checkthongtinchitiet").hide();
+
+        $("#thongtinchitiet").change(function(){
+          $("#checkthongtinchitiet").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+
+
+      $(document).ready(function(){
+        $("#kiemtra").click(function(){
+          alert("Thong tin nguoi dang da dissable")
+          $("#thongTinNguoiDang").prop('disabled', true)
+        });
+      });
+
+
+
+
+
+      </script>
+</body>
+
+</html>

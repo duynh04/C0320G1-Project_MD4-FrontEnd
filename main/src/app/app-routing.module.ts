@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
 
 const routes: Routes = [
+  {
+    path: '', loadChildren: './admin/admin.module#AdminModule'
+  },
   {
     path: 'payment', loadChildren: () => import('./payment/payment.module').then(mod => mod.PaymentModule)
   },
@@ -23,9 +27,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    preloadingStrategy: PreloadAllModules
-  })],
-  exports: [RouterModule]
+  imports: [[RouterModule.forRoot(routes)],
+    ReactiveFormsModule, CommonModule,
+    FormsModule],
+  exports: [RouterModule],
+  declarations: [],
 })
 export class AppRoutingModule { }
