@@ -1,5 +1,13 @@
 export interface Product {
-    [prop: string]: any;
-    // mọi người add thêm prop của đối tượng dưới này, 
-    // nếu có người add rồi thì xin bỏ qua. xin cảm ơn.
+  productId: number;
+  productName: string;
+  productInitialPrice: number;
+  productIncreaseAmount: number;
+  productRegisterDate: string;
+  productStartDate: string;
+  productEndDate: string;
+  productApprovementStatusId: number;
+  productDescription: string;
+  productCategoryId: number;
+  productOwnerId: number;
 }

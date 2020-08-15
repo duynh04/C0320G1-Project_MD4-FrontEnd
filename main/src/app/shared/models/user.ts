@@ -1,5 +1,14 @@
 export interface User {
-    [prop: string]: any;
-    // mọi người add thêm prop của đối tượng dưới này, 
-    // nếu có người add rồi thì xin bỏ qua. xin cảm ơn.
+  userId: number;
+  userFullName: string;
+  userEmail: string;
+  userPhoneNumber: string;
+  userAddress: string;
+  userBirthday: string;
+  userIdCard: string;
+  userGender: string;
+  userRateId: number;
+  userPoint: number;
+  userLastLogin: string;
+  userStatus: boolean;
 }
