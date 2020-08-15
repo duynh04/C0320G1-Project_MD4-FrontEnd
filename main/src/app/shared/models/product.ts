@@ -1,13 +1,17 @@
+import { User } from './user';
+import { Category } from './category';
+import { ApprovementStatus } from './approvement-status';
 export interface Product {
-  productId: number;
-  productName: string;
-  productInitialPrice: number;
-  productIncreaseAmount: number;
-  productRegisterDate: string;
-  productStartDate: string;
-  productEndDate: string;
-  productApprovementStatusId: number;
-  productDescription: string;
-  productCategoryId: number;
-  productOwnerId: number;
+   id: number;
+   name: string;
+   initialPrice: number;
+   increasingAmount: number;
+   registerDate: string;
+   startDate: string;
+   endDate: string;
+   approvementStatus: ApprovementStatus;
+   description: string;
+   category: Category;
+   owner: User;
+
 }

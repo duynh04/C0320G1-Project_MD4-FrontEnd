@@ -1,14 +1,15 @@
+import { Rate } from './rate';
 export interface User {
-  userId: number;
-  userFullName: string;
-  userEmail: string;
-  userPhoneNumber: string;
-  userAddress: string;
-  userBirthday: string;
-  userIdCard: string;
-  userGender: string;
-  userRateId: number;
-  userPoint: number;
-  userLastLogin: string;
-  userStatus: boolean;
+    id: number;
+    fullname: string;
+    email: string;
+    phoneNumber: string;
+    address: string;
+    birthday: string;
+    idCard: string;
+    gender: string;
+    rate: Rate;
+    point: number;
+    lastLogin: string;
+    status: boolean
 }
