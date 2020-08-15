@@ -1,0 +1,17 @@
+.row-container{
+  border: 1px solid #6c757d;
+  border-radius: 10px;
+  margin-top: 20vh;
+  padding: 30px;
+}
+.button1{
+  width: 120px;
+  margin-right: 5px;
+}
+.button2{
+  width: 120px;
+}
+.row{
+  margin-left: 0px;
+  margin-right: 0px;
+}
