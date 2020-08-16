@@ -35,8 +35,8 @@
                     <tr class="bg-primary text-white">
                         <th scope="col">Sản phẩm</th>
                         <th scope="col">Số lượng</th>
-                        <th scope="col">Giá</th>
-                        <th scope="col">Thành tiền/đơn vị</th>
+                        <th scope="col">Giá/VND</th>
+                        <th scope="col">Thành tiền/VND</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,8 +50,8 @@
                             </div>
                         </th>
                         <td>{{sp.productQuantity}}</td>
-                        <td>{{sp.productWinPrice}} VND</td>
-                        <td>{{sp.productWinPrice*sp.productQuantity}} VND</td>
+                        <td>{{sp.productWinPrice|currency:"VND":"symbol"}} </td>
+                        <td>{{sp.productWinPrice*sp.productQuantity|currency:"VND":'symbol'}} </td>
 
 
                     </tr>
@@ -59,19 +59,19 @@
                         <th scope="row">Phí dịch vụ 10%</th>
                         <td></td>
                         <td></td>
-                        <td>{{serviceFee}} VND</td>
+                        <td>{{serviceFee|currency:"VND":'symbol'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">Giao hàng</th>
                         <td></td>
                         <td></td>
-                        <td>{{deliveryPrice}} VND</td>
+                        <td>{{deliveryPrice|currency:"VND":'symbol'}} </td>
                     </tr>
                     <tr>
                         <th scope="row">Tổng</th>
                         <td></td>
                         <td></td>
-                        <td>{{totalCost}} VND</td>
+                        <td>{{totalCost|currency:"VND":'symbol'}} </td>
                     </tr>
                 </tbody>
             </table>
