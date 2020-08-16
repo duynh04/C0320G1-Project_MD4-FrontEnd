@@ -8,7 +8,6 @@ import { DeliveryAddress } from './../../shared/models/delivery-address';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DELIVERRY_MESSAGES } from './../../shared/validations/error-messages';
 import { validPhoneNumber } from 'src/app/shared/validations/custom-validators';
-import { IPayPalConfig } from 'ngx-paypal';
 import { DeliveryAddressDTO } from 'src/app/shared/models/dtos/delivery-adddress-dto';
 
 @Component({
@@ -22,8 +21,7 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
   public total: number;
   // address_id
   private address_id: number;
-  //paypal config
-  public payPalConfig?: IPayPalConfig;
+
   // get error messages
   errors = DELIVERRY_MESSAGES;
   cities: Location[];
@@ -46,8 +44,6 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
   ngOnInit() {
     //Get total
     this.total = this.cartService.totalPrice;
-    // initialize paypal
-    this.initPayPalSdk();
     // get cities from json
     this.subscr[0] = this.paymentService.getCities().subscribe(
       (cities: Location[]) => {
@@ -137,29 +133,6 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
     })
   }
 
-  private initPayPalSdk(): void {
-    this.payPalConfig = {
-      clientId: 'AbCzPUUevBpwehD2HBR8Y0_ic2rt8ldWn-y_nn7SgR04TvK3r9tLU9MZonzGDnXTq5exF5hlhdll6wMp',
-      style: {
-        layout: 'horizontal'
-      },
-      createOrderOnServer: (data: any) => {
-        return this.paymentService.setTransaction(1).toPromise().then(res => {
-          // console.log(res);
-          this.paymentService.captureOrder = res;
-          return res.id;
-        });
-      },
-      onApprove: (data) => {
-        this.paymentService.confirmTransaction(data.orderID).subscribe(res => {
-          console.log(`confirm transaction: ${res.status}`);
-        });
-      },
-      onError: err => {
-        console.log('OnError', err);
-      },
-    };
-  }
   // getter
 
   get fullName() {
