@@ -93,15 +93,19 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    let deliveryAddress = this.addressForm.value as DeliveryAddress;
+    deliveryAddress.id = this.address_id;
     if (this.isUpdate.value) {
-      let deliveryAddress = this.addressForm.value as DeliveryAddress;
-      console.log(deliveryAddress);
-      deliveryAddress.id = this.address_id;
+      // deliveryAddress.phoneNumber = "01234413413";
       deliveryAddress.user = { id: 1 };
       this.paymentService.updateLatestAddress(deliveryAddress).subscribe((res) => {
-        console.log(`response ${res}`);
+        if (res != null) {
+          console.log(res.errors);
+        }
       })
     }
+    this.paymentService.addressInfo = this.addressForm.value;
+    this.router.navigate(['option'], { relativeTo: this.route })
   }
 
   onCityChange(cityName: string) {
@@ -140,7 +144,7 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
         layout: 'horizontal'
       },
       createOrderOnServer: (data: any) => {
-        return this.paymentService.setTransaction({ totalPrice: 5000000 }).toPromise().then(res => {
+        return this.paymentService.setTransaction(1).toPromise().then(res => {
           // console.log(res);
           this.paymentService.captureOrder = res;
           return res.id;
