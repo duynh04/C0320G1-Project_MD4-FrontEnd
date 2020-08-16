@@ -43,28 +43,28 @@ export class PaymentOptionComponent implements OnInit {
     phoneNumber: "0123456789",
     isDefault: true,
     user: {
-      id: 1,
-      fullname: "Lương",
-      email: "cuong@gmail.com",
-      phoneNumber: "0123111222",
-      address: "Da Nang",
-      birthday: "1996-11-08",
-      idCard: "123123123",
-      gender: "Nam",
-      rate: {
-        id: 1,
-        name: "kim cương",
-      },
-      point: 100,
-      lastLogin: "2020-08-13T00:00:00",
-      status: true,
+      id: 1
+      // fullname: "Lương",
+      // email: "cuong@gmail.com",
+      // phoneNumber: "0123111222",
+      // address: "Da Nang",
+      // birthday: "1996-11-08",
+      // idCard: "123123123",
+      // gender: "Nam",
+      // rate: {
+      //   id: 1,
+      //   name: "kim cương",
+      // },
+      // point: 100,
+      // lastLogin: "2020-08-13T00:00:00",
+      // status: true,
     },
   };
 
   constructor(
     private formBuilder: FormBuilder,
     private orderService: OrderService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.orderForm = this.formBuilder.group({

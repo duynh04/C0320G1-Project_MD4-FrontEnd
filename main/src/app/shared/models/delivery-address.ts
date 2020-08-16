@@ -11,6 +11,6 @@ export interface DeliveryAddress {
     phoneNumber: string,
     isDefault: boolean,
     user: {
-        id: number,
+        id: number
     }
 }
