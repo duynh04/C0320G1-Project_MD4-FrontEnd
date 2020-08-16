@@ -1,3 +1,4 @@
+import { Router } from "@angular/router";
 import { User } from "./../../shared/models/user";
 import { DeliveryAddress } from "./../../shared/models/delivery-address";
 import { OrderDto } from "./../../shared/models/dtos/orderDto";
@@ -14,6 +15,8 @@ export class PaymentOptionComponent implements OnInit {
   orderForm: FormGroup;
   payments: any;
   orderDto: OrderDto = new OrderDto();
+  paymentMethod: String;
+  deliveryMethod: String = "Giao hàng tiêu chuẩn";
 
   buyer: User = {
     id: 1,
@@ -43,7 +46,7 @@ export class PaymentOptionComponent implements OnInit {
     phoneNumber: "0123456789",
     isDefault: true,
     user: {
-      id: 1
+      id: 1,
       // fullname: "Lương",
       // email: "cuong@gmail.com",
       // phoneNumber: "0123111222",
@@ -63,8 +66,9 @@ export class PaymentOptionComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private orderService: OrderService
-  ) { }
+    private orderService: OrderService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.orderForm = this.formBuilder.group({
@@ -79,8 +83,8 @@ export class PaymentOptionComponent implements OnInit {
 
   onSubmit() {
     console.log(this.orderForm.value.paymentMethod);
-    this.orderDto.paymentMethod = this.orderForm.value.paymentMethod;
-    this.orderDto.deliveryMethod = this.orderForm.value.deliveryMethod;
+    this.orderDto.paymentMethod = this.paymentMethod;
+    this.orderDto.deliveryMethod = this.deliveryMethod;
     if (this.orderForm.value.paymentMethod == "Thanh toán trực tiếp") {
       this.orderDto.paymentState = "Đang chờ thanh toán";
     } else {
@@ -89,6 +93,8 @@ export class PaymentOptionComponent implements OnInit {
     this.orderDto.deliveryAddress = this.deliveryAddress;
     this.orderDto.buyer = this.buyer;
 
-    this.orderService.createOrder(this.orderDto).subscribe();
+    this.orderService
+      .createOrder(this.orderDto)
+      .subscribe(() => this.router.navigate(["payment/order"]));
   }
 }
