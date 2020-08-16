@@ -18,6 +18,8 @@ import { DeliveryAddressDTO } from 'src/app/shared/models/dtos/delivery-adddress
 })
 export class DeliveryAddressComponent implements OnInit, OnDestroy {
 
+  //cart info
+  public total: number;
   // address_id
   private address_id: number;
   //paypal config
@@ -42,6 +44,8 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    //Get total
+    this.total = this.cartService.totalPrice;
     // initialize paypal
     this.initPayPalSdk();
     // get cities from json

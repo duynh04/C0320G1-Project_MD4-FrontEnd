@@ -136,7 +136,9 @@
                     </li>
                     <li class="list-group-item">
                         <span class="order_item_label total_payment">Số tiền cần thanh toán</span>
-                        <span class="order_item_price total_payment">150.000</span>
+                        <span class="order_item_price total_payment">
+                            {{total|currency:"VND":'symbol'}}
+                        </span>
                     </li>
                     <li class="list-group-item">
                         <ngx-paypal [config]="payPalConfig"></ngx-paypal>
