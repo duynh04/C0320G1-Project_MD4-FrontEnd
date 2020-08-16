@@ -12,7 +12,7 @@ export interface Order {
   status: boolean;
   paymentMethod: String;
   deadlineDelivery: String;
-  deliverAddress: DeliveryAddress;
+  deliveryAddress: DeliveryAddress;
   deliverMethod: String;
   cart: Cart;
   paymentStatus: String;
