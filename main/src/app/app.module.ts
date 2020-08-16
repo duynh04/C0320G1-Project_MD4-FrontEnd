@@ -16,14 +16,7 @@ import { PaymentModule } from "./payment/payment.module";
     FooterComponent,
     PageNotFoundComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    PaymentModule,
-    FormsModule,
-  ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, PaymentModule],
   providers: [],
   bootstrap: [AppComponent],
 })
