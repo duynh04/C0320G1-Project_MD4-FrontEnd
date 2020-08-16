@@ -7,28 +7,17 @@
             <span class="progress_bar d-md-table-cell align-middle"><a href="">Tình trạng đơn hàng</a></span>
         </div>
         <div id="progress_addr" class="pt-md-3">
-            <!-- <pre>{{ addressForm.value | json }} </pre>
-            <pre>{{ addressForm.valid }} </pre> -->
+            <pre>{{ addressForm.value | json }} 
+            {{ addressForm.valid }} </pre>
             <div>
                 <h3>Địa chỉ gửi hàng</h3>
             </div>
             <form class="px-md-5" [formGroup]="addressForm" (ngSubmit)="onSubmit()">
-                <div class="form-group row"> <label for="firstName" class="col-md-4 col-form-label">Tên <span
+                <div class="form-group row"> <label for="fullName" class="col-md-4 col-form-label">Họ Tên <span
                             class="text-danger">*</span></label>
                     <div class="col-md-8">
                         <input required type="text" disabled class="form-control" id="firstName"
-                            formControlName="firstName" [class.mark-success]="firstName.valid">
-                        <div *ngIf="firstName.touched && firstName.dirty">
-                            <small *ngIf="firstName.hasError('required')" class="d-block text-danger" role="alert">Vui
-                                lòng nhập họ tên </small>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="lastName" class="col-md-4 col-form-label">Họ <span class="text-danger">*</span></label>
-                    <div class="col-md-8">
-                        <input required type="text" disabled class="form-control" id="lastName"
-                            formControlName="lastName" [class.mark-success]="lastName.valid">
+                            formControlName="fullName" [class.mark-success]="fullName.valid">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -114,6 +103,14 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <div class="offset-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="update" formControlName="isUpdate">
+                            <label class="custom-control-label" for="update">Cập nhật địa chỉ giao hàng</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <div class="col-md-4 offset-md-4">
                         <input type="submit" class="form-control btn btn-primary" value="Tiếp theo">
                     </div>
@@ -139,7 +136,12 @@
                     </li>
                     <li class="list-group-item">
                         <span class="order_item_label total_payment">Số tiền cần thanh toán</span>
-                        <span class="order_item_price total_payment">150.000</span>
+                        <span class="order_item_price total_payment">
+                            {{total|currency:"VND":'symbol'}}
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
                     </li>
                 </ul>
             </div>

@@ -3,6 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Location } from '../models/dtos/location';
+import { IOrderDetails } from 'ngx-paypal'
+import { DeliveryAddress } from './../models/delivery-address';
+import { ErrorDetail } from './../models/dtos/error-detail';
+import { DeliveryAddressDTO } from '../models/dtos/delivery-adddress-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +16,15 @@ export class PaymentService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      Authorization: 'my-auth-token'
+      'Access-Control-Allow-Origin': '*'
     })
   };
 
+  captureOrder: IOrderDetails;
+  paymentUrl = "http://localhost:8080/api/v1/payment";
+
   private locationUrl = 'assets/locations.json';
+
   constructor(private http: HttpClient) { }
 
   // get all cities/provinces in vietnam
@@ -43,5 +50,26 @@ export class PaymentService {
         return wards[0].xa;
       })
     );
+  }
+
+  //Get delivery address
+  getAddress(userId: string): Observable<DeliveryAddressDTO> {
+    return this.http.get<DeliveryAddressDTO>(`${this.paymentUrl}/address/${userId}`)
+  }
+
+  //Update address
+  updateLatestAddress(addr: DeliveryAddress): Observable<ErrorDetail | null> {
+    return this.http.put<ErrorDetail | null>(`${this.paymentUrl}/address`, addr);
+  }
+
+  // create order 
+  // get captured order
+  setTransaction(cart: { totalPrice: number }): Observable<IOrderDetails> {
+    return this.http.post<IOrderDetails>(`${this.paymentUrl}/create-transaction`, cart);
+  }
+
+  //get confirm transaction 
+  confirmTransaction(orderId: string): Observable<IOrderDetails> {
+    return this.http.post<IOrderDetails>(`${this.paymentUrl}/confirm-transaction`, orderId);
   }
 }

@@ -1,5 +1,6 @@
 import { User } from './user';
 import { Auction } from './auction';
+<<<<<<< HEAD
 
 export interface AuctionRecord {
     [prop: string]: any;
@@ -12,4 +13,14 @@ export interface AuctionRecord {
     bidPrice : number;
     isWinner : boolean;
     
+=======
+export interface AuctionRecord {
+    id: number;
+    auction: Auction;
+    bidder: User;
+    bidTime: string;
+    bidPrice: number;
+    isWinner: boolean;
+
+>>>>>>> d597fe82fdf19a58650d37a2d2d4dba19780e289
 }
