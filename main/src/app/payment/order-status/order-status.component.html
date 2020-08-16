@@ -77,7 +77,6 @@
             </table>
 
             <div class=" d-flex justify-content-center m-3">
-                <a class="btn btn-primary" href="hinhthucgiaohang.html">Quay lại</a>
                 <button class="btn btn-success ml-3" data-toggle="modal" data-target="#exampleModal">In Hóa
                     Đơn</button>
             </div>
@@ -107,9 +106,9 @@
                 <span> Bạn có muốn in hóa đơn không?</span>
             </div>
             <div class="modal-footer ">
-                <button type="button" (click)="sendMail()" class="btn btn-warning text-white"
+                <button type="button" (click)="sendMail('không')" class="btn btn-warning text-white"
                     data-dismiss="modal">Không</button>
-                <button type="button" (click)="sendMail()" class="btn btn-success" data-dismiss="modal">Có</button>
+                <button type="button" (click)="sendMail('có')" data-dismiss="modal" class="btn btn-success">Có</button>
             </div>
         </div>
     </div>
