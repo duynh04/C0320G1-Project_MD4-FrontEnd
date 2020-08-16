@@ -1,0 +1,150 @@
+<div class="row">
+    <div id="payment_wrapper" class="col-md-9">
+        <div id="payment_progress" class="d-md-table w-100 mt-md-2">
+            <span class="progress_bar d-md-table-cell align-middle"><a class="active" href="">Địa chỉ giao
+                    hàng</a></span>
+            <span class="progress_bar d-md-table-cell align-middle"><a href="">Hình thức giao hàng</a></span>
+            <span class="progress_bar d-md-table-cell align-middle"><a href="">Tình trạng đơn hàng</a></span>
+        </div>
+        <div id="progress_addr" class="pt-md-3">
+            <pre>{{ addressForm.value | json }} 
+            {{ addressForm.valid }} </pre>
+            <div>
+                <h3>Địa chỉ gửi hàng</h3>
+            </div>
+            <form class="px-md-5" [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+                <div class="form-group row"> <label for="fullName" class="col-md-4 col-form-label">Họ Tên <span
+                            class="text-danger">*</span></label>
+                    <div class="col-md-8">
+                        <input required type="text" disabled class="form-control" id="firstName"
+                            formControlName="fullName" [class.mark-success]="fullName.valid">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="city" class="col-md-4 col-form-label">Thành Phố/Tỉnh <span
+                            class="text-danger">*</span></label>
+                    <div class="col-md-8">
+                        <select #indexCity (change)="onCityChange($event.target.value)" class="form-control" id="city"
+                            formControlName="city" [class.mark-success]="city.valid">
+                            <option value="" disabled></option>
+                            <option *ngFor="let _city of cities" value="{{_city.name}}">{{_city.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="district" class="col-md-4 col-form-label">Quận/Huyện <span
+                            class="text-danger">*</span></label>
+                    <div class="col-md-8">
+                        <select (change)="onDistrictChange(indexCity.value, $event.target.value)" class="form-control"
+                            id="district" formControlName="district" [class.mark-success]="district.valid">
+                            <option value="" selected disabled></option>
+                            <option *ngFor="let district of districts" value="{{district.name}}">{{district.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="ward" class="col-md-4 col-form-label">Phường/Xã <span
+                            class="text-danger">*</span></label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="ward" formControlName="ward" [class.mark-success]="ward.valid">
+                            <option value="" selected disabled></option>
+                            <option *ngFor="let ward of wards" value="{{ward.name}}">{{ward.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="addr" class="col-md-4 col-form-label">Địa chỉ <span class="text-danger">*</span></label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="addr" formControlName="street"
+                            [class.mark-success]="street.valid">
+                        <div *ngIf="street.touched && street.dirty">
+                            <ng-container *ngFor="let error of errors.streetErrors">
+                                <small *ngIf="street.hasError(error.code)" class="d-block text-danger"
+                                    role="alert">{{error.message}}</small>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="nation" class="col-md-4 col-form-label">Quốc gia <span
+                            class="text-danger">*</span></label>
+                    <div class="col-md-8">
+                        <input type="text" disabled class="form-control" id="nation" formControlName="nation"
+                            [class.mark-success]="nation.valid">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-md-4 col-form-label">Email <span class="text-danger">*</span></label>
+                    <div class="col-md-8">
+                        <input type="email" disabled class="form-control" id="email" formControlName="email"
+                            [class.mark-success]="email.valid">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="phone" class="col-md-4 col-form-label">Di Động <span
+                            class="text-danger">*</span></label>
+                    <div class="col-md-8">
+                        <input required type="text" class="form-control" id="phone" formControlName="phoneNumber"
+                            [class.mark-success]="phoneNumber.valid">
+                        <div *ngIf="phoneNumber.touched && phoneNumber.dirty">
+                            <ng-container *ngFor="let error of errors.phoneNumberErrors">
+                                <small *ngIf="phoneNumber.hasError(error.code)" class="d-block text-danger"
+                                    role="alert">{{error.message}}</small>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="instruct" class="col-md-4 col-form-label">Hướng dẫn giao hàng</label>
+                    <div class="col-md-8">
+                        <textarea class="form-control" id="instruct" placeholder="(Không bắt buộc)"
+                            formControlName="instruction"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="offset-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="update" formControlName="isUpdate">
+                            <label class="custom-control-label" for="update">Cập nhật địa chỉ giao hàng</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4 offset-md-4">
+                        <input type="submit" class="form-control btn btn-primary" value="Tiếp theo">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="row">
+            <div id="help_center">
+                <h5>Có câu hỏi?</h5>
+                <p>Vui lòng liên hệ bộ phận hỗ trợ 24 giờ của chúng tôi.</p>
+                <p class="customer_support_tel">Sdt. (028)-36222111</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col px-md-0 pt-md-5">
+                <ul class="list-group">
+                    <li class="list-group-item active card-header-custom">Tổng kết đơn hàng</li>
+                    <li class="list-group-item">
+                        <span class="order_item_label"> Giao hàng tiêu chuẩn - giao hàng tận nơi. </span>
+                        <span class="order_item_price">49.000</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="order_item_label total_payment">Số tiền cần thanh toán</span>
+                        <span class="order_item_price total_payment">
+                            {{total|currency:"VND":'symbol'}}
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

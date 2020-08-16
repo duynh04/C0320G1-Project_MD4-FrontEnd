@@ -1,14 +1,26 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { PaymentRoutingModule } from './payment-routing.module';
-
+import { PaymentCenterComponent } from './payment-center/payment-center.component';
+import { DeliveryAddressComponent } from './delivery-address/delivery-address.component';
+import { NgxPayPalModule } from 'ngx-paypal';
+import { PaymentOptionComponent } from "./payment-option/payment-option.component";
+import { OrderStatusComponent } from "./order-status/order-status.component";
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    PaymentCenterComponent,
+    DeliveryAddressComponent,
+    PaymentOptionComponent,
+    OrderStatusComponent,
+  ],
   imports: [
     CommonModule,
-    PaymentRoutingModule
-  ]
+    PaymentRoutingModule,
+    ReactiveFormsModule,
+    NgxPayPalModule,
+    FormsModule,
+  ],
 })
 export class PaymentModule { }
