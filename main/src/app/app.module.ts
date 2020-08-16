@@ -7,6 +7,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NgxPayPalModule } from 'ngx-paypal';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +22,6 @@ import { NgxPayPalModule } from 'ngx-paypal';
     NgxPayPalModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
