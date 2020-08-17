@@ -1,3 +1,4 @@
+
 import { AuctionRecord } from './auction-record';
 import { AuctionStatus } from './auction-status';
 import { Product } from './product';
