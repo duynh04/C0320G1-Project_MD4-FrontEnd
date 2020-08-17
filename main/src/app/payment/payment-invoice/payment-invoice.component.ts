@@ -28,12 +28,15 @@ export class PaymentInvoiceComponent implements OnInit {
       idCard: null,
       gender: null,
       rate: null,
-      point: null
+      point: null,
+      lastLogin: null,
+      status: null
     },
     status: null,
     paymentMethod: null,
     deadlineDelivery: null,
     deliveryAddress: {
+      id: null,
       firstName: null,
       lastName: null,
       city: null,
@@ -43,19 +46,21 @@ export class PaymentInvoiceComponent implements OnInit {
       nation: null,
       email: null,
       phoneNumber: null,
-      instruction: null
+      instruction: null,
+      isDefault: null,
+      user: null
     },
     deliveryMethod: null,
     cart: {
       id: null,
       totalPrice: null,
       status: null,
-      user: null
+      user: null,
+      cartDetails: null
     },
     paymentStatus: null
   }
   cartDetail: CartDetail[] = [];
-  $:any;
   constructor(private activatedRoute:ActivatedRoute,
               private paymentService: PaymentService,
               private router:Router) { }
