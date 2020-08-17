@@ -1,12 +1,14 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {CartListComponent} from './cart-list/cart-list.component';
+import {ResetPasswordComponent} from './reset-password/reset-password.component';
 
 const routes: Routes = [
   {
     path: '',
     children: [
-      {path: 'cart', component: CartListComponent}
+      {path: 'cart', component: CartListComponent},
+      {path: 'recover', component: ResetPasswordComponent}
     ]
   }
 ];
