@@ -1,0 +1,53 @@
+<!--B-Hoàng Long-->
+<div class="container">
+  <h2 class="text-center mb-5 mt-4">Thêm thành viên</h2>
+  <form class="w-75 mx-auto" [formGroup]="formAddUser">
+    <div class=" row">
+      <label  class="col-sm-3 col-form-label">Họ và tên<span style="color: red">*</span>:</label>
+      <div class="form-group col-sm-9">
+        <input type="text" class="form-control" formControlName="fullName">
+        <p *ngIf="formAddUser.controls.fullName.errors?.required && formAddUser.controls.fullName.touched" class="text-danger">Thông tin bắt buộc phải có</p>
+      </div>
+    </div>
+    <div class="row">
+      <label  class="col-sm-3 col-form-label">Email<span style="color: red">*</span>:</label>
+      <div class="form-group col-sm-9">
+        <input type="text" class="form-control"  formControlName="email">
+        <p *ngIf="formAddUser.controls.email.errors?.required && formAddUser.controls.email.touched" class="text-danger">Thông tin bắt buộc phải có</p>
+      </div>
+    </div>
+    <div class="row">
+      <label  class="col-sm-3 col-form-label">Ngày sinh<span style="color: red">*</span>:</label>
+      <div class="form-group col-sm-9">
+        <input type="date" class="form-control"  formControlName="birthday">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label  class="col-sm-3 col-form-label">Địa chỉ<span style="color: red">*</span>:</label>
+      <div class="form-group col-sm-9">
+        <input type="text" class="form-control"  formControlName="address">
+        <p *ngIf="formAddUser.controls.address.errors?.required && formAddUser.controls.address.touched" class="text-danger">Thông tin bắt buộc phải có</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label  class="col-sm-3 col-form-label">SĐT<span style="color: red">*</span>:</label>
+      <div class="form-group col-sm-9">
+        <input type="text" class="form-control"  formControlName="phoneNumber">
+        <p *ngIf="formAddUser.controls.phoneNumber.errors?.required && formAddUser.controls.phoneNumber.touched" class="text-danger">Thông tin bắt buộc phải có</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label  class="col-sm-3 col-form-label">CMND<span style="color: red">*</span>:</label>
+      <div class="form-group col-sm-9">
+        <input type="text" class="form-control"  formControlName="idCard">
+        <p *ngIf="formAddUser.controls.idCard.errors?.required && formAddUser.controls.idCard.touched" class="text-danger">Thông tin bắt buộc phải có</p>
+      </div>
+    </div>
+
+    <div class="row d-flex justify-content-center mt-4">
+      <button class="btn btn-success mr-3" type="button" (click)="addNewUser()">Thêm</button>
+      <button class="btn btn-primary mr-3" type="button" onclick="retype()">Nhập lại</button>
+      <button class="btn btn-warning" type="button" [routerLink]=['/list-user']>Hủy</button>
+    </div>
+  </form>
+</div>

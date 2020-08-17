@@ -31,4 +31,19 @@ export class UserService {
       passwordnotmatch : true
     }
   }
+
+  // B-Hoàng Long method
+  addUser(user): Observable<any> {
+    return this.http.post(this.API_URL_USER, user);
+  }
+
+  // B-Hoàng Long method
+  getAllUser(): Observable<any> {
+    return this.http.get(this.API_URL_USER);
+  }
+
+  // B-Hoàng Long method
+  getUserByIdAndNeedToLock(id): Observable<any> {
+    return this.http.get(this.API_URL_USER + '/' + id);
+  }
 }
