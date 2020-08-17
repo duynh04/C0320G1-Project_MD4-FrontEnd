@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PaymentCenterComponent } from './payment-center/payment-center.component';
 import { combineLatest } from 'rxjs';
 import { DeliveryAddressComponent } from './delivery-address/delivery-address.component';
+import { PaymentInvoiceComponent } from './payment-invoice/payment-invoice.component';
 
 
 const routes: Routes = [
@@ -11,7 +12,8 @@ const routes: Routes = [
     children: [
       { path: '', component: DeliveryAddressComponent }
     ]
-  }
+  },
+  {path: 'invoice/:id',component:PaymentInvoiceComponent}
 ];
 
 @NgModule({

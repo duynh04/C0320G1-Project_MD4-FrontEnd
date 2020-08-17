@@ -1,5 +1,12 @@
+import { Auction } from './auction';
+import { Cart } from './cart';
+
 export interface CartDetail {
-    [prop: string]: any;
-    // mọi người add thêm prop của đối tượng dưới này, 
-    // nếu có người add rồi thì xin bỏ qua. xin cảm ơn.
+    id: number,
+    cart:Cart,
+    productWinPrice:number,
+    productQuantity:number,
+    status:string,
+    auction:Auction,
+    isDelete: boolean
 }
