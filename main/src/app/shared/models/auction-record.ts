@@ -1,11 +1,11 @@
-import { User } from './user';
-import { Auction } from './auction';
+import { User } from "./user";
+import { Auction } from "./auction";
 export interface AuctionRecord {
-    id: number;
-    auction: Auction;
-    bidder: User;
-    bidTime: string;
-    bidPrice: number;
-    isWinner: boolean;
-
+  [prop: string]: any;
+  id: number;
+  auction: Auction;
+  bidder: User;
+  bidTime: string;
+  bidPrice: number;
+  isWinner: boolean;
 }

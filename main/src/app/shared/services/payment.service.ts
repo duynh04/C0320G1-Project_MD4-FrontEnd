@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { Location } from '../models/dtos/location';
 import { IOrderDetails } from 'ngx-paypal'
 import { DeliveryAddress } from './../models/delivery-address';
 import { ErrorDetail } from './../models/dtos/error-detail';
-import { DeliveryAddressDTO } from '../models/dtos/delivery-adddress-dto';
+import { DeliveryAddressDTO, OrderAddressInfo } from '../models/dtos/delivery-adddress-dto';
+import { handler } from '../exceptions/exception-handler';
+import { CartService } from 'src/app/shared/services/cart.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +22,16 @@ export class PaymentService {
     })
   };
 
+  addressInfo: OrderAddressInfo;
   captureOrder: IOrderDetails;
-  paymentUrl = "http://localhost:8080/api/v1/payment";
+  private readonly paymentUrl = "http://localhost:8080/api/v1/payment";
 
-  private locationUrl = 'assets/locations.json';
+  private readonly locationUrl = 'assets/locations.json';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private cartService: CartService
+  ) { }
 
   // get all cities/provinces in vietnam
   getCities(): Observable<Location[]> {
@@ -59,13 +65,15 @@ export class PaymentService {
 
   //Update address
   updateLatestAddress(addr: DeliveryAddress): Observable<ErrorDetail | null> {
-    return this.http.put<ErrorDetail | null>(`${this.paymentUrl}/address`, addr);
+    return this.http.put<ErrorDetail | null>(`${this.paymentUrl}/address`, addr).pipe(
+      catchError(handler)
+    );
   }
 
   // create order 
   // get captured order
-  setTransaction(cart: { totalPrice: number }): Observable<IOrderDetails> {
-    return this.http.post<IOrderDetails>(`${this.paymentUrl}/create-transaction`, cart);
+  setTransaction(userId: number): Observable<IOrderDetails> {
+    return this.http.post<IOrderDetails>(`${this.paymentUrl}/create-transaction`, userId);
   }
 
   //get confirm transaction 
