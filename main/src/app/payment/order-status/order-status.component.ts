@@ -2,6 +2,7 @@ import { Router } from "@angular/router";
 import { OrderService } from "./../../shared/services/order.service";
 import { Order } from "./../../shared/models/order";
 import { Component, OnInit } from "@angular/core";
+
 declare let Email: any;
 @Component({
   selector: "app-order-status",
@@ -35,7 +36,7 @@ export class OrderStatusComponent implements OnInit {
       Host: "smtp.elasticemail.com",
       Username: "quandanght@gmail.com",
       Password: "E528393F610CF064ECC039D0468AC7825EA6",
-      To: "haitac51196@gmail.com",
+      To: this.order.buyer.email,
       From: "quandanght@gmail.com",
       Subject: "test mail",
       Body: "Thành công",
