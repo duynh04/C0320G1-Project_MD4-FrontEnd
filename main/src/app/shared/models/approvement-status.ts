@@ -1,4 +1,4 @@
 export interface ApprovementStatus {
-    id: number,
-    name: string
+   id: number;
+   name: string;
 }

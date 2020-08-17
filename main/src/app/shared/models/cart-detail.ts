@@ -1,12 +1,14 @@
-import { Auction } from './auction';
-import { Cart } from './cart';
+import {Auction} from './auction';
+import {Cart} from './cart';
 
 export interface CartDetail {
-    id: number,
-    cart:Cart,
-    productWinPrice:number,
-    productQuantity:number,
-    status:string,
-    auction:Auction,
-    isDelete: boolean
+  [prop: string]: any;
+  id: number;
+  cart: Cart;
+  auction: Auction;
+  productWinPrice: number;
+  productQuantity: number;
+  cartDetailCost: number;
+  status: string;
+  isDelete: boolean;
 }

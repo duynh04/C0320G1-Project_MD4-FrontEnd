@@ -1,7 +1,10 @@
-import { User } from './user';
+import { User } from "./user";
+import { CartDetail } from "./cart-detail";
+
 export interface Cart {
-    id: number,
-    totalPrice: number,
-    status: boolean
-    user: User
+  id: number;
+  user: User;
+  cartDetails: CartDetail[];
+  totalPrice: number;
+  status: boolean;
 }

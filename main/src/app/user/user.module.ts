@@ -4,9 +4,10 @@ import { CommonModule } from '@angular/common';
 import { UserRoutingModule } from './user-routing.module';
 import { UserUpdateComponent } from './user-update/user-update.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {CartListComponent} from './cart-list/cart-list.component';
 
 @NgModule({
-  declarations: [UserUpdateComponent],
+  declarations: [CartListComponent,UserUpdateComponent],
   imports: [
     CommonModule,
     UserRoutingModule,
@@ -14,4 +15,5 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ]
 })
-export class UserModule { }
+export class UserModule {
+}
