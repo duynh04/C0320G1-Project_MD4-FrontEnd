@@ -6,8 +6,9 @@ import {Category} from '../../shared/models/category';
 @Injectable({
   providedIn: 'root'
 })
+//Coder: Nguyen Thanh Tu
 export class CategoryService {
-  private readonly API_URL = 'http://localhost:3000/categories';
+  private readonly API_URL = 'http://localhost:8080/categories';
   constructor(private http: HttpClient) { }
 
   httpOption = {

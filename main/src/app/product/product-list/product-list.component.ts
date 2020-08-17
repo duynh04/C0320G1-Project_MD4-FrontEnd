@@ -11,6 +11,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
+// Coder: Nguyen Thanh Tu
 export class ProductListComponent implements OnInit {
 
   categories: Category[];
