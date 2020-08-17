@@ -7,19 +7,27 @@ import {Observable} from "rxjs"
 })
 export class ProductServicesService {
 
-  linkAPI = "http:/products";
+  ApiProduct = "http://localhost:8081/api/v1/products";
+  ApiCategory = "http://localhost:8081/api/v1/categorys"
+  ApiOwner = "http://localhost:8081/api/v1/owner"
 
   constructor(private http:HttpClient) { }
 
   addNewProduct(ProductObject): Observable<any> {
-    return this.http.post(this.linkAPI,ProductObject);
+    return this.http.post(this.ApiProduct,ProductObject);
   }
   getProductById(idProduct): Observable<any>{
-    return this.http.get(this.linkAPI + "/" + idProduct);
+    return this.http.get(this.ApiProduct + "/" + idProduct);
   }
 
   editProduct(ProductObject,idProduct){
-    return this.http.put(this.linkAPI + "/" + idProduct,ProductObject);
+    return this.http.put(this.ApiProduct + "/" + idProduct,ProductObject);
+  }
+  getListCategory():Observable<any>{
+    return this.http.get(this.ApiCategory)
+  }
+  getOwnerById(idOwner): Observable<any>{
+    return this.http.get(this.ApiOwner + "/" + idOwner)
   }
 
 }
