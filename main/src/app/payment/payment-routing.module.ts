@@ -10,6 +10,7 @@ const routes: Routes = [
     path: "", component: PaymentCenterComponent,
     children: [
       { path: "", component: DeliveryAddressComponent },
+      //creator: Đặng Hồng Quân team C
       { path: "order", component: OrderStatusComponent },
       { path: "option", component: PaymentOptionComponent },
     ],

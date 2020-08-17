@@ -2,6 +2,7 @@ import { Cart } from "./cart";
 import { DeliveryAddress } from "./delivery-address";
 import { User } from "./user";
 
+//creator: Đặng Hồng Quân team C
 export interface Order {
   [prop: string]: any;
   // mọi người add thêm prop của đối tượng dưới này,

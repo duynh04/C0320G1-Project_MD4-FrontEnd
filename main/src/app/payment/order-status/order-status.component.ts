@@ -9,6 +9,8 @@ declare let Email: any;
   templateUrl: "./order-status.component.html",
   styleUrls: ["./order-status.component.css"],
 })
+
+//creator: Đặng Hồng Quân team C
 export class OrderStatusComponent implements OnInit {
   order: Order;
   deliveryPrice: number;

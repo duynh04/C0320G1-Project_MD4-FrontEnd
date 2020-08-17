@@ -1,13 +1,14 @@
 import { OrderDto } from "./../models/dtos/orderDto";
 import { Order } from "./../models/order";
 import { Observable } from "rxjs";
-import { User } from "./../models/user";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 @Injectable({
   providedIn: "root",
 })
+
+//creator: Đặng Hồng Quân team C
 export class OrderService {
   constructor(private httpClient: HttpClient) {}
   private readonly API_URL = "http://localhost:8080/api/v1/order";
