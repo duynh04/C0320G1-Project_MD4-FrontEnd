@@ -1,11 +1,9 @@
 //creator: Nguyễn Xuân Hùng
 import { Router } from '@angular/router';
 import { UserUpdateDto } from '../../shared/models/dtos/UserUpdateDto';
-
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { UserService } from 'src/app/shared/services/user.service';
-
 @Component({
   selector: 'app-user-update',
   templateUrl: './user-update.component.html',
@@ -35,11 +33,10 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
   constructor(private fb: FormBuilder,
               private userService: UserService,
               private router : Router
-            ) {}
+  ) {}
   ngAfterViewInit(): void {
     this.elementRef.nativeElement.focus();
   }
-
   ngOnInit() {
     this.ngAfterViewInit();
     this.userForm = this.fb.group({
@@ -56,10 +53,9 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
       gender:['',[Validators.required]],
       address: ['',[Validators.required]]
     });
-      this.userService.getUserById("1").subscribe(data=>{
-  
-        this.userForm.patchValue(data);
-      },error=>{this.errorMessage="Lỗi!! Không tìm thấy tài khoản của bạn"})
+    this.userService.getUserById("1").subscribe(data=>{
+      this.userForm.patchValue(data);
+    },error=>{this.errorMessage="Lỗi!! Không tìm thấy tài khoản của bạn"})
   }
   updateUser(){
     this.errorMessage="";
@@ -72,7 +68,7 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
     this.user.id=1;
     this.userService.updateUser(this.userForm.value,"1").subscribe(data=>{
       console.log(data.backendMessage)
-        this.backendMessages = data.backendMessage;
+      this.backendMessages = data.backendMessage;
     },error=>{this.errorMessage="Cập nhật tài khoản thất bại"},()=>{
       if(this.backendMessages.length==0){
         this.message="Cập nhật tài khoản thành công";
@@ -80,10 +76,9 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
       this.ngOnInit();
     })
   }
-
   backToHomePage(){
     this.router.navigateByUrl("/home");
-  }  
+  }
   togglePass(){
     if(this.hideableDiv==true){
       this.hideableDiv=false;
@@ -91,5 +86,4 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
       this.hideableDiv = true;
     }
   }
-
 }

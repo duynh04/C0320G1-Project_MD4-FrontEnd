@@ -15,25 +15,28 @@ import {printPdf} from 'src/assets/javascript/generate-pdf';
   styleUrls: ['./payment-invoice.component.css']
 })
 export class PaymentInvoiceComponent implements OnInit {
-  order: Order = {
-    id : null,
+  order : Order ={
+    id :null,
     code : null,
     buyer: {
       id: null,
       fullname: null,
       email: null,
-      phoneNumber: null,
+      phoneNumber:null,
       address: null,
       birthday: null,
       idCard: null,
       gender: null,
       rate: null,
-      point: null
+      point: null,
+      lastLogin: null,
+      status: null
     },
     status: null,
     paymentMethod: null,
     deadlineDelivery: null,
     deliveryAddress: {
+      id: null,
       firstName: null,
       lastName: null,
       city: null,
@@ -43,14 +46,17 @@ export class PaymentInvoiceComponent implements OnInit {
       nation: null,
       email: null,
       phoneNumber: null,
-      instruction: null
+      instruction: null,
+      isDefault: null,
+      user: null
     },
     deliveryMethod: null,
-    cart : {
+    cart: {
       id: null,
       totalPrice: null,
       status: null,
-      user: null
+      user: null,
+      cartDetails: null
     },
     paymentStatus: null
   }
