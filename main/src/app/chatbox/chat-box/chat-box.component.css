@@ -1,0 +1,109 @@
+
+.jumbotron {
+  height: 800px;
+}
+
+.chatbot-open {
+  height: 60px;
+  width: 60px;
+  position: fixed;
+  bottom: 20px;
+  right: 150px;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+/* The popup chat - hidden by default */
+.chat-popup {
+  display: none;
+  position: fixed;
+  bottom: 90px;
+  right: 47px;
+  z-index: 2;
+}
+
+/* Add styles to the form container */
+.form-container {
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.31);
+  border-radius: 5px;
+  max-width: 300px;
+  padding: 0px;
+  background-color: white;
+}
+
+
+.form-container .title {
+  padding: 5px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.31);
+  width: 100%;
+  margin: 0px;
+}
+
+.form-container .sendMessenger {
+  box-shadow: 0px -3px 7px rgba(0, 0, 0, 0.31);
+  margin: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 0px 0px;
+}
+
+.form-container .sendMessenger .text-messenger {
+  padding: 5px;
+  border: 0;
+  width: 80%;
+}
+
+.form-container .content-messenger {
+  width: 100%;
+  height: 300px;
+  padding: 10px;
+}
+
+.form-container .content-messenger .messenger {
+  margin-bottom: 10px;
+  height: auto;
+}
+
+.form-container .content-messenger .messenger img {
+  width: 15%;
+  border-radius: 50%;
+  float: left;
+  margin-right: 5px;
+}
+
+.form-container .content-messenger .messenger .content {
+  background-color: #0360a5;
+  color: white;
+  float: left;
+  max-width: 80%;
+  padding: 5px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.content-left {
+  background-color: #444950;
+  color: white;
+  float: right;
+  max-width: 70%;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+
+.login-popup {
+  display: none;
+  position: fixed;
+  opacity: 0.9;
+  bottom: 90px;
+  right: 47px;
+}
+
+.chatbot-login {
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.31);
+  border-radius: 10px;
+  width: 300px;
+  height: 200px;
+  padding: 5px;
+  background-color: white;
+}

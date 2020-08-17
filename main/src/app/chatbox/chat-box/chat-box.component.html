@@ -1,0 +1,59 @@
+<button id="draggable" type="button" class="btn btn-primary chatbot-open" style="border-radius: 50%;" onclick="openButton()"><i
+  class="fab fa-facebook-messenger fa-2x"></i></button>
+
+<!--        Popup 1-->
+<div class="login-popup" id="loginForm">
+  <div class="chatbot-login">
+    <h6>WEBSITE DẤU GIÁ SỐ 1 VIỆT NAM</h6>
+    <P>Vui lòng đăng nhập hoặc chọn tài khoảng Guest để được hổ trợ</P>
+    <div>
+      <button class="btn btn-primary" style="width: 100%" onclick="login()" >Login with facebook</button>
+      <button class="btn btn-secondary" style="width: 100%" onclick="login()" >Login with Guest</button>
+    </div>
+  </div>
+
+</div>
+
+<!--         Popup 2 -->
+<div class="chat-popup" id="myForm">
+  <!--// Title popup-->
+  <div class="form-container">
+    <div class="title row" style="width: 100%">
+      <button class="btn btn-primary" style="margin-right: 10px" onclick="logOut()"><i class="fas fa-sign-out-alt" style="transform: scale(-1)"></i></button>
+      <div style="width: 72%">
+        <p style="margin:2px"> WEBSITE ĐẤU GIÁ</p>
+        <p style="font-size: 12px ; margin:0px"><i class="fas fa-circle " style="color: green"></i> Hỗ trợ trực tuyến</p>
+      </div>
+      <div style="width: 10%">
+        <i class="far fa-times-circle fa-2x " style="color: red" onclick="openForm()"></i>
+      </div>
+    </div>
+    <!--// Content- messenger-->
+
+    <div class="content-messenger" id="message-list>
+      <!--                ADMIN-->
+      <div class="messenger" >
+        <img src="img/user.jpg">
+        <div class="content">
+          <span>Chào bạn mình là nhân viên hỗ trợ khách hàng bạn cần tư vấn gì ạ !!!</span>
+        </div>
+      </div>
+
+      <!--                    USER-->
+      <div class="messenger-user" id="user" hidden=true>
+        <div class="content-left">
+          <span id="print-text" >Xin chào</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!--// Send-messenger-->
+    <div class="sendMessenger row">
+      <input class="text-messenger" placeholder="Nhập tin nhắn ...." type="text" id="msg" [(ngModel)] ="message" (keydown.enter)="SendMessage()">
+      <button class="btn btn-primary" (click)="SendMessage()"><i class="far fa-paper-plane fa-2x"></i></button>
+    </div>
+
+  </div>
+</div>
+<script src="../../../assets/js/chatbot.js"></script>

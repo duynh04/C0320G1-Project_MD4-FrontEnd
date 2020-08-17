@@ -7,13 +7,15 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NgxPayPalModule } from 'ngx-paypal';
+import { ChatBoxComponent } from './chatbox/chat-box/chat-box.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ChatBoxComponent
   ],
   imports: [
     BrowserModule,
