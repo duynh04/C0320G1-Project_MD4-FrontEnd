@@ -1,8 +1,14 @@
 
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ShowListComponent } from './show-list/show-list.component';
 import { CartListComponent } from './cart-list/cart-list.component';
+
+import { UserUpdateComponent } from './user-update/user-update.component';
+
+
+
 
 const routes: Routes = [
   {
@@ -12,7 +18,15 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      { path: 'cart', component: CartListComponent }
+
+      {
+        path: 'cart', component: CartListComponent
+      },
+
+      {
+        path: 'update', component: UserUpdateComponent
+      }
+
     ]
   }
 ]
