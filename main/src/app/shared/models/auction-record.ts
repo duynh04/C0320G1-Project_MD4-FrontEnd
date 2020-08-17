@@ -7,4 +7,5 @@ export interface AuctionRecord {
     bidTime: string;
     bidPrice: number;
     isWinner: boolean;
+
 }
