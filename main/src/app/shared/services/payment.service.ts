@@ -1,3 +1,4 @@
+//creator: Nguyễn Xuân Hùng
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,7 +15,8 @@ import { CartService } from 'src/app/shared/services/cart.service';
   providedIn: 'root'
 })
 export class PaymentService {
-
+  //creator: Nguyễn Xuân Hùng
+  private readonly API_INVOICE_URL = "http://localhost:8080/api/v1/payment/invoice/";
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -58,6 +60,10 @@ export class PaymentService {
     );
   }
 
+  //creator: Nguyễn Xuân Hùng
+  findInvoiceById(id) : Observable<any>{
+    return this.http.get(this.API_INVOICE_URL+id);
+  }
   //Get delivery address
   getAddress(userId: string): Observable<DeliveryAddressDTO> {
     return this.http.get<DeliveryAddressDTO>(`${this.paymentUrl}/address/${userId}`)
