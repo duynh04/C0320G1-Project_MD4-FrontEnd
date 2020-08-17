@@ -11,5 +11,5 @@ export interface User {
     rate: Rate;
     point: number;
     lastLogin: string;
-    status: boolean
+    status: boolean;
 }

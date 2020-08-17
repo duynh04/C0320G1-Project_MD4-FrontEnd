@@ -13,5 +13,4 @@ export interface Product {
    description: string;
    category: Category;
    owner: User;
-
 }
