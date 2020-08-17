@@ -20,10 +20,7 @@ export class OrderService {
     return this.httpClient.post<OrderDto>(this.API_URL, orderDto);
   }
 
-  // updateContract(contract: IContract): Observable<IContract> {
-  //   return this.httpClient.put<IContract>(
-  //     this.API_URL + `/${contract.id}`,
-  //     contract
-  //   );
-  // }
+  updateOrder(order: Order): Observable<Order> {
+    return this.httpClient.put<Order>(this.API_URL, order);
+  }
 }

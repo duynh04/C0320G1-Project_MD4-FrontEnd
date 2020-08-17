@@ -16,3 +16,16 @@ export interface UserAddressDTO {
     phoneNumber: string,
     isDefault: boolean,
 }
+
+export interface OrderAddressInfo {
+    fullName: string,
+    city: string,
+    district: string,
+    ward: string,
+    street: string,
+    nation: string,
+    email: string,
+    phoneNumber: string,
+    instruction: string,
+    isUpdate: boolean
+}

@@ -1,4 +1,5 @@
-import { Rate } from './rate';
+import { Rate } from "./rate";
+
 export interface User {
     [prop: string]: any;
     // mọi người add thêm prop của đối tượng dưới này, 
