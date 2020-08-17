@@ -9,7 +9,7 @@ import { Page } from '../models/dtos/page';
 })
 export class AuctionService {
 
-  private readonly API_URL = "http://localhost:8090/api/v1";
+  private readonly API_URL = "http://localhost:8080/api/v1";
 
   constructor(private http : HttpClient) { }
 
@@ -37,5 +37,5 @@ export class AuctionService {
       this.getMyAuctionRecordHttpOptions(productName,recordStatusName,page));
 
   }
-  
+
 }
