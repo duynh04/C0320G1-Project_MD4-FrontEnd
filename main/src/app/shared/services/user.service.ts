@@ -17,8 +17,8 @@ export class UserService {
     return this.http.get(link);
   }
 
-  sendCodeRecover(email): Observable<any> {
-    const link = this.API + '/recover/' + email.email + '/' + email.code;
+  sendCodeRecover(email, code): Observable<any> {
+    const link = this.API + '/recover/' + email.email + '/' + code.code;
     return this.http.get(link);
   }
 

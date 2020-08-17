@@ -9,7 +9,7 @@ export interface User {
   birthday: string;
   idCard: string;
   gender: string;
-  rate: number;
+  rate?: number;
   point: number;
   lastLogin: string;
   status: boolean;
