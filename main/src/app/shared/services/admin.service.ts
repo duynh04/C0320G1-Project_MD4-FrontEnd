@@ -13,12 +13,18 @@ export class AdminService {
 
   constructor(private http: HttpClient) {
   }
+
+  // Thành Long
   getProductById(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
+
+  // Thành Long
   approvementProduct(id: number): Observable<any> {
     return this.http.get(`${this.approveUrl}/${id}`);
   }
+
+  // Thành Long
   unApprovementProduct(product: Product): Observable<any> {
     return this.http.get(`${this.unApproveUrl}/${product}`);
   }

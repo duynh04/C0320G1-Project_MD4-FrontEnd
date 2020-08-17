@@ -14,6 +14,7 @@ export class AdminLoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // Thành Long
     const togglePassword = document.querySelector('#togglePassword');
     const password = document.querySelector('#password');
     togglePassword.addEventListener('click', function() {
