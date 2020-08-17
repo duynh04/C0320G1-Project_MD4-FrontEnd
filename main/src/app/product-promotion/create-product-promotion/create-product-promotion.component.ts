@@ -9,7 +9,7 @@ import {ProductService} from '../../shared/services/product.service';
 import {Product} from '../../shared/models/product';
 declare let Email: any;
 
-
+// creator : đưc Thông
 function checkPrice(control: AbstractControl): { [key: string]: boolean } | null {
   if (control.value !== undefined && (isNaN(control.value) || control.value < 0 || control.value > 1000000000000)) {
     return { priceInvalid: true };
