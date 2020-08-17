@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { NgxPayPalModule } from 'ngx-paypal';
 
 import {AdminModule} from "../app/admin/admin.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -24,10 +25,9 @@ import { MaterialModule } from './material.module';
     AdminModule,
     BrowserAnimationsModule,
     MaterialModule,
-    
-
+    NgxPayPalModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
