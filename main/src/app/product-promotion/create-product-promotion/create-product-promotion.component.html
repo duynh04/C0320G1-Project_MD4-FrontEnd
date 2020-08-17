@@ -1,0 +1,112 @@
+<h4 style="text-align: center;color: deepskyblue">Thêm chương trình khuyến mãi</h4>
+<div style="width: 100%">
+  <form (ngSubmit)="onSubmit()" [formGroup]="formAddNewPromotion">
+
+    <div class="form-group row" style="margin-left: 40px;margin-top: 14px;height: 72px">
+      <div class="col-md-4">
+        <label class="mdb-main-label" style="border: 0">Chọn sản phẩm<span class="text-danger">*</span>
+          <select formControlName="idProduct" class="form-control" id="idProduct" required style="width: 290px"
+                  name="idProduct">
+            <option style="text-align: right;color: black" *ngFor="let product of products"
+                    value="{{product.id}}">{{product.name}}</option>
+          </select>
+        </label>
+        <i class="material-icons" style="color: greenyellow;float: right;margin-top: 26px"
+           *ngIf="(!formAddNewPromotion.controls.idProduct.errors?.required)&&formAddNewPromotion.controls.idProduct.valid && formAddNewPromotion.controls.idProduct.touched">&#xE876;</i>
+        <p class=" text-danger" style="margin-top: -2px"
+           *ngIf="formAddNewPromotion.controls.idProduct.errors?.required && formAddNewPromotion.controls.idProduct.touched">
+          Vui lòng chọn sản phẩm
+        </p>
+      </div>
+    </div>
+
+    <div class="form-group row" style="margin-left: 40px">
+      <div class="col-md-3 mb-0 ">
+        <label>Ngày bắt đầu
+        </label>
+        <input type="date" class="form-control" id="startDate" formControlName="startDate" name="startDate">
+        <!--                <mat-form-field>-->
+        <!--                  <input matInput [matDatepicker]="picker" placeholder="Choose a date" class="form-control" id="startDate" formControlName="startDate" name="startDate">-->
+        <!--                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
+        <!--                  <mat-datepicker #picker></mat-datepicker>-->
+        <!--                </mat-form-field>-->
+      </div>
+
+      <div class="col-md-3" style="margin-left: 130px">
+        <label>Ngày kết thúc
+        </label>
+        <input type="date" class="form-control" id="endDate" formControlName="endDate"
+               name="endDate">
+      </div>
+    </div>
+
+    <div class="form-group row" style="margin-left: 38px;height: 72px;margin-top: 22px">
+      <div class="col-md-4">
+        <label>Giá</label><span class="text-danger">*</span>
+        <div class="input-group" style="width:90%">
+          <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" id="price" required
+                 formControlName="price"
+                 name="price" placeholder="số tiền">
+          <div class="input-group-append">
+            <span class="input-group-text" style="font-size: 10px;background:#e9ecef">VND</span>
+          </div>
+        </div>
+        <i class="material-icons" style="color: greenyellow;float: right;margin-top: -26px"
+           *ngIf="(!formAddNewPromotion.controls.price.errors?.required)&&formAddNewPromotion.controls.price.valid && formAddNewPromotion.controls.price.touched">&#xE876;</i>
+        <p class=" text-danger"
+           *ngIf="formAddNewPromotion.controls.price.errors?.required && formAddNewPromotion.controls.price.touched">Vui
+          lòng nhập giá sản phẩm
+        <p class=" text-danger"
+           *ngIf="formAddNewPromotion.controls.price.errors?.priceInvalid && formAddNewPromotion.controls.price.touched">
+          Giá sản phẩm không hợp lệ
+      </div>
+
+      <div class="col-md-4" style="margin-left: 45px">
+        <label>khuyến mãi</label><span class="text-danger">*</span>
+        <div class="input-group" style="width:90%">
+          <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" id="percent" required
+                 formControlName="percent"
+                 name="percent" placeholder="phần trăm khuyến mãi">
+          <div class="input-group-append">
+            <span class="input-group-text" style="font-size: 10px;background:#e9ecef">%</span>
+          </div>
+        </div>
+        <i class="material-icons" style="color: greenyellow;float: right;margin-top: -26px"
+           *ngIf="(!formAddNewPromotion.controls.percent.errors?.required)&&formAddNewPromotion.controls.percent.valid && formAddNewPromotion.controls.percent.touched">&#xE876;</i>
+        <p class=" text-danger"
+           *ngIf="formAddNewPromotion.controls.percent.errors?.required && formAddNewPromotion.controls.percent.touched">
+          Vui
+          lòng nhập phần trăm khuyến mãi
+        <p class=" text-danger"
+           *ngIf="formAddNewPromotion.controls.percent.errors?.percentInvalid && formAddNewPromotion.controls.percent.touched">
+          Khuyến mãi không hợp lệ
+      </div>
+    </div>
+    <div class="col-md-8" style="height: 160px;margin-left: 38px;font-size: 14px;margin-top: 20px">
+
+      <label for="content">Nội dung</label>
+      <textarea type="text" class="form-control" style="height: 65%" id="content" formControlName="content"
+                name="content">
+      </textarea>
+    </div>
+
+    <input type="button" class="btn btn-danger mt-1" style="margin-left: 20%;height: 40px;width: 130px"
+           (click)="gotoList()" value="Hủy">
+    <button type="submit" [disabled]="formAddNewPromotion.invalid" class="btn btn-success mt-1"
+            style="margin-left:10%;height: 40px;width: 160px" >Lưu
+    </button>
+
+
+  </form>
+
+</div>
+<script src="https://smtpjs.com/v3/smtp.js">
+</script>
+<script>
+  // Material Select Initialization
+  $(document).ready(function () {
+    $('.mdb-select').materialSelect();
+  });
+</script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">

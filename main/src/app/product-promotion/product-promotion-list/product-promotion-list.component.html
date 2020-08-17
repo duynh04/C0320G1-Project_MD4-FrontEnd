@@ -1,0 +1,35 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h2>Sản phẩm khuyến mãi</h2>
+  </div>
+  <div class="panel-body">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Tên sản phẩm</th>
+        <th>Nội dung khuyến mãi</th>
+        <th>Giá gốc</th>
+        <th>Khuyến mãi</th>
+        <th>Ngày kết thúc</th>
+        <th >Hành động</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let productPromotion of productPromotions ">
+        <td>{{this.mapProduct.get(mapProductPromotion.get(productPromotion.id))}}</td>
+        <td>{{productPromotion.content}}</td>
+        <td>{{productPromotion.price}}</td>
+        <td>{{productPromotion.percent}}</td>
+        <td>{{productPromotion.endDate}}</td>
+<!--        <td>{{productPromotion.endOfEvent}}</td>-->
+        <td><button (click)="deleteProductPromotion(productPromotion.id)" class="btn btn-danger">Delete</button>
+          <button (click)="updateProductPromotion(productPromotion.id)" class="btn btn-info" style="margin-left: 10px">Update</button>
+<!--          <button (click)="ProductPromotionDetails(productPromotion.discount_id)" class="btn btn-info" style="margin-left: 10px">Details</button>-->
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+

@@ -1,0 +1,17 @@
+label{
+ font-size: 15px;
+}
+body{
+  background: linear-gradient(wheat,white);
+}
+
+.text-danger{
+  font-size: 14px;
+  flex: 0;
+  margin: 0;
+}
+.text-success{
+  font-size: 14px;
+  flex: 0;
+  margin: 0;
+}
