@@ -1,0 +1,26 @@
+#primary-color {
+  color: #189EFF;
+}
+
+#secondary-color {
+  color: #FFFFFF;
+}
+
+.input-form input {
+  width: 90%;
+}
+
+.verification-code {
+  width: 250px;
+}
+
+
+
+
+.text-warning {
+  margin-left: 18%;
+}
+
+
+
+

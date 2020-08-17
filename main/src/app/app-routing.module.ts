@@ -3,6 +3,7 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
+
 const routes: Routes = [
   {
     path: 'payment', loadChildren: () => import('./payment/payment.module').then(mod => mod.PaymentModule)
@@ -19,7 +20,7 @@ const routes: Routes = [
   {
     path: 'user', loadChildren: () => import('./user/user.module').then(mod => mod.UserModule)
   },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
