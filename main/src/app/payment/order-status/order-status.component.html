@@ -35,8 +35,8 @@
                     <tr class="bg-primary text-white">
                         <th scope="col">Sản phẩm</th>
                         <th scope="col">Số lượng</th>
-                        <th scope="col">Giá</th>
-                        <th scope="col">Thành tiền/đơn vị</th>
+                        <th scope="col">Giá/VND</th>
+                        <th scope="col">Thành tiền/VND</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,8 +50,8 @@
                             </div>
                         </th>
                         <td>{{sp.productQuantity}}</td>
-                        <td>{{sp.productWinPrice}} VND</td>
-                        <td>{{sp.productWinPrice*sp.productQuantity}} VND</td>
+                        <td>{{sp.productWinPrice|currency:"VND":"symbol"}} </td>
+                        <td>{{sp.productWinPrice*sp.productQuantity|currency:"VND":'symbol'}} </td>
 
 
                     </tr>
@@ -59,25 +59,24 @@
                         <th scope="row">Phí dịch vụ 10%</th>
                         <td></td>
                         <td></td>
-                        <td>{{serviceFee}} VND</td>
+                        <td>{{serviceFee|currency:"VND":'symbol'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">Giao hàng</th>
                         <td></td>
                         <td></td>
-                        <td>{{deliveryPrice}} VND</td>
+                        <td>{{deliveryPrice|currency:"VND":'symbol'}} </td>
                     </tr>
                     <tr>
                         <th scope="row">Tổng</th>
                         <td></td>
                         <td></td>
-                        <td>{{totalCost}} VND</td>
+                        <td>{{totalCost|currency:"VND":'symbol'}} </td>
                     </tr>
                 </tbody>
             </table>
 
             <div class=" d-flex justify-content-center m-3">
-                <a class="btn btn-primary" href="hinhthucgiaohang.html">Quay lại</a>
                 <button class="btn btn-success ml-3" data-toggle="modal" data-target="#exampleModal">In Hóa
                     Đơn</button>
             </div>
@@ -107,9 +106,9 @@
                 <span> Bạn có muốn in hóa đơn không?</span>
             </div>
             <div class="modal-footer ">
-                <button type="button" (click)="sendMail()" class="btn btn-warning text-white"
+                <button type="button" (click)="sendMail('không')" class="btn btn-warning text-white"
                     data-dismiss="modal">Không</button>
-                <button type="button" (click)="sendMail()" class="btn btn-success" data-dismiss="modal">Có</button>
+                <button type="button" (click)="sendMail('có')" data-dismiss="modal" class="btn btn-success">Có</button>
             </div>
         </div>
     </div>
