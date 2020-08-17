@@ -7,29 +7,52 @@
 
   <div class="row mt-3">
     <div class="col">
-        <form>
+        <form class="form" [formGroup]="createForm" (ngSubmit)="search()">
             <div class="row">
                 <div class="col-md">
-                    <label for="nguoiDang">Người đăng</label>
-                    <input type="text" class="form-control" id="nguoiDang" placeholder="Vd: Anna">
+                    <label for="nameSeller">Người đăng</label>
+                    <input formControlName="nameSeller" type="text" class="form-control" id="nameSeller" placeholder="Vd: Anna">
+                    <div *ngIf="createForm.get('nameSeller').invalid && createForm.get('nameSeller').touched">
+                      <div *ngIf="createForm.get('nameSeller').hasError('pattern')">
+                        <p class="text-danger">Vui lòng nhập tên phải là các chữ cái</p>
+                      </div>
+                    </div>
                 </div>
                 <div class="col-md">
-                    <label for="nguoiMua">Người mua</label>
-                    <input type="text" class="form-control" id="nguoiMua" placeholder="Vd: Anna">
+                    <label for="nameBuyer">Người mua</label>
+                    <input formControlName="nameBuyer" type="text" class="form-control" id="nameBuyer" placeholder="Vd: Anna">
+                    <div *ngIf="createForm.get('nameBuyer').invalid && createForm.get('nameBuyer').touched">
+                      <div *ngIf="createForm.get('nameBuyer').hasError('pattern')">
+                        <p class="text-danger">Vui lòng nhập tên phải là các chữ cái</p>
+                      </div>
+                    </div>
                 </div>
                 <div class="col-md">
-                    <label for="tenSanPham">Tên sản phẩm</label>
-                    <input type="text" class="form-control" id="tenSanPham" placeholder="Vd: Tivi">
+                    <label for="nameProduct">Tên sản phẩm</label>
+                    <input formControlName="nameProduct" type="text" class="form-control" id="nameProduct" placeholder="Vd: Tivi">
+                    <div *ngIf="createForm.get('nameProduct').invalid && createForm.get('nameProduct').touched">
+                      <div *ngIf="createForm.get('nameProduct').hasError('pattern')">
+                        <p class="text-danger">Vui lòng nhập tên phải là các chữ cái</p>
+                      </div>
+                    </div>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-md">
-                    <label for="thanhTien">Thành tiền</label>
-                    <input type="text" class="form-control" id="thanhTien" placeholder="Vd: 1.000.000">
+                    <label for="totalPayment">Thành tiền</label>
+                    <input formControlName="totalPayment" type="text" class="form-control" id="totalPayment" placeholder="Vd: 1.000.000">
+                    <div *ngIf="createForm.get('totalPayment').invalid && createForm.get('totalPayment').touched">
+                      <div *ngIf="createForm.get('totalPayment').hasError('min')">
+                        <p class="text-danger">Vui lòng nhập số lớn hơn 0</p>
+                      </div>
+                      <div *ngIf="createForm.get('totalPayment').hasError('pattern')">
+                        <p class="text-danger">Vui lòng nhập chữ số</p>
+                      </div>
+                    </div>
                 </div>
                 <div class="col-md">
                     <label for="tinhTrang">Tình trạng</label>
-                    <select class="custom-select" id="tinhTrang">
+                    <select formControlName="statusOfDeal" class="custom-select" id="tinhTrang">
                         <option selected disabled value="">Chọn...</option>
                         <option value="Thành công">Thành công</option>
                         <option value="Thất bại">Thất bại</option>
@@ -51,7 +74,6 @@
             <table id="mytable" class="table table-bordred table-striped">
               <thead class="bg-primary">
                 <th><input type="checkbox" id="checkall" /></th>
-                <th style="width:1%">STT</th>
                 <th style="width:10%">Mã giao dịch</th>
                 <th style="width:10%">Thời gian đấu giá thành công</th>
                 <th style="width:12%">Người đăng</th>
@@ -66,7 +88,6 @@
               <tbody>
                 <tr *ngFor="let deal of dealList ">
                   <td><input type="checkbox" class="checkthis" value={{deal.id}}/></td>
-                  <td>{{deal.id}}</td>
                   <td>{{deal.code}}</td>
                   <td>{{deal.winBiddingTime}}</td>
                   <td>{{deal.nameSeller}}</td>
@@ -86,7 +107,7 @@
               <div class="one">
                 <div id="delete-btn" data-placement="top" data-toggle="tooltip" title="Delete">
                   <button (click)="checkCheckBoxes()" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><i class="far fa-trash-alt"></i> Xóa</button>
-                  <!-- <input type="submit" (click)="checkCheckBoxes()" > -->
+<!--                   <button (click)="checkCheckBoxes()">test</button>-->
                 </div>
               </div>
 
@@ -95,7 +116,7 @@
                   <li class="page-item"><a class="page-link" (click)="goFirstPage()" >Trang đầu</a></li>
                   <li class="page-item"><a class="page-link" (click)="goPreviousPage()">&laquo;</a></li>
                   <!-- <li class="page-item"><a class="page-link" id="previousCurrentPage"  (click)="goToPage()">{{previousCurrentPage}}</a></li> -->
-                  <li class="page-item"><a class="page-link" (click)="onchange()">{{currentPage}}</a></li>
+                  <li class="page-item"><a class="page-link" >{{currentPage}}</a></li>
                   <!-- <li class="page-item"><a class="page-link" id="nextCurrentPage" (click)="goToPage()">{{nextCurrentPage}}</a></li> -->
                   <li class="page-item"><a class="page-link" (click)="goNextPage()">&raquo;</a></li>
                   <li class="page-item"><a class="page-link" (click)="goLastPage()">Trang cuối</a></li>
@@ -119,13 +140,18 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="alert alert-danger"><i class="fas fa-exclamation-triangle"></i> Bạn chắc chắn muốn xóa giao dịch này?</div>
-        <ul *ngFor="let dealToDelete of dealListToDelete">
-          <li>{{dealToDelet.code}}</li>
-        </ul>
+        <div class="alert alert-danger">
+          <div *ngIf="arrayIdToDelete">
+            <i class="fas fa-exclamation-triangle"></i> Bạn chắc chắn muốn xóa giao dịch này?<br><br>
+            <ul *ngFor="let id of arrayIdToDelete">
+              <li>Mã giao dịch: {{id}}</li>
+            </ul>
+          </div>
+        </div>
+
       </div>
       <div class="modal-footer ">
-        <button (click)="setDeleteDeals()" type="button" class="btn btn-danger"><i class="fas fa-check-circle"></i> Xóa</button>
+        <button (click)="setDeleteDeals()" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-check-circle"></i> Xóa</button>
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Không</button>
       </div>
     </div>

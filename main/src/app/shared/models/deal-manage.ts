@@ -12,11 +12,3 @@ export class DealDTO {
   serviceFee: number;
   statusOfDeal: string;
 }
-
-// import {DealDTO} from './dtos/DealDTO';
-
-// export interface DealApi {
-//   currentPage: number;
-//   totalPage: number;
-//   items: Array<DealDTO>;
-// }
