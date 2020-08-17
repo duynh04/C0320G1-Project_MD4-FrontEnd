@@ -18,7 +18,6 @@ const routes: Routes = [
       { path: 'option', component: PaymentOptionComponent },
       { path: '', component: DeliveryAddressComponent },
       { path: 'order', component: OrderStatusComponent },
-      { path: 'option', component: PaymentOptionComponent },
     ],
   },
 ];

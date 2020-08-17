@@ -1,12 +1,12 @@
-import { Router } from "@angular/router";
-import { OrderService } from "./../../shared/services/order.service";
-import { Order } from "./../../shared/models/order";
-import { Component, OnInit } from "@angular/core";
+import { Router } from '@angular/router';
+import { OrderService } from './../../shared/services/order.service';
+import { Order } from './../../shared/models/order';
+import { Component, OnInit } from '@angular/core';
 declare let Email: any;
 @Component({
-  selector: "app-order-status",
-  templateUrl: "./order-status.component.html",
-  styleUrls: ["./order-status.component.css"],
+  selector: 'app-order-status',
+  templateUrl: './order-status.component.html',
+  styleUrls: ['./order-status.component.css'],
 })
 export class OrderStatusComponent implements OnInit {
   order: Order;
@@ -18,7 +18,7 @@ export class OrderStatusComponent implements OnInit {
   ngOnInit() {
     this.orderService.getOrderByBuyerId(1).subscribe((data) => {
       this.order = data;
-      if (data.deliverMethod == "Giao hàng tiêu chuẩn") {
+      if (data.deliverMethod == 'Giao hàng tiêu chuẩn') {
         this.deliveryPrice = 50000;
       } else {
         this.deliveryPrice = 100000;
@@ -32,13 +32,13 @@ export class OrderStatusComponent implements OnInit {
 
   sendMail(buttonStatus) {
     Email.send({
-      Host: "smtp.elasticemail.com",
-      Username: "quandanght@gmail.com",
-      Password: "E528393F610CF064ECC039D0468AC7825EA6",
-      To: "haitac51196@gmail.com",
-      From: "quandanght@gmail.com",
-      Subject: "test mail",
-      Body: "Thành công",
+      Host: 'smtp.elasticemail.com',
+      Username: 'quandanght@gmail.com',
+      Password: 'E528393F610CF064ECC039D0468AC7825EA6',
+      To: 'haitac51196@gmail.com',
+      From: 'quandanght@gmail.com',
+      Subject: 'test mail',
+      Body: 'Thành công',
     }).then((message) => {
       console.log(message);
     });
@@ -47,10 +47,10 @@ export class OrderStatusComponent implements OnInit {
       console.log(data);
     });
 
-    if (buttonStatus == "không") {
-      this.router.navigate(["/"]);
+    if (buttonStatus == 'không') {
+      this.router.navigate(['/']);
     } else {
-      this.router.navigate(["/"]);
+      this.router.navigate(['/']);
     }
   }
 }

@@ -1,55 +1,55 @@
-import { Router } from "@angular/router";
-import { User } from "./../../shared/models/user";
-import { DeliveryAddress } from "./../../shared/models/delivery-address";
-import { OrderDto } from "./../../shared/models/dtos/orderDto";
-import { FormBuilder, FormGroup } from "@angular/forms";
-import { Component, OnInit } from "@angular/core";
+import { Router } from '@angular/router';
+import { User } from './../../shared/models/user';
+import { DeliveryAddress } from './../../shared/models/delivery-address';
+import { OrderDto } from './../../shared/models/dtos/orderDto';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { IPayPalConfig } from 'ngx-paypal';
 
-import { OrderService } from "src/app/shared/services/order.service";
+import { OrderService } from 'src/app/shared/services/order.service';
 import { PaymentService } from 'src/app/shared/services/payment.service';
 @Component({
-  selector: "app-payment-option",
-  templateUrl: "./payment-option.component.html",
-  styleUrls: ["./payment-option.component.css"],
+  selector: 'app-payment-option',
+  templateUrl: './payment-option.component.html',
+  styleUrls: ['./payment-option.component.css'],
 })
 export class PaymentOptionComponent implements OnInit {
-  // Duy 
-  //paypal config
+  // Duy
+  // paypal config
   public payPalConfig?: IPayPalConfig;
   //
   orderForm: FormGroup;
   payments: any;
   orderDto: OrderDto = new OrderDto();
   paymentMethod: String;
-  deliveryMethod: String = "Giao hàng tiêu chuẩn";
+  deliveryMethod: String = 'Giao hàng tiêu chuẩn';
 
   buyer: User = {
     id: 1,
-    fullname: "Lương",
-    email: "cuong@gmail.com",
-    phoneNumber: "0123111222",
-    address: "Da Nang",
-    birthday: "1996-11-08",
-    idCard: "123123123",
-    gender: "Nam",
+    fullname: 'Lương',
+    email: 'cuong@gmail.com',
+    phoneNumber: '0123111222',
+    address: 'Da Nang',
+    birthday: '1996-11-08',
+    idCard: '123123123',
+    gender: 'Nam',
     rate: {
       id: 1,
-      name: "kim cương",
+      name: 'kim cương',
     },
     point: 100,
-    lastLogin: "2020-08-13T00:00:00",
+    lastLogin: '2020-08-13T00:00:00',
     status: true,
   };
 
   deliveryAddress: DeliveryAddress = {
     id: 2,
-    nation: "Viet Nam",
-    city: "Da Nang",
-    district: "Hoa Phuoc",
-    ward: "Hoa Vang",
-    street: "Đường 605",
-    phoneNumber: "0123456789",
+    nation: 'Viet Nam',
+    city: 'Da Nang',
+    district: 'Hoa Phuoc',
+    ward: 'Hoa Vang',
+    street: 'Đường 605',
+    phoneNumber: '0123456789',
     isDefault: true,
     user: {
       id: 1,
@@ -81,8 +81,8 @@ export class PaymentOptionComponent implements OnInit {
     // initialize paypal
     this.initPayPalSdk();
     this.orderForm = this.formBuilder.group({
-      paymentMethod: "",
-      deliveryMethod: "",
+      paymentMethod: '',
+      deliveryMethod: '',
     });
   }
 
@@ -94,17 +94,17 @@ export class PaymentOptionComponent implements OnInit {
     console.log(this.orderForm.value.paymentMethod);
     this.orderDto.paymentMethod = this.paymentMethod;
     this.orderDto.deliveryMethod = this.deliveryMethod;
-    if (this.orderForm.value.paymentMethod == "Thanh toán trực tiếp") {
-      this.orderDto.paymentState = "Đang chờ thanh toán";
+    if (this.orderForm.value.paymentMethod == 'Thanh toán trực tiếp') {
+      this.orderDto.paymentState = 'Đang chờ thanh toán';
     } else {
-      this.orderDto.paymentState = "Đã thanh toán thành công";
+      this.orderDto.paymentState = 'Đã thanh toán thành công';
     }
     this.orderDto.deliveryAddress = this.deliveryAddress;
     this.orderDto.buyer = this.buyer;
 
     this.orderService
       .createOrder(this.orderDto)
-      .subscribe(() => this.router.navigate(["payment/order"]));
+      .subscribe(() => this.router.navigate(['payment/order']));
   }
 
   private initPayPalSdk(): void {
