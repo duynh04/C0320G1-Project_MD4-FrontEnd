@@ -1,42 +1,42 @@
 <div class="container-fluid px-0">
-  <form>
+  <form (ngSubmit)="approvementProduct()">
     <h1 class="mt-3 text-center">Duyệt sản phẩm</h1>
     <div class="container">
       <fieldset>
         <div class="form-group row mt-4">
           <label for="name" class="col-md-2 col-form-label">Tên sản phẩm:</label>
-          <textarea name="name" id="name" cols="45" rows="1">Nồi cơm điện</textarea>
+          <textarea name="name" id="name" cols="45" rows="1">{{product.name}}</textarea>
         </div>
         <div class="form-group row mt-4">
           <label for="info" class="col-md-2 col-form-label">Thông tin người đăng:</label>
-          <textarea name="info" id="info" cols="45" rows="4">Nguyễn Văn A</textarea>
+          <textarea name="info" id="info" cols="45" rows="4">{{product.owner.fullname}}</textarea>
         </div>
         <div class="form-group row mt-4">
           <label for="species" class="col-md-2 col-form-label">Chủng loại:</label>
-          <textarea name="species" id="species" cols="45" rows="1">Điện tử</textarea>
+          <textarea name="species" id="species" cols="45" rows="1">{{product.category.name}}</textarea>
         </div>
         <div class="form-group row mt-4">
           <label for="initialPrice" class="col-md-2 col-form-label">Giá ban đầu:</label>
-          <textarea name="initialPrice" id="initialPrice" cols="45" rows="1">450000 VND</textarea>
+          <textarea name="initialPrice" id="initialPrice" cols="45" rows="1">{{product.initialPrice}}</textarea>
         </div>
         <div class="form-group row mt-4">
           <label for="priceStep" class="col-md-2 col-form-label">Bước giá:</label>
-          <textarea name="priceStep" id="priceStep" cols="45" rows="1">10000 VND</textarea>
+          <textarea name="priceStep" id="priceStep" cols="45" rows="1">{{product.increaseAmount}}</textarea>
         </div>
         <div class="form-group row">
           <label class="col-md-2 col-form-label" style="margin-left: 283px">Hình ảnh:</label>
-          <img src="img/noicomdien.jpg" style="width: 150px">
+          <img src="{{product.productImages}}" style="width: 150px">
         </div>
         <div class="form-group row d-flex mt-4">
           <label class="col-md-2 col-form-label">Bắt đầu đấu giá lúc:</label>
-          <input type="date" value="2020-12-10" class="form-control" style="width: 380px">
+          <input type="date" value="{{product.startDate | date : 'yyyy-MM-dd'}}" class="form-control" style="width: 380px">
         </div>
         <div class="form-group row d-flex mt-4">
           <label class="col-md-2 col-form-label">Kết thúc đấu giá lúc:</label>
-          <input type="date" value="2020-12-15" class="form-control" style="width: 380px">
+          <input type="date" value="{{product.endDate | date : 'yyyy-MM-dd'}}" class="form-control" style="width: 380px">
         </div>
         <div class="row d-flex justify-content-center mt-5">
-          <button class="btn btn-primary mr-5" style="width: 150px">Duyệt</button>
+          <button (click)="approvement()" class="btn btn-primary mr-5" style="width: 150px">Duyệt</button>
           <button type="button" class="btn btn-primary mr-5" style="width: 150px" data-toggle="modal"
                   data-target="#exampleModal" data-whatever="@mdo">Không Duyệt
           </button>
@@ -51,19 +51,20 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form>
+                  <form (ngSubmit)="unApprovementProduct()">
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">Nhập lý do bài đăng
                         không được duyệt:</label>
                       <textarea class="form-control" rows="5" id="message-text"></textarea>
                     </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng
+                      </button>
+                      <button (click)="unApprovementProduct()" type="button" class="btn btn-primary">Gửi Nội Dung</button>
+                    </div>
                   </form>
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng
-                  </button>
-                  <button type="button" class="btn btn-primary">Gửi Nội Dung</button>
-                </div>
+
               </div>
             </div>
           </div>

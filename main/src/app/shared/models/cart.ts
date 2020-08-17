@@ -1,5 +1,10 @@
+import {User} from './user';
+import {CartDetail} from './cart-detail';
+
 export interface Cart {
-    [prop: string]: any;
-    // mọi người add thêm prop của đối tượng dưới này, 
-    // nếu có người add rồi thì xin bỏ qua. xin cảm ơn.
+  id: number;
+  user: User;
+  cartDetails: CartDetail[];
+  totalPrice: number;
+  status: boolean;
 }

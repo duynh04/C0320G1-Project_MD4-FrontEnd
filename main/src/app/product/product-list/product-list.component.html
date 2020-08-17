@@ -83,50 +83,18 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>1</td>
+        <tr *ngFor="let product of products | async">
+          <td>{{product.id}}</td>
           <td><input type="checkbox"></td>
-          <td>37</td>
-          <td><a href="">Ada</a></td>
-          <td>Điện tử</td>
-          <td>Nguyễn Văn A</td>
-          <td>100000 VND</td>
-          <td>Chưa duyệt</td>
-          <td>Chưa đấu giá</td>
-          <td>abcde</td>
-          <td>Chưa có</td>
-          <td>
-            <button class="btn btn-primary">Sửa</button>
-          </td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td><input type="checkbox"></td>
-          <td>37</td>
-          <td><a href="">Ada</a></td>
-          <td>Điện tử</td>
-          <td>Nguyễn Văn A</td>
-          <td>100000 VND</td>
-          <td>Chưa duyệt</td>
-          <td>Chưa đấu giá</td>
-          <td>abcde</td>
-          <td>Chưa có</td>
-          <td>
-            <button class="btn btn-primary">Sửa</button>
-          </td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td><input type="checkbox"></td>
-          <td>37</td>
-          <td><a href="">Ada</a></td>
-          <td>Điện tử</td>
-          <td>Nguyễn Văn A</td>
-          <td>100000 VND</td>
-          <td>Chưa duyệt</td>
-          <td>Chưa đấu giá</td>
-          <td>abcde</td>
-          <td>Chưa có</td>
+          <td>{{product.id}}</td>
+          <td><a [routerLink]="['/admin/approvement/', product.id]">{{product.name}}</a></td>
+          <td>{{product.category.name}}</td>
+          <td>{{product.owner.fullname}}</td>
+          <td>{{product.initialPrice}}</td>
+          <td>{{product.approvementStatus.name}}</td>
+          <td>{{product.increaseAmount}}</td>
+          <td>{{product.description}}</td>
+          <td>{{product.productImages}}</td>
           <td>
             <button class="btn btn-primary">Sửa</button>
           </td>

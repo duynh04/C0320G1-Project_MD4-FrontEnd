@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '', component: AdminLoginComponent
   },
   {
-    path: 'approvement', component: AdminApprovementComponent
+    path: 'approvement/:id', component: AdminApprovementComponent
   }
 ];
 
