@@ -22,7 +22,6 @@ const routes: Routes = [
   {
     path: 'user', loadChildren: () => import('./user/user.module').then(mod => mod.UserModule)
   },
-  { path: '**', component: PageNotFoundComponent },
   {
     path: 'topauction',
     component: AuctionTopComponent
@@ -34,7 +33,8 @@ const routes: Routes = [
   {
     path: 'auction-product',
     component: AuctionProductComponent
-  }
+  },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
