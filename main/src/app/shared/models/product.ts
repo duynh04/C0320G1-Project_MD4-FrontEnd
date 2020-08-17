@@ -2,14 +2,25 @@ import DateTimeFormat = Intl.DateTimeFormat;
 
 export interface Product {
     id: number;
-    productName: string;
+    name: string;
     initialPrice: bigint;
     increaseAmount: bigint;
     registerDate: DateTimeFormat;
     startDate: DateTimeFormat;
     endDate: DateTimeFormat;
-    approvementStatusId: number;
-    productDescription: string;
-    productCategoryId: number;
-    productOwnerId: number;
+    approvementStatus: {
+      id: number,
+      name: string
+    };
+    description: string;
+    category: {
+      id: number,
+      name: string
+    };
+    owner: number;
+  productImageList: [
+    {
+      link: string;
+    }
+  ];
 }

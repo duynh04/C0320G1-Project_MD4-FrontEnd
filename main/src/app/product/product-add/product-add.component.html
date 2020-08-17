@@ -1,0 +1,164 @@
+<div class="container-fluid h-100">
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="col-sm-6">
+      <pre>{{createProductForm.value |json}}</pre>
+      <form [formGroup]="createProductForm" (ngSubmit)="onSubmit()">
+        <div class="d-flex justify-content-center">
+          <h1>Đăng sản phẩm</h1>
+        </div>
+        <div class="form-group row">
+          <label for="inputName" class="col-md-4 col-form-label">Tên sản phẩm:<span
+            class="text-danger">*</span></label>
+          <div class="col-md-8">
+            <input type="text" class="form-control" id="inputName" formControlName="name" [class.mark-success]="name.valid">
+            <div *ngIf="name.touched && name.invalid">
+              <ng-container *ngFor="let error of errors.productNameErrors">
+                <small *ngIf="name.hasError(error.code)" class="d-block text-danger"
+                       role="alert">{{error.message}}</small>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <fieldset formGroupName="category">
+          <div class="form-group row">
+            <label for="type" class="col-sm-4 col-form-label">Chủng loại:<span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <select class="form-control" id="type" formControlName="id" [class.mark-success]="category.valid">
+                <ng-container *ngFor="let category of categoriesList">
+                  <option value="{{category.id}}">{{category.name}}</option>
+                </ng-container>
+              </select>
+              <div *ngIf="category.touched && category.invalid">
+                <ng-container *ngFor="let error of errors.categoryIdErrors">
+                  <small *ngIf="category.hasError(error.code)" class="d-block text-danger"
+                         role="alert">{{error.message}}</small>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div class="form-group row">
+          <label for="inputPrice" class="col-sm-4 col-form-label">Giá ban đầu:<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-8">
+            <input type="number" class="form-control" id="inputPrice" formControlName="initialPrice"
+                   [class.mark-success]="initialPrice.valid">
+            <div *ngIf="initialPrice.touched && initialPrice.invalid">
+              <ng-container *ngFor="let error of errors.initialPriceErrors">
+                <small *ngIf="initialPrice.hasError(error.code)" class="d-block text-danger"
+                       role="alert">{{error.message}}</small>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="step" class="col-sm-4 col-form-label">Mỗi lần tăng ít nhất:<span
+            class="text-danger">*</span></label>
+          <div class="col-sm-8">
+            <input type="number" class="form-control" id="step" list="defaultNumbers" formControlName="increaseAmount"
+                   [class.mark-success]="increaseAmount.valid">
+            <datalist id="defaultNumbers">
+              <option value="5000">
+              <option value="10000">
+              <option value="50000">
+              <option value="100000">
+              <option value="1000000">
+            </datalist>
+            <div *ngIf="increaseAmount.touched && increaseAmount.invalid">
+              <ng-container *ngFor="let error of errors.increaseAmountErrors">
+                <small *ngIf="increaseAmount.hasError(error.code)" class="d-block text-danger"
+                       role="alert">{{error.message}}</small>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+          <fieldset formGroupName="productImageList">
+            <div class="form-group row">
+              <label for="image" class="col-sm-4 col-form-label">Hình ảnh sản phẩm:<span
+                class="text-danger">*</span></label>
+              <div class="col-sm-8">
+                <input type="file" id="image" (change)="onDrop($event.target.files)" accept=".jpg, .jpeg, .png" formControlName="link">
+                <small class="preview text-danger d-block "></small>
+              </div>
+            </div>
+          </fieldset>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Upload</label>
+            <div class="col-sm-5">
+              <div *ngFor="let file of files">
+                <div *ngIf="percentage | async as pct">
+                  <progress class="progress is-info"
+                            [value]="pct"
+                            max="100">
+                  </progress>
+                  {{ pct | number }}%
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="informationDetail" class="col-sm-4 col-form-label">Thông tin chi tiết:<span
+              class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <textarea class="form-control" rows="5" id="informationDetail" formControlName="description"
+                        [class.mark-success]="description.valid"></textarea>
+              <div *ngIf="description.touched && description.invalid">
+                <ng-container *ngFor="let error of errors.descriptionErros">
+                  <small *ngIf="description.hasError(error.code)" class="d-block text-danger"
+                         role="alert">{{error.message}}</small>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+          <fieldset formGroupName="date">
+            <div class="form-group row">
+              <label for="startDate" class="col-sm-4 col-form-label">Ngày giờ bắt đầu:<span
+                class="text-danger">*</span></label>
+              <div class="col-sm-8">
+                <mat-form-field>
+                  <input [min]="minDate" matInput [matDatepicker]="picker" placeholder="Chọn ngày bắt đầu"  class="form-control" id="startDate" formControlName="startDate">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <div *ngIf="from.touched && from.invalid">
+                            <small class="d-block text-danger"role="alert" *ngIf="from.errors?.invalidDate">
+                                Vui lòng chọn ngày bắt đầu
+                            </small>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="endDate" class="col-sm-4 col-form-label">Ngày giờ kết thúc:<span
+                class="text-danger">*</span></label>
+              <div class="col-sm-8">
+                <mat-form-field>
+                  <input [min]="minDate"  matInput [matDatepicker]="picker1" placeholder="Chọn ngày kết thúc"  class="form-control" id="endDate" formControlName="endDate">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+                <div *ngIf="to.touched && to.invalid">
+                            <small class="d-block text-danger" role="alert" *ngIf="to.errors?.invalidDate">
+                                Vui lòng chọn ngày kết thúc
+                            </small>
+                </div>
+                <div *ngIf="date.touched && date.invalid">
+                            <small class="d-block text-danger" role="alert" *ngIf="date.errors?.compare">
+                                Ngày kết thúc không được lớn hơn ngày bắt đầu
+                            </small>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <div class="d-flex justify-content-center">
+            <div class="col-sm-4">
+              <input type="submit" class="btn btn-primary" value="Đăng ký sản phẩm" id="submitbtn"  [disabled]="createProductForm.invalid">
+            </div>
+            <div class="col-sm-4">
+              <input type="reset" class="btn btn-primary" value="Nhập lại">
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
