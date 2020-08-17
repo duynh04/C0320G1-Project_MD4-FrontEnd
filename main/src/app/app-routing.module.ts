@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import {AuctionTopComponent} from './auction-top/auction-top.component';
+import {InstructionComponent} from './instruction/instruction.component';
+import {AuctionProductComponent} from './auction-product/auction-product.component';
 
 
 const routes: Routes = [
@@ -19,7 +22,19 @@ const routes: Routes = [
   {
     path: 'user', loadChildren: () => import('./user/user.module').then(mod => mod.UserModule)
   },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', component: PageNotFoundComponent },
+  {
+    path: 'topauction',
+    component: AuctionTopComponent
+  },
+  {
+    path: 'instruction',
+    component: InstructionComponent
+  },
+  {
+    path: 'auction-product',
+    component: AuctionProductComponent
+  }
 ];
 
 @NgModule({

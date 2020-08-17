@@ -1,0 +1,28 @@
+<div>
+  <table>
+    <thead>
+    <tr>
+      <th>STT</th>
+      <th>LastName</th>
+      <th>FistName</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>NameProduct</th>
+      <th>ImageProduct</th>
+      <th>PriceProduct</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let auction of auctionTops">
+      <td>{{auction.user_id}}</td>
+      <td>{{auction.user_last_name}}</td>
+      <td>{{auction.user_fist_name}}</td>
+      <td>{{auction.user_email}}</td>
+      <td>{{auction.user_phone_number}}</td>
+      <td>{{auction.product_name}}</td>
+      <td>{{auction.product_image_link}}</td>
+      <td>{{auction.product_initial_price}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

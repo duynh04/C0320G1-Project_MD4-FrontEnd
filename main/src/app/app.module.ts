@@ -6,13 +6,21 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AuctionTopComponent } from './auction-top/auction-top.component';
+import { InstructionComponent } from './instruction/instruction.component';
+import { AuctionProductComponent } from './auction-product/auction-product.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AuctionTopComponent,
+    InstructionComponent,
+    AuctionProductComponent
   ],
   imports: [
     BrowserModule,

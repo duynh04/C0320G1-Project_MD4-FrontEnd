@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  public products;
+
+  constructor(
+    public productService: ProductService
+  ) { }
 
   ngOnInit() {
+    // @ts-ignore
+    this.productService.getProduct().subscribe(data => {
+      this.products = data;
+      console.log(this.products);
+    });
   }
 
 }

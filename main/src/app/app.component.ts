@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http'
 
 @Component({
   selector: 'app-root',
