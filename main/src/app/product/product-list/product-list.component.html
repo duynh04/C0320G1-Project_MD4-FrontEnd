@@ -1,0 +1,72 @@
+
+<div class="row mx-5 p-0" style="background-color: #c4c4c4; height: 300px; align-items: center;justify-content: center">
+
+</div>
+
+<div class="row mx-5 px-0 mt-2">
+  <div class="row mx-0 px-0">
+    <form [formGroup]="form">
+      <div formArrayName="products" *ngFor="let arr of form.controls.products?.value; let i = index; trackBy:trackByFn">
+        <div [formGroupName]="i">
+          <div class="row m-0 p-0 d-flex">
+            <table aria-describedby="danhsach" class="table" style="margin-bottom: 0px">
+              <tbody>
+              <tr id="row1" style="height: 20px; margin-bottom: 5px">
+                <td >
+                  <input type="text" placeholder="Tên sản phẩm" formControlName="productName" class="form-control">
+                </td>
+                <td>
+                  <input placeholder="Giá ban đầu" formControlName="productInitalPrice" class="form-control">
+                </td>
+                <td>
+                  <input placeholder="Bước giá" formControlName="productIncreaseAmount" class="form-control">
+                </td>
+                <td>
+                  <input placeholder="Ngày đăng" formControlName="productRegisterDate" class="form-control">
+                </td>
+                <td>
+                  <input placeholder="Thời gian bắt đầu" formControlName="productStartDate" class="form-control">
+                </td>
+                <td>
+                  <input placeholder="Thời gian kết thúc" formControlName="productEndDate" class="form-control">
+                </td>
+                <td style="height: 37.097px; width: 170px">
+                  <textarea style="height: 37.097px" placeholder="Thông tin chi tiết" formControlName="productDescription" class="form-control"></textarea>
+                </td>
+                <td style="width: 195px">
+                  <select formControlName="productOwnerId" class="form-control">
+                    <option selected disabled value="">Chọn Trạng thái duyệt</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                  </select>
+                </td>
+                <td style="width: 165px">
+                  <select  formControlName="productCategoryId" class="form-control">
+                    <option selected disabled value="">Chọn chủng loại</option>
+                    <option *ngFor="let category of categories" [ngValue]="category.category_id">{{category.category_name}}</option>
+                  </select>
+                </td>
+                <td style="width: 195px">
+                  <select formControlName="productOwnerId" class="form-control">
+                    <option selected disabled value="">Chọn ID người đăng</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                  </select>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row m-0 p-0 mt-2">
+        <button (click)="addGroup()" class="btn btn-primary mr-1">Thêm mới</button>
+        <button type="submit" (click)="createNewProduct()" class="btn btn-primary mr-1">Lưu</button>
+        <button (click)="removeGroup(i)" class="btn btn-primary mr-1">Xóa</button>
+        <br>
+      </div>
+    </form>
+
+  </div>
+</div>
+
