@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import * as io from "socket.io-client";
+import * as io from 'socket.io-client';
 import {element} from "protractor";
+
+const SOCKET_ENDPOINT = 'localhost:3000';
+
 @Component({
   selector: 'app-chat-box',
   templateUrl: './chat-box.component.html',
@@ -35,7 +38,7 @@ export class ChatBoxComponent implements OnInit {
 
   SendMessage() {
     this.message ="<span style='color: red ; font-weight: bold'>" + this.guestid + ' : '+"</span>" + this.message;
-    this.socket.emit('message', this.message,);
+    this.socket.emit('message', this.message);
     const element = document.createElement('li');
     element.innerHTML = this.message;
     element.style.background = 'black';
