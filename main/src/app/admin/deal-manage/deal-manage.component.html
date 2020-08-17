@@ -1,0 +1,135 @@
+<div class="container mt-3">
+    <div class="row">
+      <div class="col">
+          <h1>Quản Lý Giao Dịch</h1>
+      </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col">
+        <form>
+            <div class="row">
+                <div class="col-md">
+                    <label for="nguoiDang">Người đăng</label>
+                    <input type="text" class="form-control" id="nguoiDang" placeholder="Vd: Anna">
+                </div>
+                <div class="col-md">
+                    <label for="nguoiMua">Người mua</label>
+                    <input type="text" class="form-control" id="nguoiMua" placeholder="Vd: Anna">
+                </div>
+                <div class="col-md">
+                    <label for="tenSanPham">Tên sản phẩm</label>
+                    <input type="text" class="form-control" id="tenSanPham" placeholder="Vd: Tivi">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md">
+                    <label for="thanhTien">Thành tiền</label>
+                    <input type="text" class="form-control" id="thanhTien" placeholder="Vd: 1.000.000">
+                </div>
+                <div class="col-md">
+                    <label for="tinhTrang">Tình trạng</label>
+                    <select class="custom-select" id="tinhTrang">
+                        <option selected disabled value="">Chọn...</option>
+                        <option value="Thành công">Thành công</option>
+                        <option value="Thất bại">Thất bại</option>
+                    </select>
+                </div>
+                <div class="col-md">
+                    <label>&nbsp;</label><br>
+                    <button class="btn btn-primary"><i class="fas fa-search"></i> Lọc</button>
+                  </div>
+            </div>
+        </form>
+        <br>
+    </div>
+  </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table id="mytable" class="table table-bordred table-striped">
+              <thead class="bg-primary">
+                <th><input type="checkbox" id="checkall" /></th>
+                <th style="width:1%">STT</th>
+                <th style="width:10%">Mã giao dịch</th>
+                <th style="width:10%">Thời gian đấu giá thành công</th>
+                <th style="width:12%">Người đăng</th>
+                <th style="width:12%">Người mua</th>
+                <th style="width:20%">Tên sản phẩm</th>
+                <th style="width:2%">Số lượng</th>
+                <th style="width:10%">Thành tiền</th>
+                <th style="width:10%">Phí dịch vụ</th>
+                <th style="width:20%">Tình trạng giao dịch</th>
+
+              </thead>
+              <tbody>
+                <tr *ngFor="let deal of dealList ">
+                  <td><input type="checkbox" class="checkthis" value={{deal.id}}/></td>
+                  <td>{{deal.id}}</td>
+                  <td>{{deal.code}}</td>
+                  <td>{{deal.winBiddingTime}}</td>
+                  <td>{{deal.nameSeller}}</td>
+                  <td>{{deal.nameBuyer}}</td>
+                  <td>{{deal.nameProduct}}</td>
+                  <td>{{deal.amount}}</td>
+                  <td>{{deal.totalPayment}}</td>
+                  <td>{{deal.serviceFee}}</td>
+                  <td class="text-success">{{deal.statusOfDeal}}</td>
+                </tr>
+
+              </tbody>
+            </table>
+
+            <div class="clearfix"></div>
+            <div id="delete-btn-pagination">
+              <div class="one">
+                <div id="delete-btn" data-placement="top" data-toggle="tooltip" title="Delete">
+                  <button (click)="checkCheckBoxes()" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><i class="far fa-trash-alt"></i> Xóa</button>
+                  <!-- <input type="submit" (click)="checkCheckBoxes()" > -->
+                </div>
+              </div>
+
+              <nav class="two">
+                <ul class="pagination justify-content-end">
+                  <li class="page-item"><a class="page-link" (click)="goFirstPage()" >Trang đầu</a></li>
+                  <li class="page-item"><a class="page-link" (click)="goPreviousPage()">&laquo;</a></li>
+                  <!-- <li class="page-item"><a class="page-link" id="previousCurrentPage"  (click)="goToPage()">{{previousCurrentPage}}</a></li> -->
+                  <li class="page-item"><a class="page-link" (click)="onchange()">{{currentPage}}</a></li>
+                  <!-- <li class="page-item"><a class="page-link" id="nextCurrentPage" (click)="goToPage()">{{nextCurrentPage}}</a></li> -->
+                  <li class="page-item"><a class="page-link" (click)="goNextPage()">&raquo;</a></li>
+                  <li class="page-item"><a class="page-link" (click)="goLastPage()">Trang cuối</a></li>
+                </ul>
+              </nav>
+            </div>
+
+          </div> <!-- table-responsive -->
+        </div> <!--col-->
+      </div> <!--row -->
+
+<!--  =======-->
+<!--  =========-->
+</div> <!-- container -->
+
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Xóa giao dịch</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger"><i class="fas fa-exclamation-triangle"></i> Bạn chắc chắn muốn xóa giao dịch này?</div>
+        <ul *ngFor="let dealToDelete of dealListToDelete">
+          <li>{{dealToDelet.code}}</li>
+        </ul>
+      </div>
+      <div class="modal-footer ">
+        <button (click)="setDeleteDeals()" type="button" class="btn btn-danger"><i class="fas fa-check-circle"></i> Xóa</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Không</button>
+      </div>
+    </div>
+      <!-- /.modal-content -->
+  </div>
+        <!-- /.modal-dialog -->
+</div>

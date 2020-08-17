@@ -17,10 +17,45 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
     integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
     crossorigin="anonymous"></script>
+
+    <!-- thao bo sung -->
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 
 <body>
   <app-root></app-root>
+
+<script>
+  $(document).ready(function(){
+  $("#mytable #checkall").click(function () {
+          if ($("#mytable #checkall").is(':checked')) {
+              $("#mytable input[type=checkbox]").each(function () {
+                  $(this).prop("checked", true);
+              });
+
+          } else {
+              $("#mytable input[type=checkbox]").each(function () {
+                  $(this).prop("checked", false);
+              });
+          }
+      });
+
+      $("[data-toggle=tooltip]").tooltip();
+  });
+
+  // =========
+  // function checkCheckBoxes(){
+  //   var arrayIdToDelete = [];
+  //   $("input.checkthis").each(function(index, element){
+  //     if(element.checked){
+  //       arrayIdToDelete.push(element.value)
+  //     }
+  // });
+  //   document.getElementById("submit").value = arrayIdToDelete;
+  //   console.log(document.getElementById("submit").value);
+  // }
+</script>
 </body>
 
 </html>
