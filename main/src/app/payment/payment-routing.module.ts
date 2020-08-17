@@ -7,7 +7,7 @@ import { DeliveryAddressComponent } from './delivery-address/delivery-address.co
 
 const routes: Routes = [
   {
-    path: '', component: PaymentCenterComponent,
+    path: "", component: PaymentCenterComponent,
     children: [
       { path: '', component: DeliveryAddressComponent }
     ]
@@ -16,6 +16,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class PaymentRoutingModule { }
