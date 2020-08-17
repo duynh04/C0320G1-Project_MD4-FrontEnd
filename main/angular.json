@@ -57,6 +57,17 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "yourApp": {
+              "architect": {
+                "build": {
+                  "options": {
+                    "styles": [
+                      "node_modules/bootstrap/dist/css/bootstrap.min.css"
+                    ]
+                  }
+                }
+              }
             }
           }
         },
