@@ -1,5 +1,8 @@
 <div class="container">
-  <div class="row mx-0">
+  <div class="alert alert-info my-3" role="alert" *ngIf="!cartDetails">
+    Không có sản phẩm nào trong giỏ hàng.
+  </div>
+  <div class="row mx-0 my-2" *ngIf="cartDetails.length > 0">
     <div class="col-8">
       <div *ngFor="let item of cartDetails; index as i" class="row mx-0 p-2">
         <div class="col-3 px-2 py-2">

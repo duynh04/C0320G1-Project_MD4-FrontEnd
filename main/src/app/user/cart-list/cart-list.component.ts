@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { CartService } from 'src/app/shared/services/cart.service';
-import { Cart } from '../../shared/models/cart';
-import { CartDetail } from '../../shared/models/cart-detail';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {CartService} from 'src/app/shared/services/cart.service';
+import {Cart} from '../../shared/models/cart';
+import {CartDetail} from '../../shared/models/cart-detail';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-cart-list',
@@ -14,7 +14,7 @@ export class CartListComponent implements OnInit {
   cart: Cart;
   cartDetails: CartDetail[];
   totalCost = 0;
-  userId = 1; // userId mẫu để test
+  userId = 2; // userId mẫu để test
   deleteIndex: number;
 
   constructor(
