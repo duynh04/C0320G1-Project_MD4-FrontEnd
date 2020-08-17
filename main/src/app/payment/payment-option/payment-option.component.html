@@ -1,5 +1,5 @@
 <div class="row">
-    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" id="payment_wrapper" class="col-md-9">
+    <form id="payment_wrapper" class="col-md-9">
 
         <div id="payment_progress" class="d-md-table w-100 mt-md-2">
             <span class="progress_bar d-md-table-cell align-middle"><a href="">Địa chỉ thanh toán</a></span>
@@ -21,13 +21,14 @@
 
                     <div class="row justify-content-center">
                         <div class="form-check card col-md-4 d-inline p-2 mr-3 ">
-                            <input type="radio" value="Giao hàng tiêu chuẩn" [checked]="true"
-                                formControlName="deliveryMethod">
+                            <input type="radio" value="Giao hàng tiêu chuẩn" name="deliveryMethod" [checked]=true
+                                [(ngModel)]="deliveryMethod">
                             <img src="https://images.elipsport.vn/elipsport/icon-giao-hang2.png">
                             <label class="form-check-label"> Giao hàng tiêu chuẩn</label>
                         </div>
                         <div class="card col-md-4 d-inline p-2 ml-3">
-                            <input type="radio" value="Giao hàng nhanh" formControlName="deliveryMethod">
+                            <input type="radio" value="Giao hàng nhanh" name="deliveryMethod"
+                                [(ngModel)]="deliveryMethod">
                             <img style="width: 40px;"
                                 src="https://www.pngkit.com/png/full/135-1354941_fast-delivery-icon-red-01-fast-delivery-icon.png">
                             <label> Giao hàng nhanh</label>
@@ -50,19 +51,19 @@
             <div class="row justify-content-center">
                 <div class="card text-center col-md-3 h-25 p-0">
                     <div class="card-header">
-                        <h6>Thanh Toán Trực Tiếp</h6>
+                        <h6>Thanh toán trực tiếp</h6>
                     </div>
                     <div class="card-body ">
                         <img class="pay" src="https://invina.vn/upload/tm22.png">
                     </div>
                     <div class="m-2">
                         <input type="radio" id="select" (click)="selectPayment('TT')" value="Thanh toán trực tiếp"
-                            formControlName="paymentMethod">
+                            name="paymentMethod" [(ngModel)]="paymentMethod">
                     </div>
                 </div>
                 <div class="card text-center col-md-3 h-25 ml-2 p-0">
                     <div class="card-header">
-                        <h6>ATM/Chuyển Khoản</h6>
+                        <h6>ATM/chuyển khoản</h6>
                     </div>
                     <div class="card-body">
                         <img src="https://bankerlink.vn/uploads/bank/logo/34/021262_larger.png">
@@ -70,13 +71,13 @@
                         <img src="https://www.chilindo.com/gfx/banks/VIB.png">
                     </div>
                     <div class="m-2">
-                        <input type="radio" id="selectBank" (click)="selectPayment('ATM')" value="ATM"
-                            formControlName="paymentMethod">
+                        <input type="radio" id="selectBank" (click)="selectPayment('ATM')" value="ATM/chuyển khoản"
+                            name="paymentMethod" [(ngModel)]="paymentMethod">
                     </div>
                 </div>
                 <div class="card text-center col-md-3 h-25 ml-2 p-0">
                     <div class="card-header">
-                        <h6>Thẻ tín dụng/ghi nợ</h6>
+                        <h6>Thanh toán paypal</h6>
                     </div>
                     <div class="card-body">
                         <img src="https://seeklogo.com/images/P/paypal-logo-C83095A82C-seeklogo.com.png">
@@ -84,7 +85,7 @@
                     </div>
                     <div class="m-2">
                         <input type="radio" id="selectVisa" (click)="selectPayment('Visa/paypal')"
-                            value="Thẻ tín dụng/paypal" formControlName="paymentMethod">
+                            value="Thanh toán paypal" name="paymentMethod" [(ngModel)]="paymentMethod">
                     </div>
                 </div>
             </div>
@@ -118,25 +119,18 @@
                 <div class="row justify-content-center">
                     <div class="px-md-5">
                         <div class="row content_header">
-                            <h3>Chọn thẻ tín dụng/ghi nợ:</h3>
+                            <h3>Thanh toán paypal</h3>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center">
-                    <div class="card col-md-3 d-inline p-2 mr-3">
-                        <input type="radio" name="bank">
-                        <img src="https://seeklogo.com/images/P/paypal-logo-C83095A82C-seeklogo.com.png">
-                        <span>Paypal</span>
-                    </div>
-                    <div class="card col-md-3 d-inline p-2 mr-3">
-                        <input type="radio" name="bank">
-                        <img src="https://seeklogo.com/images/V/visa-logo-6F4057663D-seeklogo.com.png">
-                        <span>Visa</span>
+                    <div class="col-md-6">
+                        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
                     </div>
                 </div>
             </div>
             <div class=" d-flex justify-content-center m-3">
-                <button class="btn btn-primary">Tiếp theo</button>
+                <button (click)="onSubmit()" class="btn btn-primary">Tiếp theo</button>
             </div>
         </div>
 

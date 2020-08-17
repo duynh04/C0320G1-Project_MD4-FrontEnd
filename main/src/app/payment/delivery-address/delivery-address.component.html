@@ -7,8 +7,8 @@
             <span class="progress_bar d-md-table-cell align-middle"><a href="">Tình trạng đơn hàng</a></span>
         </div>
         <div id="progress_addr" class="pt-md-3">
-            <pre>{{ addressForm.value | json }} 
-            {{ addressForm.valid }} </pre>
+            <!-- <pre>{{ addressForm.value | json }} 
+            {{ addressForm.valid }} </pre> -->
             <div>
                 <h3>Địa chỉ gửi hàng</h3>
             </div>
@@ -29,6 +29,12 @@
                             <option value="" disabled></option>
                             <option *ngFor="let _city of cities" value="{{_city.name}}">{{_city.name}}</option>
                         </select>
+                        <div *ngIf="city.touched && city.dirty">
+                            <ng-container *ngFor="let error of errors.cityErrors">
+                                <small *ngIf="city.hasError(error.code)" class="d-block text-danger"
+                                    role="alert">{{error.message}}</small>
+                            </ng-container>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -41,6 +47,12 @@
                             <option *ngFor="let district of districts" value="{{district.name}}">{{district.name}}
                             </option>
                         </select>
+                        <div *ngIf="district.touched && district.dirty">
+                            <ng-container *ngFor="let error of errors.districtErrors">
+                                <small *ngIf="district.hasError(error.code)" class="d-block text-danger"
+                                    role="alert">{{error.message}}</small>
+                            </ng-container>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -51,6 +63,12 @@
                             <option value="" selected disabled></option>
                             <option *ngFor="let ward of wards" value="{{ward.name}}">{{ward.name}}</option>
                         </select>
+                        <div *ngIf="ward.touched && ward.dirty">
+                            <ng-container *ngFor="let error of errors.wardErrors">
+                                <small *ngIf="ward.hasError(error.code)" class="d-block text-danger"
+                                    role="alert">{{error.message}}</small>
+                            </ng-container>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -112,7 +130,8 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-md-4 offset-md-4">
-                        <input type="submit" class="form-control btn btn-primary" value="Tiếp theo">
+                        <input type="submit" class="form-control btn btn-primary" value="Tiếp theo"
+                            [disabled]="!addressForm.valid">
                     </div>
                 </div>
             </form>
@@ -132,16 +151,13 @@
                     <li class="list-group-item active card-header-custom">Tổng kết đơn hàng</li>
                     <li class="list-group-item">
                         <span class="order_item_label"> Giao hàng tiêu chuẩn - giao hàng tận nơi. </span>
-                        <span class="order_item_price">49.000</span>
+                        <span class="order_item_price"></span>
                     </li>
                     <li class="list-group-item">
                         <span class="order_item_label total_payment">Số tiền cần thanh toán</span>
                         <span class="order_item_price total_payment">
                             {{total|currency:"VND":'symbol'}}
                         </span>
-                    </li>
-                    <li class="list-group-item">
-                        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
                     </li>
                 </ul>
             </div>
