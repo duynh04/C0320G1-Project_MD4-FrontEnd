@@ -7,7 +7,7 @@ import { AuctionRecord } from 'src/app/shared/models/auction-record';
 import { User } from 'src/app/shared/models/user';
 
 
-
+// Creator: Hoai Ngan team C
 const startingHour = 0;
 const startingMin = 4;
 let time;
@@ -66,7 +66,7 @@ export class AuctionPageComponent implements OnInit {
     
     this.auctionService.getAuctionById(this.auctionId).subscribe(data =>{
       this.auction = data;
-      this.increment = data.product.increaseAmount;
+      this.increment = data.product.increasingAmount;
       this.productName = data.product.name;
 
     })  
