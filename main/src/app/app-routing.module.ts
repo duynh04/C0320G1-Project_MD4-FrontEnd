@@ -14,8 +14,7 @@ const routes: Routes = [
     path: 'auction', loadChildren: () => import('./auction/auction.module').then(mod => mod.AuctionModule)
   },
   {
-    // path: 'product', loadChildren: () => import('./product/product.module').then(mod => mod.ProductModule)
-    path : 'product',loadChildren: './product/product.module#ProductModule'
+    path: 'product', loadChildren: () => import('./product/product.module').then(mod => mod.ProductModule)
   },
   {
     path: 'user', loadChildren: () => import('./user/user.module').then(mod => mod.UserModule)
