@@ -1,5 +1,6 @@
 // error validate for delivery address form
 export const DELIVERRY_MESSAGES = {
+  // Thành
   streetErrors: [
     {code: 'required', message: 'Vui lòng nhập địa chỉ giao hàng'},
     {code: 'maxlength', message: 'Địa chỉ giao hàng không quá 30 kí tự. Chỉ nhập số nhà và tên đường'}

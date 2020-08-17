@@ -5,6 +5,7 @@ import { AsyncValidatorFn, AbstractControl, ValidationErrors, FormControl, Valid
 @Injectable({
   providedIn: 'root'
 })
+// Thành
 export class UserValidatorService {
   constructor() { }
 

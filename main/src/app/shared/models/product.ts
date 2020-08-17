@@ -6,18 +6,7 @@ import {ProductImage} from './product-image';
 import DateTimeFormat = Intl.DateTimeFormat;
 
 export interface Product {
-  id: number;
-  name: string;
-  initialPrice: number;
-  increasingAmount: number;
-  registerDate: string;
-  startDate: string;
-  endDate: string;
-  approvementStatus: ApprovementStatus;
-  description: string;
-  category: Category;
-  owner: User;
-  productImages: ProductImage[];
+  // Thành
     id: number;
     name: string;
     initialPrice: bigint;

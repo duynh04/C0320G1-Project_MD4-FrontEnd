@@ -24,7 +24,7 @@ import {UserValidatorService} from '../../shared/validations/user-validator.serv
   styleUrls: ['./product-add.component.css']
 })
 export class ProductAddComponent implements OnInit {
-
+//Thành
   createProductForm: FormGroup;
   createProductFormCopy: FormGroup;
   categoriesList;
