@@ -16,6 +16,9 @@ const routes: Routes = [
       // { path: "", component: DeliveryAddressComponent },
       { path: 'order', component: OrderStatusComponent },
       { path: 'option', component: PaymentOptionComponent },
+      { path: '', component: DeliveryAddressComponent },
+      { path: 'order', component: OrderStatusComponent },
+      { path: 'option', component: PaymentOptionComponent },
     ],
   },
 ];
@@ -24,4 +27,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PaymentRoutingModule {}
+export class PaymentRoutingModule { }
