@@ -1,0 +1,132 @@
+<div class="container-fluid px-0">
+  <h1 class="mt-2 text-center">Quản lý sản phẩm</h1>
+  <form [formGroup]="formSearchList">
+    <div class="container px-0">
+      <div class="row mt-3">
+        <div class="form-group col-md-4">
+          <label class="col-form-label mr-2">Tên sản phẩm</label>
+          <input class="form-control" type="text" placeholder="Vd: Nồi Cơm Điện" formControlName="name">
+          <p *ngIf="formSearchList.controls.name.errors?.pattern && formSearchList.controls.name.touched"
+             class="text-danger font-weight-bold">
+            Trường này không được chứa kí tự đặc biệt !!</p>
+        </div>
+        <div class="form-group col-md-4">
+          <label class="col-form-label mr-2">Loại sản phẩm</label>
+          <select class="custom-select">
+            <option selected disabled value="">Chọn...</option>
+            <option>Tất cả</option>
+            <option>Điện tư</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label class="col-form-label mr-2">Người đăng</label>
+          <input class="form-control" type="text" placeholder="Vd: Nguyễn Văn A" formControlName="owner">
+          <p *ngIf="formSearchList.controls.owner.errors?.pattern && formSearchList.controls.owner.touched"
+             class="text-danger font-weight-bold">
+            Trường này không được chứa kí tự đặc biệt !!</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label class="col-form-label mr-2">Giá</label>
+          <select class="custom-select">
+            <option selected disabled value="">Chọn...</option>
+            <option>Tất cả</option>
+            <option>Từ 0 đến 100.000 VND</option>
+            <option>Từ 100.000 đến 500.000 VND</option>
+            <option>Từ 500.000 đến 1.000.000 VND</option>
+            <option>Từ 1.000.000 đến 5.000.000 VND</option>
+            <option>Trên 5.000.000 VND</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label class="col-form-label mr-2">Tình trạng</label>
+          <select class="custom-select">
+            <option selected disabled value="">Chọn...</option>
+            <option value="Tất cả">Tất cả</option>
+            <option value="Chưa đấu giá">Chưa đấu giá</option>
+            <option value="Đang đấu giá">Đang đấu giá</option>
+            <option value="Đã đấu giá">Đã đấu giá</option>
+          </select>
+        </div>
+        <div class="col-md-4 form-group" style="margin-top: -2px;">
+          <label>&nbsp;</label><br>
+          <button type="button" class="btn btn-primary mt-2" style="width: 360px"><i
+            class="fas fa-search"></i> Lọc
+            kết quả
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+  <div class="container">
+    <div class="row d-flex justify-content-left">
+      <button class="btn btn-success "><i class="fas fa-plus-square"></i> Thêm sản phẩm</button>
+    </div>
+    <div class="row justify-content-center mt-3">
+      <table class="table mt-2 table-striped">
+        <thead style="background-color: #189EFF; color: white;">
+        <tr>
+          <th>STT</th>
+          <th>Chọn</th>
+          <th>ID sản phẩm</th>
+          <th>Tên sản phẩm</th>
+          <th>Chủng loại</th>
+          <th>Người đăng</th>
+          <th>Giá ban đầu</th>
+          <th>Trạng thái duyệt</th>
+          <th>Tình trạng</th>
+          <th>Chi tiết sản phẩm</th>
+          <th>Hình ảnh</th>
+          <th>Sửa</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let product of products | async">
+          <td>{{product.id}}</td>
+          <td><input type="checkbox"></td>
+          <td>{{product.id}}</td>
+          <td><a [routerLink]="['/admin/approvement/', product.id]">{{product.name}}</a></td>
+          <td>{{product.category.name}}</td>
+          <td>{{product.owner.fullname}}</td>
+          <td>{{product.initialPrice}}</td>
+          <td>{{product.approvementStatus.name}}</td>
+          <td>{{product}}</td>
+          <td>{{product.description}}</td>
+          <td>{{product.productImages}}</td>
+          <td>
+            <button class="btn btn-primary">Sửa</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row d-flex justify-content-between mt-3">
+      <div>
+        <button class="btn btn-danger mr-3"><i class="far fa-trash-alt"></i> Xóa</button>
+        <button class="btn btn-success mr-3"><i class="fas fa-plus-square"></i> Thêm</button>
+        <button class="btn btn-primary"><i class="fas fa-save"></i> Lưu chỉnh sửa</button>
+      </div>
+      <div>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
