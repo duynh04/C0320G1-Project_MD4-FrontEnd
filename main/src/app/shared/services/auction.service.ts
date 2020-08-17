@@ -9,10 +9,12 @@ import { Page } from '../models/dtos/page';
 })
 export class AuctionService {
 
+  // Creator: Cường
   private readonly API_URL = "http://localhost:8080/api/v1";
 
   constructor(private http : HttpClient) { }
 
+  // Creator: Cường
   getMyAuctionRecordHttpOptions(productName : string, 
     recordStatusName : string, page : number) : Object {
 
@@ -30,6 +32,7 @@ export class AuctionService {
 
   }
 
+  // Creator: Cường
   getMyAuctionRecords(bidderId : number,productName : string, 
     recordStatusName : string, page : number) : Observable<Page<AuctionRecord>> {
       

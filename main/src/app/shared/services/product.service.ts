@@ -9,10 +9,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ProductService {
 
+  // Creator: Cường
   private readonly API_URL = "http://localhost:8080/api/v1";
 
   constructor(private http: HttpClient) { }
 
+  // Creator: Cường
   getMyProductHttpOptions(productName : string, approvementStatusName : string,page : number) : Object {
 
     let myProductOptions = {
@@ -29,6 +31,7 @@ export class ProductService {
 
   }
 
+  // Creator: Cường
   getCancelProductHttpOptions(productName : string, approvementStatusName : string,cancelProductId : number,page : number) : Object {
 
     let cancelProductOptions = {
@@ -46,6 +49,7 @@ export class ProductService {
 
   }
 
+  // Creator: Cường
   getMyProducts(ownerId : number,productName : string,approvementStatusName : string,
                 page :number) : Observable<Page<Product>> {
                   
@@ -53,6 +57,7 @@ export class ProductService {
       this.getMyProductHttpOptions(productName,approvementStatusName,page))
   }
 
+  // Creator: Cường
   cancelRegister(ownerId : number,productName : string,approvementStatusName : string,
                 cancelProductId : number, page : number) : Observable<Page<Product>> {
   
