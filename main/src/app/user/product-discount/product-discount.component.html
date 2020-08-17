@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset=UTF-8">
+  <title>Side Navigator Bar</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+</head>
+<body>
+<div class="wrapper">
+  <div class="sidebar">
+    <h2>Sidebar</h2>
+    <ul>
+      <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
+      <li><a href="#"><i class="fas fa-user"></i>Profile</a></li>
+      <li><a href="#"><i class="fas fa-address-card"></i>About</a></li>
+      <li><a href="#"><i class="fas fa-project-diagram"></i>Portfolio</a></li>
+      <li><a href="#"><i class="fas fa-blog"></i>Blog</a></li>
+      <li><a href="#"><i class="fas fa-address-book"></i>Contact</a></li>
+      <li><a href="#"><i class="fas fa-map-pin"></i>Map</a></li>
+    </ul>
+    <div class="social_media">
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+  <div class="main_content">
+    <div class="header">Welcome! have a nice day.</div>
+    <div class="info">
+      <div class="search">
+        <div class="search_holder">
+          <form id="myform">
+            <label>
+              <input id="inputTextBox" type="text" placeholder="name"  />
+              <input type="text" name="startDate" id="startDate" class="validDate" placeholder="startDate"  />
+              <input type="text" name="endDate" id="endDate" class="validDate" placeholder="endDate" />
+              <input type='text' id='numberbox' placeholder="number" >
+              <input type="submit" (click)=sendDetails() />
+            </label>
+          </form>
+        </div>
+      </div>
+      <div>
+        <table class="content_table">
+          <thead>
+          <tr>
+            <th class="id_Title">#</th>
+            <th class="product_title">Sản phẩm</th>
+            <th>Giá gốc</th>
+            <th>Ngày bắt đầu</th>
+            <th>Sale Percent</th>
+            <th>Hạn cuối</th>
+            <th>Trạng thái</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Xử lí</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="active-row" *ngFor="let product of products" >
+            <td class="id">{{product.discountId}}</td>
+            <td><a href="#"><img src="" class="avatar" alt="Avatar">{{product.content}}</a></td>
+            <td>{{product.price}}</td>
+            <td>{{product.saleDate}}</td>
+            <td class="product-discount-label">{{product.salePercent}}</td>
+            <td>{{product.endOfEvent}}</td>
+            <td><span class="status text-success">&bull;</span>{{product.flag}}</td>
+            <td>{{product.price * product.salePercent /100}}</td>
+            <td>{{product.amount}}</td>
+            <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i class="fas fa-cart-arrow-down"></i></a></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+

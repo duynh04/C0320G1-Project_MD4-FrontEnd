@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "@types/jquery": "^3.5.1",
     "bootstrap": "^4.5.2",
     "jquery": "^3.5.1",
     "ngx-paypal": "^6.1.0",

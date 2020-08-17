@@ -3,13 +3,16 @@ import {CommonModule} from '@angular/common';
 
 import {UserRoutingModule} from './user-routing.module';
 import {CartListComponent} from './cart-list/cart-list.component';
+import { ProductDiscountComponent } from './product-discount/product-discount.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
-  declarations: [CartListComponent],
-  imports: [
-    CommonModule,
-    UserRoutingModule
-  ]
+  declarations: [CartListComponent, ProductDiscountComponent],
+    imports: [
+        CommonModule,
+        UserRoutingModule,
+        FormsModule
+    ]
 })
 export class UserModule {
 }
