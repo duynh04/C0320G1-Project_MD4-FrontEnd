@@ -14,7 +14,7 @@ export interface Order {
   paymentMethod: String;
   deadlineDelivery: String;
   deliveryAddress: DeliveryAddress;
-  deliverMethod: String;
+  deliveryMethod: String;
   cart: Cart;
   paymentStatus: String;
 }
