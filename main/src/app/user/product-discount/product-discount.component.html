@@ -29,17 +29,31 @@
     <div class="header">Welcome! have a nice day.</div>
     <div class="info">
       <div class="search">
-        <div class="search_holder">
-          <form id="myform">
-            <label>
-              <input id="inputTextBox" type="text" placeholder="name"  />
-              <input type="text" name="startDate" id="startDate" class="validDate" placeholder="startDate"  />
-              <input type="text" name="endDate" id="endDate" class="validDate" placeholder="endDate" />
-              <input type='text' id='numberbox' placeholder="number" >
-              <input type="submit" (click)=sendDetails() />
-            </label>
-          </form>
-        </div>
+        <form class="container" [formGroup]="formSearch">
+          <div class="col-2">
+            <label for="inputTextBox"></label>
+            <input id="inputTextBox" type="text" placeholder="name" formControlName="content"  />
+            <p *ngIf="formSearch.controls.content.errors?.required && formSearch.controls.content.touched" class="text-danger">Please Enter The Name</p>
+          </div>
+          <div class="col-2">
+            <label for="startDate"></label>
+            <input type="text" name="startDate" id="startDate" class="validDate" placeholder="startDate" formControlName="saleDate" />
+            <p *ngIf="formSearch.controls.saleDate.errors?.required && formSearch.controls.saleDate.touched" class="text-danger">Please Enter Sale Date</p>
+          </div>
+          <div class="col-2">
+            <label for="endDate"></label>
+            <input type="text" name="endDate" id="endDate" class="validDate" placeholder="endDate" formControlName="endOfEvent"/>
+            <p *ngIf="formSearch.controls.endOfEvent.errors?.required && formSearch.controls.endOfEvent.touched" class="text-danger">Please Enter End Of The Event</p>
+          </div>
+          <div class="col-2">
+            <label for='percent'></label>
+            <input type='text' id='percent' placeholder="number" formControlName="percent" >
+            <p *ngIf="formSearch.controls.percent.errors?.required && formSearch.controls.percent.touched" class="text-danger">Please Enter Discount Percent</p>
+          </div>
+          <div class="col-2" >
+            <input class="column5" type="submit" (click)=sendDetails() />
+          </div>
+        </form>
       </div>
       <div>
         <table class="content_table">

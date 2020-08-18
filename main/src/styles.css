@@ -135,22 +135,6 @@ body {
   background-color: #007bff;
   margin-top: 0;
 }
-.search .search_holder{
-  width: 100%;
-  margin: 20px;
-}
-.search .search_holder input {
-  margin-left: 90px;
-  margin-right: 10px;
-  height: 30px;
-  width: 150px;
-}
-.search_button {
-  background-color: white;
-  border: 1px solid #EEDDEE;
-  padding: 5px;
-  border-radius: 10px;
-  margin: 10px auto;
-}
+
 
 
