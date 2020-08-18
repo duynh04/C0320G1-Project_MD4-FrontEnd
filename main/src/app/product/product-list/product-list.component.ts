@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Category} from "../../shared/models/category";
-import {Product} from "../../shared/models/product";
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Category} from '../../shared/models/category';
+import {Product} from '../../shared/models/product';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProductService} from '../../shared/services/product.service';
-import {CategoryService} from "../../shared/services/category.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {CategoryService} from '../../shared/services/category.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ProductCreateDTO} from "../../shared/models/dtos/ProductCreateDTO ";
 
 @Component({
   selector: 'app-product-list',
@@ -15,20 +16,21 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class ProductListComponent implements OnInit {
 
   categories: Category[];
-  products: Product[];
+  products: ProductCreateDTO[];
   productOfId;
   form: FormGroup;
   editProductForm: FormGroup;
   value = this.fb.group({
-    productName: ['', Validators.required],
-    productInitalPrice: ['', Validators.required],
-    productIncreaseAmount: ['', Validators.required],
-    productRegisterDate: ['', Validators.required],
-    productStartDate: ['', Validators.required],
-    productEndDate: ['', Validators.required],
-    productDescription: ['', Validators.required],
-    productCategoryId: ['', Validators.required],
-    productOwnerId: ['', Validators.required],
+    name: ['', Validators.required],
+    initialPrice: ['', Validators.required],
+    increaseAmount: ['', Validators.required],
+    registerDate: ['', Validators.required],
+    startDate: ['', Validators.required],
+    endDate: ['', Validators.required],
+    description: ['', Validators.required],
+    approvementStatusId: ['', Validators.required],
+    categoryId: ['', Validators.required],
+    ownerId: ['', Validators.required],
   });
   constructor(private fb: FormBuilder,
               private productService: ProductService,
@@ -48,16 +50,16 @@ export class ProductListComponent implements OnInit {
     });
 
     this.editProductForm = new FormGroup({
-      productName: new  FormControl(''),
-      productInitalPrice: new FormControl(''),
-      productIncreaseAmount: new FormControl(''),
-      productRegisterDate: new FormControl(''),
-      productStartDate: new FormControl(''),
-      productEndDate: new FormControl(''),
-      productDescription: new FormControl(''),
-      productApprovementStatusId: new FormControl(''),
-      productCategoryId: new FormControl(''),
-      productOwnerId: new FormControl(''),
+      name: new  FormControl(''),
+      initialPrice: new FormControl(''),
+      increaseAmount: new FormControl(''),
+      registerDate: new FormControl(''),
+      startDate: new FormControl(''),
+      endDate: new FormControl(''),
+      description: new FormControl(''),
+      approvementStatusId: new FormControl(''),
+      categoryId: new FormControl(''),
+      ownerId: new FormControl(''),
     });
     this.productService.getProducts().subscribe(next => {
       this.products = next;
@@ -66,25 +68,25 @@ export class ProductListComponent implements OnInit {
 
   addGroup() {
     const val = this.fb.group({
-      productName: ['', Validators.required],
-      productInitalPrice: ['', Validators.required],
-      productIncreaseAmount: ['', Validators.required],
-      productRegisterDate: ['', Validators.required],
-      productStartDate: ['', Validators.required],
-      productEndDate: ['', Validators.required],
-      productDescription: ['', Validators.required],
-      productApprovementStatusId: ['', Validators.required],
-      productCategoryId: ['', Validators.required],
-      productOwnerId: ['', Validators.required],
+      name: ['', Validators.required],
+      initialPrice: ['', Validators.required],
+      increaseAmount: ['', Validators.required],
+      registerDate: ['', Validators.required],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      description: ['', Validators.required],
+      approvementStatusId: ['', Validators.required],
+      categoryId: ['', Validators.required],
+      ownerId: ['', Validators.required],
     });
 
-    const form = this.form.get('products') as FormArray
+    const form = this.form.get('products') as FormArray;
     form.push(val);
 
   }
 
   removeGroup(index) {
-    const form = this.form.get('products') as FormArray
+    const form = this.form.get('products') as FormArray;
     form.removeAt(index);
   }
 
@@ -93,12 +95,13 @@ export class ProductListComponent implements OnInit {
   }
 
   createNewProduct() {
-    console.log(this.categories)
+    console.log(this.categories);
     const products = this.form.get('products') as FormArray;
+    console.log('test');
     console.log(this.form.value);
-    console.log((<FormArray> this.form.get('products')).length);
-    for (let i = 0; i < (<FormArray> this.form.get('products')).length; i++) {
-      this.productService.addProduct(((<FormArray> this.form.get('products')).at(i)).value).subscribe(
+    console.log((this.form.get('products') as FormArray).length);
+    for (let i = 0; i < (this.form.get('products') as FormArray).length; i++) {
+      this.productService.addProduct(((this.form.get('products') as FormArray).at(i)).value).subscribe(
         () => {
         }
       );
