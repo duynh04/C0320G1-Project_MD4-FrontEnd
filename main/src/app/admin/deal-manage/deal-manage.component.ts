@@ -87,14 +87,16 @@ export class DealManageComponent implements OnInit {
         this.arrayIdToDelete.push(Number(this.checkbox[i].defaultValue));
       }
     }
+    console.log(this.arrayIdToDelete);
     return this.arrayIdToDelete;
   }
 
   setDeleteDeals(): void {
-    for (let i = 0; i < this.arrayIdToDelete.length; i++) {
-      this.dealManageService.deleteOneDealById(this.arrayIdToDelete[i]);
-      console.log('row' + (i + 1) + ' đã xóa id' + this.arrayIdToDelete[i]);
-    }
+    this.dealManageService.deleteDeals(this.arrayIdToDelete);
+    // for (let i = 0; i < this.arrayIdToDelete.length; i++) {
+    //   this.dealManageService.deleteOneDealById(this.arrayIdToDelete[i]);
+    //   console.log('row ' + (i + 1) + ' đã xóa id' + this.arrayIdToDelete[i]);
+    // }
     this.reloadData(1, 5);
   }
 
