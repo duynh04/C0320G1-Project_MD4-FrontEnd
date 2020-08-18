@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AuctionRecordService {
 
-  private API = 'http://localhost:8080/api/v1/auction-record';
+  private API = 'http://localhost:8080/api/v1/auctionRecords';
 
   constructor(
     private httpClient: HttpClient

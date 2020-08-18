@@ -1,7 +1,4 @@
 <div class="wrapper">
-  <div class="nav">
-    <h2>Chillindo</h2>
-  </div>
   <div class="content-wrapper">
     <div class="content">
       <div class="mini-image">
@@ -12,7 +9,7 @@
       </div>
       <div class="image">
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-          <div class="carousel-inner imagemini">
+          <div class="carousel-inner image-mini">
             <div class="carousel-item active">
               <img class="d-block w-100" src="https://bizweb.dktcdn.net/100/184/165/products/pin-dp-10000-01.png?v=1595743350537" alt="First img">
             </div>
@@ -74,7 +71,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let auctionRecord of auctionRecords">
+      <tr *ngFor="let auctionRecord of auctionInformation.records">
         <td>{{auctionRecord.bidder.fullname}}</td>
         <td>{{auctionRecord.bidPrice}}</td>
         <td>{{auctionRecord.auction.id}}</td>
@@ -96,12 +93,12 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let product of productDetails">
-        <td>{{product.name}}</td>
-        <td>{{product.category.name}}</td>
-        <td>{{product.startDate}}</td>
-        <td>{{product.endDate}}</td>
-        <td>{{product.initialPrice}}</td>
+      <tr>
+        <td>{{auctionInformation.product.name}}</td>
+        <td>{{auctionInformation.product.category.name}}</td>
+        <td>{{auctionInformation.product.startDate}}</td>
+        <td>{{auctionInformation.product.endDate}}</td>
+        <td>{{auctionInformation.product.initialPrice}}</td>
       </tr>
       </tbody>
     </table>
@@ -119,9 +116,9 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let auction of auctionInformation">
-            <td>{{auction.product.id}}</td>
-            <td>{{auction.auctionStatus.name}}</td>
+          <tr>
+            <td>{{auctionInformation.product.id}}</td>
+            <td>{{auctionInformation.auctionStatus.name}}</td>
           </tr>
           </tbody>
         </table>
@@ -141,7 +138,7 @@
         cho bạn dễ dàng thay đổi, thể hiện dấu ấn riêng.
       </p>
       <p>
-        <img src="https://salt.tikicdn.com/ts/tmp/fa/c8/7a/010ed1d4f29d4d3b7a683595e4096f86.jpeg" style="width: 750px; height: 437px; margin-left: 165px">
+        <img src="https://salt.tikicdn.com/ts/tmp/fa/c8/7a/010ed1d4f29d4d3b7a683595e4096f86.jpeg" style="width: 750px; height: 437px; margin-left: 165px; margin-top: 10px">
       </p>
     </div>
   </div>
@@ -255,22 +252,24 @@
       </p>
     </div>
   </div>
-  <div class="details">
-    <div class="container">
-      <div class="card">
-        <div class="commentbox">
-          <div class="col-12 col-sm-12 header">
-            <h4>Comments ({{count}})</h4>
-          </div>
-          <div class="col-12 col-sm-12 body">
-            <div class="comment-container">
-              <div class="comment-form">
-                <app-comment-box (userComment)="receiveComment($event)"></app-comment-box>
+  <div class="details-wrapper4">
+    <div class="details">
+      <div class="container">
+        <div class="card">
+          <div class="commentbox">
+            <div class="col-12 col-sm-12 header">
+              <h4>Bình luận về sản phẩm ({{count}})</h4>
+            </div>
+            <div class="col-12 col-sm-12 body">
+              <div class="comment-container">
+                <div class="comment-form">
+                  <app-comment-box (userComment)="receiveComment($event)"></app-comment-box>
+                </div>
               </div>
             </div>
           </div>
+          <app-comments [postComment]="comments" (countComments)="recieveCount($event)"></app-comments>
         </div>
-        <app-comments [postComment]="comments" (countComments)="recieveCount($event)"></app-comments>
       </div>
     </div>
   </div>

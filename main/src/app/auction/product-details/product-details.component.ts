@@ -14,14 +14,14 @@ import { AuctionRecord } from '../../shared/models/auction-record';
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit {
-  public productDetails: Product[];
+  public productDetails: Product;
   public auctionParticipants: User[];
-  public auctionInformation: Auction[];
+  public auctionInformation: Auction;
   public auctionRecords: AuctionRecord[];
-  public productId: number;
-  public userId: number;
-  public auctionId: number;
-  public auctionRecordId: number;
+  public productId = 1;
+  public userId = 1;
+  public auctionId = 1;
+  public auctionRecordId = 1;
   public comments: string;
   public count: number;
 
@@ -35,18 +35,24 @@ export class ProductDetailsComponent implements OnInit {
   ngOnInit() {
     this.productService.getProductById(this.productId).subscribe(dataOfProductId => {
       this.productDetails = dataOfProductId;
+      console.log(this.productDetails);
     });
 
     this.userService.getUserById(this.userId).subscribe(dataOfUserId => {
       this.auctionParticipants = dataOfUserId;
     });
 
-    this.auctionService.getAuctionById(this.auctionId).subscribe(dataOfAuctionId => {
+    this.auctionService.getAuctionByProductId(1).subscribe(dataOfAuctionId => {
+      console.log(dataOfAuctionId);
+      this.productDetails = dataOfAuctionId.product;
+      this.auctionRecords = dataOfAuctionId.records;
       this.auctionInformation = dataOfAuctionId;
     });
 
     this.auctionRecordService.getAuctionRecordById(this.auctionRecordId).subscribe(dataOfAuctionRecordId => {
       this.auctionRecords = dataOfAuctionRecordId;
+      console.log(`auction record`);
+      console.log(this.auctionRecords);
     });
 
     this.count = 0;
