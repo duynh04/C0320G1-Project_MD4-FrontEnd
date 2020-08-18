@@ -1,5 +1,5 @@
 .form-control{
-  width: 100px;
+  width: 70px;
 }
 .search {
   padding-left: 20px;
@@ -25,4 +25,7 @@
 .page {
   width: 40%;
   float: left;
+}
+td~input {
+  width: 100px;
 }
