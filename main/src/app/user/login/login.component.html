@@ -4,6 +4,7 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
       <div class="card my-5">
         <div class="card-body">
           <h2 style="color: #007bff" class="card-title text-center">ĐĂNG NHẬP</h2>
@@ -11,7 +12,7 @@
           <div class="form-group">
             <label>Tài khoản</label>
             <div class="input-group">
-              <input id="name" class="form-control" placeholder="Tên đăng nhập" type="text">
+              <input id="name" type="email" class="form-control" formControlName="username" placeholder="Tên đăng nhập" >
             </div>
             <small class="d-block text-danger" id="checkName"></small>
           </div>
@@ -19,10 +20,10 @@
           <div class="form-group">
             <label>Mật khẩu</label>
             <div class="input-group align-items-center">
-              <input class="form-control" placeholder="******" id="password" type="password">
-              <div class="input-group-append">
-                <span class="input-group-text ">   <span class="far fa-eye" id="togglePassword"></span></span>
-              </div>
+              <input class="form-control" placeholder="******" id="password" type="password" formControlName="password">
+<!--              <div class="input-group-append">-->
+<!--                <span class="input-group-text ">   <span class="far fa-eye" id="togglePassword"></span></span>-->
+<!--              </div>-->
             </div>
             <small class="d-block text-danger" id="checkPass"></small>
           </div>
@@ -45,6 +46,7 @@
 
         </div>
       </div>
+      </form>
     </div>
   </div>
 </div>
