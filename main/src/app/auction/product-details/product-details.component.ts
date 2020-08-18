@@ -7,6 +7,7 @@ import { Product } from '../../shared/models/product';
 import { User } from '../../shared/models/user';
 import { Auction } from '../../shared/models/auction';
 import { AuctionRecord } from '../../shared/models/auction-record';
+declare var $: any;
 
 @Component({
   selector: 'app-product-details',
@@ -45,14 +46,11 @@ export class ProductDetailsComponent implements OnInit {
     this.auctionService.getAuctionByProductId(1).subscribe(dataOfAuctionId => {
       console.log(dataOfAuctionId);
       this.productDetails = dataOfAuctionId.product;
-      this.auctionRecords = dataOfAuctionId.records;
       this.auctionInformation = dataOfAuctionId;
     });
 
-    this.auctionRecordService.getAuctionRecordById(this.auctionRecordId).subscribe(dataOfAuctionRecordId => {
-      this.auctionRecords = dataOfAuctionRecordId;
-      console.log(`auction record`);
-      console.log(this.auctionRecords);
+    this.auctionRecordService.getAllAuctionRecord().subscribe(dataOfAuctionRecord => {
+      this.auctionRecords = dataOfAuctionRecord;
     });
 
     this.count = 0;

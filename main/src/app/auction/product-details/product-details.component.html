@@ -71,7 +71,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let auctionRecord of auctionInformation.records">
+      <tr *ngFor="let auctionRecord of auctionRecords">
         <td>{{auctionRecord.bidder.fullname}}</td>
         <td>{{auctionRecord.bidPrice}}</td>
         <td>{{auctionRecord.auction.id}}</td>
@@ -94,11 +94,11 @@
       </thead>
       <tbody>
       <tr>
-        <td>{{auctionInformation.product.name}}</td>
-        <td>{{auctionInformation.product.category.name}}</td>
-        <td>{{auctionInformation.product.startDate}}</td>
-        <td>{{auctionInformation.product.endDate}}</td>
-        <td>{{auctionInformation.product.initialPrice}}</td>
+        <td>{{productDetails.name}}</td>
+        <td>{{productDetails.category.name}}</td>
+        <td>{{productDetails.startDate}}</td>
+        <td>{{productDetails.endDate}}</td>
+        <td>{{productDetails.initialPrice}}</td>
       </tr>
       </tbody>
     </table>
@@ -215,12 +215,12 @@
       </div>
     </div>
   </div>
-  <div class="details-wrapper3">
+  <div id="details-wrapper3">
     <div class="details">
       <button type="button" id="toggle" class="btn btn-outline-primary">Thu Phóng Nội Dung</button>
     </div>
   </div>
-  <div class="details-wrapper5">
+  <div id="details-wrapper5">
     <div class="details">
       <hr style="height:2px;border-width:0;color:#ebebeb;background-color:#ebebeb">
       <h4 style="color: #428ebe"><strong>Giao nhận hàng</strong></h4>
@@ -252,15 +252,15 @@
       </p>
     </div>
   </div>
-  <div class="details-wrapper4">
-    <div class="details">
+  <div id="wrapper">
+    <div class="details2">
       <div class="container">
         <div class="card">
           <div class="commentbox">
             <div class="col-12 col-sm-12 header">
-              <h4>Bình luận về sản phẩm ({{count}})</h4>
+              <h4 style="color: #428ebe"><strong>Bình luận về sản phẩm ({{count}})</strong></h4>
             </div>
-            <div class="col-12 col-sm-12 body">
+            <div class="col-12 col-sm-12">
               <div class="comment-container">
                 <div class="comment-form">
                   <app-comment-box (userComment)="receiveComment($event)"></app-comment-box>

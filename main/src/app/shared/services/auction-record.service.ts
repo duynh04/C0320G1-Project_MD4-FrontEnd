@@ -13,6 +13,10 @@ export class AuctionRecordService {
     private httpClient: HttpClient
   ) { }
 
+  getAllAuctionRecord(): Observable<any> {
+    return this.httpClient.get(this.API);
+  }
+
   getAuctionRecordById(auctionRecordId: number): Observable<any> {
     return this.httpClient.get(this.API + '/' + auctionRecordId);
   }
