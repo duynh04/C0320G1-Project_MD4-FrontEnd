@@ -29,9 +29,11 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
     address: null,
     backendMessage: null
   };
+
   backendMessages: string[];
   message="";
   errorMessage="";
+  dateOfBirth:string;
   constructor(private fb: FormBuilder,
               private userService: UserService,
               private router : Router
@@ -45,7 +47,7 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
     this.userForm = this.fb.group({
       fullName: ['',[Validators.required]],
       email: ['',[Validators.required,Validators.pattern(/^[a-z][a-z0-9_\.]{2,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/)]],
-      birthday: ['',[Validators.required]],
+      birthday: ['',[Validators.required,Validators.pattern(/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/),this.userService.validateBirthday]],
       pwGroup: this.fb.group({
         password: ['',[Validators.minLength(6),Validators.maxLength(20)]],
         newPassword: [''],
@@ -75,7 +77,7 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
         this.backendMessages = data.backendMessage;
     },error=>{this.errorMessage="Cập nhật tài khoản thất bại"},()=>{
       if(this.backendMessages.length==0){
-        this.message="Cập nhật tài khoản thành công";
+        this.message="Thông tin tài khoản của bạn đã được cập nhật";
       }
       this.ngOnInit();
     })
@@ -90,6 +92,13 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
     }else{
       this.hideableDiv = true;
     }
+  }
+  getValueDateOfBirth(value: string): void {
+    this.dateOfBirth = value;
+  }
+
+  printDate(): void {
+    console.log(this.dateOfBirth);
   }
 
 }

@@ -1,3 +1,4 @@
+import { PaymentInvoiceComponent } from './payment-invoice/payment-invoice.component';
 import { NgxPayPalModule } from 'ngx-paypal';
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -7,7 +8,7 @@ import { PaymentCenterComponent } from './payment-center/payment-center.componen
 import { DeliveryAddressComponent } from './delivery-address/delivery-address.component';
 
 @NgModule({
-  declarations: [PaymentCenterComponent, DeliveryAddressComponent],
+  declarations: [PaymentCenterComponent, DeliveryAddressComponent,PaymentInvoiceComponent],
   imports: [
     CommonModule,
     PaymentRoutingModule,

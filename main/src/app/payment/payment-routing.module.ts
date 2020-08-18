@@ -1,3 +1,4 @@
+import { PaymentInvoiceComponent } from './payment-invoice/payment-invoice.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PaymentCenterComponent } from './payment-center/payment-center.component';
@@ -11,7 +12,8 @@ const routes: Routes = [
     children: [
       { path: '', component: DeliveryAddressComponent }
     ]
-  }
+  },
+  { path: 'invoice/:id',component: PaymentInvoiceComponent }
 ];
 
 @NgModule({

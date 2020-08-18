@@ -31,4 +31,10 @@ export class UserService {
       passwordnotmatch : true
     }
   }
+  validateBirthday(c:AbstractControl){
+    var chooseDate = new Date(c.value).getTime();
+    var currentDate = new Date().getTime();
+    return(chooseDate-currentDate>=0) ? 
+       {chooseDateGreaterThanCurrentDate: true} : null;
+  }
 }
