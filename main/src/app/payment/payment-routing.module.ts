@@ -7,7 +7,7 @@ import { DeliveryAddressComponent } from './delivery-address/delivery-address.co
 
 const routes: Routes = [
   {
-    path: "", component: PaymentCenterComponent,
+    path: '', component: PaymentCenterComponent,
     children: [
       { path: '', component: DeliveryAddressComponent }
     ]

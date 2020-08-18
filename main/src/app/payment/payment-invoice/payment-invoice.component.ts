@@ -4,10 +4,10 @@ import { PaymentService } from 'src/app/shared/services/payment.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartDetail } from './../../shared/models/cart-detail';
 import { User } from './../../shared/models/user';
-import { Order } from './../../shared/models/order';
+import { Order } from '../../shared/models/order';
 import { Component, OnInit } from '@angular/core';
 import { Auction } from 'src/app/shared/models/auction';
-import {printPdf} from 'src/assets/javascript/generate-pdf'
+import {printPdf} from 'src/assets/javascript/generate-pdf';
 
 @Component({
   selector: 'app-payment-invoice',
@@ -15,10 +15,12 @@ import {printPdf} from 'src/assets/javascript/generate-pdf'
   styleUrls: ['./payment-invoice.component.css']
 })
 export class PaymentInvoiceComponent implements OnInit {
-  order : Order ={
+
+
+  order: Order ={
     id :null,
     code : null,
-    buyer: {
+    buyer : {
       id: null,
       fullname: null,
       email: null,
