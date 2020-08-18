@@ -7,13 +7,15 @@ import { PaymentCenterComponent } from './payment-center/payment-center.componen
 import { DeliveryAddressComponent } from './delivery-address/delivery-address.component';
 import { PaymentOptionComponent } from './payment-option/payment-option.component';
 import { PaymentInvoiceComponent } from './payment-invoice/payment-invoice.component';
+import { OrderStatusComponent } from './order-status/order-status.component';
 
 @NgModule({
   declarations: [
     PaymentCenterComponent,
     DeliveryAddressComponent,
     PaymentOptionComponent,
-    PaymentInvoiceComponent
+    PaymentInvoiceComponent,
+    OrderStatusComponent
   ],
   imports: [
     CommonModule,
