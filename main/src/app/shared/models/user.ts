@@ -4,7 +4,7 @@ export interface User {
     // mọi người add thêm prop của đối tượng dưới này, 
     // nếu có người add rồi thì xin bỏ qua. xin cảm ơn.
     id : number;
-    fullname : string;
+    name : string;
     email : string;
     phoneNumber : string;
     address : string;
