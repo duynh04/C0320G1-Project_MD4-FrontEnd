@@ -77,15 +77,15 @@
                 </div>
                 <div class="card text-center col-md-3 h-25 ml-2 p-0">
                     <div class="card-header">
-                        <h6>Thanh toán paypal</h6>
+                        <h6>Thanh toán paypal/Visa</h6>
                     </div>
                     <div class="card-body">
                         <img src="https://seeklogo.com/images/P/paypal-logo-C83095A82C-seeklogo.com.png">
                         <img src="https://seeklogo.com/images/V/visa-logo-6F4057663D-seeklogo.com.png">
                     </div>
                     <div class="m-2">
-                        <input type="radio" id="selectVisa" (click)="selectPayment('Visa/paypal')"
-                            value="Thanh toán paypal" name="paymentMethod" [(ngModel)]="paymentMethod">
+                        <input type="radio" id="selectPaypal" (click)="selectPayment('paysa')"
+                            value="Thanh toán paypal/Visa" name="paymentMethod" [(ngModel)]="paymentMethod">
                     </div>
                 </div>
             </div>
@@ -115,17 +115,54 @@
                     </div>
                 </div>
             </div>
-            <div id="visa" *ngIf="payments == 'Visa/paypal'" class="mt-3">
+            <div id="visa" *ngIf="payments == 'paysa'" class="mt-3">
                 <div class="row justify-content-center">
                     <div class="px-md-5">
                         <div class="row content_header">
-                            <h3>Thanh toán paypal</h3>
+                            <h3>Chọn hình thức</h3>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+                    <div class="col-sm-8">
+                        <div class="accordion" id="paysa">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left" type="button"
+                                            data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                            aria-controls="collapseOne">
+                                            Phương thức paypal
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                    data-parent="#paysa">
+                                    <div class="card-body">
+                                        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingTwo">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed" type="button"
+                                            data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                                            aria-controls="collapseTwo">
+                                            Phương thức visa
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                    data-parent="#paysa">
+                                    <div class="card-body">
+                                        <ngx-braintree [getClientToken]="getClientTokenFunction"
+                                            [createPurchaseURL]="'api/braintree/createpurchase'" [chargeAmount]="55">
+                                        </ngx-braintree>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

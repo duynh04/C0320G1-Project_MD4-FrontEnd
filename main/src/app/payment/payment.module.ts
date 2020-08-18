@@ -8,6 +8,7 @@ import { DeliveryAddressComponent } from './delivery-address/delivery-address.co
 import { PaymentOptionComponent } from './payment-option/payment-option.component';
 import { PaymentInvoiceComponent } from './payment-invoice/payment-invoice.component';
 import { OrderStatusComponent } from './order-status/order-status.component';
+import { NgxBraintreeModule } from 'ngx-braintree';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { OrderStatusComponent } from './order-status/order-status.component';
     ReactiveFormsModule,
     NgxPayPalModule,
     FormsModule,
+    NgxBraintreeModule
   ],
 })
 export class PaymentModule { }
