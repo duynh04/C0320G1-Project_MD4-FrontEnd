@@ -1,13 +1,14 @@
+import { NgxPayPalModule } from 'ngx-paypal';
 import { NgModule, LOCALE_ID } from "@angular/core";
 import { CommonModule, registerLocaleData } from "@angular/common";
-import localeVi from "@angular/common/locales/vi";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { PaymentRoutingModule } from "./payment-routing.module";
-import { PaymentCenterComponent } from "./payment-center/payment-center.component";
-import { DeliveryAddressComponent } from "./delivery-address/delivery-address.component";
-import { NgxPayPalModule } from "ngx-paypal";
-import { PaymentOptionComponent } from "./payment-option/payment-option.component";
-import { OrderStatusComponent } from "./order-status/order-status.component";
+import localeVi from "@angular/common/locales/vi";
+import { PaymentRoutingModule } from './payment-routing.module';
+import { PaymentCenterComponent } from './payment-center/payment-center.component';
+import { DeliveryAddressComponent } from './delivery-address/delivery-address.component';
+import { PaymentOptionComponent } from './payment-option/payment-option.component';
+import { PaymentInvoiceComponent } from './payment-invoice/payment-invoice.component';
+import { OrderStatusComponent } from './order-status/order-status.component';
 
 registerLocaleData(localeVi);
 @NgModule({
@@ -15,7 +16,8 @@ registerLocaleData(localeVi);
     PaymentCenterComponent,
     DeliveryAddressComponent,
     PaymentOptionComponent,
-    OrderStatusComponent,
+    PaymentInvoiceComponent,
+    OrderStatusComponent
   ],
   imports: [
     CommonModule,
@@ -31,4 +33,4 @@ registerLocaleData(localeVi);
     },
   ],
 })
-export class PaymentModule {}
+export class PaymentModule { }

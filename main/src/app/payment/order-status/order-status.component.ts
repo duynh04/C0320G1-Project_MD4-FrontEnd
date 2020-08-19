@@ -1,7 +1,10 @@
+import { PaymentService } from 'src/app/shared/services/payment.service';
 import { Router } from "@angular/router";
 import { OrderService } from "./../../shared/services/order.service";
 import { Order } from "./../../shared/models/order";
 import { Component, OnInit } from "@angular/core";
+import { AddressInfo } from 'dgram';
+import { OrderAddressInfo } from 'src/app/shared/models/dtos/delivery-adddress-dto';
 
 declare let Email: any;
 @Component({
@@ -16,7 +19,10 @@ export class OrderStatusComponent implements OnInit {
   deliveryPrice: number;
   serviceFee: number;
   totalCost: number;
-  constructor(private orderService: OrderService, private router: Router) {}
+  deliveryAddress: OrderAddressInfo
+  constructor(private orderService: OrderService,
+    private router: Router,
+    private paymentService: PaymentService) { }
 
   ngOnInit() {
     this.orderService.getOrderByBuyerId(1).subscribe((data) => {
@@ -31,6 +37,7 @@ export class OrderStatusComponent implements OnInit {
         data.cart.totalPrice + this.serviceFee + this.deliveryPrice;
       console.table(this.order);
     });
+    this.deliveryAddress = this.paymentService.addressInfo
   }
 
   sendMail(buttonStatus) {
@@ -53,7 +60,7 @@ export class OrderStatusComponent implements OnInit {
     if (buttonStatus == "không") {
       this.router.navigate(["/"]);
     } else {
-      this.router.navigate(["/"]);
+      this.router.navigate(["/payment/invoice", this.order.id]);
     }
   }
 }

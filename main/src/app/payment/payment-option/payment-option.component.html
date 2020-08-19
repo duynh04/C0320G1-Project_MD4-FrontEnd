@@ -120,17 +120,14 @@
                 <div class="row justify-content-center">
                     <div class="px-md-5">
                         <div class="row content_header">
-                            <h3>Thanh toán paypal:</h3>
+                            <h3>Thanh toán paypal</h3>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center">
-                    <div class="card col-md-3 d-inline p-2 mr-3">
-                        <input type="radio" name="bank">
-                        <img src="https://seeklogo.com/images/P/paypal-logo-C83095A82C-seeklogo.com.png">
-                        <span>Paypal</span>
+                    <div class="col-md-6">
+                        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
                     </div>
-
                 </div>
             </div>
             <div class=" d-flex justify-content-center m-3">

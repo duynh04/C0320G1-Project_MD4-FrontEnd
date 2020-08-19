@@ -20,13 +20,13 @@
                 <div class="border mt-2 p-2">
                     <div class="row">
                         <div class="col-md-6 ">
-                            <p><span>Họ và tên: </span>{{order?.buyer?.fullname}}</p>
-                            <p><span>Thành phố:</span> {{order?.deliveryAddress?.city}}</p>
-                            <p class="mt-2"> <span>Địa chỉ:</span> {{order?.deliveryAddress?.street}}</p>
+                            <p><span>Họ và tên: </span>{{deliveryAddress.fullName}}</p>
+                            <p><span>Thành phố: </span>{{deliveryAddress.city}} </p>
+                            <p class="mt-2"> <span>Địa chỉ: </span>{{deliveryAddress.street}} </p>
                         </div>
                         <div class="col-md-6">
-                            <p><span>Quận/Huyện:</span> {{order?.deliveryAddress?.ward}}</p>
-                            <p class="mt-2"> <span>Quốc gia:</span> {{order?.deliveryAddress?.nation}}</p>
+                            <p><span>Quận/Huyện: </span>{{deliveryAddress.ward}} </p>
+                            <p class="mt-2"> <span>Quốc gia:</span>{{deliveryAddress.nation}}</p>
                         </div>
                     </div>
 

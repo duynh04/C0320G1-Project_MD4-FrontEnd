@@ -1,5 +1,4 @@
 import { Cart } from "./cart";
-import { DeliveryAddress } from "./delivery-address";
 import { User } from "./user";
 
 //creator: Đặng Hồng Quân team C
@@ -13,8 +12,8 @@ export interface Order {
   status: boolean;
   paymentMethod: String;
   deadlineDelivery: String;
-  deliveryAddress: DeliveryAddress;
-  deliverMethod: String;
+  deliveryAddress: String;
+  deliveryMethod: String;
   cart: Cart;
   paymentStatus: String;
 }

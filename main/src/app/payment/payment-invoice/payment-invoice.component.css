@@ -1,0 +1,26 @@
+select {
+    /* for Firefox */
+    -moz-appearance: none;
+    /* for Chrome */
+    -webkit-appearance: none;
+}
+
+
+#primary-color {
+    color: #189EFF;
+}
+#secondary-color {
+    color: #FFFFFF;
+}
+label.error{
+    color:red;
+}
+.headerdetail{
+    font-size: 20px;
+}
+@media print {
+    .printPageButton {
+      display: none;
+    }
+  }
+

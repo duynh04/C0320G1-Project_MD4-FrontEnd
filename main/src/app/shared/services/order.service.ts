@@ -10,7 +10,7 @@ import { Injectable } from "@angular/core";
 
 //creator: Đặng Hồng Quân team C
 export class OrderService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
   private readonly API_URL = "http://localhost:8080/api/v1/order";
 
   getOrderByBuyerId(buyerId: Number): Observable<Order> {
@@ -24,4 +24,5 @@ export class OrderService {
   updateOrder(order: Order): Observable<Order> {
     return this.httpClient.put<Order>(this.API_URL, order);
   }
+
 }
