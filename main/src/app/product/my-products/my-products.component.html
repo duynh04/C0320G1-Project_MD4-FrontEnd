@@ -11,11 +11,11 @@
             <div class="row">
                 <div class="col-md">
                     <label>Tên Sản Phẩm</label>
-                    <input type="text" class="form-control" [(ngModel)]="productName" placeholder="Vd : Iphone">
+                    <input type="text" class="form-control" #focusOn [(ngModel)]="currentProductName" placeholder="Vd : Iphone">
                 </div>
                 <div class="col-md">
                     <label>Tình Trạng Duyệt</label>
-                    <select class="custom-select" [(ngModel)]="approvementStatusName">
+                    <select class="custom-select" [(ngModel)]="currentApprovementStatusName">
                         <option selected value="">Tất Cả</option>
                         <option value="đang chờ duyệt">Đang Chờ Duyệt</option>
                         <option value="duyệt thành công">Duyệt Thành Công</option>
@@ -33,6 +33,10 @@
     
     <div class="row mt-3">
         <div class="col">
+            <div *ngIf=" myProductList.length == 0" class="text-danger">
+                <h5> Không tìm thấy dữ liệu phù hợp </h5>
+            <br>
+            </div>
             <table class="table table-sm table-striped text-center">
                 <thead class="bg-primary text-white">
                     <tr>

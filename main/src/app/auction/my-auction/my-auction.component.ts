@@ -1,6 +1,6 @@
 import { AuctionRecord } from './../../shared/models/auction-record';
 import { AuctionService } from './../../shared/services/auction.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-my-auction',
@@ -9,11 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyAuctionComponent implements OnInit {
 
+  @ViewChild('focusOn',{static: true}) private elementRef: ElementRef;
   myAuctionRecordList : AuctionRecord[];
-  stt: number[] = [];
+  stt: number[];
   bidderId : number = 2;
   productName : string = "";
   recordStatusName : string = "";
+  currentProductName : string = "";
+  currentRecordStatusName : string = "";
   page : number = 0;
   totalPages : number;
   pageSize : number;
@@ -47,35 +50,49 @@ export class MyAuctionComponent implements OnInit {
   previous() {
     if(this.page > 0) {
       this.page = this.page - 1;
-      this.ngOnInit();
+      this.getMyAuctionRecords();
     }
   }
 
   next() {
     if( (this.page + 1) < this.totalPages) {
       this.page = this.page + 1;
-      this.ngOnInit();
+      this.getMyAuctionRecords();
     }
   }
 
   search() {
     this.page = 0;
-    this.ngOnInit();
+    this.productName = this.currentProductName.trim();
+    this.recordStatusName = this.currentRecordStatusName.trim();
+    this.getMyAuctionRecords();
+  }
+
+  getMyAuctionRecords() {
+    this.auctionService.getMyAuctionRecords(this.bidderId,this.productName,this.recordStatusName,this.page)
+    .subscribe(data => {
+      if (data != null) {
+        this.myAuctionRecordList = data.content;
+        this.totalPages = data.totalPages;
+        this.pageSize = data.size;
+        this.stt = [];
+        let firstIndex = this.pageSize*this.page + 1;
+        let lastIndeex = this.pageSize*(this.page + 1);
+        for (let i = firstIndex; i <= lastIndeex; i++) {
+          this.stt.push(i);
+        }
+      } else {
+        this.myAuctionRecordList = [];
+        this.totalPages = 0;
+        this.page = -1;
+      }
+      
+    })
   }
 
   ngOnInit() {
-    this.auctionService.getMyAuctionRecords(this.bidderId,this.productName,this.recordStatusName,this.page)
-    .subscribe(data => {
-      this.myAuctionRecordList = data.content;
-      this.totalPages = data.totalPages;
-      this.pageSize = data.size;
-      this.stt = [];
-      let firstIndex = this.pageSize*this.page + 1;
-      let lastIndeex = this.pageSize*(this.page + 1);
-      for (let i = firstIndex; i <= lastIndeex; i++) {
-        this.stt.push(i);
-      }
-    })
+    this.elementRef.nativeElement.focus();
+    this.getMyAuctionRecords();
   }
 
 }

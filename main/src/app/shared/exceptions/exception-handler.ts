@@ -1,7 +1,11 @@
+import { ErrorDetail } from './../models/dtos/error-detail';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 
+
+
 export const handler = (error: HttpErrorResponse) => {
+    
     if (error.error instanceof ErrorEvent) {
         // A client-side or network error occurred. Handle it accordingly.
         console.error('An error occurred:', error.error.message);
