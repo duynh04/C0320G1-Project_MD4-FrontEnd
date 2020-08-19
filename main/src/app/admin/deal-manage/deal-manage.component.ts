@@ -13,8 +13,6 @@ export class DealManageComponent implements OnInit {
   public dealList: Observable<DealDTO[]>;
   public lastPage: number;
   public currentPage: number;
-  public previousCurrentPage: number;
-  public nextCurrentPage: number;
 
   arrayIdToDelete: number[] = [];
   private checkbox: any;
@@ -41,17 +39,6 @@ export class DealManageComponent implements OnInit {
       this.currentPage = page;
       this.dealList = data.items;
       this.lastPage = data.totalPage;
-      // if(this.currentPage > 1) {
-      //   this.previousCurrentPage = this.currentPage - 1;
-      // } else {
-      //   document.getElementById("previousCurrentPage").style.visibility = "hidden";
-      // }
-
-      // if(this.currentPage < this.lastPage) {
-      //   this.nextCurrentPage = this.currentPage + 1;
-      // }else {
-      //   document.getElementById("nextCurrentPage").style.visibility = "hidden";
-      // }
     });
   }
 
@@ -88,28 +75,19 @@ export class DealManageComponent implements OnInit {
       }
     }
     console.log(this.arrayIdToDelete);
+    this.reloadData(1, 5);
     return this.arrayIdToDelete;
   }
 
   setDeleteDeals(): void {
     this.dealManageService.deleteDeals(this.arrayIdToDelete);
-    // for (let i = 0; i < this.arrayIdToDelete.length; i++) {
-    //   this.dealManageService.deleteOneDealById(this.arrayIdToDelete[i]);
-    //   console.log('row ' + (i + 1) + ' đã xóa id' + this.arrayIdToDelete[i]);
-    // }
-    this.reloadData(1, 5);
+
   }
 
   //search by fields
   search() {
     if ( this.createForm.valid ) {
-      console.table(this.createForm.value);
-      this.dealManageService.search(this.createForm.value).subscribe(data => {
-        this.currentPage = data.page;
-        this.dealList = data.items;
-        this.lastPage = data.totalPage;
-        console.log(data);
-      });
+      this.dealManageService.search(this.createForm.value);
     }
   }
 }

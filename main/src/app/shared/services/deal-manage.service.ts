@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({
@@ -17,6 +17,15 @@ export class DealManageService {
     })
   };
 
+  private options = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+    'Access-Control-Allow-Origin': 'http://localhost:4200',
+    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    responseType: 'text' as 'json'
+  };
+
   constructor(
     public http: HttpClient
   ) { }
@@ -25,19 +34,22 @@ export class DealManageService {
     return this.http.get(this.API + `?page=${currentPage}&limit=${pageSize}`, this.httpOptions);
   }
 
-  deleteDeals(idsToDelete: number[]): Observable<any> {
-    return this.http.put<number[]>(this.API + '/delete', idsToDelete, this.httpOptions);
+  deleteDeals(idsToDelete: number[]): any {
+      const data = {'ids' : idsToDelete};
+      this.http.put<any>(this.API + '/delete', data, this.options).subscribe(data => {
+        console.log(data);
+      });
+      return of({});
   }
-
-  deleteOneDealById(id: number): Observable<any> {
-    return this.http.put<number>(this.API + `/delete/${id}`, this.httpOptions);
-  }
-
   findDealById(id: number): Observable<any> {
     return this.http.get(this.API + `/${id}`, this.httpOptions);
   }
 
-  search(formValue): Observable<any> {
-    return this.http.get(this.API + '/search', formValue);
+  search(formValue: any): Observable<any> {
+    console.log(JSON.stringify(formValue));
+    this.http.post<any>(this.API + '/search', JSON.stringify(formValue), this.options).subscribe(data => {
+      console.log(data);
+    });
+    return of({});
   }
 }
