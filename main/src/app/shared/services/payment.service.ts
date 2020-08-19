@@ -25,7 +25,6 @@ export class PaymentService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
     })
   };
 
@@ -35,7 +34,6 @@ export class PaymentService {
 
   constructor(
     private http: HttpClient,
-    private cartService: CartService
   ) { }
 
   // get all cities/provinces in vietnam
@@ -89,5 +87,19 @@ export class PaymentService {
   confirmTransaction(orderId: string): Observable<IOrderDetails> {
     return this.http.post<IOrderDetails>(`${this.PAYMENT_URL}/confirm-transaction`, orderId);
   }
+
+  // Creator: DUY
+  // get token for visa payment
+  retrieveToken(): Observable<string> {
+    return this.http.get<any>(`${this.PAYMENT_URL}/visa-token`).pipe(
+      map((res: { token: string }) => { return res.token })
+    )
+  }
+
+  // create purchase visa payment 
+  createTransaction(nonce: string): Observable<any> {
+    return this.http.get(`${this.PAYMENT_URL}/visa-create`, { params: { nonce: nonce, userId: '1' } });
+  }
+
 
 }

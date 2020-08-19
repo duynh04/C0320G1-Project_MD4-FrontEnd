@@ -77,7 +77,7 @@
                 </div>
                 <div class="card text-center col-md-3 h-25 ml-2 p-0">
                     <div class="card-header">
-                        <h6>Thanh toán paypal/Visa</h6>
+                        <h6>Thanh toán Paypal/Visa</h6>
                     </div>
                     <div class="card-body">
                         <img src="https://seeklogo.com/images/P/paypal-logo-C83095A82C-seeklogo.com.png">
@@ -93,7 +93,7 @@
                 <div class="row justify-content-center">
                     <div class="px-md-5">
                         <div class="row content_header">
-                            <h3>Chọn ngân hàng:</h3>
+                            <h3>Chọn ngân hàng</h3>
                         </div>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
                                         <button class="btn btn-link btn-block text-left" type="button"
                                             data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
                                             aria-controls="collapseOne">
-                                            Phương thức paypal
+                                            Paypal
                                         </button>
                                     </h2>
                                 </div>
@@ -149,15 +149,16 @@
                                         <button class="btn btn-link btn-block text-left collapsed" type="button"
                                             data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
                                             aria-controls="collapseTwo">
-                                            Phương thức visa
+                                            Visa
                                         </button>
                                     </h2>
                                 </div>
                                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
                                     data-parent="#paysa">
                                     <div class="card-body">
-                                        <ngx-braintree [getClientToken]="getClientTokenFunction"
-                                            [createPurchaseURL]="'api/braintree/createpurchase'" [chargeAmount]="55">
+                                        <ngx-braintree [getClientToken]="getClientTokenFn.bind(this)"
+                                            [createPurchase]="createPurchase.bind(this)"
+                                            (paymentStatus)="onPaymentStatus($event)" [buttonText]="'Pay Now'">
                                         </ngx-braintree>
                                     </div>
                                 </div>
