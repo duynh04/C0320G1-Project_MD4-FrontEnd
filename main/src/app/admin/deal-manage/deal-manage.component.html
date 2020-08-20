@@ -7,7 +7,7 @@
 
   <div class="row mt-3">
     <div class="col">
-        <form class="form" [formGroup]="createForm" (ngSubmit)="search()">
+        <form class="form" [formGroup]="createForm" (ngSubmit)="searchDeals()">
             <div class="row">
                 <div class="col-md">
                     <label for="nameSeller">Người đăng</label>
@@ -40,13 +40,13 @@
             <div class="row mt-3">
                 <div class="col-md">
                     <label for="totalPayment">Thành tiền</label>
-                    <input formControlName="totalPayment" type="text" class="form-control" id="totalPayment" placeholder="Vd: 1.000.000">
+                    <input formControlName="totalPayment" type="text" class="form-control" id="totalPayment" placeholder="Kết quả lớn hơn hoặc bằng giá trị nhập vào">
                     <div *ngIf="createForm.get('totalPayment').invalid && createForm.get('totalPayment').touched">
                       <div *ngIf="createForm.get('totalPayment').hasError('min')">
-                        <p class="text-danger">Vui lòng nhập số lớn hơn 0</p>
+                        <p class="text-danger">Vui lòng nhập số nguyên dương lớn hơn 0</p>
                       </div>
                       <div *ngIf="createForm.get('totalPayment').hasError('pattern')">
-                        <p class="text-danger">Vui lòng nhập chữ số</p>
+                        <p class="text-danger">Vui lòng nhập số nguyên dương</p>
                       </div>
                     </div>
                 </div>
@@ -56,22 +56,23 @@
                         <option selected disabled value="">Chọn...</option>
                         <option value="Thành công">Thành công</option>
                         <option value="Thất bại">Thất bại</option>
+                        <option value="Đang chờ thanh toán">Đang chờ thanh toán</option>
                     </select>
                 </div>
                 <div class="col-md">
                     <label>&nbsp;</label><br>
-                    <button class="btn btn-primary"><i class="fas fa-search"></i> Lọc</button>
-                  </div>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#needToChooseToSearch"><i class="fas fa-search" ></i> Lọc</button>
+                </div>
             </div>
         </form>
         <br>
     </div>
   </div>
-
-      <div class="row">
+  <h6 class="text-success"><b><i>{{searchMessage}}</i></b></h6>
+      <div class="row" >
         <div class="col-md-12">
           <div class="table-responsive">
-            <table id="mytable" class="table table-bordred table-striped">
+            <table id="mytable" class="table table-border table-striped">
               <thead class="bg-primary">
                 <th><input type="checkbox" id="checkall" /></th>
                 <th style="width:10%">Mã giao dịch</th>
@@ -86,28 +87,27 @@
 
               </thead>
               <tbody>
-                <tr *ngFor="let deal of dealList ">
+                <tr *ngFor="let deal of dealList">
                   <td><input type="checkbox" class="checkthis" value={{deal.id}}/></td>
-                  <td>{{deal.code}}</td>
-                  <td>{{deal.winBiddingTime}}</td>
-                  <td>{{deal.nameSeller}}</td>
-                  <td>{{deal.nameBuyer}}</td>
+                  <td>{{deal.id}}</td>
+                  <td>{{deal.winBiddingTime | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+                  <td>{{deal.nameSeller | titlecase}}</td>
+                  <td>{{deal.nameBuyer | titlecase}}</td>
                   <td>{{deal.nameProduct}}</td>
                   <td>{{deal.amount}}</td>
-                  <td>{{deal.totalPayment}}</td>
-                  <td>{{deal.serviceFee}}</td>
-                  <td class="text-success">{{deal.statusOfDeal}}</td>
+                  <td>{{deal.totalPayment | currency:'VND'}}</td>
+                  <td>{{deal.serviceFee | currency:'VND'}}</td>
+                  <td [class]="setcolorFieldStatusOfDeal(deal.statusOfDeal)">{{deal.statusOfDeal}}</td>
                 </tr>
 
               </tbody>
             </table>
 
             <div class="clearfix"></div>
-            <div id="delete-btn-pagination">
+            <div id="delete-btn-pagination" *ngIf="dealList != null">
               <div class="one">
-                <div id="delete-btn" data-placement="top" data-toggle="tooltip" title="Delete">
-                  <button (click)="checkCheckBoxes()" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><i class="far fa-trash-alt"></i> Xóa</button>
-<!--                   <button (click)="checkCheckBoxes()">test</button>-->
+                <div id="delete-btn" data-placement="top" data-toggle="tooltip">
+                  <button (click)="checkCheckBoxes()" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delete" ><i class="far fa-trash-alt"></i> Xóa</button>
                 </div>
               </div>
 
@@ -115,15 +115,12 @@
                 <ul class="pagination justify-content-end">
                   <li class="page-item"><a class="page-link" (click)="goFirstPage()" >Trang đầu</a></li>
                   <li class="page-item"><a class="page-link" (click)="goPreviousPage()">&laquo;</a></li>
-                  <!-- <li class="page-item"><a class="page-link" id="previousCurrentPage"  (click)="goToPage()">{{previousCurrentPage}}</a></li> -->
                   <li class="page-item"><a class="page-link" >{{currentPage}}</a></li>
-                  <!-- <li class="page-item"><a class="page-link" id="nextCurrentPage" (click)="goToPage()">{{nextCurrentPage}}</a></li> -->
                   <li class="page-item"><a class="page-link" (click)="goNextPage()">&raquo;</a></li>
                   <li class="page-item"><a class="page-link" (click)="goLastPage()">Trang cuối</a></li>
                 </ul>
               </nav>
             </div>
-
           </div> <!-- table-responsive -->
         </div> <!--col-->
       </div> <!--row -->
@@ -138,18 +135,24 @@
       </div>
       <div class="modal-body">
         <div class="alert alert-danger">
-          <div *ngIf="arrayIdToDelete">
-            <i class="fas fa-exclamation-triangle"></i> Bạn chắc chắn muốn xóa giao dịch này?<br><br>
-            <ul *ngFor="let id of arrayIdToDelete">
-              <li>Mã giao dịch: {{id}}</li>
-            </ul>
+          <div *ngIf="arrayIdToDelete.length != 0 ; else elseBlock">
+            <div>
+              <i class="fas fa-exclamation-triangle"></i>  Bạn chắc chắn muốn xóa giao dịch này?<br><br>
+              <ul *ngFor="let id of arrayIdToDelete">
+                <li>Mã giao dịch: {{id}}</li>
+              </ul>
+            </div>
           </div>
+          <ng-template #elseBlock>
+              <i class="fas fa-exclamation-triangle"></i>  Vui lòng chọn giao dịch để thực hiện xóa<br><br>
+          </ng-template>
         </div>
-
-      </div>
+      </div> <!--modal-body-->
       <div class="modal-footer ">
-        <button (click)="setDeleteDeals()" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-check-circle"></i> Xóa</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Không</button>
+        <div *ngIf="arrayIdToDelete.length != 0">
+          <button (click)="deleteDeals()" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-check-circle"></i> Xóa</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Không</button>
+        </div>
       </div>
     </div>
       <!-- /.modal-content -->
