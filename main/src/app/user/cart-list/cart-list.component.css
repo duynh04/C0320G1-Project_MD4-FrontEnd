@@ -1,0 +1,13 @@
+.btn-adjust-qty {
+  min-width: 2em;
+}
+
+.input-adjust-qt {
+  max-width: 3em;
+}
+
+.btn-delete-item {
+  position: absolute;
+  bottom: 8px;
+  left: 4px;
+}

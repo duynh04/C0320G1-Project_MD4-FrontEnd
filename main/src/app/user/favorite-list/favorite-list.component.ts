@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {FavoriteProduct} from '../../shared/models/favorite-product';
-import {ProductService} from '../../shared/services/product.service';
+import { Component, OnInit } from '@angular/core';
+import { FavoriteProduct } from '../../shared/models/favorite-product';
+import { map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { FavoriteProductService } from 'src/app/shared/services/favorite-product.service';
 
 @Component({
   selector: 'app-favorite-list',
@@ -10,19 +12,48 @@ import {ProductService} from '../../shared/services/product.service';
 export class FavoriteListComponent implements OnInit {
 
   userId = 2;
-  favoriteProducts: FavoriteProduct[];
-  page = 0;
+  favoriteProducts: Observable<FavoriteProduct[]>;
+  total: number;
+  perPage: number;
+  page = 1;
+  pickedItem: FavoriteProduct;
+  pageBounds: number;
 
-  constructor(private productService: ProductService) {
+  constructor(private favoriteProductService: FavoriteProductService) {
   }
 
   ngOnInit() {
-    this.productService.getFavoriteProductsByUserId(this.userId).subscribe(value => {
-      this.favoriteProducts = value.content;
-      this.page = value.pageable.pageNumber;
-      console.log(this.favoriteProducts);
-      console.log(this.page);
-    });
+    this.getPage(this.page);
   }
 
+  getPage(page: number) {
+    this.favoriteProducts = this.favoriteProductService.getByUserId(this.userId, page - 1).pipe(
+      tap(res => {
+        this.total = res.totalElements;
+        this.perPage = res.size;
+        this.page = page;
+      }),
+      map(res => res.content)
+    );
+  }
+
+  pageBoundsChanged(pageBounds: number) {
+    this.pageBounds = pageBounds;
+  }
+
+  pickItem(item: FavoriteProduct) {
+    this.pickedItem = item;
+  }
+
+  detelePickedItem() {
+    if (this.pickedItem) {
+      this.favoriteProductService.deleteById(this.pickedItem.id).subscribe(() => {
+        if (this.page <= this.pageBounds) {
+          this.getPage(this.page);
+        } else {
+          this.getPage(this.pageBounds);
+        }
+      });
+    }
+  }
 }

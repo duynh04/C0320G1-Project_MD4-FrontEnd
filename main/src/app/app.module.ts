@@ -19,7 +19,7 @@ import { NgxPayPalModule } from 'ngx-paypal';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxPayPalModule
+    NgxPayPalModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

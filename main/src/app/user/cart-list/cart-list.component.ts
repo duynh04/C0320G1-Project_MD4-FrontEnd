@@ -4,6 +4,8 @@ import {Cart} from '../../shared/models/cart';
 import {CartDetail} from '../../shared/models/cart-detail';
 import {ActivatedRoute, Router} from '@angular/router';
 
+declare var $: any;
+
 @Component({
   selector: 'app-cart-list',
   templateUrl: './cart-list.component.html',
@@ -21,7 +23,8 @@ export class CartListComponent implements OnInit {
     private cartService: CartService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.getCart(this.userId);
@@ -54,7 +57,7 @@ export class CartListComponent implements OnInit {
   decreaseQty(i: number): void {
     const cartDetailId = this.cartDetails[i].id;
     const currentQuantity = this.cartDetails[i].productQuantity;
-    this.cartService.updateItem(cartDetailId, currentQuantity - 1).subscribe(value => {
+    this.cartService.updateItem(cartDetailId, currentQuantity - 1).subscribe(() => {
       this.cartDetails[i].productQuantity = currentQuantity - 1;
       this.updateTotalCost();
     });
@@ -65,7 +68,7 @@ export class CartListComponent implements OnInit {
   }
 
   deleteItem() {
-    this.cartService.deleteItem(this.cartDetails[this.deleteIndex].id).subscribe(value => {
+    this.cartService.deleteItem(this.cartDetails[this.deleteIndex].id).subscribe(() => {
       this.cartDetails = this.cartDetails.filter((_, index) => index !== this.deleteIndex);
       this.updateTotalCost();
     });
@@ -75,5 +78,23 @@ export class CartListComponent implements OnInit {
     this.cartService.updateTotalCost(this.cart.id).subscribe(() => {
       this.router.navigate(['payment']);
     });
+  }
+
+  itemQuantityChange(target: any, i: number) {
+    const cartDetailId = this.cartDetails[i].id;
+    const currentQuantity = Number(target.value);
+    if (!Number.isInteger(currentQuantity) || (currentQuantity < 1)) {
+      $('#alertModal').modal('show');
+      this.cartService.updateItem(cartDetailId, 1).subscribe(() => {
+        this.cartDetails[i].productQuantity = 1;
+        target.value = 1;
+        this.updateTotalCost();
+      });
+    } else {
+      this.cartService.updateItem(cartDetailId, currentQuantity).subscribe(() => {
+        this.cartDetails[i].productQuantity = currentQuantity;
+        this.updateTotalCost();
+      });
+    }
   }
 }
