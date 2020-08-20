@@ -11,3 +11,7 @@
   bottom: 8px;
   left: 4px;
 }
+
+#shopping-cart {
+  min-height: 100vh;
+}

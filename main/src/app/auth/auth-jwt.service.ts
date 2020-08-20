@@ -1,8 +1,8 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Injectable} from '@angular/core';
-import {AuthLoginInfo} from './login-info';
-import {JwtResponse} from './jwt-response';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { AuthLoginInfo } from './login-info';
+import { JwtResponse } from './jwt-response';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +14,7 @@ const httpOptions = {
 export class AuthJwtService {
   isLoggedIn = false;
 
-  loginUrl = 'http://localhost:8081/api/v1/login';
+  loginUrl = 'http://localhost:8080/api/v1/login';
   constructor(private http: HttpClient) {
   }
 

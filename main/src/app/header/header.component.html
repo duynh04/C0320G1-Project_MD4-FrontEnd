@@ -12,13 +12,21 @@
                     <a class="nav-link">...<span class="sr-only">(current)</span></a>
                 </li>
             </ul>
-
             <a class="nav-link text-white" routerLink="/product/myProduct">My Product</a>
             <a class="nav-link text-white" routerLink="/auction/myAuction">My Auction</a>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Tìm kiếm</button>
-            </form>
+            <div>
+                <button class="btn btn-primary my-2 my-sm-0 ml-2" *ngIf="!email" (click)="logIn()">Đăng nhập</button>
+                <div class="dropdown" *ngIf="email">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        {{email}}
+                    </button>
+                    <div class="dropdown-menu">
+                        <button class="dropdown-item">Xem hồ sơ</button>
+                        <button class="dropdown-item">Đổi mật khẩu</button>
+                        <button class="dropdown-item" (click)="logOut()">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 </div>
