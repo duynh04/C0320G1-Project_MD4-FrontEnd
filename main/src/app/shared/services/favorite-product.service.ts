@@ -20,7 +20,7 @@ export class FavoriteProductService {
   constructor(private http: HttpClient) { }
 
   getByUserId(userId: number, page: number): Observable<any> {
-    return this.http.get<any>(this.API_PRODUCT_FAVORITE + `/${userId}?page=${page}`, this.httpOptions);
+    return this.http.get<any>(this.API_PRODUCT_FAVORITE + `?userId=${userId}&page=${page}`, this.httpOptions);
   }
 
   deleteById(favoriteProductId: number) {

@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="row my-3 mx-0">
+        <ul class="nav nav-tabs w-100">
+            <li class="nav-item">
+                <a id="cart" class="nav-link" href="/user/cart">Giỏ hàng</a>
+            </li>
+            <li id="favorites" class="nav-item">
+                <a class="nav-link" href="/user/favorite">Danh sách yêu thích</a>
+            </li>
+            <li id="bid" class="nav-item">
+                <a class="nav-link active" href="/user/approved">Danh sách sẽ đấu giá</a>
+            </li>
+            <li id="bid-later" class="nav-item">
+                <a class="nav-link" href="/user/wait-for-approval">Danh sách đấu giá sau</a>
+            </li>
+        </ul>
+    </div>
+    <div class="alert alert-info my-3" role="alert" *ngIf="isEmpty">
+        Không có sản phẩm nào được duyệt thành công!
+    </div>
+    <div class="row mx-0 my-2" id="products">
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"
+            *ngFor="let item of approvedProducts | async | paginate: { itemsPerPage: perPage, currentPage: page, totalItems: total}">
+            <img class="w-100 mb-3" src="{{item.productImages[0].link}}">
+            <p class="truncate mb-2 px-3">{{item.name}}</p>
+            <h5 class="px-3"><span
+                    class="badge badge-pill badge-warning">{{item.startDate | date: 'hh:mm:ss dd/MM/yyyy'}}</span></h5>
+        </div>
+    </div>
+    <div class="d-flex justify-content-end" *ngIf="!isEmpty">
+        <pagination-controls (pageChange)="getPage($event)" (pageBoundsCorrection)="pageBoundsChanged($event)"
+            previousLabel="" nextLabel="" maxSize="5"></pagination-controls>
+    </div>
+</div>

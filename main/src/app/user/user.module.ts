@@ -8,13 +8,17 @@ import { CartListComponent } from './cart-list/cart-list.component';
 import { FavoriteListComponent } from './favorite-list/favorite-list.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoginComponent } from './login/login.component';
+import { ApprovedListComponent } from './approved-list/approved-list.component';
+import { WaitForApprovalComponent } from './wait-for-approval/wait-for-approval.component';
 
 
 @NgModule({
   declarations: [CartListComponent,
     UserUpdateComponent,
     LoginComponent,
-    FavoriteListComponent],
+    FavoriteListComponent,
+    ApprovedListComponent,
+    WaitForApprovalComponent],
   imports: [
     CommonModule,
     UserRoutingModule,

@@ -18,6 +18,7 @@ export class FavoriteListComponent implements OnInit {
   page = 1;
   pickedItem: FavoriteProduct;
   pageBounds: number;
+  isEmpty = true;
 
   constructor(private favoriteProductService: FavoriteProductService) {
   }
@@ -32,6 +33,7 @@ export class FavoriteListComponent implements OnInit {
         this.total = res.totalElements;
         this.perPage = res.size;
         this.page = page;
+        this.isEmpty = res.totalElements === 0;
       }),
       map(res => res.content)
     );
