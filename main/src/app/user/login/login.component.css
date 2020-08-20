@@ -1,0 +1,65 @@
+.hr-text {
+  line-height: 1em;
+  position: relative;
+  outline: 0;
+  border: 0;
+  text-align: center;
+  height: 1.5em;
+  opacity: 0.5;
+}
+
+.hr-text:before {
+  content: '';
+  background: linear-gradient(to right, transparent, #000000, transparent);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+}
+
+.hr-text:after {
+  content: attr(data-content);
+  position: relative;
+  display: inline-block;
+  padding: 0 0.5em;
+  line-height: 1.5em;
+  color: #000000;
+  background-color: white;
+}
+
+.modal-header {
+  margin: 0;
+  width: 100%;
+  height: 60px;
+  position: relative;
+  background-color: #3B5998;
+}
+
+.modal-header p {
+  color: white;
+  font-weight: bolder;
+  margin-left: 35px;
+}
+
+#icon-fb {
+  width: 30px;
+  height: 30px;
+
+}
+
+#avatar {
+  width: 30px;
+  height: 30px;
+}
+
+#daugia {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+#cancel{
+  background-color: #f8f8eb;
+  color: #8d918e;
+  border: none;
+}

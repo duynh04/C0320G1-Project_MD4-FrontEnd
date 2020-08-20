@@ -62,7 +62,7 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
       instruction: [''],
       isUpdate: [false]
     });
-    this.subscr[1] = this.paymentService.getAddress('1').subscribe((user: DeliveryAddressDTO) => {
+    this.subscr[1] = this.paymentService.getAddress('12').subscribe((user: DeliveryAddressDTO) => {
       if (user.addresses.length == 0) {
         this.addressForm.patchValue({
           fullName: user.fullname,
@@ -92,8 +92,13 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
     let deliveryAddress = this.addressForm.value as DeliveryAddress;
     deliveryAddress.id = this.address_id;
     if (this.isUpdate.value) {
+<<<<<<< HEAD
       deliveryAddress.phoneNumber = "01234413413";
       deliveryAddress.user = { id: 1 };
+=======
+      // deliveryAddress.phoneNumber = "01234413413";
+      deliveryAddress.user = { id: 12 };
+>>>>>>> 05ea8dce44583589c0fe22be13bef850585baef5
       this.paymentService.updateLatestAddress(deliveryAddress).subscribe((res) => {
         if (res != null) {
           console.log(res);
@@ -133,6 +138,17 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
     })
   }
 
+  autoTrim(field, $event) {
+    if (field == 'street') {
+      this.addressForm.patchValue({
+        street: ($event.target.value as string).trim()
+      });
+    } else {
+      this.addressForm.patchValue({
+        phoneNumber: ($event.target.value as string).trim()
+      });
+    }
+  }
   // getter
 
   get fullName() {
