@@ -9,6 +9,7 @@ import { DeliveryAddressComponent } from './delivery-address/delivery-address.co
 import { PaymentOptionComponent } from './payment-option/payment-option.component';
 import { PaymentInvoiceComponent } from './payment-invoice/payment-invoice.component';
 import { OrderStatusComponent } from './order-status/order-status.component';
+import { NgxBraintreeModule } from 'ngx-braintree';
 
 registerLocaleData(localeVi);
 @NgModule({
@@ -25,6 +26,7 @@ registerLocaleData(localeVi);
     ReactiveFormsModule,
     NgxPayPalModule,
     FormsModule,
+    NgxBraintreeModule
   ],
   providers: [
     {

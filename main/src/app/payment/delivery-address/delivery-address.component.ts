@@ -133,6 +133,17 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
     })
   }
 
+  autoTrim(field, $event) {
+    if (field == 'street') {
+      this.addressForm.patchValue({
+        street: ($event.target.value as string).trim()
+      });
+    } else {
+      this.addressForm.patchValue({
+        phoneNumber: ($event.target.value as string).trim()
+      });
+    }
+  }
   // getter
 
   get fullName() {
