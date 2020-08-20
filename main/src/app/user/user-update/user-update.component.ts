@@ -1,11 +1,8 @@
-//creator: Nguyễn Xuân Hùng
 import {Router} from '@angular/router';
 import {UserUpdateDto} from '../../shared/models/dtos/UserUpdateDto';
-
 import {Component, OnInit, ElementRef, ViewChild, AfterViewInit} from '@angular/core';
 import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import {UserService} from 'src/app/shared/services/user.service';
-
 @Component({
   selector: 'app-user-update',
   templateUrl: './user-update.component.html',
@@ -59,7 +56,7 @@ export class UserUpdateComponent implements OnInit, AfterViewInit {
       gender: ['', [Validators.required]],
       address: ['', [Validators.required]]
     });
-    this.userService.getUserById('1').subscribe(data => {
+    this.userService.getUserById('2').subscribe(data => {
 
       this.userForm.patchValue(data);
     }, error => {
@@ -75,14 +72,14 @@ export class UserUpdateComponent implements OnInit, AfterViewInit {
     this.user.newPassword = this.userForm.get('pwGroup').get('newPassword').value;
     this.user.confirmPassword = this.userForm.get('pwGroup').get('confirmPassword').value;
     this.user.id = Number.parseInt(localStorage.getItem('id'));
-    this.user.id = 1;
-    this.userService.updateUser(this.userForm.value, '1').subscribe(data => {
+    this.user.id = 2;
+    this.userService.updateUser(this.userForm.value, '2').subscribe(data => {
       console.log(data.backendMessage);
       this.backendMessages = data.backendMessage;
     }, error => {
       this.errorMessage = 'Cập nhật tài khoản thất bại';
     }, () => {
-      if (this.backendMessages.length == 0) {
+      if (this.backendMessages.length === 0) {
         this.message = 'Cập nhật tài khoản thành công';
       }
       this.ngOnInit();

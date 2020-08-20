@@ -27,7 +27,6 @@ function createCaptcha() {
 }
 
 function validateCaptcha() {
-    let checkCode=false
     let captchaCode;
     captchaCodeWarning = ""
     event.preventDefault();
@@ -41,19 +40,8 @@ function validateCaptcha() {
         captchaCodeWarning = "Nhập sai mã xác minh, Vui lòng thử lại";
         document.getElementById("warningCaptchaCode").innerHTML = captchaCodeWarning;
     }else {
-       checkCode=true
-    }
-    if (checkCode === true){
-        document.getElementById("warningCaptchaCode").innerHTML = "";
-        return true
+      return true
     }
 }
-function checkCheckBox() {
-  var checkbox = document.getElementById("agree");
-  if (checkbox.checked === true) {
-    document.getElementById("registration").disabled = false;
-  } else {
-    document.getElementById("registration").disabled = true;
-  }
-}
+
 
