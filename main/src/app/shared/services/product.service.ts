@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {AbstractControl} from '@angular/forms';
-import {ProductCreateDTO} from '../models/dtos/ProductCreateDTO ';
+import {ProductDto} from '../models/dtos/ProductDto ';
+import {Product} from '../models/product';
 
 @Injectable({
   providedIn: 'root'
@@ -18,25 +19,25 @@ export class ProductService {
     })
   };
 
-  getProducts(): Observable<ProductCreateDTO[]> {
-    return this.http.get<ProductCreateDTO []>(this.API_URL);
+  getProductList(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.API_URL);
   }
 
-  addProduct(productCreateDto: AbstractControl): Observable<ProductCreateDTO > {
-    return this.http.post<ProductCreateDTO >(this.API_URL, JSON.stringify(productCreateDto), this.httpOptions);
+  addProduct(productCreateDto: AbstractControl): Observable<ProductDto > {
+    return this.http.post<ProductDto >(this.API_URL, JSON.stringify(productCreateDto), this.httpOptions);
   }
 
   deleteProduct(id: number): Observable<any> {
     return this.http.delete(`${this.API_URL}/${id}`, this.httpOptions);
   }
 
-  getProductById(id: number): Observable<ProductCreateDTO > {
-    return this.http.get<ProductCreateDTO >(this.API_URL + '/' + id);
+  getProductById(id: number): Observable<ProductDto > {
+    return this.http.get<ProductDto >(this.API_URL + '/' + id);
   }
 
 
-  editProduct(productCreateDto, id): Observable<ProductCreateDTO > {
-    return this.http.put<ProductCreateDTO >(this.API_URL + '/' + id, productCreateDto);
+  editProduct(productCreateDto, id): Observable<ProductDto > {
+    return this.http.put<ProductDto >(this.API_URL + '/' + id, productCreateDto);
   }
 }
 

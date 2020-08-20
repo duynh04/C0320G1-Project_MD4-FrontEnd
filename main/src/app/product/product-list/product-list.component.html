@@ -1,73 +1,251 @@
-
-<div class="row mx-5 p-0" style="background-color: #c4c4c4; height: 300px; align-items: center;justify-content: center">
-
-</div>
-
-<div class="row mx-5 px-0 mt-2">
-  <div class="row mx-0 px-0">
-    <form [formGroup]="form">
-      <div formArrayName="products" *ngFor="let arr of form.controls.products?.value; let i = index; trackBy:trackByFn">
-        <div [formGroupName]="i">
-          <div class="row m-0 p-0 d-flex">
-            <table aria-describedby="danhsach" class="table" style="margin-bottom: 0px">
-              <tbody>
-              <tr id="row1" style="height: 20px; margin-bottom: 5px">
-                <td >
-                  <input style="width: 100px" type="text" placeholder="Tên sản phẩm" formControlName="name" class="form-control">
-                </td>
-                <td>
-                  <input style="width: 100px" placeholder="Giá ban đầu" formControlName="initialPrice" class="form-control">
-                </td>
-                <td>
-                  <input style="width: 100px" placeholder="Bước giá" formControlName="increaseAmount" class="form-control">
-                </td>
-                <td>
-                  <input type="date" placeholder="Ngày đăng" formControlName="registerDate" class="form-control">
-                </td>
-                <td>
-                  <input type="date" placeholder="Thời gian bắt đầu" formControlName="startDate" class="form-control">
-                </td>
-                <td>
-                  <input type="date" placeholder="Thời gian kết thúc" formControlName="endDate" class="form-control">
-                </td>
-                <td style="height: 37.097px; width: 170px">
-                  <textarea style="height: 37.097px" placeholder="Thông tin chi tiết" formControlName="description" class="form-control"></textarea>
-                </td>
-                <td style="width: 195px">
-                  <select formControlName="ownerId" class="form-control">
-                    <option selected disabled value="">Chọn Trạng thái duyệt</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                  </select>
-                </td>
-                <td style="width: 165px">
-                  <select  formControlName="categoryId" class="form-control">
-                    <option selected disabled value="">Chọn chủng loại</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                  </select>
-                </td>
-                <td style="width: 195px">
-                  <select formControlName="ownerId" class="form-control">
-                    <option selected disabled value="">Chọn ID người đăng</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                  </select>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
+<div class="container-fluid px-0">
+  <h1 class="mt-2 text-center">Quản lý sản phẩm</h1>
+<!--  search product-->
+  <form [formGroup]="formSearchList">
+    <div class="container px-0">
+      <div class="row mt-3">
+        <div class="form-group col-md-4">
+          <label class="col-form-label mr-2">Tên sản phẩm</label>
+          <input class="form-control" type="text" placeholder="Vd: Nồi Cơm Điện" formControlName="name">
+          <p *ngIf="formSearchList.controls.name.errors?.pattern && formSearchList.controls.name.touched"
+             class="text-danger font-weight-bold">
+            Trường này không được chứa kí tự đặc biệt !!</p>
+        </div>
+        <div class="form-group col-md-4">
+          <label class="col-form-label mr-2">Loại sản phẩm</label>
+          <select class="custom-select">
+            <option selected disabled value="">Chọn...</option>
+            <option>Tất cả</option>
+            <option>Điện tư</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label class="col-form-label mr-2">Người đăng</label>
+          <input class="form-control" type="text" placeholder="Vd: Nguyễn Văn A" formControlName="owner">
+          <p *ngIf="formSearchList.controls.owner.errors?.pattern && formSearchList.controls.owner.touched"
+             class="text-danger font-weight-bold">
+            Trường này không được chứa kí tự đặc biệt !!</p>
         </div>
       </div>
-      <div class="row m-0 p-0 mt-2">
-        <button (click)="addGroup()" class="btn btn-primary mr-1">Thêm mới</button>
-        <button type="submit" (click)="createNewProduct()" class="btn btn-primary mr-1">Lưu</button>
-        <button (click)="removeGroup(i)" class="btn btn-primary mr-1">Xóa</button>
-        <br>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label class="col-form-label mr-2">Giá</label>
+          <select class="custom-select">
+            <option selected disabled value="">Chọn...</option>
+            <option>Tất cả</option>
+            <option>Từ 0 đến 100.000 VND</option>
+            <option>Từ 100.000 đến 500.000 VND</option>
+            <option>Từ 500.000 đến 1.000.000 VND</option>
+            <option>Từ 1.000.000 đến 5.000.000 VND</option>
+            <option>Trên 5.000.000 VND</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label class="col-form-label mr-2">Tình trạng</label>
+          <select class="custom-select">
+            <option selected disabled value="">Chọn...</option>
+            <option value="Tất cả">Tất cả</option>
+            <option value="Chưa đấu giá">Chưa đấu giá</option>
+            <option value="Đang đấu giá">Đang đấu giá</option>
+            <option value="Đã đấu giá">Đã đấu giá</option>
+          </select>
+        </div>
+        <div class="col-md-4 form-group" style="margin-top: -2px;">
+          <label>&nbsp;</label><br>
+          <button type="button" class="btn btn-primary mt-2" style="width: 360px"><i
+            class="fas fa-search"></i> Lọc
+            kết quả
+          </button>
+        </div>
       </div>
-    </form>
+    </div>
+  </form>
 
+<!--  List product-->
+  <div class="container">
+<!--    <div class="row justify-content-center mt-3">-->
+<!--      <form [formGroup]="formEditListRow">-->
+<!--      <table class="table mt-2 table-striped">-->
+<!--        <thead style="background-color: #189EFF; color: white;">-->
+<!--        <tr>-->
+<!--          <th>STT</th>-->
+<!--          <th>Chọn</th>-->
+<!--          <th>ID sản phẩm</th>-->
+<!--          <th>Tên sản phẩm</th>-->
+<!--          <th>Chủng loại</th>-->
+<!--          <th>Người đăng</th>-->
+<!--          <th>Giá ban đầu</th>-->
+<!--          <th>Trạng thái duyệt</th>-->
+<!--          <th>Tình trạng</th>-->
+<!--          <th>Chi tiết sản phẩm</th>-->
+<!--          <th>Hình ảnh</th>-->
+<!--          <th>Hành động</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+
+
+<!--        <tr *ngFor="let product of products | async">-->
+<!--          <td>{{product.id}}</td>-->
+<!--          <td><input type="checkbox"></td>-->
+<!--          <td>-->
+<!--            <input [name]="'displayData'+ product.id" [value]="product.id" disabled class="form-control" style="background-color: transparent; border-color: transparent">-->
+<!--            <input [name]="'inputData'+ product.id" type="text" formControlName="id"-->
+<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product.id" disabled>-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            <input [name]="'displayData'+ product.id" [value]="product.name" [routerLink]="['/admin/approvement/', product.id]" disabled class="form-control" style="background-color: transparent; border-color: transparent">-->
+<!--            <input [name]="'inputData'+ product.id" type="text" formControlName="name"-->
+<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product.name">-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            <input [name]="'displayData'+ product.id" [value]="product.category.name" disabled class="form-control" style="background-color: transparent; border-color: transparent">-->
+<!--            <input [name]="'inputData'+ product.id" type="text" formControlName="categoryId"-->
+<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product.category.id">-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            <input [name]="'displayData'+ product.id" [value]="product.owner.fullName" disabled class="form-control" style="background-color: transparent; border-color: transparent">-->
+<!--            <input [name]="'inputData'+ product.id" type="text" formControlName="ownerId"-->
+<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product.owner.id">-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            <input [name]="'displayData'+ product.id" [value]="product.initialPrice" disabled class="form-control" style="background-color: transparent; border-color: transparent">-->
+<!--            <input [name]="'inputData'+ product.id" type="text" formControlName="initialPrice"-->
+<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product.initialPrice">-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            <input [name]="'displayData'+ product.id" [value]="product.approvementStatus.name" disabled class="form-control" style="background-color: transparent; border-color: transparent">-->
+<!--            <input [name]="'inputData'+ product.id" type="text" formControlName="approvementStatusId"-->
+<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product.approvementStatus.id">-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            <input [name]="'displayData'+ product.id" [value]="product" disabled class="form-control">-->
+<!--            <input [name]="'inputData'+ product.id" type="text"-->
+<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product">-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            <input [name]="'displayData'+ product.id" [value]="product.description" disabled class="form-control" style="background-color: transparent; border-color: transparent">-->
+<!--            <input [name]="'inputData'+ product.id" type="text" formControlName="description"-->
+<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product.description">-->
+<!--          </td>-->
+<!--&lt;!&ndash;          <td>&ndash;&gt;-->
+<!--&lt;!&ndash;            <input [name]="'displayData'+ product.id" [value]="product.productImages" disabled class="form-control">&ndash;&gt;-->
+<!--&lt;!&ndash;            <input [name]="'inputData'+ product.id" type="file" formControlName="productImages"&ndash;&gt;-->
+<!--&lt;!&ndash;                   class="form-control" style="display: none" [value]="product.productImages">&ndash;&gt;-->
+<!--&lt;!&ndash;          </td>&ndash;&gt;-->
+<!--          <td>-->
+<!--          <div style="margin: 0px;padding: 0px;display: flex;flex-direction: row">-->
+<!--            <button [name]="'editData'+ product.id" class="btn btn-primary" (click)="editRowData(product.id)">Sửa</button>-->
+<!--            <button [name]="'saveData'+ product.id" class="btn btn-primary" (click)="editRowData(product.id)" style="display: none;margin-right: 2px">Lưu</button>-->
+<!--            <button [name]="'cancelEdit'+ product.id" class="btn btn-primary" (click)="cancelEdit(product.id)" style="display: none">Thoát</button>-->
+<!--          </div>-->
+<!--          </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--      </table>-->
+<!--      </form>-->
+<!--    </div>-->
+    <!--    creator Tu-->
+    <!--    direct add new product from list of product-->
+    <div class="row justify-content-center mt-1">
+      <form [formGroup]="formArray" style="overflow-x: auto">
+        <ng-container *ngFor="let form of formArray.controls;let i=index" [formGroup]="form">
+          <table aria-describedby="danhsach" class="table" style="margin-bottom: 0px">
+            <tbody>
+            <tr id="row1" style="height: 20px; margin-bottom: 5px">
+              <td>
+                <button class="btn btn-primary mr-2" (click)="removeGroup(formArray.at(i))">Xóa</button>
+              </td>
+              <td >
+                <input required style="width: 150px" type="text" placeholder="Tên sản phẩm" formControlName="name" class="form-control">
+                <i class="alert-danger" role="alert" *ngIf="form.get('name').hasError('required') && form.get('name').touched"> Tên sản phẩm bắt buộc nhập </i>
+                <i class="alert-danger" role="alert" *ngIf="form.get('name').hasError('pattern') && form.get('name').touched"> Tên sản phẩm không được chứa ký tự đặc biệt</i>
+<!--                <i class="alert-danger" role="alert" *ngIf="group.get('name').hasError('pattern') && group.get('name').touched"> Tên sản phẩm không được không chứa khoảng trắng</i>-->
+              </td>
+              <td>
+                <ng-container>
+                  <select style="width: 180px" formControlName="categoryId" class="form-control">
+                    <option selected disabled value="">Chọn chủng loại</option>
+                    <option *ngFor="let category of listCategory" [ngValue]="category.id">
+                      {{category.name}}
+                    </option>
+                  </select>
+                </ng-container>
+                <i class="alert-danger" role="alert" *ngIf="form.get('categoryId').hasError('required') && form.get('categoryId').touched"> Vui chọn chọn chủng loại sản phẩm  </i>
+              </td>
+              <td>
+                <input style="width: 150px" placeholder="ID người đăng" formControlName="ownerId" class="form-control">
+                <i class="alert-danger" role="alert" *ngIf="form.get('ownerId').hasError('required') && form.get('ownerId').touched"> Id người đăng bắt buộc nhập </i>
+              </td>
+              <td>
+                <select style="width: 180px" formControlName="approvementStatusId" class="form-control">
+                  <option selected disabled value="">Chọn Trạng thái</option>
+                  <option *ngFor="let approvementStatus of listApprovementStatuses" [ngValue]="approvementStatus.id">
+                    {{approvementStatus.name}}
+                  </option>
+                </select>
+                <i class="alert-danger" role="alert" *ngIf="form.get('approvementStatusId').hasError('required') && form.get('approvementStatusId').touched"> Vui chọn trạng thái duyệt  </i>
+              </td>
+              <td>
+                <input style="width: 150px" placeholder="Giá ban đầu" formControlName="initialPrice" class="form-control">
+                <i class="alert-danger" role="alert" *ngIf="form.get('initialPrice').hasError('required') && form.get('initialPrice').touched"> Vui lòng nhập giá ban đầu của sản phẩm  </i>
+              </td>
+              <td>
+                <input style="width: 150px" placeholder="Bước giá" formControlName="increaseAmount" class="form-control">
+                <i class="alert-danger" role="alert" *ngIf="form.get('increaseAmount').hasError('required') && form.get('increaseAmount').touched"> Vui lòng nhập giá ban đầu của sản phẩm  </i>
+              </td>
+              <td  style="height: 37.097px">
+                <textarea style="height: 37.097px; width: 200px" placeholder="Thông tin chi tiết" formControlName="description" class="form-control"></textarea>
+                <i class="alert-danger" role="alert" *ngIf="form.get('description').hasError('required') && form.get('description').touched"> Vui lòng nhập thông tin sản phẩm  </i>
+              </td>
+              <!--                  <td  style="height: 37.097px">-->
+              <!--                    <input type="file" style="height: 37.097px; width: 200px; margin: 0px; padding: 3px" placeholder="Hình ảnh" formControlName="productImages" class="form-control">-->
+              <!--                  </td>-->
+              <td>
+                <input style="width: 200px" type="date" placeholder="Ngày đăng" formControlName="registerDate" class="form-control">
+                <i class="alert-danger" role="alert" *ngIf="form.get('registerDate').hasError('required') && form.get('registerDate').touched"> Vui lòng nhập thời gian đăng ký  </i>
+              </td>
+              <td>
+                <input style="width: 200px" type="date" placeholder="Thời gian bắt đầu" formControlName="startDate" class="form-control">
+                <i class="alert-danger" role="alert" *ngIf="form.get('startDate').hasError('required') && form.get('startDate').touched"> Vui lòng nhập thời gian bắt đầu  </i>
+              </td>
+              <td>
+                <input style="width: 200px" type="date" placeholder="Thời gian kết thúc" formControlName="endDate" class="form-control">
+                <i class="alert-danger" role="alert" *ngIf="form.get('endDate').hasError('required') && form.get('endDate').touched"> Vui lòng nhập thời gian kết thúc  </i>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </ng-container>
+      </form>
+    </div>
+    <div class="row d-flex justify-content-between mt-3">
+      <div>
+        <button class="btn btn-danger mr-3"><i class="far fa-trash-alt"></i> Xóa</button>
+        <button class="btn btn-success mr-3" (click)="addRow()"><i class="fas fa-plus-square"></i> Thêm sản phẩm</button>
+        <button class="btn btn-primary" (click)=" createNewProduct()"><i class="fas fa-save"></i> Lưu sản phẩm</button>
+      </div>
+      <div>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
   </div>
 </div>
+
 

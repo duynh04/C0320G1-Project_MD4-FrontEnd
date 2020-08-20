@@ -18,7 +18,7 @@ export class OrderStatusComponent implements OnInit {
   ngOnInit() {
     this.orderService.getOrderByBuyerId(1).subscribe((data) => {
       this.order = data;
-      if (data.deliverMethod == "Giao hàng tiêu chuẩn") {
+      if (data.deliverMethod === 'Giao hàng tiêu chuẩn') {
         this.deliveryPrice = 50000;
       } else {
         this.deliveryPrice = 100000;
