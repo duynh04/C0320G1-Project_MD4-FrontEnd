@@ -1,9 +1,11 @@
+import { Observable } from 'rxjs';
 import { TestUser } from './../../shared/models/dtos/test-user';
 import { Error, ErrorDetail } from './../../shared/models/dtos/error-detail';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Product } from './../../shared/models/product';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ProductService } from 'src/app/shared/services/product.service';
+import { tap, map } from 'rxjs/operators';
 
 
 @Component({
@@ -14,26 +16,18 @@ import { ProductService } from 'src/app/shared/services/product.service';
 export class MyProductsComponent implements OnInit {
 
   @ViewChild('focusOn',{static: true}) private elementRef: ElementRef;
-  myProductList : Product[];
+  myProductList: Observable<Product[]>;
   stt: number[] ;
   cancelProduct : Product;
   ownerId : number = 1;
   productName : string = "";
-
-  // get productName() {
-  //   return this._productName;
-  // }
-
-  // set productName(a) {
-  //   this._productName = a; 
-  // }
-
   approvementStatusName : string = "";
   currentProductName = "";
   currentApprovementStatusName = "";
-  page : number = 0;
-  totalPages : number;
+  currentPage : number;
   pageSize : number;
+  totalElements : number;
+  isEmpty : boolean = false;
 
   constructor(
     private productService : ProductService
@@ -59,65 +53,45 @@ export class MyProductsComponent implements OnInit {
   }
 
   cancelRegister() {
-    this.productService.cancelRegister(this.ownerId,this.productName,this.approvementStatusName,
-      this.cancelProduct.id,this.page).subscribe(data => {
-        this.myProductList = data.content;
-        this.stt = [];
-        let firstIndex = this.pageSize*this.page + 1;
-        let lastIndeex = this.pageSize*(this.page + 1);
-        for (let i = firstIndex; i <= lastIndeex; i++) {
-        this.stt.push(i);
-      }
-      });
-  }
-
-  previous() {
-    if(this.page > 0) {
-      this.page = this.page - 1;
-      this.getMyProducts();
-    }
-  }
-
-  next() {
-    if( (this.page + 1) < this.totalPages) {
-      this.page = this.page + 1;
-      this.getMyProducts();
-    }
+    this.myProductList = this.productService.cancelRegister(this.ownerId,this.productName,this.approvementStatusName,
+      this.cancelProduct.id,this.currentPage - 1).pipe(
+        map(res => res.content)
+      )
   }
 
   search() {
-    this.page = 0;
     this.productName = this.currentProductName.trim();
     this.approvementStatusName = this.currentApprovementStatusName.trim();
-    this.getMyProducts();
+    this.getPage(1);
   }
 
-  getMyProducts() {
-    this.productService.getMyProducts(this.ownerId,this.productName,this.approvementStatusName,this.page)
-    .subscribe(data => {
-      if (data != null) {
-        this.myProductList = data.content;
-        this.totalPages = data.totalPages;
-        this.pageSize = data.size;
+  getPage(pageNumber: number) {
+    this.myProductList = this.productService.getMyProducts(this.ownerId,this.productName,this.approvementStatusName,pageNumber - 1).pipe(
+      tap(res => {
+        this.totalElements = res.totalElements;
+        this.pageSize = res.size;
+        this.currentPage = pageNumber;
+
         this.stt = [];
-        let firstIndex = this.pageSize*this.page + 1;
-        let lastIndeex = this.pageSize*(this.page + 1);
+        let firstIndex = this.pageSize*(this.currentPage - 1) + 1;
+        let lastIndeex = this.pageSize*this.currentPage;
         for (let i = firstIndex; i <= lastIndeex; i++) {
           this.stt.push(i);
         }
-      } else {
-        this.myProductList = [];
-        this.totalPages = 0;
-        this.page = -1;
-      }
-       
-    })
+
+        this.isEmpty = false;
+        if (res.content.length == 0) {
+          this.isEmpty = true;
+        }
+      }),
+      map(res => res.content)
+    );
   }
+
 
   ngOnInit() {
     this.elementRef.nativeElement.focus();
-    this.getMyProducts();
-    // this.testError();
+    this.getPage(1);
   }
 
   // testError() {

@@ -32,7 +32,7 @@
     
     <div class="row mt-3">
         <div class="col">
-            <div *ngIf=" myAuctionRecordList.length == 0" class="text-danger">
+            <div *ngIf="isEmpty" class="text-danger">
                 <h5> Không tìm thấy dữ liệu phù hợp </h5>
             <br>
             </div>
@@ -50,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let auctionRecord of myAuctionRecordList; index as i">
+                    <tr *ngFor="let auctionRecord of myAuctionRecordList | async | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalElements}; index as i">
                         <th>{{stt[i]}}</th>
                         <td>{{auctionRecord.auction.product.id}}</td>
                         <td>{{auctionRecord.auction.product.name}}</td>
@@ -66,23 +66,7 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-end">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link text-primary" (click)="previous()" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link text-primary" >{{page + 1}}</a></li>
-            <li class="page-item"><a class="page-link text-primary" >/</a></li>
-            <li class="page-item"><a class="page-link text-primary" >{{totalPages}}</a></li>
-            <li class="page-item">
-                <a class="page-link text-primary" (click)="next()" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-            </ul>
-        </nav>
+    <div class="mt-3 d-flex justify-content-end">
+        <pagination-controls (pageChange)="getPage($event)"></pagination-controls>
     </div>
 </div>
