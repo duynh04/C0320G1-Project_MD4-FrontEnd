@@ -7,8 +7,8 @@
   height: 60px;
   width: 60px;
   position: fixed;
-  bottom: 20px;
-  right: 150px;
+  bottom: 24px;
+  right: 24px;
   opacity: 0.9;
   z-index: 1;
 }
@@ -50,7 +50,7 @@
 .form-container .sendMessenger .text-messenger {
   padding: 5px;
   border: 0;
-  width: 80%;
+  width: 100%;
   border: none ;
 }
 
@@ -111,4 +111,16 @@
 }
 .face-book {
   display: none;
+}
+
+/*notification user Join rom*/
+.join-rom {
+  color: mediumvioletred;
+  text-align: center;
+  width: 100%;
+  height: auto;
+  background-color: yellow;
+  border-radius: 5px;
+  margin: 5px;
+  font-weight: bolder;
 }

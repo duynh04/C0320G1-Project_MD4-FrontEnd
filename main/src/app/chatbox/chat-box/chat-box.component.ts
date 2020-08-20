@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import * as io from 'socket.io-client';
-import {element} from "protractor";
+
 
 const SOCKET_ENDPOINT = 'https://chatbot-facbook.herokuapp.com/';
 
@@ -36,20 +36,36 @@ export class ChatBoxComponent implements OnInit {
         document.getElementById('message-list').appendChild(element);
       }
     });
+
+    this.socket.on('guest-broadcast', (data: string) => {
+      const element = document.createElement('p');
+      element.classList.add('join-rom');
+      element.innerHTML = data;
+      element.style.color = 'mediumvioletred';
+      element.style.textAlign = 'center';
+      element.style.background = 'yellow';
+      element.style.width = '100%';
+      element.style.height = 'auto';
+      element.style.borderRadius = '3px';
+      document.getElementById('message-list').appendChild(element);
+    });
   }
 
   SendMessage() {
-    this.message ="<span style='color: red ; font-weight: bold'>" + this.guestid + ' : '+"</span>" + this.message;
-    this.socket.emit('message', this.message);
-    const element = document.createElement('p');
-    element.innerHTML = this.message;
-    element.style.background = 'black';
-    element.style.padding = '10px 10px';
-    element.style.margin = '10px';
-    element.style.color = 'white';
-    element.style.textAlign = 'right';
-    element.style.borderRadius = '8px';
-    document.getElementById('message-list').appendChild(element);
+    if (this.message.trim() !== '') {
+      this.message ="<span style='color: red ; font-weight: bold'>" + this.guestid + ' : '+"</span>" + this.message;
+      this.socket.emit('message', this.message);
+      const element = document.createElement('p');
+      element.innerHTML = this.message;
+      element.style.background = 'black';
+      element.style.padding = '10px 10px';
+      element.style.margin = '10px';
+      element.style.color = 'white';
+      element.style.textAlign = 'right';
+      element.style.borderRadius = '8px';
+      document.getElementById('message-list').appendChild(element);
+      this.message = '';
+    }
     this.message = '';
   }
 
@@ -62,4 +78,6 @@ export class ChatBoxComponent implements OnInit {
     element.style.fontWeight = 'bold';
     document.getElementById('message-list').appendChild(element);
   }
+
+
 }

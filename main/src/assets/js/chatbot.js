@@ -68,5 +68,4 @@ function loginFB() {
   document.getElementById('fb-root').style.display = 'block';
   document.getElementById("draggable").style.display = "none";
   document.getElementById("loginForm").style.display = "none";
-
 }
