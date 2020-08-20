@@ -7,25 +7,34 @@
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
       <div class="card my-5">
         <div class="card-body">
-          <h2 style="color: #007bff" class="card-title text-center">ĐĂNG NHẬP</h2>
+          <h2 id="title"  class="card-title text-center">ĐĂNG NHẬP</h2>
 
           <div class="form-group">
             <label>Tài khoản</label>
             <div class="input-group">
-              <input id="name" type="email" class="form-control" formControlName="username" placeholder="Tên đăng nhập" >
+              <input id="name" type="email" class="form-control" formControlName="email" placeholder="Email của bạn" >
             </div>
-            <small class="d-block text-danger" id="checkName"></small>
+            <small class="d-block text-danger"
+                   *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">
+              <span *ngIf="loginForm.get('email').hasError('required')">Email không được để trống </span>
+              <span *ngIf="loginForm.get('email').hasError('validateWhitespace')">Email không được để trống</span>
+              <span *ngIf="loginForm.get('email').hasError('pattern')">Email sai định dạng</span>
+            </small>
           </div>
 
           <div class="form-group">
             <label>Mật khẩu</label>
             <div class="input-group align-items-center">
-              <input class="form-control" placeholder="******" id="password" type="password" formControlName="password">
-<!--              <div class="input-group-append">-->
-<!--                <span class="input-group-text ">   <span class="far fa-eye" id="togglePassword"></span></span>-->
-<!--              </div>-->
+              <input class="form-control" placeholder="******" type="password" id="password" formControlName="password">
+              <div class="input-group-append">
+<!--                <button type="button" class="input-group-text " id="togglePassword">   <span class="far fa-eye" ></span></button>-->
+                <button type="button" id="togglePassword" class="input-group-text "> <span class="far fa-eye" ></span></button>
+              </div>
             </div>
-            <small class="d-block text-danger" id="checkPass"></small>
+            <small class="d-block text-danger"
+              *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
+              <span *ngIf="loginForm.get('password').hasError('required')">Mật khẩu không được để trống</span>
+            </small>
           </div>
 
           <div class="custom-control custom-checkbox mb-3">
@@ -33,8 +42,10 @@
             <label class="custom-control-label" for="customCheck1">Nhớ mật khẩu</label>
             <a class="float-right" href="#">Quên mật khẩu?</a>
           </div>
-          <button class="btn btn-primary btn-block text-uppercase" type="submit">Đăng Nhập
-          </button>
+          <input type="submit" [disabled]="loginForm.invalid" class="btn btn-primary btn-block text-uppercase" value="Đăng Nhập" >
+          <div class="text-danger" role="alert">
+            {{message}}
+          </div>
           <hr class="hr-text my-4" data-content="HOẶC">
           <button type="button" class="btn btn-block btn-outline-primary" data-toggle="modal"
                   data-target="#faceBookPopup"><i class="fab fa-facebook-f"> </i> Đăng nhập với Facebook
@@ -43,7 +54,6 @@
             <p class="text-muted mr-2"> Bạn chưa có tài khoản ?</p>
             <a href="#">Đăng ký ngay</a>
           </div>
-
         </div>
       </div>
       </form>
