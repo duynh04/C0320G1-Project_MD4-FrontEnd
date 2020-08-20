@@ -4,11 +4,9 @@
 
 <div class="auction row"> 
 
-    <div class="mini-image" >
+    <div class="mini-image">     
 
-        <img src="https://cdn.chilindo.com/XML/Gfx/08-959/08-959_1_720.jpg" alt="">
-        <img src="https://cdn.chilindo.com/XML/Gfx/08-959/08-959_4_720.jpg" alt="">
-        <img src="https://cdn.chilindo.com/XML/Gfx/08-959/08-959_5_720.jpg" alt="">
+        <img *ngFor = "let image of productImages" src={{image.link}} alt="productImage">          
         
 
     </div>    
@@ -16,16 +14,14 @@
 
     <div class="image col-4 p-0">
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
+            <div class="carousel-inner" >
                 <div class="carousel-item active">
-                    <img class="d-block w-100" src="https://cdn.chilindo.com/XML/Gfx/08-959/08-959_1_720.jpg" alt="First img">
+                    <img class="d-block w-100" src={{firstImage}} alt="First img">
                 </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="https://cdn.chilindo.com/XML/Gfx/08-959/08-959_4_720.jpg" alt="Second img">
+                <div class="carousel-item" *ngFor = "let image of imagesExceptFirst">
+                    <img class="d-block w-100" src={{image.link}} alt="Second img">
                 </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="https://cdn.chilindo.com/XML/Gfx/08-959/08-959_5_720.jpg" alt="Third img">
-                </div>
+               
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -65,11 +61,11 @@
         <p class= "mt-4 pt-4"><small><b><i>**Nhập giá thách đấu ở ô phía dưới. Đơn vị: nghìn đồng (1k = 1000VND)</i></b></small></p>
         <div class="bid row">
             <input type="text" onfocus="this.value=''" class="form-control col-7 mr-4" id="newBid" [formControl]="newBid">
-            <button [disabled] = "newBid.invalid" class="btn btn-primary col-4" id="bidButton" data-toggle = "modal" data-target="#bidSuccess" (click)= "addAuctionRecord()"> Đặt giá thầu</button>
+            <button [disabled] = "newBid.invalid && newBid.touched" class="btn btn-primary col-4" id="bidButton" data-toggle = "modal" data-target="#bidSuccess" (click)= "addAuctionRecord()"> Đặt giá thầu</button>
         </div>
         <p class= "py-3" *ngIf="newBid.errors?.required && newBid.touched"><small class="text-danger">Vui lòng nhập giá thách đấu</small></p>
-        <p class= "py-3" *ngIf="newBid.errors?.bidPrice && newBid.touched"><small class="text-danger">Giá thách đấu chứa định dạng không hợp lệ</small></p>
-        <p class= "py-3" *ngIf="newBid.errors?.invalidBid "><small class="text-danger">Giá thách đấu phải là bội số của bước giá và lớn hơn giá hiện tại </small></p>  
+        <p class= "py-3" *ngIf="newBid.errors?.bidPrice"><small class="text-danger">Giá thách đấu chứa định dạng không hợp lệ</small></p>
+        <p class= "py-3" *ngIf="newBid.errors?.invalidBid"><small class="text-danger">Giá thách đấu phải là bội số của bước giá và lớn hơn giá hiện tại </small></p>  
     </div>
 
 </div>

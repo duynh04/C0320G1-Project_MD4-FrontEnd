@@ -7,7 +7,7 @@ export interface Product {
   id: number;
   name: string;
   initialPrice: number;
-  increasingAmount: number;
+  increaseAmount: number;
   registerDate: string;
   startDate: string;
   endDate: string;

@@ -3,7 +3,9 @@ import { Auction } from "./auction";
 export interface AuctionRecord {
     id?: number;
     auction: Auction;
-    bidder: User;
+    bidder: {
+        id: number
+    };
     bidTime: Date;
     bidPrice: number;
     isWinner: boolean;

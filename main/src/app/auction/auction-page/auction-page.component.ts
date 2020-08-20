@@ -1,16 +1,22 @@
+import { WebsocketService } from './../../websocket.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, AbstractControl } from '@angular/forms';
 import { AuctionService } from 'src/app/shared/services/auction.service';
-import { AuctionValidatorsService } from 'src/app/shared/validations/auction-validators.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuctionRecord } from 'src/app/shared/models/auction-record';
 import { User } from 'src/app/shared/models/user';
 
 
+const socket = io('http://localhost:3000');
+
+
 // Creator: Hoai Ngan team C
-const startingHour = 0;
-const startingMin = 4;
-let time;
+// const startingHour = 0;
+// const startingMin = 1;
+
+let endtime;
+let remaningTime;
+let t;
 let loop;
 let loop1;
 let countdownEl;
@@ -37,22 +43,28 @@ export class AuctionPageComponent implements OnInit {
   private currentBid;
   private increment;
   private currentWinner;
-  private auctionId=0;
+  private auctionId;
   private auction;
   private bidder;
+  private productImages;
+  private imagesExceptFirst;
+  private firstImage;
+ 
   
-  constructor(private auctionService: AuctionService,
-              private auctionValidator: AuctionValidatorsService,
-              private activatedRoute: ActivatedRoute){}
+  constructor(private auctionService: AuctionService,            
+              private activatedRoute: ActivatedRoute,
+              private webSocket: WebsocketService){ }
   
   
-  ngOnInit(): void {
-
-   
-    time  = ((startingHour*60) + startingMin) * 60;
-    loop = setInterval(() =>{
-          this.updateCountdown(this.auctionId)
-    }, 1000);    
+  ngOnInit(): void {     
+    socket.on("test", (data) => {
+      endtime = data;      
+      console.log(endtime);
+    })
+    
+    loop = setInterval(() =>{      
+      this.updateCountdown(this.auctionId, endtime)
+    }, 1000);  
     
     button = document.getElementById('bidButton');
     countdownEl = document.getElementById('countdown');
@@ -66,8 +78,13 @@ export class AuctionPageComponent implements OnInit {
     
     this.auctionService.getAuctionById(this.auctionId).subscribe(data =>{
       this.auction = data;
-      this.increment = data.product.increasingAmount;
+      this.increment = data.product.increaseAmount;
       this.productName = data.product.name;
+      this.productImages = data.product.productImages;
+      this.imagesExceptFirst = this.productImages.slice(1);
+      this.firstImage = this.productImages[0].link;
+     
+       
 
     })  
 
@@ -81,40 +98,44 @@ export class AuctionPageComponent implements OnInit {
     }); 
 
 
-    this.newBid = new FormControl ('', [Validators.required, this.auctionValidator.bidValidator, (control: AbstractControl) => {const price = control.value;
+    this.newBid = new FormControl ('', [Validators.required, this.bidValidator, (control: AbstractControl) => {const price = control.value;
       return (price <= this.currentBid && price != ""||price%this.increment!=0&& price != "")? {invalidBid: true} : null; }]);
 
     this.auctionService.getTopAuctionRecords(this.auctionId).subscribe(data =>{     
         this.records = data;       
     })
 
-  }
+  }  
+  
+  
 
   addAuctionRecord(): void{       
     this.replacePrice((<HTMLInputElement>biddingPrice).value);
 
-     let bidder: User = {
-        id: 2,
-        fullname: "Nancy",
-        email: 'nancy@gmail.com',
-        phoneNumber: '01231112334',
-        address: "abc",
-        birthday: "1996-11-08",
-        idCard: "123123123",
-        gender: "Nữ",
-        rate: {
-            id: 1,
-            name: "kim cương"
-        },
-        point: 120,
-        lastLogin: "2020-08-13T00:00:00",
-        status: true
-    };
+    //  let bidder: User = {
+    //     id: 2,
+    //     fullname: "Nancy",
+    //     email: 'nancy@gmail.com',
+    //     phoneNumber: '01231112334',
+    //     address: "abc",
+    //     birthday: "1996-11-08",
+    //     idCard: "123123123",
+    //     gender: "Nữ",
+    //     rate: {
+    //         id: 1,
+    //         name: "kim cương"
+    //     },
+    //     point: 120,
+    //     lastLogin: "2020-08-13T00:00:00",
+    //     status: true
+    // };
+
+    
       
     let auctionRecord: AuctionRecord = {
 
         auction: this.auction,
-        bidder: bidder ,
+        bidder: {id: 1},
         bidTime: new Date(),
         bidPrice: this.newBid.value,
         isWinner: false
@@ -141,41 +162,40 @@ export class AuctionPageComponent implements OnInit {
     clearInterval(loop);
     clearInterval(loop1);
 
-    var affirm = ("Yayy! Bạn đang là người thắng cuộc với giá "+ userPrice +"k");    
+    var affirm = ("Yayy! Bạn đang là người thắng cuộc với giá "+ userPrice +"k");  
 
-    time = 60;
+    
     loop1 = setInterval(() =>{
-      this.updateCountdown(this.auctionId)
+      this.updateCountdown(this.auctionId, 15)
       }, 1000);
 
     return original.innerText = affirm;
   };  
+ 
 
-
-  updateCountdown(auctionId){
-    console.log(auctionId);
+  updateCountdown(auctionId, time){      
     
-    let hours: any = startingHour;
-    let minutes: any = Math.floor(time/60);
-    let seconds: any = time % 60;
+    time = time - new Date().getTime();    
+     
+      let seconds : any = Math.floor( (time/1000) % 60 );
+      let minutes : any = Math.floor( (time/1000/60) % 60 );
+      let hours : any = Math.floor( (time/(1000*60*60)) % 24 );
 
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes: minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;    
-
-    countdownEl.innerHTML = `${hours} : ${minutes} : ${seconds}`;
-     time--;
-    
+    seconds = seconds < 10 ? '0' + seconds : seconds;       
+    $("#countdown").html(`${hours} : ${minutes} : ${seconds}`);     
+         
+    time++;
     if (time == 0){
-        countdownEl.innerHTML = 'Kết thúc';       
+      $("#countdown").html('Kết thúc');       
         
         $('#finished').modal('show');
         $('#bidButton').prop('disabled', true);
         $('#newBid').prop('disabled', true);
 
         clearInterval(loop);
-        clearInterval(loop1);
-      // console.log(this.auction);
+        clearInterval(loop1);     
       this.auctionService.getRecordHavingBestPrice(this.auctionId).subscribe(data =>{       
         // console.log(this.auction);
         this.finalRecord = data;        
@@ -201,7 +221,20 @@ export class AuctionPageComponent implements OnInit {
     });
 
   }
-}        
+}       
+  
+
+bidValidator(control: AbstractControl){
+    
+    
+  const price = control.value;  
+  let check: boolean = false;
+  if(isNaN(price) ||  price < 0){
+    check = true;
+  }    
+
+  return check? {bidPrice: true} : null;   
+  } 
  
 }
 

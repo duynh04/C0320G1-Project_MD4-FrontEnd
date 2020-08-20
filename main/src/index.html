@@ -19,6 +19,11 @@
     crossorigin="anonymous"></script>
   <script src="https://smtpjs.com/v3/smtp.js">
   </script>
+  <script>
+    if (global === undefined) {
+      var global = window;
+    }
+  </script>
 </head>
 
 <body>
