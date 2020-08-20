@@ -1,10 +1,12 @@
-import { UserServiceService } from './../../service/user-service.service';
+import { UserService } from 'src/app/shared/services/user.service';
+
 import { User } from './../../shared/models/user';
 import { ModalComponent } from './../modal/modal.component';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-show-list',
@@ -14,11 +16,31 @@ import { Router } from '@angular/router';
 export class ShowListComponent implements OnInit {
 
   user: User[];
-  constructor(private modalService: NgbModal, private userService: UserServiceService,
+  public userList: Observable<User[]>;
+  public lastPage: number;
+  public currentPage: number;
+
+  private createForm: FormGroup;
+
+  constructor(private modalService: NgbModal, private userService: UserService,
     private router: Router) { }
 
   ngOnInit() {
     this.getAllUser();
+    this.reloadData(1, 5);
+    this.createForm = new FormGroup({
+      id: new FormControl(''),
+      address: new FormControl(''),
+      fullname: new FormControl(''),
+      email: new FormControl(''),
+      rate: new FormControl(''),
+    });
+  }
+
+  search() {
+    if ( this.createForm.valid ) {
+      this.userService.search(this.createForm.value);
+    }
   }
 
   
@@ -31,10 +53,41 @@ export class ShowListComponent implements OnInit {
         },
         error => console.log(error));
   }
+
+
   getAllUser(){
     this.userService.getAllUser().subscribe(
       (data: User[]) => this.user = data
     )
+  }
+  reloadData(page, pageSize) {
+    this.userService.getOnePage(page, pageSize).subscribe(data => {
+      this.currentPage = page;
+      this.userList = data.items;
+      this.lastPage = data.totalPage;
+    });
+  }
+  // pagination
+  goFirstPage() {
+    this.reloadData(1, 5);
+  }
+
+  goPreviousPage() {
+    console.log(this.currentPage);
+    if (this.currentPage > 1) {
+      return this.reloadData(this.currentPage - 1, 5);
+    }
+  }
+
+  goNextPage() {
+    console.log(this.currentPage);
+    if (this.currentPage < this.lastPage) {
+      return this.reloadData(this.currentPage + 1, 5);
+    }
+  }
+
+  goLastPage() {
+    this.reloadData(this.lastPage, 5);
   }
 
   open() {
