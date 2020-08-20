@@ -1,5 +1,14 @@
 // error validate for delivery address form
 export const DELIVERRY_MESSAGES = {
+    cityErrors: [
+        { code: 'required', message: 'Vui lòng chọn Tỉnh/Thành phố' }
+    ],
+    districtErrors: [
+        { code: 'required', message: 'Vui lòng chọn Quận/Huyện' }
+    ],
+    wardErrors: [
+        { code: 'required', message: 'Vui lòng chọn Phường/Xã' }
+    ],
     streetErrors: [
         { code: 'required', message: 'Vui lòng nhập địa chỉ giao hàng' },
         { code: 'maxlength', message: 'Địa chỉ giao hàng không quá 30 kí tự. Chỉ nhập số nhà và tên đường' }

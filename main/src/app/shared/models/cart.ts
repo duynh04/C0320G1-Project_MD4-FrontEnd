@@ -1,5 +1,5 @@
-import {User} from './user';
-import {CartDetail} from './cart-detail';
+import { User } from "./user";
+import { CartDetail } from "./cart-detail";
 
 export interface Cart {
   id: number;
