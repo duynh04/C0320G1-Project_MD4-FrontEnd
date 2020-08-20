@@ -7,13 +7,13 @@ export interface Order {
   // mọi người add thêm prop của đối tượng dưới này,
   // nếu có người add rồi thì xin bỏ qua. xin cảm ơn.
   id: number;
-  code: String;
+  code: string;
   buyer: User;
   status: boolean;
-  paymentMethod: String;
-  deadlineDelivery: String;
-  deliveryAddress: String;
-  deliveryMethod: String;
+  paymentMethod: string;
+  deadlineDelivery: string;
+  deliveryAddress: string;
+  deliveryMethod: string;
   cart: Cart;
-  paymentStatus: String;
+  paymentStatus: string;
 }

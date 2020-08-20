@@ -23,9 +23,9 @@ export class PaymentOptionComponent implements OnInit {
   orderForm: FormGroup;
   payments: any;
   orderDto: OrderDto = new OrderDto();
-  paymentMethod: String;
-  deliveryMethod: String = "Giao hàng tiêu chuẩn";
-  deliveryAddress: String = "da nang"
+  paymentMethod: string;
+  deliveryMethod: string = "Giao hàng tiêu chuẩn";
+  deliveryAddress: string = "da nang"
   paymentStatus = "Fail";
 
   constructor(
@@ -33,6 +33,7 @@ export class PaymentOptionComponent implements OnInit {
     private router: Router,
     private paymentService: PaymentService,
     private tokenStorageService: TokenStorageService
+
   ) { };
 
 
@@ -42,11 +43,20 @@ export class PaymentOptionComponent implements OnInit {
     this.initPayPalSdk();
     console.log(this.tokenStorageService.getUsername())
     this.tokenStorageService.getAuthorities()
+    this.deliveryAddress = this.paymentService.addressInfo.street + ', '
+      + this.paymentService.addressInfo.ward + ', '
+      + this.paymentService.addressInfo.district + ', '
+      + this.paymentService.addressInfo.city + '.'
   };
 
 
   selectPayment(pay) {
     this.payments = pay;
+    if (pay == "TT") {
+      this.paymentStatus = "Success"
+    } else {
+      this.paymentStatus = "Fail"
+    }
   }
 
   onSubmit() {
@@ -62,9 +72,9 @@ export class PaymentOptionComponent implements OnInit {
 
     this.orderDto.buyer = { id: this.tokenStorageService.getUser().userId }
     console.log(this.paymentStatus)
-    // this.orderService
-    //   .createOrder(this.orderDto)
-    //   .subscribe(() => this.router.navigate(["payment/order"]));
+    this.orderService
+      .createOrder(this.orderDto)
+      .subscribe(() => this.router.navigate(["payment/order"]));
   }
 
   private initPayPalSdk(): void {
@@ -74,7 +84,7 @@ export class PaymentOptionComponent implements OnInit {
         layout: 'horizontal'
       },
       createOrderOnServer: (data: any) => {
-        return this.paymentService.setTransaction(1).toPromise().then(res => {
+        return this.paymentService.setTransaction(12, this.deliveryMethod).toPromise().then(res => {
           // console.log(res);
           this.paymentService.captureOrder = res;
           return res.id;
@@ -102,7 +112,7 @@ export class PaymentOptionComponent implements OnInit {
   createPurchase(nonce: string): Observable<any> {
     const data = { nonce: nonce };
     console.log(data);
-    return this.paymentService.createTransaction(nonce);
+    return this.paymentService.createTransaction(nonce, this.deliveryMethod);
   }
 
   onPaymentStatus(response): void {
