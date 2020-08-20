@@ -1,7 +1,5 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { TestUser } from './../../shared/models/dtos/test-user';
-import { Error, ErrorDetail } from './../../shared/models/dtos/error-detail';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Product } from './../../shared/models/product';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ProductService } from 'src/app/shared/services/product.service';
@@ -30,7 +28,9 @@ export class MyProductsComponent implements OnInit {
   isEmpty : boolean = false;
 
   constructor(
-    private productService : ProductService
+    private productService : ProductService,
+    private router : Router,
+    private activatedRoute : ActivatedRoute
   ) { }
 
   getColor(approvementStatusName : string) : string {
@@ -91,6 +91,10 @@ export class MyProductsComponent implements OnInit {
 
   ngOnInit() {
     this.elementRef.nativeElement.focus();
+    // this.activatedRoute.params.subscribe ( (param) => {
+    //     const userId = Number(param.id);
+    //     this.bidderId = userId;
+    // } )
     this.getPage(1);
   }
 

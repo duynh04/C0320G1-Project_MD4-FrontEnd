@@ -92,13 +92,8 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
     let deliveryAddress = this.addressForm.value as DeliveryAddress;
     deliveryAddress.id = this.address_id;
     if (this.isUpdate.value) {
-<<<<<<< HEAD
-      deliveryAddress.phoneNumber = "01234413413";
-      deliveryAddress.user = { id: 1 };
-=======
       // deliveryAddress.phoneNumber = "01234413413";
       deliveryAddress.user = { id: 12 };
->>>>>>> 05ea8dce44583589c0fe22be13bef850585baef5
       this.paymentService.updateLatestAddress(deliveryAddress).subscribe((res) => {
         if (res != null) {
           console.log(res);

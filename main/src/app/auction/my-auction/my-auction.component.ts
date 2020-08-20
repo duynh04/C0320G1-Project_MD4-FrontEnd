@@ -3,6 +3,7 @@ import { AuctionService } from './../../shared/services/auction.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-my-auction',
@@ -24,7 +25,10 @@ export class MyAuctionComponent implements OnInit {
   totalElements : number;
   isEmpty : boolean = false;
 
-  constructor(private auctionService : AuctionService) { }
+  constructor(
+    private auctionService : AuctionService,
+    private activatedRoute : ActivatedRoute,
+    ) { }
 
   getColor(isWinner : boolean,auctionStatusName : string) : string {
     if (auctionStatusName == "đang đấu giá") {
@@ -81,6 +85,10 @@ export class MyAuctionComponent implements OnInit {
 
   ngOnInit() {
     this.elementRef.nativeElement.focus();
+    // this.activatedRoute.params.subscribe ( (param) => {
+    //     const userId = Number(param.id);
+    //     this.bidderId = userId;
+    // } )
     this.getPage(1);
   }
 
