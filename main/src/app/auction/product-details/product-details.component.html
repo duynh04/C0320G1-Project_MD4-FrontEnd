@@ -263,22 +263,20 @@
             <div class="col-12 col-sm-12">
               <div class="comment-container">
                 <div class="comment-form">
-                  <app-comment-box (userComment)="receiveComment($event)">
-
-                  </app-comment-box>
+                  <app-comment-box (userComment)="receiveComment($event)"></app-comment-box>
                 </div>
-                <div *ngFor="let commentLevel1 of commentLevel1List">
-                  <strong style="color: #189EFF">{{commentLevel1?.user?.fullname}}: </strong>
-                  <p>{{commentLevel1.content}}</p>
-                  <div class="actions">
-                    <span class="divider"></span>
-                    <button class="btn btn-sm btn-info">
-                      Trả lời
-                    </button>
-                    <span class="divider"></span>
-                    <button class="btn btn-sm btn-danger">
-                      <i class="fa fa-trash"></i>
-                    </button>
+                <div *ngFor="let commentLevel2 of commentLevel2List">
+                  <div class="userComment">
+                    <div class="nameUser">
+                      <strong id="nameUser">{{commentLevel2?.commentLevel1?.user?.fullname}}</strong>
+                    </div>
+                    <span style="margin-left: 60px">{{commentLevel2?.commentLevel1?.content}}</span>
+                  </div>
+                  <div class="comment-reply">
+                    <div class="nameReply">
+                      <strong id="nameReply">{{commentLevel2?.user?.fullname}}</strong>
+                    </div>
+                    <span style="margin-left: 10px">{{commentLevel2.content}}</span>
                   </div>
                 </div>
               </div>

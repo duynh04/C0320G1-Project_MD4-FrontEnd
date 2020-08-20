@@ -28,7 +28,7 @@ export class CommentBoxComponent implements OnInit {
 
   ngOnInit() {
     this.commentForm = this.formBuilder.group({
-      content: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]]
+      content: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(1000)]]
     });
   }
 

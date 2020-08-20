@@ -29,6 +29,7 @@ export class ProductDetailsComponent implements OnInit {
   public userId = 1;
   public auctionId = 1;
   public auctionRecordId = 1;
+  public commentLevel1Id = 1;
   public comments: string;
   public count: number;
 

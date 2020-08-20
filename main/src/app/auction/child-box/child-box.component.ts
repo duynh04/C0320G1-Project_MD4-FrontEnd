@@ -28,7 +28,7 @@ export class ChildBoxComponent implements OnInit {
 
   ngOnInit() {
     this.childForm = this.formBuilder.group({
-      content: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]]
+      content: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(1000)]]
     });
 
     this.commentLevel2Service.getAllCommentLevel2().subscribe(data => {
