@@ -1,3 +1,4 @@
+//creator: Nguyễn Xuân Hùng
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,6 +15,12 @@ import { CartService } from 'src/app/shared/services/cart.service';
   providedIn: 'root'
 })
 export class PaymentService {
+  //creator: Nguyễn Xuân Hùng
+  private readonly API_INVOICE_URL = "http://localhost:8080/api/v1/payment/invoice/";
+
+  private readonly LOCATION_URL = 'assets/locations.json';
+
+  private readonly PAYMENT_URL = "http://localhost:8080/api/v1/payment";
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -24,9 +31,7 @@ export class PaymentService {
 
   addressInfo: OrderAddressInfo;
   captureOrder: IOrderDetails;
-  private readonly paymentUrl = "http://localhost:8080/api/v1/payment";
 
-  private readonly locationUrl = 'assets/locations.json';
 
   constructor(
     private http: HttpClient,
@@ -35,7 +40,7 @@ export class PaymentService {
 
   // get all cities/provinces in vietnam
   getCities(): Observable<Location[]> {
-    return this.http.get<Location[]>(this.locationUrl);
+    return this.http.get<Location[]>(this.LOCATION_URL);
   }
 
   // get all districts
@@ -58,14 +63,18 @@ export class PaymentService {
     );
   }
 
+  //creator: Nguyễn Xuân Hùng
+  findInvoiceById(id): Observable<any> {
+    return this.http.get(this.API_INVOICE_URL + id);
+  }
   //Get delivery address
   getAddress(userId: string): Observable<DeliveryAddressDTO> {
-    return this.http.get<DeliveryAddressDTO>(`${this.paymentUrl}/address/${userId}`)
+    return this.http.get<DeliveryAddressDTO>(`${this.PAYMENT_URL}/address/${userId}`)
   }
 
   //Update address
   updateLatestAddress(addr: DeliveryAddress): Observable<ErrorDetail | null> {
-    return this.http.put<ErrorDetail | null>(`${this.paymentUrl}/address`, addr).pipe(
+    return this.http.put<ErrorDetail | null>(`${this.PAYMENT_URL}/address`, addr).pipe(
       catchError(handler)
     );
   }
@@ -73,11 +82,12 @@ export class PaymentService {
   // create order 
   // get captured order
   setTransaction(userId: number): Observable<IOrderDetails> {
-    return this.http.post<IOrderDetails>(`${this.paymentUrl}/create-transaction`, userId);
+    return this.http.post<IOrderDetails>(`${this.PAYMENT_URL}/create-transaction`, userId);
   }
 
   //get confirm transaction 
   confirmTransaction(orderId: string): Observable<IOrderDetails> {
-    return this.http.post<IOrderDetails>(`${this.paymentUrl}/confirm-transaction`, orderId);
+    return this.http.post<IOrderDetails>(`${this.PAYMENT_URL}/confirm-transaction`, orderId);
   }
+
 }
