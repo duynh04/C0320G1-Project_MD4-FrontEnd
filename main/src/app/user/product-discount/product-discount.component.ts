@@ -25,6 +25,10 @@ export class ProductDiscountComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.service.getAllProduct().subscribe(data => {
+      console.log(data);
+      this.products = data;
+    });
     this.formSearch = this.formBuilder.group({
       content: ['', [Validators.required]],
       saleDate: ['', [Validators.required, Validators.pattern('^(0?[1-9]|1[012])[-](0?[1-9]|[12][0-9]|3[01])[-][0-9]{4}$')]],
@@ -42,5 +46,9 @@ export class ProductDiscountComponent implements OnInit {
     this.service.searchProduct(this.content, this.saleDate, this.endOfEvent, this.percent).subscribe(data => {
       this.products = data;
     });
+  }
+
+  clearSearch() {
+    this.ngOnInit();
   }
 }

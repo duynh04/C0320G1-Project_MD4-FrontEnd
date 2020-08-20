@@ -51,7 +51,8 @@
             <p *ngIf="formSearch.controls.percent.errors?.required && formSearch.controls.percent.touched" class="text-danger">Please Enter Discount Percent</p>
           </div>
           <div class="col-2" >
-            <input class="column5" type="submit" (click)=sendDetails() />
+            <button class="column5" type="submit" (click)=sendDetails()></button>
+            <button class="column6" type="submit" (click)="clearSearch()"></button>
           </div>
         </form>
       </div>
