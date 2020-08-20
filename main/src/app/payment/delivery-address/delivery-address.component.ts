@@ -62,7 +62,7 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
       instruction: [''],
       isUpdate: [false]
     });
-    this.subscr[1] = this.paymentService.getAddress('12').subscribe((user: DeliveryAddressDTO) => {
+    this.subscr[1] = this.paymentService.getAddress().subscribe((user: DeliveryAddressDTO) => {
       if (user.addresses.length == 0) {
         this.addressForm.patchValue({
           fullName: user.fullname,

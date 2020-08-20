@@ -4,6 +4,7 @@ import { PaymentCenterComponent } from './payment-center/payment-center.componen
 import { DeliveryAddressComponent } from './delivery-address/delivery-address.component';
 import { PaymentOptionComponent } from './payment-option/payment-option.component';
 import { OrderStatusComponent } from './order-status/order-status.component';
+import { PaymentInvoiceComponent } from './payment-invoice/payment-invoice.component';
 
 
 const routes: Routes = [
@@ -12,7 +13,7 @@ const routes: Routes = [
     children: [
       { path: '', component: DeliveryAddressComponent },
       { path: 'option', component: PaymentOptionComponent },
-      { path: 'invoice', component: PaymentOptionComponent },
+      { path: 'invoice', component: PaymentInvoiceComponent },
       { path: 'order', component: OrderStatusComponent },
     ]
   }

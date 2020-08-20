@@ -70,7 +70,7 @@ export class PaymentOptionComponent implements OnInit {
     }
     this.orderDto.deliveryAddress = this.deliveryAddress;
 
-    this.orderDto.buyer = { id: this.tokenStorageService.getUser().userId }
+    // this.orderDto.buyer = { id: this.tokenStorageService.getUser().userId }
     console.log(this.paymentStatus)
     this.orderService
       .createOrder(this.orderDto)
@@ -84,14 +84,14 @@ export class PaymentOptionComponent implements OnInit {
         layout: 'horizontal'
       },
       createOrderOnServer: (data: any) => {
-        return this.paymentService.setTransaction(12, this.deliveryMethod).toPromise().then(res => {
+        return this.paymentService.setPayPalTransaction(this.deliveryMethod).toPromise().then(res => {
           // console.log(res);
           this.paymentService.captureOrder = res;
           return res.id;
         });
       },
       onApprove: (data) => {
-        this.paymentService.confirmTransaction(data.orderID).subscribe(res => {
+        this.paymentService.confirmPayPalTransaction(data.orderID).subscribe(res => {
           this.paymentStatus = res.status;
           console.log(this.paymentStatus);
         });
@@ -106,13 +106,13 @@ export class PaymentOptionComponent implements OnInit {
   }
 
   getClientTokenFn(): Observable<string> {
-    return this.paymentService.retrieveToken();
+    return this.paymentService.retrieveVisaToken();
   }
 
   createPurchase(nonce: string): Observable<any> {
     const data = { nonce: nonce };
     console.log(data);
-    return this.paymentService.createTransaction(nonce, this.deliveryMethod);
+    return this.paymentService.createVisaTransaction(nonce, this.deliveryMethod);
   }
 
   onPaymentStatus(response): void {

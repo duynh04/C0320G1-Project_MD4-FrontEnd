@@ -1,7 +1,6 @@
-import { TokenStorageService } from './../../auth/token-storage.service';
 //creator: Nguyễn Xuân Hùng
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Location } from '../models/dtos/location';
@@ -10,6 +9,7 @@ import { DeliveryAddress } from './../models/delivery-address';
 import { ErrorDetail } from './../models/dtos/error-detail';
 import { DeliveryAddressDTO, OrderAddressInfo } from '../models/dtos/delivery-adddress-dto';
 import { handler } from '../exceptions/exception-handler';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,12 @@ export class PaymentService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ` + this.tokenStorage.getUser().jwttoken })
     , 'Access-Control-Allow-Origin': 'http://localhost:4200', 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
   };
+  // private httpOptions = { headers: new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //   })
+  // };
 
+  private userId = 1;
   addressInfo: OrderAddressInfo;
   captureOrder: IOrderDetails;
 
@@ -36,11 +41,13 @@ export class PaymentService {
     private tokenStorage: TokenStorageService
   ) { }
 
+  // Creator: DUY
   // get all cities/provinces in vietnam
   getCities(): Observable<Location[]> {
-    return this.http.get<Location[]>(this.LOCATION_URL, this.httpOptions);
+    return this.http.get<Location[]>(this.LOCATION_URL);
   }
 
+  // Creator: DUY
   // get all districts
   getDistricts(cityName: string): Observable<Location[]> {
     return this.getCities().pipe(
@@ -51,6 +58,7 @@ export class PaymentService {
     );
   }
 
+  // Creator: DUY
   // get all wards
   getWards(cityName: string, districtName: string): Observable<Location[]> {
     return this.getDistricts(cityName).pipe(
@@ -63,45 +71,64 @@ export class PaymentService {
 
   //creator: Nguyễn Xuân Hùng
   findInvoiceById(id): Observable<any> {
-    return this.http.get(this.API_INVOICE_URL + id, this.httpOptions);
-  }
-  //Get delivery address
-  getAddress(userId: string): Observable<DeliveryAddressDTO> {
-    return this.http.get<DeliveryAddressDTO>(`${this.PAYMENT_URL}/address/${userId}`, this.httpOptions)
+    return this.http.get(this.API_INVOICE_URL + id);
   }
 
+  // Creator: DUY
+  //Get delivery address
+  getAddress(): Observable<DeliveryAddressDTO> {
+    return this.http.get<DeliveryAddressDTO>(`${this.PAYMENT_URL}/address/${this.userId}`)
+  }
+
+  // Creator: DUY
   //Update address
   updateLatestAddress(addr: DeliveryAddress): Observable<ErrorDetail | null> {
-    return this.http.put<ErrorDetail | null>(`${this.PAYMENT_URL}/address`, addr, this.httpOptions).pipe(
+    addr.user.id = this.userId;
+    return this.http.put<ErrorDetail | null>(`${this.PAYMENT_URL}/address`, addr).pipe(
       catchError(handler)
     );
   }
 
-  // create order 
+  // Creator: DUY
   // get captured order
-  setTransaction(userId: number, deliveryMethod: string): Observable<IOrderDetails> {
-    return this.http.post<IOrderDetails>(`${this.PAYMENT_URL}/create-transaction`, userId, this.httpOptions);
+  setPayPalTransaction(deliveryMethod: string): Observable<IOrderDetails> {
+    const transfer: ITransfer = {
+      userId: this.userId,
+      deliveryMethod: deliveryMethod
+    }
+    return this.http.post<IOrderDetails>(`${this.PAYMENT_URL}/paypal-create`, transfer);
   }
 
+  // Creator: DUY
   //get confirm transaction 
-  confirmTransaction(orderId: string): Observable<IOrderDetails> {
-    return this.http.post<IOrderDetails>(`${this.PAYMENT_URL}/confirm-transaction`, orderId, this.httpOptions);
+  confirmPayPalTransaction(orderId: string): Observable<IOrderDetails> {
+    return this.http.post<IOrderDetails>(`${this.PAYMENT_URL}/paypal-confirm`, orderId);
   }
 
   // Creator: DUY
   // get token for visa payment
-  retrieveToken(): Observable<string> {
+  retrieveVisaToken(): Observable<string> {
     return this.http.get<any>(`${this.PAYMENT_URL}/visa-token`, this.httpOptions).pipe(
       map((res: { token: string }) => { return res.token })
     )
   }
 
+  // Creator: DUY
   // create purchase visa payment 
-  createTransaction(nonce: string, deliveryMethod: string): Observable<any> {
-    return this.http.get(`${this.PAYMENT_URL}/visa-create`, { params: { nonce: nonce, userId: '12', deliveryMethod: deliveryMethod }, headers: this.httpOptions.headers }).pipe(
+  createVisaTransaction(nonce: string, deliveryMethod: string): Observable<any> {
+    const tranfer: ITransfer = {
+      userId: this.userId,
+      nonce: nonce,
+      deliveryMethod: deliveryMethod
+    }
+    return this.http.post<any>(`${this.PAYMENT_URL}/visa-create`, tranfer, this.httpOptions).pipe(
       catchError(handler)
     );
   }
+}
 
-
+export interface ITransfer {
+  userId: number
+  nonce?: string,
+  deliveryMethod: string,
 }

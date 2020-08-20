@@ -3,7 +3,6 @@ import { Router } from "@angular/router";
 import { OrderService } from "./../../shared/services/order.service";
 import { Order } from "./../../shared/models/order";
 import { Component, OnInit } from "@angular/core";
-import { AddressInfo } from 'dgram';
 import { OrderAddressInfo } from 'src/app/shared/models/dtos/delivery-adddress-dto';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 
@@ -24,7 +23,8 @@ export class OrderStatusComponent implements OnInit {
   constructor(private orderService: OrderService,
     private router: Router,
     private paymentService: PaymentService,
-    private tokenStorageService: TokenStorageService) { }
+    private tokenStorageService: TokenStorageService
+  ) { }
 
   ngOnInit() {
     this.orderService.getOrderByBuyerId(this.tokenStorageService.getUser().userId).subscribe((data) => {
