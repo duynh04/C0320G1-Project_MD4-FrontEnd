@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../shared/models/user';
 import {UserService} from '../../shared/services/user.service';
+import {ResponseDTO} from "../../shared/models/dtos/ResponseDTO";
 
 @Component({
   selector: 'app-reset-password',
@@ -12,6 +13,7 @@ export class ResetPasswordComponent implements OnInit {
   recoverMailForm: FormGroup;
   recoverInfoForm: FormGroup;
   user: User;
+  responseDTO: ResponseDTO;
   email: {
     email: string;
   };
@@ -22,6 +24,9 @@ export class ResetPasswordComponent implements OnInit {
   recoverCodeForm: FormGroup;
   formMessageStatus = true;
   formCodeStatus = true;
+  messageFormEmail: string;
+  messageFormInfo: string;
+  classNameFormInfo: string;
 
   constructor(private userService: UserService,
               private  formBuilder: FormBuilder) {
@@ -78,10 +83,13 @@ export class ResetPasswordComponent implements OnInit {
     console.log(this.user);
     this.userService.sendInfoRecover(this.user).subscribe(data => {
       console.log('Gửi Info Thành Công');
+      this.responseDTO = data;
+      console.log(data);
+      console.log(this.responseDTO);
+    }, error => {
+      this.responseDTO = error;
+      console.log(error);
+      console.log(this.responseDTO);
     });
-  }
-
-  onLoad() {
-    return null;
   }
 }

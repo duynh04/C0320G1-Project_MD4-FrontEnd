@@ -26,4 +26,9 @@ export class UserService {
     const link = this.API + '/recover';
     return this.http.post(link, user);
   }
+
+  testMessage(): Observable<any> {
+    const link = this.API + '/user/test';
+    return this.http.get(link);
+  }
 }

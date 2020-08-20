@@ -8,6 +8,9 @@ import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [CartListComponent, ResetPasswordComponent],
+  exports: [
+    ResetPasswordComponent
+  ],
   imports: [
     CommonModule,
     UserRoutingModule,
