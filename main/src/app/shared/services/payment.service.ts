@@ -98,7 +98,9 @@ export class PaymentService {
 
   // create purchase visa payment 
   createTransaction(nonce: string): Observable<any> {
-    return this.http.get(`${this.PAYMENT_URL}/visa-create`, { params: { nonce: nonce, userId: '1' } });
+    return this.http.get(`${this.PAYMENT_URL}/visa-create`, { params: { nonce: nonce, userId: '1' } }).pipe(
+      catchError(handler)
+    );
   }
 
 

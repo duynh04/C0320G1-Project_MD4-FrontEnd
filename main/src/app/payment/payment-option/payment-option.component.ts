@@ -1,6 +1,4 @@
 import { Router } from "@angular/router";
-import { User } from "./../../shared/models/user";
-import { DeliveryAddress } from "./../../shared/models/delivery-address";
 import { OrderDto } from "./../../shared/models/dtos/orderDto";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
@@ -9,9 +7,6 @@ import { IPayPalConfig } from 'ngx-paypal';
 import { OrderService } from "src/app/shared/services/order.service";
 import { PaymentService } from 'src/app/shared/services/payment.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { ApprovementStatus } from './../../shared/models/approvement-status';
 
 @Component({
   selector: "app-payment-option",
@@ -28,7 +23,7 @@ export class PaymentOptionComponent implements OnInit {
   payments: any;
   orderDto: OrderDto = new OrderDto();
   paymentMethod: string;
-  paymentStatus = "FAIL";
+  paymentStatus = "Fail";
   deliveryMethod = "Giao hàng tiêu chuẩn";
 
 
@@ -38,7 +33,6 @@ export class PaymentOptionComponent implements OnInit {
     private formBuilder: FormBuilder,
     private orderService: OrderService,
     private router: Router,
-    public http: HttpClient
   ) { }
 
   ngOnInit() {
@@ -55,20 +49,21 @@ export class PaymentOptionComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.orderForm.value.paymentMethod);
-    this.orderDto.paymentMethod = this.paymentMethod;
-    this.orderDto.deliveryMethod = this.deliveryMethod;
-    if (this.orderForm.value.paymentMethod == "Thanh toán trực tiếp") {
-      this.orderDto.paymentState = "Đang chờ thanh toán";
-    } else {
-      this.orderDto.paymentState = "Đã thanh toán thành công";
-    }
-    // this.orderDto.deliveryAddress = this.deliveryAddress;
-    // this.orderDto.buyer = this.buyer;
+    console.log(this.paymentStatus)
+    // console.log(this.orderForm.value.paymentMethod);
+    // this.orderDto.paymentMethod = this.paymentMethod;
+    // this.orderDto.deliveryMethod = this.deliveryMethod;
+    // if (this.orderForm.value.paymentMethod == "Thanh toán trực tiếp") {
+    //   this.orderDto.paymentState = "Đang chờ thanh toán";
+    // } else {
+    //   this.orderDto.paymentState = "Đã thanh toán thành công";
+    // }
+    // // this.orderDto.deliveryAddress = this.deliveryAddress;
+    // // this.orderDto.buyer = this.buyer;
 
-    this.orderService
-      .createOrder(this.orderDto)
-      .subscribe(() => this.router.navigate(["payment/order"]));
+    // this.orderService
+    //   .createOrder(this.orderDto)
+    //   .subscribe(() => this.router.navigate(["payment/order"]));
   }
 
   private initPayPalSdk(): void {
@@ -93,6 +88,9 @@ export class PaymentOptionComponent implements OnInit {
       onError: err => {
         console.log('OnError', err);
       },
+      onCancel: (cancel) => {
+        this.paymentStatus = "Fail"
+      }
     };
   }
 
@@ -107,6 +105,12 @@ export class PaymentOptionComponent implements OnInit {
   }
 
   onPaymentStatus(response): void {
-    console.log(response);
+    if (response.status != undefined) {
+      this.paymentStatus = "Success";
+      console.log(response.status);
+    } else {
+      this.paymentStatus = "Fail";
+      console.log(response.message);
+    }
   }
 }
