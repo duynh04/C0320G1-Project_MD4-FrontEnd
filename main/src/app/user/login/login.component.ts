@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
       } else {
         $('#password').prop('type', 'password');
       }
-
     });
   }
   onSubmit() {
@@ -58,6 +57,7 @@ export class LoginComponent implements OnInit {
         this.tokenStorage.saveAuthorities(data.authorities);
         this.tokenStorage.saveToken(data.token);
         this.tokenStorage.saveUsername(data.accountName);
+        this.tokenStorage.saveIdUser(data.id);
         // tslint:disable-next-line:triple-equals
         if (this.tokenStorage.getAuthorities().indexOf('ROLE_ADMIN') != -1) {
           this.router.navigateByUrl('/admin');
@@ -85,13 +85,5 @@ function validateWhitespace(c: AbstractControl) {
   return null;
 }
 
-// const togglePassword = document.querySelector('##togglePassword');
-// const password = document.querySelector('#password');
-// togglePassword.addEventListener('click', function() {
-//   const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-//   password.setAttribute('type', type);
-//   this.classList.toggle('fa-eye-slash');
-// });
 
-// tslint:disable-next-line:only-arrow-functions
 
