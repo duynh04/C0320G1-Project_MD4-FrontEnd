@@ -3,14 +3,31 @@ import { Router } from '@angular/router';
 import { UserUpdateDto } from '../../shared/models/dtos/UserUpdateDto';
 
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup,AbstractControl } from '@angular/forms';
 import { UserService } from 'src/app/shared/services/user.service';
+
+function validateWhitespace(c:AbstractControl) {
+  if(c.value!=''){
+    const isWhitespace = c.value.trim().length===0;
+    if(isWhitespace){
+      const isValid = !isWhitespace;
+      return isValid ? null : { 'whitespace': true };
+    }
+  }
+}
+function validateSpecialCharacters(c:AbstractControl) {
+  const pattern = /[$&+,:;=?@#|'<>.^*()%!-]+/;
+    return (c.value.match(pattern)) ? {
+      containSpecialCharacters : true
+    } :null
+}
 
 @Component({
   selector: 'app-user-update',
   templateUrl: './user-update.component.html',
   styleUrls: ['./user-update.component.css']
 })
+
 export class UserUpdateComponent implements OnInit,AfterViewInit {
   @ViewChild('focusCheck',{static: true}) private elementRef: ElementRef;
   userForm: FormGroup;
@@ -41,22 +58,21 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
   ngAfterViewInit(): void {
     this.elementRef.nativeElement.focus();
   }
-
   ngOnInit() {
     this.ngAfterViewInit();
     this.userForm = this.fb.group({
-      fullName: ['',[Validators.required]],
-      email: ['',[Validators.required,Validators.pattern(/^[a-z][a-z0-9_\.]{2,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/)]],
+      fullName: ['',[Validators.required,validateWhitespace,validateSpecialCharacters,Validators.maxLength(255)]],
+      email: ['',[Validators.required,Validators.pattern(/^[a-z][a-z0-9_\.]{2,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,}){1,2}$/)]],
       birthday: ['',[Validators.required,Validators.pattern(/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/),this.userService.validateBirthday]],
       pwGroup: this.fb.group({
-        password: ['',[Validators.minLength(6),Validators.maxLength(20)]],
-        newPassword: [''],
-        confirmPassword: ['']
+        password: ['',[validateWhitespace]],
+        newPassword: ['',[Validators.minLength(6),Validators.maxLength(20),validateWhitespace]],
+        confirmPassword: ['',[Validators.minLength(6),Validators.maxLength(20),validateWhitespace]]
       }, {validators: [this.userService.comparePassword]}),
-      idCard: ['',[Validators.required,Validators.pattern(/^[0-9]+$/)]],
-      phoneNumber: ['',[Validators.required,Validators.pattern(/^[0-9]+$/)]],
+      idCard: ['',[Validators.required,Validators.pattern(/^[0-9]+$/),Validators.minLength(6),Validators.maxLength(20)]],
+      phoneNumber: ['',[Validators.required,Validators.pattern(/^[0-9]+$/),Validators.maxLength(20)]],
       gender:['',[Validators.required]],
-      address: ['',[Validators.required]]
+      address: ['',[Validators.required,Validators.maxLength(255)]]
     });
       this.userService.getUserById("1").subscribe(data=>{
   
