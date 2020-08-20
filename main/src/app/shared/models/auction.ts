@@ -1,5 +1,6 @@
-import { AuctionStatus } from "./auction-status";
-import { Product } from "./product";
+import { AuctionRecord } from './auction-record';
+import { AuctionStatus } from './auction-status';
+import { Product } from './product';
 export interface Auction {
     [prop: string]: any;
     id: number;

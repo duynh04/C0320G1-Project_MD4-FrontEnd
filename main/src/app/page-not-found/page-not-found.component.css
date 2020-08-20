@@ -23,7 +23,7 @@ h4{
     }
     .btn-primary {
         color: #fff;
-        background-color: #0069d9;
+        background-color: #007bff;
         border-color: #0062cc;
     }
     .btn-round {
@@ -60,14 +60,14 @@ h4{
     }
     /*[404 error page]
 --------------------------*/
-    .error-content {
+    /* .error-content {
         padding: 0 0 70px;
-    }
+    } */
     .error-text{
         text-align: center;
     }
     .error {
-        font-size: 180px;
+        font-size: 100px;
         font-weight: 100;
     }
     @keyframes bob {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PaymentService } from 'src/app/shared/services/payment.service';
 
 @Component({
   selector: 'app-payment-center',
