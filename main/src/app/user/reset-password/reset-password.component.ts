@@ -22,11 +22,12 @@ export class ResetPasswordComponent implements OnInit {
   };
   formEmailStatus = false;
   recoverCodeForm: FormGroup;
-  formMessageStatus = true;
   formCodeStatus = true;
   messageFormEmail: string;
   messageFormInfo: string;
+  classNameFormEmail: string;
   classNameFormInfo: string;
+
 
   constructor(private userService: UserService,
               private  formBuilder: FormBuilder) {
@@ -52,29 +53,48 @@ export class ResetPasswordComponent implements OnInit {
       }
     );
   }
-
   sendMailRecover() {
     console.log('Đang Gửi Email');
     console.log(this.recoverMailForm.value);
-    this.formEmailStatus = true;
-    this.formCodeStatus = false;
+
     this.email = this.recoverMailForm.value;
     this.userService.sendEmailRecover(this.email).subscribe(data => {
-        console.log('Gửi Mail Thành Công');
-      }
-    );
+      console.log('Gửi Email Thành Công');
+      this.responseDTO = data;
+      this.formEmailStatus = true;
+      this.formCodeStatus = false;
+      this.messageFormEmail = this.responseDTO.message;
+      this.classNameFormEmail = "alert alert-success";
+      console.log(data);
+      console.log(this.responseDTO);
+    }, error => {
+      this.responseDTO = error;
+      this.messageFormEmail = this.responseDTO.error.message;
+      this.classNameFormEmail = "alert alert-danger";
+      console.log(this.responseDTO);
+    });
   }
 
   sendCodeRecover() {
     console.log('Đang Gửi Code Recover');
     console.log(this.recoverCodeForm.value);
-    this.formCodeStatus = true;
-    this.formMessageStatus = false;
+
     this.code = this.recoverCodeForm.value;
     this.userService.sendCodeRecover(this.email, this.code).subscribe(data => {
-        console.log('Gửi Code Thành Công');
-      }
-    );
+      console.log('Gửi Code Thành Công');
+      this.responseDTO = data;
+      this.formCodeStatus = true;
+      this.messageFormEmail = this.responseDTO.message;
+      this.classNameFormEmail = "alert alert-success";
+
+      console.log(data);
+      console.log(this.responseDTO);
+    }, error => {
+      this.responseDTO = error;
+      this.messageFormEmail = this.responseDTO.error.message;
+      this.classNameFormEmail = "alert alert-danger";
+      console.log(this.responseDTO);
+    });
   }
 
   sendInfoRecover() {
@@ -84,12 +104,21 @@ export class ResetPasswordComponent implements OnInit {
     this.userService.sendInfoRecover(this.user).subscribe(data => {
       console.log('Gửi Info Thành Công');
       this.responseDTO = data;
+      this.messageFormInfo = this.responseDTO.message;
+      this.classNameFormInfo = "alert alert-success";
       console.log(data);
       console.log(this.responseDTO);
     }, error => {
       this.responseDTO = error;
-      console.log(error);
+      if (this.responseDTO.status == "0") {
+        this.messageFormInfo = "Lỗi kết nối, vui lòng kiểm tra lại đường truyền của bạn!";
+      } else {
+        this.messageFormInfo = this.responseDTO.error.message;
+      }
+
+      this.classNameFormInfo = "alert alert-danger";
       console.log(this.responseDTO);
+      console.log(error.error.status)
     });
   }
 }
