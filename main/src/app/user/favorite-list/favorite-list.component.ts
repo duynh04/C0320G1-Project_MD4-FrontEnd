@@ -3,6 +3,7 @@ import { FavoriteProduct } from '../../shared/models/favorite-product';
 import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { FavoriteProductService } from 'src/app/shared/services/favorite-product.service';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 
 @Component({
   selector: 'app-favorite-list',
@@ -11,16 +12,20 @@ import { FavoriteProductService } from 'src/app/shared/services/favorite-product
 })
 export class FavoriteListComponent implements OnInit {
 
-  userId = 2;
+  userId: number;
   favoriteProducts: Observable<FavoriteProduct[]>;
   total: number;
   perPage: number;
-  page = 1;
+  page: number;
   pickedItem: FavoriteProduct;
   pageBounds: number;
   isEmpty = true;
 
-  constructor(private favoriteProductService: FavoriteProductService) {
+  constructor(
+    private favoriteProductService: FavoriteProductService,
+    private token: TokenStorageService) {
+    this.userId = this.token.getUserId();
+    this.page = 1;
   }
 
   ngOnInit() {

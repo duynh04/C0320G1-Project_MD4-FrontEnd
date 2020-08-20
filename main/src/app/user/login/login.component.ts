@@ -39,10 +39,10 @@ export class LoginComponent implements OnInit {
     console.log(userInfo) ;
     this.auth.attemptAuth(userInfo).subscribe(
       data => {
-
         this.tokenStorage.saveAuthorities(data.authorities);
-        this.tokenStorage.saveToken(data.token);
+        this.tokenStorage.saveToken(data.jwttoken);
         this.tokenStorage.saveUsername(data.accountName);
+        this.tokenStorage.saveUserId(data.userId);
         // tslint:disable-next-line:triple-equals
         if (this.tokenStorage.getAuthorities().indexOf('ROLE_ADMIN') != -1) {
           this.router.navigateByUrl('/user/cart');

@@ -1,10 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {CartService} from 'src/app/shared/services/cart.service';
-import {Cart} from '../../shared/models/cart';
-import {CartDetail} from '../../shared/models/cart-detail';
-import {ActivatedRoute, Router} from '@angular/router';
-
-declare var $: any;
+import { Component, OnInit } from '@angular/core';
+import { CartService } from 'src/app/shared/services/cart.service';
+import { Cart } from '../../shared/models/cart';
+import { CartDetail } from '../../shared/models/cart-detail';
+import { Router } from '@angular/router';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 
 @Component({
   selector: 'app-cart-list',
@@ -16,18 +15,20 @@ export class CartListComponent implements OnInit {
   cart: Cart;
   cartDetails: CartDetail[];
   totalCost = 0;
-  userId = 2; // userId mẫu để test
+  userId: number;
   deleteIndex: number;
+  alertCaller: HTMLButtonElement;
 
   constructor(
     private cartService: CartService,
     private router: Router,
-    private route: ActivatedRoute
-  ) {
+    private token: TokenStorageService) {
+    this.userId = this.token.getUserId();
   }
 
   ngOnInit() {
     this.getCart(this.userId);
+    this.alertCaller = document.getElementById('alertCaller') as HTMLButtonElement;
   }
 
   getCart(userId: number): void {
@@ -84,7 +85,7 @@ export class CartListComponent implements OnInit {
     const cartDetailId = this.cartDetails[i].id;
     const currentQuantity = Number(target.value);
     if (!Number.isInteger(currentQuantity) || (currentQuantity < 1)) {
-      $('#alertModal').modal('show');
+      this.alertCaller.click();
       this.cartService.updateItem(cartDetailId, 1).subscribe(() => {
         this.cartDetails[i].productQuantity = 1;
         target.value = 1;

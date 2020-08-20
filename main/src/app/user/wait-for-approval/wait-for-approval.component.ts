@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Product } from 'src/app/shared/models/product';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { tap, map } from 'rxjs/operators';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 
 @Component({
   selector: 'app-wait-for-approval',
@@ -11,15 +12,21 @@ import { tap, map } from 'rxjs/operators';
 })
 export class WaitForApprovalComponent implements OnInit {
 
-  userId = 1;
+  userId: number;
   waitingProducts: Observable<Product[]>;
   total: number;
   perPage: number;
-  page = 1;
+  page: number;
   pageBounds: number;
-  isEmpty = true;
+  isEmpty: boolean;
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private token: TokenStorageService) {
+    this.userId = this.token.getUserId();
+    this.isEmpty = true;
+    this.page = 1;
+  }
 
   ngOnInit() {
     this.getPage(this.page);

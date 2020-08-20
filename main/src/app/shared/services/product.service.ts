@@ -65,12 +65,20 @@ export class ProductService {
       this.getCancelProductHttpOptions(productName, approvementStatusName, cancelProductId, page))
   }
 
-  // Created by: Toàn
+  /**
+   * Created by: Toàn
+   *
+   * Lấy danh sách sản phẩm đã được duyệt của một user
+   */
   getApprovedProducts(userId: number, page: number): Observable<any> {
     return this.http.get<any>(this.API_URL + `/product/approved?userId=${userId}&page=${page}`);
   }
 
-  // Created by: Toàn
+  /**
+   * Created by: Toàn
+   *
+   * Lấy danh sách sản phẩm đang chờ được duyệt của một user
+   */
   getWaitingProducts(userId: number, page: number): Observable<any> {
     return this.http.get<any>(this.API_URL + `/product/waiting?userId=${userId}&page=${page}`);
   }

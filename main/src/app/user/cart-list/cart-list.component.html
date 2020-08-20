@@ -30,7 +30,7 @@
           </div>
           <div class="btn-delete-item">
             <button (click)="pickDeletedIndex(i)" class="btn btn-link" data-target="#deleteCartItemModal"
-                    data-toggle="modal" type="button">Xóa
+              data-toggle="modal" type="button">Xóa
             </button>
           </div>
         </div>
@@ -40,11 +40,11 @@
               <div class="input-group input-group-sm">
                 <div class="input-group-prepend">
                   <button (click)="decreaseQty(i)" [disabled]="item.productQuantity <= 1"
-                          class="btn btn-outline-primary btn-adjust-qty" type="button">-
+                    class="btn btn-outline-primary btn-adjust-qty" type="button">-
                   </button>
                 </div>
                 <input class="form-control text-center input-adjust-qt" type="text" [value]="item.productQuantity"
-                       (change)="itemQuantityChange($event.target,i)">
+                  (change)="itemQuantityChange($event.target,i)">
                 <div class="input-group-append">
                   <button (click)="increaseQty(i)" class="btn btn-outline-primary btn-adjust-qty" type="button">+
                   </button>
@@ -91,13 +91,14 @@
         <div class="modal-footer">
           <button class="btn btn-warning" data-dismiss="modal" type="button">Hủy</button>
           <button (click)="deleteItem()" class="btn btn-danger" data-dismiss="modal" id="deleteCartItemBtn"
-                  type="button">Xóa
+            type="button">Xóa
           </button>
         </div>
       </div>
     </div>
   </div>
   <!-- Modal alert -->
+  <button id="alertCaller" data-target="#alertModal" data-toggle="modal" style="display: none;">Alert</button>
   <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">

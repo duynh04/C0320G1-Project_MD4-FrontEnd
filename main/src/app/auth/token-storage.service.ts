@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 const TOKEN_KEY = 'AuthToken';
 const USERNAME_KEY = 'AuthUsername';
@@ -47,5 +47,14 @@ export class TokenStorageService {
     }
 
     return this.roles;
+  }
+
+  public saveUserId(userId: number) {
+    window.sessionStorage.removeItem(IDUSER_KEY);
+    window.sessionStorage.setItem(IDUSER_KEY, userId.toString());
+  }
+
+  public getUserId(): number {
+    return Number(sessionStorage.getItem(IDUSER_KEY));
   }
 }

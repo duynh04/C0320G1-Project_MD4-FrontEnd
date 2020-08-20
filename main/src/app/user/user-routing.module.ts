@@ -6,18 +6,19 @@ import { FavoriteListComponent } from './favorite-list/favorite-list.component';
 import { LoginComponent } from './login/login.component';
 import { ApprovedListComponent } from './approved-list/approved-list.component';
 import { WaitForApprovalComponent } from './wait-for-approval/wait-for-approval.component';
+import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     children: [
-      { path: 'cart', component: CartListComponent },
-      { path: 'favorite', component: FavoriteListComponent },
+      { path: 'cart', component: CartListComponent, canActivate: [AuthGuard] },
+      { path: 'favorite', component: FavoriteListComponent, canActivate: [AuthGuard] },
       { path: 'login', component: LoginComponent },
       { path: 'update', component: UserUpdateComponent },
-      { path: 'approved', component: ApprovedListComponent },
-      { path: 'wait-for-approval', component: WaitForApprovalComponent }
-    ]
+      { path: 'approved', component: ApprovedListComponent, canActivate: [AuthGuard] },
+      { path: 'wait-for-approval', component: WaitForApprovalComponent, canActivate: [AuthGuard] }
+    ],
   }
 ];
 
