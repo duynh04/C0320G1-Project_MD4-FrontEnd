@@ -1,6 +1,4 @@
-import { DeliveryAddress } from './../delivery-address';
 
-import { User } from './../user';
 
 
 //creator: Đặng Hồng Quân team C
@@ -10,7 +8,7 @@ export class OrderDto {
   paymentState: String;
   buyer: {
     id: number
-  };
+  }
   deliveryAddress: String;
 
 }

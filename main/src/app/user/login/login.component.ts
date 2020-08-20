@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthLoginInfo} from '../../auth/login-info';
-import {AuthJwtService} from '../../auth/auth-jwt.service';
-import {TokenStorageService} from '../../auth/token-storage.service';
-import {Router} from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthLoginInfo } from '../../auth/login-info';
+import { AuthJwtService } from '../../auth/auth-jwt.service';
+import { TokenStorageService } from '../../auth/token-storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   userInfo: AuthLoginInfo;
   constructor(private auth: AuthJwtService, private fb: FormBuilder,
-              private tokenStorage: TokenStorageService, private router: Router) { }
+    private tokenStorage: TokenStorageService, private router: Router) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -36,10 +36,13 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
   public login(userInfo) {
-    console.log(userInfo) ;
+    // console.log(userInfo) ;
     this.auth.attemptAuth(userInfo).subscribe(
       data => {
-
+        console.log(data)
+        console.log(data.token)
+        console.log(data.authorities)
+        this.tokenStorage.saveUser(data)
         this.tokenStorage.saveAuthorities(data.authorities);
         this.tokenStorage.saveToken(data.token);
         this.tokenStorage.saveUsername(data.accountName);
@@ -47,7 +50,7 @@ export class LoginComponent implements OnInit {
         if (this.tokenStorage.getAuthorities().indexOf('ROLE_ADMIN') != -1) {
           this.router.navigateByUrl('/user/cart');
         }
-        console.log(this.tokenStorage.getAuthorities());
+        // console.log(this.tokenStorage.getAuthorities());
       },
       error => {
         console.log('Error ', error);

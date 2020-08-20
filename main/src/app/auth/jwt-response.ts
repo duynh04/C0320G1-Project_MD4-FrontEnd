@@ -1,6 +1,12 @@
 export class JwtResponse {
-  token: string;
+  [prop: string]: any;
+  jwttoken: string;
+  userId: number;
   accountName: string;
-  authorities: string[];
-  id: string;
+  authorities: Authority[];
+
+}
+
+export interface Authority {
+  authority: String
 }

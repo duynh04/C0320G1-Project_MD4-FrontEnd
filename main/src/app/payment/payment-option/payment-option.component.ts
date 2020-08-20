@@ -6,6 +6,7 @@ import { IPayPalConfig } from 'ngx-paypal';
 
 import { OrderService } from "src/app/shared/services/order.service";
 import { PaymentService } from 'src/app/shared/services/payment.service';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 @Component({
   selector: "app-payment-option",
   templateUrl: "./payment-option.component.html",
@@ -23,19 +24,20 @@ export class PaymentOptionComponent implements OnInit {
   orderDto: OrderDto = new OrderDto();
   paymentMethod: String;
   deliveryMethod: String = "Giao hàng tiêu chuẩn";
-  deliveryAddress: String
-
-
+  deliveryAddress: String = "da nang"
 
   constructor(
     private orderService: OrderService,
     private router: Router,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private tokenStorageService: TokenStorageService
   ) { }
 
   ngOnInit() {
     // initialize paypal
     this.initPayPalSdk();
+    console.log(this.tokenStorageService.getUsername())
+    this.tokenStorageService.getAuthorities()
   };
 
 
@@ -44,16 +46,17 @@ export class PaymentOptionComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.orderForm.value.paymentMethod);
+
     this.orderDto.paymentMethod = this.paymentMethod;
     this.orderDto.deliveryMethod = this.deliveryMethod;
-    if (this.orderForm.value.paymentMethod == "Thanh toán trực tiếp") {
+    if (this.paymentMethod == "Thanh toán trực tiếp") {
       this.orderDto.paymentState = "Đang chờ thanh toán";
     } else {
       this.orderDto.paymentState = "Đã thanh toán thành công";
     }
     this.orderDto.deliveryAddress = this.deliveryAddress;
-    this.orderDto.buyer.id = 1;
+
+    this.orderDto.buyer = { id: this.tokenStorageService.getUser().userId }
 
     this.orderService
       .createOrder(this.orderDto)

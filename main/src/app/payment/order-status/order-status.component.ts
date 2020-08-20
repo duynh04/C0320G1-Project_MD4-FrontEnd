@@ -5,6 +5,7 @@ import { Order } from "./../../shared/models/order";
 import { Component, OnInit } from "@angular/core";
 import { AddressInfo } from 'dgram';
 import { OrderAddressInfo } from 'src/app/shared/models/dtos/delivery-adddress-dto';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 
 declare let Email: any;
 @Component({
@@ -22,10 +23,11 @@ export class OrderStatusComponent implements OnInit {
   deliveryAddress: OrderAddressInfo
   constructor(private orderService: OrderService,
     private router: Router,
-    private paymentService: PaymentService) { }
+    private paymentService: PaymentService,
+    private tokenStorageService: TokenStorageService) { }
 
   ngOnInit() {
-    this.orderService.getOrderByBuyerId(1).subscribe((data) => {
+    this.orderService.getOrderByBuyerId(this.tokenStorageService.getUser().userId).subscribe((data) => {
       this.order = data;
       if (data.deliverMethod == "Giao hàng tiêu chuẩn") {
         this.deliveryPrice = 50000;
