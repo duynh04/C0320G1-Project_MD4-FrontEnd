@@ -1,4 +1,4 @@
-import { Rate } from './rate';
+import { Rate } from "./rate";
 
 export interface User {
   id?: number;
@@ -9,7 +9,7 @@ export interface User {
   birthday: string;
   idCard: string;
   gender: string;
-  rate?: number;
+  rate?: Rate;
   point: number;
   lastLogin: string;
   status: boolean;

@@ -1,0 +1,7 @@
+.pro-info {
+    display: inline-block;
+    width: 218px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
