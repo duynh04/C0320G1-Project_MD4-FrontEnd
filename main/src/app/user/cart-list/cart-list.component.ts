@@ -3,6 +3,7 @@ import { CartService } from 'src/app/shared/services/cart.service';
 import { Cart } from '../../shared/models/cart';
 import { CartDetail } from '../../shared/models/cart-detail';
 import { Router, ActivatedRoute } from '@angular/router';
+import {TokenStorageService} from '../../auth/token-storage.service';
 
 @Component({
   selector: 'app-cart-list',
@@ -20,7 +21,7 @@ export class CartListComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {

@@ -50,14 +50,12 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
   public login(userInfo) {
-    console.log(userInfo) ;
     this.auth.attemptAuth(userInfo).subscribe(
       data => {
 
         this.tokenStorage.saveAuthorities(data.authorities);
         this.tokenStorage.saveToken(data.token);
         this.tokenStorage.saveUsername(data.accountName);
-        this.tokenStorage.saveIdUser(data.id);
         // tslint:disable-next-line:triple-equals
         if (this.tokenStorage.getAuthorities().indexOf('ROLE_ADMIN') != -1) {
           this.router.navigateByUrl('/admin');
