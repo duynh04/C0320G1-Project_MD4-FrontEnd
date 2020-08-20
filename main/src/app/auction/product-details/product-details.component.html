@@ -263,15 +263,17 @@
             <div class="col-12 col-sm-12">
               <div class="comment-container">
                 <div class="comment-form">
-                  <app-comment-box (userComment)="receiveComment($event)"></app-comment-box>
+                  <app-comment-box (userComment)="receiveComment($event)">
+
+                  </app-comment-box>
                 </div>
                 <div *ngFor="let commentLevel1 of commentLevel1List">
                   <strong style="color: #189EFF">{{commentLevel1?.user?.fullname}}: </strong>
                   <p>{{commentLevel1.content}}</p>
                   <div class="actions">
                     <span class="divider"></span>
-                    <button class="btn btn-sm btn-info" >
-                      Reply
+                    <button class="btn btn-sm btn-info">
+                      Trả lời
                     </button>
                     <span class="divider"></span>
                     <button class="btn btn-sm btn-danger">
@@ -282,6 +284,7 @@
               </div>
             </div>
           </div>
+          <app-comments [postComment]="comments" (countComments)="recieveCount($event)"></app-comments>
         </div>
       </div>
     </div>

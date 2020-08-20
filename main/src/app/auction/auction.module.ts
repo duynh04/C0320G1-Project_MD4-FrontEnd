@@ -17,6 +17,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     AuctionRoutingModule,
     HttpClientModule,
     FormsModule, ReactiveFormsModule
-  ]
+  ],
+  entryComponents: [ChildBoxComponent]
 })
 export class AuctionModule { }

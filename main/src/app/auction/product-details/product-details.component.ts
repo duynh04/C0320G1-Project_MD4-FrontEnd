@@ -69,7 +69,7 @@ export class ProductDetailsComponent implements OnInit {
     });
 
     $('#change').click(function(){
-      $('.select-cities').show();
+      $('.select-cities').toggle();
     });
 
     $(document).ready(function() {

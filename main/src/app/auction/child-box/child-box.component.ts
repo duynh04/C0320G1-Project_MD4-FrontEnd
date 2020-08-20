@@ -40,7 +40,7 @@ export class ChildBoxComponent implements OnInit {
 
   addNewCommentLevel2() {
     this.commentLevel2Service.addNewCommentLevel2(this.childForm.value).subscribe(data => {
-      this.router.navigateByUrl('product-details/:id');
+      this.router.navigateByUrl('auction/product-details/1');
     });
     alert('Trả lời bình luận của bạn đã đăng thành công');
   }
