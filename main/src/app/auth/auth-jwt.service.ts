@@ -14,7 +14,7 @@ const httpOptions = {
 export class AuthJwtService {
   isLoggedIn = false;
 
-  loginUrl = 'http://localhost:8080/api/v1/login';
+  loginUrl = 'http://localhost:8081/api/v1/login';
   constructor(private http: HttpClient) {
   }
 
