@@ -31,7 +31,7 @@ export class ChildBoxComponent implements OnInit {
       content: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]]
     });
 
-    this.commentLevel2Service.getCommentLevel2ById(this.commentLevel2Id).subscribe(data => {
+    this.commentLevel2Service.getAllCommentLevel2().subscribe(data => {
       this.commentLevel2User = data;
     });
 
@@ -42,6 +42,7 @@ export class ChildBoxComponent implements OnInit {
     this.commentLevel2Service.addNewCommentLevel2(this.childForm.value).subscribe(data => {
       this.router.navigateByUrl('product-details/:id');
     });
+    alert('Trả lời bình luận của bạn đã đăng thành công');
   }
 
   onSubmit() {

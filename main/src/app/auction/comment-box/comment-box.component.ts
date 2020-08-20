@@ -23,23 +23,20 @@ export class CommentBoxComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private commentLevel1Service: CommentLevel1Service,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
     this.commentForm = this.formBuilder.group({
       content: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]]
     });
-
-    this.commentLevel1Service.getCommentLevel1ById(this.commentLevel1Id).subscribe(data => {
-      this.commentLevel1User = data;
-    });
   }
 
   addNewCommentLevel1() {
     this.commentLevel1Service.addNewCommentLevel1(this.commentForm.value).subscribe(data => {
-      this.router.navigateByUrl('product-details/:id');
+      this.router.navigateByUrl('auction/product-details/1');
     });
+    alert('Bình luận của bạn đã đăng thành công');
   }
 
   onSubmit() {

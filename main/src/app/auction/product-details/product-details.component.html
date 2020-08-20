@@ -72,10 +72,10 @@
       </thead>
       <tbody>
       <tr *ngFor="let auctionRecord of auctionRecords">
-        <td>{{auctionRecord.bidder.fullname}}</td>
-        <td>{{auctionRecord.bidPrice}}</td>
-        <td>{{auctionRecord.auction.id}}</td>
-        <td>{{auctionRecord.bidTime}}</td>
+        <td>{{auctionRecord?.bidder?.fullname}}</td>
+        <td>{{auctionRecord?.bidPrice}}</td>
+        <td>{{auctionRecord?.auction?.id}}</td>
+        <td>{{auctionRecord?.bidTime}}</td>
       </tr>
       </tbody>
     </table>
@@ -94,11 +94,11 @@
       </thead>
       <tbody>
       <tr>
-        <td>{{productDetails.name}}</td>
-        <td>{{productDetails.category.name}}</td>
-        <td>{{productDetails.startDate}}</td>
-        <td>{{productDetails.endDate}}</td>
-        <td>{{productDetails.initialPrice}}</td>
+        <td>{{productDetails?.name}}</td>
+        <td>{{productDetails?.category.name}}</td>
+        <td>{{productDetails?.startDate}}</td>
+        <td>{{productDetails?.endDate}}</td>
+        <td>{{productDetails?.initialPrice}}</td>
       </tr>
       </tbody>
     </table>
@@ -117,8 +117,8 @@
           </thead>
           <tbody>
           <tr>
-            <td>{{auctionInformation.product.id}}</td>
-            <td>{{auctionInformation.auctionStatus.name}}</td>
+            <td>{{auctionInformation?.product?.id}}</td>
+            <td>{{auctionInformation?.auctionStatus?.name}}</td>
           </tr>
           </tbody>
         </table>
@@ -265,10 +265,23 @@
                 <div class="comment-form">
                   <app-comment-box (userComment)="receiveComment($event)"></app-comment-box>
                 </div>
+                <div *ngFor="let commentLevel1 of commentLevel1List">
+                  <strong style="color: #189EFF">{{commentLevel1?.user?.fullname}}: </strong>
+                  <p>{{commentLevel1.content}}</p>
+                  <div class="actions">
+                    <span class="divider"></span>
+                    <button class="btn btn-sm btn-info" >
+                      Reply
+                    </button>
+                    <span class="divider"></span>
+                    <button class="btn btn-sm btn-danger">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <app-comments [postComment]="comments" (countComments)="recieveCount($event)"></app-comments>
         </div>
       </div>
     </div>

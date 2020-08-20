@@ -9,6 +9,8 @@ img {
   background-color: #edf5ef;
   display: flex;
   justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .details2 {
@@ -195,7 +197,7 @@ img {
   margin-left: 60px;
 }
 .comment-container p{
-  background: #e9ebee;
+  background: #edf5ef;
   padding: 6px 10px;
 }
 textarea.form-control{
@@ -219,7 +221,7 @@ textarea.form-control{
   margin: 0 5px;
   width: 1px;
   height: 20px;
-  background: #ccc;
+  background: #58baff;
   display: inline-block;
   vertical-align: middle;
 }
