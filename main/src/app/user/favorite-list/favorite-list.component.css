@@ -1,0 +1,9 @@
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#favorite-products {
+  min-height: 100vh;
+}

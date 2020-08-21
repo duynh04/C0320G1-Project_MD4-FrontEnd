@@ -16,9 +16,7 @@ export class CartService {
 
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      Authorization: 'my-auth-token'
+      'Content-Type': 'application/json'
     })
   };
 

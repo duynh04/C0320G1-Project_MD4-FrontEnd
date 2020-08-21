@@ -1,5 +1,9 @@
+import {User} from './user';
+import {Product} from './product';
+
 export interface FavoriteProduct {
-    [prop: string]: any;
-    // mọi người add thêm prop của đối tượng dưới này, 
-    // nếu có người add rồi thì xin bỏ qua. xin cảm ơn.
+    id: number;
+    user: User;
+    product: Product;
+    status: boolean;
 }

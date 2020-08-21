@@ -15,16 +15,16 @@ export class ProductService {
   constructor(private http: HttpClient) { }
 
   // Creator: Cường
-  getMyProductHttpOptions(productName : string, approvementStatusName : string,page : number) : Object {
+  getMyProductHttpOptions(productName: string, approvementStatusName: string, page: number): Object {
 
     let myProductOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
       params: {
-        productName : productName,
-        approvementStatusName : approvementStatusName,
-        page : page
+        productName: productName,
+        approvementStatusName: approvementStatusName,
+        page: page
       }
     };
     return myProductOptions;
@@ -32,17 +32,17 @@ export class ProductService {
   }
 
   // Creator: Cường
-  getCancelProductHttpOptions(productName : string, approvementStatusName : string,cancelProductId : number,page : number) : Object {
+  getCancelProductHttpOptions(productName: string, approvementStatusName: string, cancelProductId: number, page: number): Object {
 
     let cancelProductOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
       params: {
-        productName : productName,
-        approvementStatusName : approvementStatusName,
-        cancelProductId : cancelProductId,
-        page : page
+        productName: productName,
+        approvementStatusName: approvementStatusName,
+        cancelProductId: cancelProductId,
+        page: page
       }
     };
     return cancelProductOptions;
@@ -50,19 +50,36 @@ export class ProductService {
   }
 
   // Creator: Cường
-  getMyProducts(ownerId : number,productName : string,approvementStatusName : string,
-                page :number) : Observable<Page<Product>> {
-                  
+  getMyProducts(ownerId: number, productName: string, approvementStatusName: string,
+    page: number): Observable<Page<Product>> {
+
     return this.http.get<Page<Product>>(this.API_URL + "/myProduct/" + ownerId,
-      this.getMyProductHttpOptions(productName,approvementStatusName,page))
+      this.getMyProductHttpOptions(productName, approvementStatusName, page))
   }
 
   // Creator: Cường
-  cancelRegister(ownerId : number,productName : string,approvementStatusName : string,
-                cancelProductId : number, page : number) : Observable<Page<Product>> {
-  
-    return this.http.put<Page<Product>>(this.API_URL + "/myProduct/cancel/" + ownerId,null,
-      this.getCancelProductHttpOptions(productName,approvementStatusName,cancelProductId,page))
+  cancelRegister(ownerId: number, productName: string, approvementStatusName: string,
+    cancelProductId: number, page: number): Observable<Page<Product>> {
+
+    return this.http.put<Page<Product>>(this.API_URL + "/myProduct/cancel/" + ownerId, null,
+      this.getCancelProductHttpOptions(productName, approvementStatusName, cancelProductId, page))
   }
-  
+
+  /**
+   * Created by: Toàn
+   *
+   * Lấy danh sách sản phẩm đã được duyệt của một user
+   */
+  getApprovedProducts(userId: number, page: number): Observable<any> {
+    return this.http.get<any>(this.API_URL + `/product/approved?userId=${userId}&page=${page}`);
+  }
+
+  /**
+   * Created by: Toàn
+   *
+   * Lấy danh sách sản phẩm đang chờ được duyệt của một user
+   */
+  getWaitingProducts(userId: number, page: number): Observable<any> {
+    return this.http.get<any>(this.API_URL + `/product/waiting?userId=${userId}&page=${page}`);
+  }
 }
