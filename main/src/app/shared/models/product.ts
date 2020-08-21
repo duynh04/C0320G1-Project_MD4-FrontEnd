@@ -1,7 +1,8 @@
-import { User } from "./user";
-import { Category } from "./category";
-import { ApprovementStatus } from "./approvement-status";
-import { ProductImage } from "./product-image";
+import { User } from './user';
+import { Category } from './category';
+import { ApprovementStatus } from './approvement-status';
+import { ProductImage } from './product-image';
+
 
 import DateTimeFormat = Intl.DateTimeFormat;
 
