@@ -265,18 +265,18 @@
                 <div class="comment-form">
                   <app-comment-box (userComment)="receiveComment($event)"></app-comment-box>
                 </div>
-                <div *ngFor="let commentLevel2 of commentLevel2List">
+                <div *ngFor="let commentLv1 of commentLv1List">
                   <div class="userComment">
                     <div class="nameUser">
-                      <strong id="nameUser">{{commentLevel2?.commentLevel1?.user?.fullname}}</strong>
+                      <strong id="nameUser">{{commentLv1?.user?.fullname}}</strong>
                     </div>
-                    <span style="margin-left: 60px">{{commentLevel2?.commentLevel1?.content}}</span>
+                    <span style="margin-left: 60px">{{commentLv1?.content}}</span>
                   </div>
-                  <div class="comment-reply">
+                  <div class="comment-reply" *ngFor="let commentLv2 of commentLv1.commentLevel2List">
                     <div class="nameReply">
-                      <strong id="nameReply">{{commentLevel2?.user?.fullname}}</strong>
+                      <strong id="nameReply">{{commentLv2?.user?.fullname}}</strong>
                     </div>
-                    <span style="margin-left: 10px">{{commentLevel2.content}}</span>
+                    <span style="margin-left: 10px">{{commentLv2?.content}}</span>
                   </div>
                 </div>
               </div>

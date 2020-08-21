@@ -11,6 +11,7 @@ import { CommentLevel1Service } from '../../shared/services/comment-level1.servi
 import { CommentLevel1 } from '../../shared/models/comment-level1';
 import { CommentLevel2Service } from '../../shared/services/comment-level2.service';
 import { CommentLevel2 } from '../../shared/models/comment-level2';
+import { ProductCommentDto } from "../../shared/models/dtos/product-comment-dto";
 import $ from 'jquery';
 
 @Component({
@@ -25,11 +26,13 @@ export class ProductDetailsComponent implements OnInit {
   public auctionRecords: AuctionRecord[] = [];
   public commentLevel1List: CommentLevel1[];
   public commentLevel2List: CommentLevel2[];
+  public commentLv1List: ProductCommentDto[];
   public productId = 1;
   public userId = 1;
   public auctionId = 1;
   public auctionRecordId = 1;
   public commentLevel1Id = 1;
+  public commentProductId = 1;
   public comments: string;
   public count: number;
 
@@ -67,6 +70,10 @@ export class ProductDetailsComponent implements OnInit {
 
     this.commentLevel2Service.getAllCommentLevel2().subscribe(data => {
       this.commentLevel2List = data;
+    });
+
+    this.commentLevel1Service.getCommentLevel1ByProductId(this.commentProductId).subscribe(data => {
+      this.commentLv1List = data;
     });
 
     $('#change').click(function(){

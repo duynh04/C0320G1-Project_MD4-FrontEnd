@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ProductCommentDto } from "../models/dtos/product-comment-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,10 @@ export class CommentLevel1Service {
 
   getCommentLevel1ById(commentLevel1Id: number): Observable<any> {
     return this.httpClient.get(this.API + '/' + commentLevel1Id);
+  }
+
+  getCommentLevel1ByProductId(productId: number): Observable<ProductCommentDto[]> {
+    return this.httpClient.get<ProductCommentDto[]>(this.API + '/product/' + productId);
   }
 
   deleteCommentLevel1ById(commentLevel1Id: number): Observable<any> {
