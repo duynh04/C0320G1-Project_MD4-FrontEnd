@@ -1,6 +1,6 @@
 <div class="container-fluid px-0">
   <h1 class="mt-2 text-center">Quản lý sản phẩm</h1>
-<!--  search product-->
+  <!--  search product-->
   <form [formGroup]="formSearchList">
     <div class="container px-0">
       <div class="row mt-3">
@@ -61,90 +61,90 @@
     </div>
   </form>
 
-<!--  List product-->
+  <!--  List product-->
   <div class="container">
-<!--    <div class="row justify-content-center mt-3">-->
-<!--      <form [formGroup]="formEditListRow">-->
-<!--      <table class="table mt-2 table-striped">-->
-<!--        <thead style="background-color: #189EFF; color: white;">-->
-<!--        <tr>-->
-<!--          <th>STT</th>-->
-<!--          <th>Chọn</th>-->
-<!--          <th>ID sản phẩm</th>-->
-<!--          <th>Tên sản phẩm</th>-->
-<!--          <th>Chủng loại</th>-->
-<!--          <th>Người đăng</th>-->
-<!--          <th>Giá ban đầu</th>-->
-<!--          <th>Trạng thái duyệt</th>-->
-<!--          <th>Tình trạng</th>-->
-<!--          <th>Chi tiết sản phẩm</th>-->
-<!--          <th>Hình ảnh</th>-->
-<!--          <th>Hành động</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
+        <div class="row justify-content-center mt-3">
+          <form [formGroup]="formEditListRow">
+          <table class="table mt-2 table-striped">
+            <thead style="background-color: #189EFF; color: white;">
+            <tr>
+              <th>STT</th>
+              <th>Chọn</th>
+              <th>ID sản phẩm</th>
+              <th>Tên sản phẩm</th>
+              <th>Chủng loại</th>
+              <th>Người đăng</th>
+              <th>Giá ban đầu</th>
+              <th>Trạng thái duyệt</th>
+              <th>Tình trạng</th>
+              <th>Chi tiết sản phẩm</th>
+              <th>Hình ảnh</th>
+              <th>Hành động</th>
+            </tr>
+            </thead>
+            <tbody>
 
 
-<!--        <tr *ngFor="let product of products | async">-->
-<!--          <td>{{product.id}}</td>-->
-<!--          <td><input type="checkbox"></td>-->
-<!--          <td>-->
-<!--            <input [name]="'displayData'+ product.id" [value]="product.id" disabled class="form-control" style="background-color: transparent; border-color: transparent">-->
-<!--            <input [name]="'inputData'+ product.id" type="text" formControlName="id"-->
-<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product.id" disabled>-->
-<!--          </td>-->
-<!--          <td>-->
-<!--            <input [name]="'displayData'+ product.id" [value]="product.name" [routerLink]="['/admin/approvement/', product.id]" disabled class="form-control" style="background-color: transparent; border-color: transparent">-->
-<!--            <input [name]="'inputData'+ product.id" type="text" formControlName="name"-->
-<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product.name">-->
-<!--          </td>-->
-<!--          <td>-->
-<!--            <input [name]="'displayData'+ product.id" [value]="product.category.name" disabled class="form-control" style="background-color: transparent; border-color: transparent">-->
-<!--            <input [name]="'inputData'+ product.id" type="text" formControlName="categoryId"-->
-<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product.category.id">-->
-<!--          </td>-->
-<!--          <td>-->
-<!--            <input [name]="'displayData'+ product.id" [value]="product.owner.fullName" disabled class="form-control" style="background-color: transparent; border-color: transparent">-->
-<!--            <input [name]="'inputData'+ product.id" type="text" formControlName="ownerId"-->
-<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product.owner.id">-->
-<!--          </td>-->
-<!--          <td>-->
-<!--            <input [name]="'displayData'+ product.id" [value]="product.initialPrice" disabled class="form-control" style="background-color: transparent; border-color: transparent">-->
-<!--            <input [name]="'inputData'+ product.id" type="text" formControlName="initialPrice"-->
-<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product.initialPrice">-->
-<!--          </td>-->
-<!--          <td>-->
-<!--            <input [name]="'displayData'+ product.id" [value]="product.approvementStatus.name" disabled class="form-control" style="background-color: transparent; border-color: transparent">-->
-<!--            <input [name]="'inputData'+ product.id" type="text" formControlName="approvementStatusId"-->
-<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product.approvementStatus.id">-->
-<!--          </td>-->
-<!--          <td>-->
-<!--            <input [name]="'displayData'+ product.id" [value]="product" disabled class="form-control">-->
-<!--            <input [name]="'inputData'+ product.id" type="text"-->
-<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product">-->
-<!--          </td>-->
-<!--          <td>-->
-<!--            <input [name]="'displayData'+ product.id" [value]="product.description" disabled class="form-control" style="background-color: transparent; border-color: transparent">-->
-<!--            <input [name]="'inputData'+ product.id" type="text" formControlName="description"-->
-<!--                   class="form-control" style="display: none;background-color: transparent" [value]="product.description">-->
-<!--          </td>-->
-<!--&lt;!&ndash;          <td>&ndash;&gt;-->
-<!--&lt;!&ndash;            <input [name]="'displayData'+ product.id" [value]="product.productImages" disabled class="form-control">&ndash;&gt;-->
-<!--&lt;!&ndash;            <input [name]="'inputData'+ product.id" type="file" formControlName="productImages"&ndash;&gt;-->
-<!--&lt;!&ndash;                   class="form-control" style="display: none" [value]="product.productImages">&ndash;&gt;-->
-<!--&lt;!&ndash;          </td>&ndash;&gt;-->
-<!--          <td>-->
-<!--          <div style="margin: 0px;padding: 0px;display: flex;flex-direction: row">-->
-<!--            <button [name]="'editData'+ product.id" class="btn btn-primary" (click)="editRowData(product.id)">Sửa</button>-->
-<!--            <button [name]="'saveData'+ product.id" class="btn btn-primary" (click)="editRowData(product.id)" style="display: none;margin-right: 2px">Lưu</button>-->
-<!--            <button [name]="'cancelEdit'+ product.id" class="btn btn-primary" (click)="cancelEdit(product.id)" style="display: none">Thoát</button>-->
-<!--          </div>-->
-<!--          </td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--      </table>-->
-<!--      </form>-->
-<!--    </div>-->
+            <tr *ngFor="let product of products | async; index as i">
+              <td>{{i+1}}</td>
+              <td><input type="checkbox"></td>
+              <td>
+                <input [name]="'displayData'+ product.id" [value]="product.id" disabled class="form-control" style="background-color: transparent; border-color: transparent">
+                <input [name]="'inputData'+ product.id" type="text" formControlName="id"
+                       class="form-control" style="display: none;background-color: transparent" [value]="product.id" disabled>
+              </td>
+              <td>
+                <input [name]="'displayData'+ product.id" [value]="product.name" [routerLink]="['/admin/approvement/', product.id]" disabled class="form-control" style="background-color: transparent; border-color: transparent">
+                <input [name]="'inputData'+ product.id" type="text" formControlName="name"
+                       class="form-control" style="display: none;background-color: transparent" [value]="product.name">
+              </td>
+              <td>
+                <input [name]="'displayData'+ product.id" [value]="product.category.name" disabled class="form-control" style="background-color: transparent; border-color: transparent">
+                <input [name]="'inputData'+ product.id" type="text" formControlName="categoryId"
+                       class="form-control" style="display: none;background-color: transparent" [value]="product.category.id">
+              </td>
+              <td>
+                <input [name]="'displayData'+ product.id" [value]="product.owner.fullName" disabled class="form-control" style="background-color: transparent; border-color: transparent">
+                <input [name]="'inputData'+ product.id" type="text" formControlName="ownerId"
+                       class="form-control" style="display: none;background-color: transparent" [value]="product.owner.id">
+              </td>
+              <td>
+                <input [name]="'displayData'+ product.id" [value]="product.initialPrice" disabled class="form-control" style="background-color: transparent; border-color: transparent">
+                <input [name]="'inputData'+ product.id" type="text" formControlName="initialPrice"
+                       class="form-control" style="display: none;background-color: transparent" [value]="product.initialPrice">
+              </td>
+              <td>
+                <input [name]="'displayData'+ product.id" [value]="product.approvementStatus.name" disabled class="form-control" style="background-color: transparent; border-color: transparent">
+                <input [name]="'inputData'+ product.id" type="text" formControlName="approvementStatusId"
+                       class="form-control" style="display: none;background-color: transparent" [value]="product.approvementStatus.id">
+              </td>
+              <td>
+                <input [name]="'displayData'+ product.id" [value]="product" disabled class="form-control">
+                <input [name]="'inputData'+ product.id" type="text"
+                       class="form-control" style="display: none;background-color: transparent" [value]="product">
+              </td>
+              <td>
+                <input [name]="'displayData'+ product.id" [value]="product.description" disabled class="form-control" style="background-color: transparent; border-color: transparent">
+                <input [name]="'inputData'+ product.id" type="text" formControlName="description"
+                       class="form-control" style="display: none;background-color: transparent" [value]="product.description">
+              </td>
+    <!--          <td>-->
+    <!--            <input [name]="'displayData'+ product.id" [value]="product.productImages" disabled class="form-control">-->
+    <!--            <input [name]="'inputData'+ product.id" type="file" formControlName="productImages"-->
+    <!--                   class="form-control" style="display: none" [value]="product.productImages">-->
+    <!--          </td>-->
+              <td>
+              <div style="margin: 0px;padding: 0px;display: flex;flex-direction: row">
+                <button [name]="'editData'+ product.id" class="btn btn-primary" (click)="editRowData(product.id)">Sửa</button>
+                <button [name]="'saveData'+ product.id" class="btn btn-primary" (click)="updateProduct(product.id)" style="display: none;margin-right: 2px">Lưu</button>
+                <button [name]="'cancelEdit'+ product.id" class="btn btn-primary" (click)="cancelEdit(product.id)" style="display: none">Thoát</button>
+              </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          </form>
+        </div>
     <!--    creator Tu-->
     <!--    direct add new product from list of product-->
     <div class="row justify-content-center mt-1">
@@ -160,7 +160,7 @@
                 <input required style="width: 150px" type="text" placeholder="Tên sản phẩm" formControlName="name" class="form-control">
                 <i class="alert-danger" role="alert" *ngIf="form.get('name').hasError('required') && form.get('name').touched"> Tên sản phẩm bắt buộc nhập </i>
                 <i class="alert-danger" role="alert" *ngIf="form.get('name').hasError('pattern') && form.get('name').touched"> Tên sản phẩm không được chứa ký tự đặc biệt</i>
-<!--                <i class="alert-danger" role="alert" *ngIf="group.get('name').hasError('pattern') && group.get('name').touched"> Tên sản phẩm không được không chứa khoảng trắng</i>-->
+                <!--                <i class="alert-danger" role="alert" *ngIf="group.get('name').hasError('pattern') && group.get('name').touched"> Tên sản phẩm không được không chứa khoảng trắng</i>-->
               </td>
               <td>
                 <ng-container>
@@ -247,5 +247,3 @@
     </div>
   </div>
 </div>
-
-
