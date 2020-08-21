@@ -7,6 +7,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NgxPayPalModule } from 'ngx-paypal';
+import {CookieService} from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -19,9 +20,9 @@ import { NgxPayPalModule } from 'ngx-paypal';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxPayPalModule
+    NgxPayPalModule,
   ],
-  providers: [],
+  providers: [ CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

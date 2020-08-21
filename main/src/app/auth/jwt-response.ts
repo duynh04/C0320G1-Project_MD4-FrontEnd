@@ -1,5 +1,5 @@
 export class JwtResponse {
-  token: string;
+  jwttoken: string;
   accountName: string;
   authorities: string[];
   id: string;

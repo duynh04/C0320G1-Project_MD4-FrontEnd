@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      {path: 'cart', component: CartListComponent},
+      {path: 'cart', component: CartListComponent },
       {path: 'login', component: LoginComponent},
       {
         path: 'update', component: UserUpdateComponent
