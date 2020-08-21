@@ -13,11 +13,7 @@ export class ProductListComponent implements OnInit {
   private formSearchList: FormGroup;
   productList: Product[];
   stt: number[] = [];
-  productName = '';
-  productType = '';
   fullName = '';
-  price = 0;
-  auctionStatusName = '';
   page = 0;
   totalPages: number;
   pageSize: number;
