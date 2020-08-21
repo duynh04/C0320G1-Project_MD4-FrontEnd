@@ -16,8 +16,7 @@ export class AdminApprovementComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private adminService: AdminService,
-              private productService: ProductService) {
+              private adminService: AdminService) {
   }
 
 // Thành Long
@@ -43,17 +42,6 @@ export class AdminApprovementComponent implements OnInit {
     this.adminService.unApprovementProduct(this.product)
       .subscribe(data => console.log(data), error => console.log(error));
     this.router.navigate(['product/list']);
-  }
-
-  // Thành Long
-  approvementProduct() {
-    this.approvement();
-
-  }
-
-  // Thành Long
-  unApprovementProduct() {
-    this.unApprovement();
   }
 
   // Thành Long
