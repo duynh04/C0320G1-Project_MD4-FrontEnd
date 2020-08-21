@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from "rxjs"
+import { HttpClient } from '@angular/common/http';
+import { Observable } from "rxjs"
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +13,7 @@ export class ProductService {
 
   private baseUrl = 'http://localhost:8081/api/v1/product/list';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,) { }
 
   addNewProduct(ProductObject): Observable<any> {
     return this.http.post(this.ApiProduct,ProductObject);
@@ -34,5 +35,10 @@ export class ProductService {
     getProductList(): Observable<any> {
       return this.http.get(`${this.baseUrl}`);
     }
-  
+    // checkOwnerID(idOwner): void {
+    //   this.getOwnerById(idOwner).subscribe(data=>{
+    //     console.log("test check")
+    //     console.log(data)
+    //   })
+    // }
 }

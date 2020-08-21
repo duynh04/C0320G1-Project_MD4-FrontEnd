@@ -115,6 +115,9 @@
                                
                             </div>
                             <p *ngIf="formAddNewProduct.controls.owner.errors?.required && formAddNewProduct.controls.owner.touched" class="text-danger">Required not null</p>
+                            <!-- <p *ngIf="formAddNewProduct.controls.owner.errors?.validateCode && formAddNewProduct.controls.owner.touched" class="text-danger">Something here</p> -->
+                            <p *ngIf="formAddNewProduct.get('owner').hasError('invalidCode') && formAddNewProduct.controls.owner.touched"
+                        class="text-danger">Không tìm thấy Id của người đăng</p>
                           </div>
                           <div  class="col-1" style="float: right;" id="checkID">
                             <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>

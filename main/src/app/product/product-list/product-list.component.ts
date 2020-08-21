@@ -1,9 +1,12 @@
+
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {Product} from '../../shared/models/product';
 import {ProductService} from "../../shared/services/product.service";
+import {ValidateService} from "../../shared/validations/productS.service"
+;
 
 declare let $:any
 @Component({
@@ -27,6 +30,7 @@ export class ProductListComponent implements OnInit {
   constructor(private productServices: ProductService,
               private router: Router,
               public formBuilder: FormBuilder,
+              private validate: ValidateService
                ) {}
 
   reloadData() {
@@ -45,7 +49,7 @@ export class ProductListComponent implements OnInit {
     //Creator Son
     this.formAddNewProduct = this.formBuilder.group({
       name: ['', [Validators.required]],
-      owner: ['', [Validators.required]],
+      owner: ['', [Validators.required],[this.validate.validateCode(this.productServices).bind(ValidateService)]],
       category: ['', [Validators.required]],
       initialPrice: ['', [Validators.required]],
       increaseAmount: ['', [Validators.required]],
@@ -176,11 +180,10 @@ export class ProductListComponent implements OnInit {
       .find("input[type=checkbox], input[type=radio]")
          .prop("checked", "")
          .end();
+      // $("#thongTinNguoiDang").prop('disabled', false)
   })
 
   }
-
-
 
 
 
@@ -190,20 +193,26 @@ export class ProductListComponent implements OnInit {
         console.log(data)
         this.ownerObject = data
         this.thongtin = "ID: " + this.ownerObject.id + "\r" + "Họ tên: " + this.ownerObject.fullname + "\r" + "Email:" + this.ownerObject.email
-        $(document).ready(function(){
-          $("#saveProduct").prop('disabled',true)
-          });
       } else {
         console.log("No data of User")
         this.thongtin = "Không tìm thấy id người đăng, vui lòng kiểm tra lại id !!!"
-
-        $(document).ready(function(){
-          $("#saveProduct").prop('disabled',true)
-          });
       }
-      
     })
   }
+
+  // checkIDOwner(){
+  //   this.productServices.getOwnerById(this.formAddNewProduct.value.owner).subscribe(data => {
+  //     if (data == null){
+  //       console.log("No data of User")
+  //       $(document).ready(function(){
+  //         $("#saveProduct").prop('disabled',true)
+  //         });
+  //     } else {
+  //       console.log(data)
+  //     }
+  //   })
+  // }
+
   getListCategory(){
     this.productServices.getListCategory().subscribe(data=>{
       this.categoryList = data
