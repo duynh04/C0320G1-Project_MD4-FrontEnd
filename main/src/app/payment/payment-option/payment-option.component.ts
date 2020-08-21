@@ -14,7 +14,7 @@ import { PaymentService } from 'src/app/shared/services/payment.service';
   styleUrls: ["./payment-option.component.css"],
 })
 export class PaymentOptionComponent implements OnInit {
-  // Duy 
+  // Duy
   //paypal config
   public payPalConfig?: IPayPalConfig;
   //
