@@ -8,5 +8,5 @@ export class JwtResponse {
 }
 
 export interface Authority {
-  authority: String
+  authority: string;
 }

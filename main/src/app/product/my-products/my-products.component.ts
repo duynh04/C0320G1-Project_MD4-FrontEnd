@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Product } from './../../shared/models/product';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ProductService } from 'src/app/shared/services/product.service';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, subscribeOn } from 'rxjs/operators';
 
 
 @Component({
@@ -65,9 +65,20 @@ export class MyProductsComponent implements OnInit {
     this.getPage(1);
   }
 
+  test() {
+    this.productService.getMyProducts(this.ownerId,this.productName,this.approvementStatusName,0).subscribe(data => {
+      console.log("vào được next");
+      console.log(data);
+    },error => {
+      console.log(error);
+      console.log("vào được error của subscribe")
+    })
+  }
+
   getPage(pageNumber: number) {
     this.myProductList = this.productService.getMyProducts(this.ownerId,this.productName,this.approvementStatusName,pageNumber - 1).pipe(
       tap(res => {
+        console.log(res)
         this.totalElements = res.totalElements;
         this.pageSize = res.size;
         this.currentPage = pageNumber;
@@ -83,19 +94,19 @@ export class MyProductsComponent implements OnInit {
         if (res.content.length == 0) {
           this.isEmpty = true;
         }
+      },error => {
+        console.log(error);
+        console.log("vào được err của tap");
       }),
-      map(res => res.content)
+      map(res => res),map(res => res.content)
     );
   }
 
 
   ngOnInit() {
     this.elementRef.nativeElement.focus();
-    // this.activatedRoute.params.subscribe ( (param) => {
-    //     const userId = Number(param.id);
-    //     this.bidderId = userId;
-    // } )
     this.getPage(1);
+    // this.test();
   }
 
   // testError() {

@@ -1,3 +1,4 @@
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { ErrorDetail } from './../models/dtos/error-detail';
 import { TestUser } from './../models/dtos/test-user';
 import { handler } from './../exceptions/exception-handler';
@@ -16,7 +17,10 @@ export class ProductService {
   // Creator: Cường
   private readonly API_URL = "http://localhost:8080/api/v1";
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private tokenStorage : TokenStorageService
+    ) { }
 
   // Creator: Cường
   // testError() : Observable<TestUser | ErrorDetail> {
@@ -32,7 +36,7 @@ export class ProductService {
 
     let myProductOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       }),
       params: {
         productName : productName,

@@ -15,6 +15,7 @@ import { printPdf } from 'src/assets/javascript/generate-pdf'
   styleUrls: ['./payment-invoice.component.css']
 })
 export class PaymentInvoiceComponent implements OnInit {
+
   order: Order = {
     id: null,
     code: null,
@@ -35,10 +36,7 @@ export class PaymentInvoiceComponent implements OnInit {
     status: null,
     paymentMethod: null,
     deadlineDelivery: null,
-    // deliveryAddress: {
-    //   id: 1,
-
-    // },
+    deliveryAddress: null,
     deliveryMethod: null,
     cart: {
       id: null,
