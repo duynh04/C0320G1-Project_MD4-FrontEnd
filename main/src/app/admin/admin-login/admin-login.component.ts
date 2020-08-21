@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthLoginInfo} from '../../auth/login-info';
+import {AuthJwtService} from '../../auth/auth-jwt.service';
+import {TokenStorageService} from '../../auth/token-storage.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-admin-login',
@@ -8,10 +12,16 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class AdminLoginComponent implements OnInit {
   private formLoginAdmin: FormGroup;
+  submitted = false;
+  userInfo: AuthLoginInfo;
 
   constructor(
     public formBuilder: FormBuilder,
-  ) { }
+    private auth: AuthJwtService,
+    private tokenStorage: TokenStorageService,
+    private router: Router
+  ) {
+  }
 
   ngOnInit() {
     // Thành Long
@@ -27,6 +37,41 @@ export class AdminLoginComponent implements OnInit {
       account: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9]{6,16}$')]],
       password: ['', [Validators.required, Validators.pattern('^(?=.*\\d)[0-9a-zA-Z]{6,}$')]]
     });
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    this.userInfo = new AuthLoginInfo(this.fusername.value, this.fpassword.value);
+    this.login(this.userInfo);
+  }
+
+  get fusername() {
+    return this.formLoginAdmin.get('username');
+  }
+
+  get fpassword() {
+    return this.formLoginAdmin.get('password');
+  }
+
+  public login(userInfo) {
+    console.log(userInfo);
+    this.auth.attemptAuth(userInfo).subscribe(
+      data => {
+
+        this.tokenStorage.saveAuthorities(data.authorities);
+        this.tokenStorage.saveToken(data.token);
+        this.tokenStorage.saveUsername(data.accountName);
+        // tslint:disable-next-line:triple-equals
+        if (this.tokenStorage.getAuthorities().indexOf('ROLE_ADMIN') != -1) {
+          this.router.navigateByUrl('/product/list');
+        }
+        console.log(this.tokenStorage.getAuthorities());
+      },
+      error => {
+        console.log('Error ', error);
+      }
+    );
+
   }
 
 }

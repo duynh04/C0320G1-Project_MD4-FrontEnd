@@ -1,7 +1,7 @@
 <div class="container-fluid px-0">
   <div class="row justify-content-center px-0">
     <div class="col-sm-6 col-md-3 row-container">
-      <form [formGroup]="formLoginAdmin">
+      <form [formGroup]="formLoginAdmin" (ngSubmit)="onSubmit()">
         <h1 class="text-center">Trang quản trị website đấu giá</h1>
         <div class="form-group mt-3">
           <label>Tài khoản</label>

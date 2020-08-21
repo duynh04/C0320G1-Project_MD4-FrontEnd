@@ -51,8 +51,13 @@ export class AdminApprovementComponent implements OnInit {
 
   }
 
-  //Thành Long
+  // Thành Long
   unApprovementProduct() {
     this.unApprovement();
+  }
+
+  // Thành Long
+  list() {
+    this.router.navigate(['product/list']);
   }
 }

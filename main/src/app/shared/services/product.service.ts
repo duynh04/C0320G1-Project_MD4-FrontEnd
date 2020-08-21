@@ -13,37 +13,69 @@ export class ProductService {
   private readonly API_URL = "http://localhost:8080/api/v1";
   private baseUrl = 'http://localhost:8080/api/v1/product/list';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   // Creator: Cường
-  getMyProductHttpOptions(productName : string, approvementStatusName : string,page : number) : Object {
+  getMyProductHttpOptions(productName: string, approvementStatusName: string, page: number): Object {
 
     let myProductOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
       params: {
-        productName : productName,
-        approvementStatusName : approvementStatusName,
-        page : page
+        productName: productName,
+        approvementStatusName: approvementStatusName,
+        page: page
       }
     };
     return myProductOptions;
 
   }
 
+  // Thành Long
+  getProductListHttpOptions(productName: string, productType: string, fullName: string, price: number, auctionStatusName: string, page: number): Object {
+    let productListOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      params: {
+        productName: productName,
+        productType: productType,
+        fullName: fullName,
+        price: price,
+        auctionStatusName: auctionStatusName,
+        page: page
+      }
+    };
+    return productListOptions;
+  }
+
+  getProductHttpOptions(page: number): Object {
+    let product = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      params: {
+        page: page
+      }
+    };
+    return product;
+  }
+
+
   // Creator: Cường
-  getCancelProductHttpOptions(productName : string, approvementStatusName : string,cancelProductId : number,page : number) : Object {
+  getCancelProductHttpOptions(productName: string, approvementStatusName: string, cancelProductId: number, page: number): Object {
 
     let cancelProductOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
       params: {
-        productName : productName,
-        approvementStatusName : approvementStatusName,
-        cancelProductId : cancelProductId,
-        page : page
+        productName: productName,
+        approvementStatusName: approvementStatusName,
+        cancelProductId: cancelProductId,
+        page: page
       }
     };
     return cancelProductOptions;
@@ -51,24 +83,23 @@ export class ProductService {
   }
 
   // Creator: Cường
-  getMyProducts(ownerId : number,productName : string,approvementStatusName : string,
-                page :number) : Observable<Page<Product>> {
+  getMyProducts(ownerId: number, productName: string, approvementStatusName: string,
+                page: number): Observable<Page<Product>> {
 
     return this.http.get<Page<Product>>(this.API_URL + "/myProduct/" + ownerId,
-      this.getMyProductHttpOptions(productName,approvementStatusName,page))
+      this.getMyProductHttpOptions(productName, approvementStatusName, page))
   }
 
   // Creator: Cường
-  cancelRegister(ownerId : number,productName : string,approvementStatusName : string,
-                cancelProductId : number, page : number) : Observable<Page<Product>> {
+  cancelRegister(ownerId: number, productName: string, approvementStatusName: string,
+                 cancelProductId: number, page: number): Observable<Page<Product>> {
 
-    return this.http.put<Page<Product>>(this.API_URL + "/myProduct/cancel/" + ownerId,null,
-      this.getCancelProductHttpOptions(productName,approvementStatusName,cancelProductId,page))
+    return this.http.put<Page<Product>>(this.API_URL + "/myProduct/cancel/" + ownerId, null,
+      this.getCancelProductHttpOptions(productName, approvementStatusName, cancelProductId, page))
   }
 
   // Thành Long
-  getProductList(): Observable<any> {
-    return this.http.get(`${this.baseUrl}`);
+  getProduct(page: number): Observable<Page<Product>> {
+    return this.http.get<Page<Product>>(this.baseUrl, this.getProductHttpOptions(page));
   }
-
 }

@@ -1,5 +1,5 @@
 <div class="container-fluid px-0">
-  <form (ngSubmit)="approvementProduct()">
+  <form >
     <h1 class="mt-3 text-center">Duyệt sản phẩm</h1>
     <div class="container">
       <fieldset>
@@ -51,7 +51,7 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form (ngSubmit)="unApprovementProduct()">
+                  <form (click)="unApprovement()">
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">Nhập lý do bài đăng
                         không được duyệt:</label>
@@ -60,7 +60,7 @@
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng
                       </button>
-                      <button (click)="unApprovementProduct()" type="button" class="btn btn-primary">Gửi Nội Dung</button>
+                      <button (click)="list()" type="button" class="btn btn-primary">Gửi Nội Dung</button>
                     </div>
                   </form>
                 </div>
@@ -68,7 +68,7 @@
               </div>
             </div>
           </div>
-          <button class="btn btn-primary" style="width: 150px">Quay lại</button>
+          <button (click)="list()" class="btn btn-primary" style="width: 150px">Quay lại</button>
         </div>
       </fieldset>
     </div>

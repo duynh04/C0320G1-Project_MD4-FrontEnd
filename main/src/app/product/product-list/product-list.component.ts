@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {Observable} from 'rxjs';
 import {Product} from '../../shared/models/product';
 import {ProductService} from '../../shared/services/product.service';
 
@@ -13,24 +11,58 @@ import {ProductService} from '../../shared/services/product.service';
 })
 export class ProductListComponent implements OnInit {
   private formSearchList: FormGroup;
+  productList: Product[];
+  stt: number[] = [];
+  productName = '';
+  productType = '';
+  fullName = '';
+  price = 0;
+  auctionStatusName = '';
+  page = 0;
+  totalPages: number;
+  pageSize: number;
 
-  products: Observable<Product[]>;
 
-  constructor(private productServices: ProductService,
-              private router: Router,
-              public formBuilder: FormBuilder ) {}
-
-  reloadData() {
-    this.products = this.productServices.getProductList();
+  constructor(private productService: ProductService,
+              public formBuilder: FormBuilder) {
   }
+
 
   ngOnInit() {
     this.formSearchList = this.formBuilder.group({
-      name: ['', [ Validators.pattern('^[A-Za-z0-9]{0,}$')]],
-      owner: ['', [ Validators.pattern('^[A-Za-z0-9]{0,}$')]]
+      name: ['', [Validators.pattern('^[A-Za-z0-9]{0,}$')]],
+      owner: ['', [Validators.pattern('^[A-Za-z0-9]{0,}$')]]
     });
-
-    this.reloadData();
+    // tslint:disable-next-line:max-line-length
+    this.productService.getProduct(this.page).subscribe(data => {
+      this.productList = data.content;
+      this.totalPages = data.totalPages;
+      this.pageSize = data.size;
+      this.stt = [];
+      let firstIndex = this.pageSize * this.page + 1;
+      let lastIndeex = this.pageSize * (this.page + 1);
+      for (let i = firstIndex; i <= lastIndeex; i++) {
+        this.stt.push(i);
+      }
+    });
   }
 
+  previous() {
+    if (this.page > 0) {
+      this.page = this.page - 1;
+      this.ngOnInit();
+    }
+  }
+
+  next() {
+    if ((this.page + 1) < this.totalPages) {
+      this.page = this.page + 1;
+      this.ngOnInit();
+    }
+  }
+
+  search() {
+    this.page = 0;
+    this.ngOnInit();
+  }
 }
