@@ -266,18 +266,11 @@ export class AuctionPageComponent implements OnInit {
 
     });
 
-    function addToCart(){
-
-      
-      this.cartService.saveToCart()
-  
-    }
-
-  } else {
-    //nếu remainingTime lớn hơn 0 thì in ra trên màn hình
+    } else {
+    //nếu remainingTime lớn hơn 0 thì in ra trên màn hình đếm ngược
     $("#countdown").html(`${hours} : ${minutes} : ${seconds}`); 
-  }  
-}       
+    }  
+  }       
   
   //validate giá đấu phải là số dương
   positiveNumberValidator(control: AbstractControl){    
@@ -291,10 +284,7 @@ export class AuctionPageComponent implements OnInit {
   return check? {bidPrice: true} : null;   
   } 
 
-  
-
-
-  //validate giá đấu phải lớn hơn giá hiện tại và là bội số của bước giá
+  //validate giá đấu phải lớn hơn giá hiện tại và là bội số của bước giá, nhưng ko dùng đc
   // bidPriceValidator(control: AbstractControl){
 
   // const price = control.value;
