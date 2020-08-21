@@ -44,8 +44,4 @@ export class ApprovedListComponent implements OnInit {
     );
   }
 
-  pageBoundsChanged(pageBounds: number) {
-    this.pageBounds = pageBounds;
-  }
-
 }

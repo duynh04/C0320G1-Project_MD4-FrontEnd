@@ -17,7 +17,6 @@ export class WaitForApprovalComponent implements OnInit {
   total: number;
   perPage: number;
   page: number;
-  pageBounds: number;
   isEmpty: boolean;
 
   constructor(
@@ -42,10 +41,6 @@ export class WaitForApprovalComponent implements OnInit {
       }),
       map(res => res.content)
     );
-  }
-
-  pageBoundsChanged(pageBounds: number) {
-    this.pageBounds = pageBounds;
   }
 
 }

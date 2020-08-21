@@ -26,7 +26,7 @@
         </div>
     </div>
     <div class="d-flex justify-content-end" *ngIf="!isEmpty">
-        <pagination-controls (pageChange)="getPage($event)" (pageBoundsCorrection)="pageBoundsChanged($event)"
-            previousLabel="" nextLabel="" maxSize="5"></pagination-controls>
+        <pagination-controls (pageChange)="getPage($event)" previousLabel="" nextLabel="" maxSize="5">
+        </pagination-controls>
     </div>
 </div>

@@ -18,7 +18,6 @@ export class FavoriteListComponent implements OnInit {
   perPage: number;
   page: number;
   pickedItem: FavoriteProduct;
-  pageBounds: number;
   isEmpty = true;
 
   constructor(
@@ -45,7 +44,9 @@ export class FavoriteListComponent implements OnInit {
   }
 
   pageBoundsChanged(pageBounds: number) {
-    this.pageBounds = pageBounds;
+    if (this.page > pageBounds) {
+      this.getPage(pageBounds);
+    }
   }
 
   pickItem(item: FavoriteProduct) {
@@ -55,11 +56,7 @@ export class FavoriteListComponent implements OnInit {
   detelePickedItem() {
     if (this.pickedItem) {
       this.favoriteProductService.deleteById(this.pickedItem.id).subscribe(() => {
-        if (this.page <= this.pageBounds) {
-          this.getPage(this.page);
-        } else {
-          this.getPage(this.pageBounds);
-        }
+        this.getPage(this.page);
       });
     }
   }
