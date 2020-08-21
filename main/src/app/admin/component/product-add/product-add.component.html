@@ -43,11 +43,13 @@
                       <div class="form-group">
                         <div class="row">
                           <div class="col-3">
-                            <label>Tên sản phẩm <span class="text-danger">*</span> </label>
+                            <label required>Tên sản phẩm <span class="text-danger">*</span> </label>
                           </div>
                           <div class="col-8">
                             <input type="text" class="form-control" formControlName="name" id="tenSP">
+                            <p *ngIf="formAddNewProduct.controls.name.errors?.required && formAddNewProduct.controls.name.touched" class="text-danger">Required not null</p>
                           </div>
+                          
 
                           <div  class="col-1" style="float: right;" id="checkten" >
                             <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
@@ -87,7 +89,9 @@
                                   <div class="col-lg-3 col-md-5 col-sm-6">
                                       <button class="btn btn-light" type="button" data-toggle="button" style="width: 100%; display: block; text-align: center;" id="kiemtra" (click)=checkOwner()> Kiểm tra </button>
                                   </div>
+                                 
                               </div>
+                              <p *ngIf="formAddNewProduct.controls.owner.errors?.required && formAddNewProduct.controls.owner.touched" class="text-danger">Required not null</p>
                             </div>
                             <div  class="col-1" style="float: right;" id="checkID">
                               <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
@@ -130,7 +134,10 @@
                           </div>
                           <div class="col-8">
                             <input type="number" class="form-control" formControlName="initialPrice"  id="giabandau">
+                            <p *ngIf="formAddNewProduct.controls.initialPrice.errors?.required && formAddNewProduct.controls.initialPrice.touched" class="text-danger">Required not null</p>
                           </div>
+                          
+            
                           <div  class="col-1" style="float: right;" id="checkgiabandau">
                             <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
                           </div>
@@ -143,6 +150,7 @@
                           </div>
                           <div class="col-8">
                             <input type="number" class="form-control" placeholder="Là giá thấp nhất trong mỗi lần tăng giá" formControlName="increaseAmount" id="buocgia">
+                            <p *ngIf="formAddNewProduct.controls.increaseAmount.errors?.required && formAddNewProduct.controls.increaseAmount.touched" class="text-danger">Required not null</p>
                           </div>
                           <div  class="col-1" style="float: right;" id="checkbuocgia">
                             <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
@@ -197,7 +205,7 @@
                               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                               <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
-
+                            <p *ngIf="formAddNewProduct.controls.startDate.errors?.required && formAddNewProduct.controls.startDate.touched" class="text-danger">Required not null</p>
                           </div>
                           <div  class="col-1" style="float: right;" id="checkngaybatdau">
                             <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
@@ -216,6 +224,7 @@
                               <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                               <mat-datepicker #picker1></mat-datepicker>
                             </mat-form-field>
+                            <p *ngIf="formAddNewProduct.controls.endDate.errors?.required && formAddNewProduct.controls.endDate.touched" class="text-danger">Required not null</p>
                           </div>
                           <div  class="col-1" style="float: right;" id="checkngayketthuc">
                             <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
@@ -229,6 +238,7 @@
                           </div>
                           <div class="col-8">
                             <textarea class="form-control" rows="3" formControlName="description" id="thongtinchitiet"></textarea >
+                            <p *ngIf="formAddNewProduct.controls.description.errors?.required && formAddNewProduct.controls.description.touched" class="text-danger">Required not null</p>
                           </div>
                           <div  class="col-1" style="float: right;" id="checkthongtinchitiet">
                             <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
@@ -243,7 +253,7 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-warning" data-dismiss="modal">Đóng</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal" data-target="#addProduct" >Nhập lại</button>
-              <button type="button" class="btn btn-primary" (click)=" addNewProduct()" >Lưu lại</button>
+              <button type="button" [disabled]="formAddNewProduct.invalid" class="btn btn-primary" (click)=" addNewProduct()" >Lưu lại</button>
             </div>
           </div>
         </div>

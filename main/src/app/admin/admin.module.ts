@@ -13,13 +13,12 @@ import { ProductEditComponent } from './component/product-edit/product-edit.comp
                  ProductEditComponent,
                 ],
   imports: [
-    ReactiveFormsModule, CommonModule,
+    ReactiveFormsModule,
+    CommonModule,
     FormsModule,
     MaterialModule,
     CommonModule,
     AdminRoutingModule,
-    MaterialModule
-
   ],
   
   entryComponents:[]

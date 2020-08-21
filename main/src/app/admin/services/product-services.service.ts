@@ -11,6 +11,8 @@ export class ProductServicesService {
   ApiCategory = "http://localhost:8081/api/v1/categorys"
   ApiOwner = "http://localhost:8081/api/v1/owner"
 
+  private baseUrl = 'http://localhost:8080/api/v1/product/list';
+
   constructor(private http:HttpClient) { }
 
   addNewProduct(ProductObject): Observable<any> {
@@ -29,5 +31,10 @@ export class ProductServicesService {
   getOwnerById(idOwner): Observable<any>{
     return this.http.get(this.ApiOwner + "/" + idOwner)
   }
+    // Thành Long
+    getProductList(): Observable<any> {
+      return this.http.get(`${this.baseUrl}`);
+    }
+  
 
 }

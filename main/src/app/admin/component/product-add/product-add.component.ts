@@ -7,7 +7,7 @@ import { Router } from '@angular/router'
 import { JsonPipe } from '@angular/common';
 
 
-
+ declare let $:any
 @Component({
   selector: 'app-product-add',
   templateUrl: './product-add.component.html',
@@ -43,6 +43,112 @@ export class ProductAddComponent implements OnInit {
       description: ['', [Validators.required]],
       // approvementStatus:[{id: 1, "name": "dang cho duyet" }]
     })
+
+      // giai quyet van de ...
+      $(document).ready(function(){
+        $("#checkten").hide();
+
+        $("#tenSP").change(function(){
+          $("#checkten").show(1000);
+
+          // alert("Input has been changed.");
+        });
+      });
+
+      $(document).ready(function(){
+        $("#checkID").hide();
+
+        $("#idNguoiDang").change(function(){
+          $("#checkID").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+
+      $(document).ready(function(){
+        $("#checkID").hide();
+
+        $("#idNguoiDang").change(function(){
+          $("#checkID").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+      $(document).ready(function(){
+        $("#checkChungLoai").hide();
+
+        $("#chungloai").change(function(){
+          $("#checkChungLoai").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+      $(document).ready(function(){
+        $("#checkgiabandau").hide();
+
+        $("#giabandau").change(function(){
+          $("#checkgiabandau").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+
+      $(document).ready(function(){
+        $("#checkbuocgia").hide();
+
+        $("#buocgia").change(function(){
+          $("#checkbuocgia").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+      $(document).ready(function(){
+        $("#checkhinhanh").hide();
+
+        $("#hinhanh").change(function(){
+          $("#checkhinhanh").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+      $(document).ready(function(){
+        $("#checkngaybatdau").hide();
+
+        $("#ngaybatdau").change(function(){
+          $("#checkngaybatdau").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+      $(document).ready(function(){
+        $("#checkngayketthuc").hide();
+
+        $("#ngayketthuc").change(function(){
+          $("#checkngayketthuc").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+      $(document).ready(function(){
+        $("#checkthongtinchitiet").hide();
+
+        $("#thongtinchitiet").change(function(){
+          $("#checkthongtinchitiet").show(1000);
+          // alert("Input has been changed.");
+        });
+      });
+
+
+
+      $(document).ready(function(){
+        $("#kiemtra").click(function(){
+          alert("Thong tin nguoi dang da dissable")
+          $("#thongTinNguoiDang").prop('disabled', true)
+        });
+      });
+
+
+
   }
   checkOwner() {
     // console.log(this.formAddNewProduct.value.owner)
