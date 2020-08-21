@@ -1,5 +1,5 @@
 import { TokenStorageService } from './../../auth/token-storage.service';
-import { WebsocketService } from './../../websocket.service';
+import { WebsocketService } from './websocket.service';
 
 import { AuctionRecord } from './../models/auction-record';
 import { Auction } from './../models/auction';

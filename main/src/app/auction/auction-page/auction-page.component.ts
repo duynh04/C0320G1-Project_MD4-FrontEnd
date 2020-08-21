@@ -63,9 +63,9 @@ export class AuctionPageComponent implements OnInit {
                    clearInterval(loop1);
                   console.log(data);
                   // if u wonder why i pass this.auctionId as a param 
-                  // that's the temporary solutions for the prob which is 
+                  // that's the temporary solution for the prob which is 
                   // callback function of setInterval doesnt understand global variables hmmmm
-                  // dunno why .... as also dunno how to say that in vietnamese srr
+                  // dunno why .... as also dunno how to say that in vnamese srr
                   loop1 = setInterval(() =>{
                     this.updateCountdown(this.auctionId, data)
                     }, 1000);
