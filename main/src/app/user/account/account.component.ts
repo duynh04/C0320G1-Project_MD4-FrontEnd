@@ -4,7 +4,10 @@ import {UserService} from '../../shared/services/user.service';
 import {UserDto} from '../../shared/models/dtos/userDto';
 import {NOTIFICATION_USER} from '../../shared/validations/createUserValidator';
 import {validPhoneNumber} from '../../shared/validations/custom-validators';
+
+declare var $: any;
 declare let Email: any;
+
 
 @Component({
   selector: 'app-account',
@@ -38,11 +41,16 @@ export class AccountComponent implements OnInit {
   date: any;
   captchaCode: string;
   errors = NOTIFICATION_USER;
+  test;
+  authenticationFailed = '';
+
+
+
 
   ngOnInit() {
     this.date = new Date().toISOString().slice(0, 10);
     this.registerForm = this.fb.group({
-      fullName: ['', [Validators.required], Validators.pattern(/^[a-zA-Z ]+$/)],
+      fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]+$/)]],
       gender: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern(/^[A-Za-z0-9]+@[A-Za-z0-9]+(\.[A-Za-z0-9]+)$/)]],
       birthday: ['', [Validators.required]],
@@ -57,17 +65,39 @@ export class AccountComponent implements OnInit {
     }, {validators: [checkBirthday, checkPassword, this.checkCaptchaCode.bind(this)]});
   }
 
+  sendEmail() {
+    const numberConfirm = Math.floor(Math.random() * (900000)) + 100000;
+    Email.send({
+      Host: 'smtp.elasticemail.com',
+      Username: 'mauminhka19@gmail.com',
+      Password: 'F6CCB6D2D6FF8DB34FCB412A26F28353583D',
+      To: this.registerForm.value.email,
+      From: 'mauminhka19@gmail.com',
+      Subject: 'Xác nhận đăng ký thành viên',
+      Body: '<h3>mã xác nhận của bạn là: </h3>' + numberConfirm
+    });
+    this.test = numberConfirm;
+  }
+
+  confirmRegistration() {
+    // $('#myModal').modal({backdrop: 'static', keyboard: false});
+    const cf = (document.getElementById('confirmRegistration') as HTMLInputElement).value;
+    if (this.test.toString() === cf.toString()) {
+      this.onSubmit();
+    } else {
+      this.authenticationFailed = 'Mã xác nhận không đúng! vui lòng nhập lại';
+    }
+  }
+
   onSubmit() {
     // @ts-ignore
     this.userService.createUser(this.registerForm.value).subscribe(
       // tslint:disable-next-line:max-line-length
       data => (this.messagesEmails = data.notificationEmail , this.messagesPhones = data.notificationPhoneNumber), error => console.log(error)
     );
-    alert('Thêm Thành Công');
   }
 
   createCaptcha() {
-    // clear the contents of captcha div first
     document.getElementById('captcha').innerHTML = '';
     // tslint:disable-next-line:prefer-const
     let charsArray =
@@ -162,6 +192,8 @@ export class AccountComponent implements OnInit {
   get confirmCaptchaCode() {
     return this.registerForm.get('confirmCaptchaCode');
   }
+
+
 }
 
 function checkBirthday(formGroup: AbstractControl): ValidationErrors | null {

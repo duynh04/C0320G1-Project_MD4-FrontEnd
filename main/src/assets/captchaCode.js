@@ -26,22 +26,3 @@ function createCaptcha() {
     document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
 }
 
-function validateCaptcha() {
-    let captchaCode;
-    captchaCodeWarning = ""
-    event.preventDefault();
-    debugger
-    captchaCode = document.getElementById("captchaTextBox").value;
-    if (captchaCode===""){
-        captchaCodeWarning = "Vui lòng nhập mã xác minh";
-        document.getElementById("warningCaptchaCode").innerHTML = captchaCodeWarning;
-    }
-    else if (captchaCode !== code) {
-        captchaCodeWarning = "Nhập sai mã xác minh, Vui lòng thử lại";
-        document.getElementById("warningCaptchaCode").innerHTML = captchaCodeWarning;
-    }else {
-      return true
-    }
-}
-
-
