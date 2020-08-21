@@ -1,3 +1,4 @@
+import { TokenStorageService } from './../../auth/token-storage.service';
 import { WebsocketService } from './../../websocket.service';
 
 import { AuctionRecord } from './../models/auction-record';
@@ -12,8 +13,11 @@ import { Page } from '../models/dtos/page';
 })
 export class AuctionService {
 
+  constructor(private httpClient: HttpClient,
+              private tokenStorageService: TokenStorageService) { }
+
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json','Authorization': `Bearer `+ 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ2FuQGdtYWlsLmNvbSIsImV4cCI6MTU5Nzk0MzgxMywidXNlcklkIjo0LCJpYXQiOjE1OTc5MjU4MTN9.iz-sJ-jgaIFHm_H0Ci1cRLqige7pBz5iPm03P5VDcYhQoTsgOtzD2lcIWCMImwt8mVBuimc3l28k0RIy1z-k8Q'}),
+    headers: new HttpHeaders({ 'Content-Type': 'application/json','Authorization': `Bearer `+ this.tokenStorageService.getToken()}),
     'Access-Control-Allow-Origin': 'http://localhost:4200',
     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
   }
@@ -28,7 +32,7 @@ export class AuctionService {
 
   private currentPrice = "http://localhost:8080/api/v1/highestPrice"
 
-  constructor(private httpClient: HttpClient) { }
+ 
 
        
 

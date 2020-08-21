@@ -6,6 +6,7 @@ import * as io from 'socket.io-client';
 @Injectable({
   providedIn: 'root'
 })
+// class này dùng để kết nối với server nodejstr
 export class WebsocketService {
 
   socket: any;
@@ -16,18 +17,15 @@ constructor(){
 }
 
 listen (eventName: string){
-  return new Observable((subscriber) => {
+  return new Observable((observer) => {
     this.socket.on(eventName, (data) => {
-      subscriber.next(data);
+      observer.next(data);
     })
   })
 }
 
 emit(eventName: string, data: any){
   this.socket.emit(eventName, data);
-}
-
-
-  
+}  
 
 }

@@ -40,11 +40,11 @@ export class LoginComponent implements OnInit {
     this.auth.attemptAuth(userInfo).subscribe(
       data => {
         console.log(data)
-        console.log(data.token)
+        console.log(data.jwttoken)
         console.log(data.authorities)
         this.tokenStorage.saveUser(data)
         this.tokenStorage.saveAuthorities(data.authorities);
-        this.tokenStorage.saveToken(data.token);
+        this.tokenStorage.saveToken(data.jwttoken);
         this.tokenStorage.saveUsername(data.accountName);
         // tslint:disable-next-line:triple-equals
         if (this.tokenStorage.getAuthorities().indexOf('ROLE_ADMIN') != -1) {

@@ -4,7 +4,6 @@ export class JwtResponse {
   userId: number;
   accountName: string;
   authorities: Authority[];
-
 }
 
 export interface Authority {
