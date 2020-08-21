@@ -1,6 +1,6 @@
 import { CartService } from './../../shared/services/cart.service';
 import { TokenStorageService } from './../../auth/token-storage.service';
-import { WebsocketService } from './../../websocket.service';
+import { WebsocketService } from '../../shared/services/websocket.service';
 import { Component, OnInit} from '@angular/core';
 import { FormControl, Validators, AbstractControl } from '@angular/forms';
 import { AuctionService } from 'src/app/shared/services/auction.service';
