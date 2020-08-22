@@ -75,7 +75,7 @@
                     <label for="addr" class="col-md-4 col-form-label">Địa chỉ <span class="text-danger">*</span></label>
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="addr" formControlName="street"
-                            [class.mark-success]="street.valid">
+                            [class.mark-success]="street.valid" (blur)="autoTrim('street', $event)" maxlength="30">
                         <div *ngIf="street.touched && street.dirty">
                             <ng-container *ngFor="let error of errors.streetErrors">
                                 <small *ngIf="street.hasError(error.code)" class="d-block text-danger"
@@ -104,7 +104,7 @@
                             class="text-danger">*</span></label>
                     <div class="col-md-8">
                         <input required type="text" class="form-control" id="phone" formControlName="phoneNumber"
-                            [class.mark-success]="phoneNumber.valid">
+                            [class.mark-success]="phoneNumber.valid" (blur)="autoTrim('phone', $event)" maxlength="20">
                         <div *ngIf="phoneNumber.touched && phoneNumber.dirty">
                             <ng-container *ngFor="let error of errors.phoneNumberErrors">
                                 <small *ngIf="phoneNumber.hasError(error.code)" class="d-block text-danger"

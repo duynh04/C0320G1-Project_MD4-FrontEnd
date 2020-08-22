@@ -1,8 +1,13 @@
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import { ErrorDetail } from './../models/dtos/error-detail';
+import { TestUser } from './../models/dtos/test-user';
+import { handler } from './../exceptions/exception-handler';
+import { catchError } from 'rxjs/operators';
 import { Product } from './../models/product';
 import { Page } from './../models/dtos/page';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +17,26 @@ export class ProductService {
   // Creator: Cường
   private readonly API_URL = "http://localhost:8080/api/v1";
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private tokenStorage : TokenStorageService
+    ) { }
+
+  // Creator: Cường
+  // testError() : Observable<TestUser | ErrorDetail> {
+  //   return this.http.get<TestUser | ErrorDetail>("http://localhost:8088/api/v1/employees/3",{
+  //       headers: new HttpHeaders({
+  //       'Content-Type': 'application/json'
+  //     })
+  //   }).pipe(catchError(handler));
+  // }
 
   // Creator: Cường
   getMyProductHttpOptions(productName: string, approvementStatusName: string, page: number): Object {
 
     let myProductOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       }),
       params: {
         productName: productName,

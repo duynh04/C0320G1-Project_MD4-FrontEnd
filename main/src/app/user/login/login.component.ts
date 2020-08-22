@@ -1,93 +1,72 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthLoginInfo } from '../../auth/login-info';
 import { AuthJwtService } from '../../auth/auth-jwt.service';
 import { TokenStorageService } from '../../auth/token-storage.service';
-import { Router, ActivatedRoute } from '@angular/router';
-declare let $: any;
+import { Router, ActivatedRoute, QueryParamsHandling } from '@angular/router';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
   userInfo: AuthLoginInfo;
-  message = '';
-  constructor(
-    private auth: AuthJwtService,
+  snapshotUrl : string;
+  constructor(private auth: AuthJwtService,
     private fb: FormBuilder,
-    private tokenStorage: TokenStorageService,
+    private tokenStorageService: TokenStorageService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) { }
+    private activatedRoute : ActivatedRoute
+    ) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, validateWhitespace,
-      Validators.pattern('^[a-z][a-z0-9_\\.]{2,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$')]],
-      password: ['', [Validators.required]],
-    });
-
-    $('#togglePassword').click(() => {
-      // tslint:disable-next-line:prefer-const
-      let passwordFieldType = $('#password').attr('type');
-      // tslint:disable-next-line:triple-equals
-      if (passwordFieldType == 'password') {
-        $('#password').prop('type', 'text');
-      } else {
-        $('#password').prop('type', 'password');
-      }
+      username: ['', [Validators.required]],
+      password: ['', Validators.required]
     });
   }
   onSubmit() {
     this.submitted = true;
-    this.userInfo = new AuthLoginInfo(this.femail.value, this.fpassword.value);
+    this.userInfo = new AuthLoginInfo(this.fusername.value, this.fpassword.value);
     this.login(this.userInfo);
   }
 
-  get femail() {
-    return this.loginForm.get('email');
+  get fusername() {
+    return this.loginForm.get('username');
   }
   get fpassword() {
     return this.loginForm.get('password');
   }
   public login(userInfo) {
-    this.auth.attemptAuth(userInfo).subscribe(
-      data => {
-        this.tokenStorage.saveAuthorities(data.authorities);
-        this.tokenStorage.saveToken(data.jwttoken);
-        this.tokenStorage.saveUsername(data.accountName);
-        this.tokenStorage.saveUserId(data.userId);
-      },
-      error => {
-        console.log('Error ', error);
-        this.message = 'Tài Khoản này không đúng hoặc đã bị khóa';
-      }, () => {
-        this.activatedRoute.queryParamMap.subscribe(value => {
-          const returnUrl = value.get('returnUrl');
-          if (returnUrl) {
-            this.router.navigateByUrl(returnUrl);
-          } else {
-            this.router.navigateByUrl('/');
+
+    this.activatedRoute.queryParamMap.subscribe( (queryParamMap)  => {
+
+      this.snapshotUrl = queryParamMap.get("returnUrl");
+
+      this.auth.attemptAuth(userInfo).subscribe(
+        data => {
+          console.log(data);
+          this.tokenStorageService.saveJwtResponse(data);
+
+          if(this.snapshotUrl != null) {
+            console.log(this.snapshotUrl);
+            this.router.navigateByUrl(this.snapshotUrl);
+          }else {
+            this.router.navigateByUrl("/");
           }
-        });
-      }
-    );
+
+        },
+        error => {
+          console.log('Error ', error);
+        }
+      );
+    })
+
+
 
   }
 
 }
-function validateWhitespace(c: AbstractControl) {
-  if (c.value !== '') {
-    const isWhitespace = c.value.trim().length === 0;
-    const isValid = !isWhitespace;
-    return isValid ? null : { whitespace: true };
-  }
-  return null;
-}
-
-
-

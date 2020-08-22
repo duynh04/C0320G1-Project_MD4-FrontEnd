@@ -10,5 +10,6 @@ import { AdminRoutingModule } from './admin-routing.module';
     CommonModule,
     AdminRoutingModule
   ]
+
 })
 export class AdminModule { }

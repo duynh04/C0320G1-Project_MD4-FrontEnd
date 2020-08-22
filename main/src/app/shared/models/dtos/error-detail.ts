@@ -1,7 +1,7 @@
 export interface ErrorDetail {
-    timestamp: string,
-    message: string,
-    details: string,
+    timestamp: string;
+    message: string;
+    details: string;
     errors: Error
 }
 
