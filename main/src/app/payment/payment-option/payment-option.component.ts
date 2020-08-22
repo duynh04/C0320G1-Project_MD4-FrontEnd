@@ -22,19 +22,21 @@ export class PaymentOptionComponent implements OnInit {
   //
   orderForm: FormGroup;
   payments: any;
-  orderDto: OrderDto = new OrderDto();
+  // orderDto: OrderDto = new OrderDto();
   paymentMethod: string;
   deliveryMethod: string = "Giao hàng tiêu chuẩn";
   deliveryAddress: string = "da nang"
   paymentStatus = "Fail";
+
+  result: string = "";
+  cssResult: string = "";
 
   constructor(
     private orderService: OrderService,
     private router: Router,
     private paymentService: PaymentService,
     private tokenStorageService: TokenStorageService
-
-  ) { };
+  ) { }
 
 
 
@@ -60,20 +62,21 @@ export class PaymentOptionComponent implements OnInit {
   }
 
   onSubmit() {
-
-    this.orderDto.paymentMethod = this.paymentMethod;
-    this.orderDto.deliveryMethod = this.deliveryMethod;
+    const orderDto = {} as OrderDto
+    orderDto.paymentMethod = this.paymentMethod;
+    orderDto.deliveryMethod = this.deliveryMethod;
     if (this.paymentMethod == "Thanh toán trực tiếp") {
-      this.orderDto.paymentState = "Đang chờ thanh toán";
+      orderDto.paymentState = "Đang chờ thanh toán";
     } else {
-      this.orderDto.paymentState = "Đã thanh toán thành công";
+      orderDto.paymentState = "Đã thanh toán thành công";
     }
-    this.orderDto.deliveryAddress = this.deliveryAddress;
+    orderDto.deliveryAddress = this.deliveryAddress;
 
     // this.orderDto.buyer = { id: this.tokenStorageService.getUser().userId }
+    console.log(orderDto)
     console.log(this.paymentStatus)
     this.orderService
-      .createOrder(this.orderDto)
+      .createOrder(orderDto)
       .subscribe(() => this.router.navigate(["payment/order"]));
   }
 
@@ -93,7 +96,13 @@ export class PaymentOptionComponent implements OnInit {
       onApprove: (data) => {
         this.paymentService.confirmPayPalTransaction(data.orderID).subscribe(res => {
           this.paymentStatus = res.status;
-          console.log(this.paymentStatus);
+          if (this.paymentStatus == "COMPLETED") {
+            this.result = "Thanh toán thành công.";
+            this.cssResult = "text-success";
+          } else {
+            this.result = "Thanh toán thất bại. Hãy thử lại.";
+            this.cssResult = "text-danger";
+          }
         });
       },
       onError: err => {
@@ -101,6 +110,8 @@ export class PaymentOptionComponent implements OnInit {
       },
       onCancel: (cancel) => {
         this.paymentStatus = "Fail"
+        this.result = "Thanh toán thất bại. Hãy thử lại.";
+        this.cssResult = "text-danger";
       }
     };
   }
@@ -118,10 +129,12 @@ export class PaymentOptionComponent implements OnInit {
   onPaymentStatus(response): void {
     if (response.status != undefined) {
       this.paymentStatus = "Success";
-      console.log(response.status);
+      this.result = "Thanh toán thành công.";
+      this.cssResult = "text-success";
     } else {
       this.paymentStatus = "Fail";
-      console.log(response.message);
+      this.result = "Thanh toán thất bại. Hãy thử lại.";
+      this.cssResult = "text-danger";
     }
   }
 }

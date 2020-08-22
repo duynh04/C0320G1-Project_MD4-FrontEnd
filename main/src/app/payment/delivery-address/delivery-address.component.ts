@@ -62,26 +62,27 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
       instruction: [''],
       isUpdate: [false]
     });
-    this.subscr[1] = this.paymentService.getAddress().subscribe((user: DeliveryAddressDTO) => {
-      if (user.addresses.length == 0) {
+    this.subscr[1] = this.route.data.subscribe((data: { addr: DeliveryAddressDTO }) => {
+      console.log(data.addr);
+      if (data.addr.addresses.length == 0) {
         this.addressForm.patchValue({
-          fullName: user.fullname,
-          email: user.email,
+          fullName: data.addr.fullname,
+          email: data.addr.email,
           nation: 'Việt Nam'
         })
       } else {
-        this.address_id = user.addresses[0].id;
-        this.onCityChange(user.addresses[0].city);
-        this.onDistrictChange(user.addresses[0].city, user.addresses[0].district);
+        this.address_id = data.addr.addresses[0].id;
+        this.onCityChange(data.addr.addresses[0].city);
+        this.onDistrictChange(data.addr.addresses[0].city, data.addr.addresses[0].district);
         this.addressForm.patchValue({
-          fullName: user.fullname,
-          city: user.addresses[0].city,
-          district: user.addresses[0].district,
-          ward: user.addresses[0].ward,
-          street: user.addresses[0].street,
-          nation: user.addresses[0].nation,
-          email: user.email,
-          phoneNumber: user.addresses[0].phoneNumber,
+          fullName: data.addr.fullname,
+          city: data.addr.addresses[0].city,
+          district: data.addr.addresses[0].district,
+          ward: data.addr.addresses[0].ward,
+          street: data.addr.addresses[0].street,
+          nation: data.addr.addresses[0].nation,
+          email: data.addr.email,
+          phoneNumber: data.addr.addresses[0].phoneNumber,
         })
       }
 

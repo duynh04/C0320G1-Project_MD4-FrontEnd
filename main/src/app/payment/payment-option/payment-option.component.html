@@ -167,6 +167,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-4 offset-1 mt-3">
+                        <p [class]="cssResult">{{result}}</p>
+                    </div>
+                </div>
             </div>
             <div class=" d-flex justify-content-center m-3">
                 <button [disabled]="paymentStatus=='Fail'" (click)="onSubmit()" class="btn btn-primary">Tiếp
