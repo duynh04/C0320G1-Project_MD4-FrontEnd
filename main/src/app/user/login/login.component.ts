@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthLoginInfo } from '../../auth/login-info';
-import { AuthJwtService } from '../../auth/auth-jwt.service';
-import { TokenStorageService } from '../../auth/token-storage.service';
-import { Router, ActivatedRoute, QueryParamsHandling } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthLoginInfo} from '../../auth/login-info';
+import {AuthJwtService} from '../../auth/auth-jwt.service';
+import {TokenStorageService} from '../../auth/token-storage.service';
+import {ActivatedRoute, Router} from '@angular/router';
+
+declare let $: any;
 
 @Component({
   selector: 'app-login',
@@ -14,59 +16,77 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
   userInfo: AuthLoginInfo;
-  snapshotUrl : string;
-  constructor(private auth: AuthJwtService,
+  message = '';
+
+  constructor(
+    private auth: AuthJwtService,
     private fb: FormBuilder,
-    private tokenStorageService: TokenStorageService,
+    private tokenStorage: TokenStorageService,
     private router: Router,
-    private activatedRoute : ActivatedRoute
-    ) { }
+    private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required]],
-      password: ['', Validators.required]
+      email: ['', [Validators.required, validateWhitespace,
+        Validators.pattern('^[a-z][a-z0-9_\\.]{2,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$')]],
+      password: ['', [Validators.required]],
+    });
+
+    $('#togglePassword').click(() => {
+      // tslint:disable-next-line:prefer-const
+      let passwordFieldType = $('#password').attr('type');
+      // tslint:disable-next-line:triple-equals
+      if (passwordFieldType == 'password') {
+        $('#password').prop('type', 'text');
+      } else {
+        $('#password').prop('type', 'password');
+      }
     });
   }
+
   onSubmit() {
     this.submitted = true;
-    this.userInfo = new AuthLoginInfo(this.fusername.value, this.fpassword.value);
+    this.userInfo = new AuthLoginInfo(this.femail.value, this.fpassword.value);
     this.login(this.userInfo);
   }
 
-  get fusername() {
-    return this.loginForm.get('username');
+  get femail() {
+    return this.loginForm.get('email');
   }
+
   get fpassword() {
     return this.loginForm.get('password');
   }
+
   public login(userInfo) {
-
-    this.activatedRoute.queryParamMap.subscribe( (queryParamMap)  => {
-
-      this.snapshotUrl = queryParamMap.get("returnUrl");
-
-      this.auth.attemptAuth(userInfo).subscribe(
-        data => {
-          console.log(data);
-          this.tokenStorageService.saveJwtResponse(data);
-
-          if(this.snapshotUrl != null) {
-            console.log(this.snapshotUrl);
-            this.router.navigateByUrl(this.snapshotUrl);
-          }else {
-            this.router.navigateByUrl("/");
+    this.auth.attemptAuth(userInfo).subscribe(
+      data => {
+        this.tokenStorage.saveJwtResponse(data);
+      },
+      error => {
+        console.log('Error ', error);
+        this.message = 'Tài Khoản này không đúng hoặc đã bị khóa';
+      }, () => {
+        this.activatedRoute.queryParamMap.subscribe(value => {
+          const returnUrl = value.get('returnUrl');
+          if (returnUrl) {
+            this.router.navigateByUrl(returnUrl);
+          } else {
+            this.router.navigateByUrl('/');
           }
-
-        },
-        error => {
-          console.log('Error ', error);
-        }
-      );
-    })
-
-
-
+        });
+      }
+    );
   }
 
+}
+
+function validateWhitespace(c: AbstractControl) {
+  if (c.value !== '') {
+    const isWhitespace = c.value.trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : {whitespace: true};
+  }
+  return null;
 }

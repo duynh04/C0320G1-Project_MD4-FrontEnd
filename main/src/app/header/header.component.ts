@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { TokenStorageService } from '../auth/token-storage.service';
-import { Router, NavigationStart } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { CartService } from '../shared/services/cart.service';
+import {Component, OnInit} from '@angular/core';
+import {TokenStorageService} from '../auth/token-storage.service';
+import {NavigationStart, Router} from '@angular/router';
+import {filter} from 'rxjs/operators';
+import {CartService} from '../shared/services/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
 
   email: string;
   cartCount: number;
+  isAdmin: boolean;
 
   constructor(
     private token: TokenStorageService,
@@ -21,11 +22,15 @@ export class HeaderComponent implements OnInit {
     this.router.events
       .pipe(filter(event => event instanceof NavigationStart))
       .subscribe(() => {
-        this.email = window.sessionStorage.getItem('AuthUsername');
-        const userId = this.token.getUserId();
-        this.cartService.getCart(userId).subscribe(cart => {
-          this.cartCount = cart.cartDetails.length;
-        }, () => this.cartCount = 0);
+        console.log('HeaderComponent');
+        if (this.token.getJwtResponse()) {
+          this.email = this.token.getJwtResponse().accountName;
+          this.isAdmin = this.token.getAuthorities().includes('ROLE_ADMIN');
+          const userId = this.token.getJwtResponse().userId;
+          this.cartService.getCart(userId).subscribe(cart => {
+            this.cartCount = cart.cartDetails.length;
+          }, () => this.cartCount = 0);
+        }
       });
   }
 

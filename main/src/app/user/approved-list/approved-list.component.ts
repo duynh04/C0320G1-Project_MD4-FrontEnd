@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Product } from 'src/app/shared/models/product';
-import { ProductService } from 'src/app/shared/services/product.service';
-import { tap, map } from 'rxjs/operators';
-import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
+import {Product} from 'src/app/shared/models/product';
+import {ProductService} from 'src/app/shared/services/product.service';
+import {map, tap} from 'rxjs/operators';
+import {TokenStorageService} from 'src/app/auth/token-storage.service';
 
 @Component({
   selector: 'app-approved-list',
@@ -17,13 +17,12 @@ export class ApprovedListComponent implements OnInit {
   total: number;
   perPage: number;
   page: number;
-  pageBounds: number;
   isEmpty: boolean;
 
   constructor(
     private productService: ProductService,
     private token: TokenStorageService) {
-    this.userId = this.token.getUserId();
+    this.userId = this.token.getJwtResponse().userId;
     this.isEmpty = true;
     this.page = 1;
   }

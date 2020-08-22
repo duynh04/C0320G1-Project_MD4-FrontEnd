@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FavoriteProduct } from '../../shared/models/favorite-product';
-import { map, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { FavoriteProductService } from 'src/app/shared/services/favorite-product.service';
-import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import {Component, OnInit} from '@angular/core';
+import {FavoriteProduct} from '../../shared/models/favorite-product';
+import {map, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {FavoriteProductService} from 'src/app/shared/services/favorite-product.service';
+import {TokenStorageService} from 'src/app/auth/token-storage.service';
 
 @Component({
   selector: 'app-favorite-list',
@@ -23,7 +23,7 @@ export class FavoriteListComponent implements OnInit {
   constructor(
     private favoriteProductService: FavoriteProductService,
     private token: TokenStorageService) {
-    this.userId = this.token.getUserId();
+    this.userId = this.token.getJwtResponse().userId;
     this.page = 1;
   }
 
@@ -53,7 +53,7 @@ export class FavoriteListComponent implements OnInit {
     this.pickedItem = item;
   }
 
-  detelePickedItem() {
+  deletePickedItem() {
     if (this.pickedItem) {
       this.favoriteProductService.deleteById(this.pickedItem.id).subscribe(() => {
         this.getPage(this.page);
