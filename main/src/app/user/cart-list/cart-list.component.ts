@@ -23,7 +23,7 @@ export class CartListComponent implements OnInit {
     private cartService: CartService,
     private router: Router,
     private token: TokenStorageService) {
-    this.userId = this.token.getUserId();
+    this.userId = this.token.getJwtResponse().userId;
   }
 
   ngOnInit() {

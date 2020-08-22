@@ -22,7 +22,7 @@ export class WaitForApprovalComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private token: TokenStorageService) {
-    this.userId = this.token.getUserId();
+    this.userId = this.token.getJwtResponse().userId;
     this.isEmpty = true;
     this.page = 1;
   }

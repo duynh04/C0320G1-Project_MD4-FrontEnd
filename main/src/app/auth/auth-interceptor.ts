@@ -9,10 +9,9 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private token: TokenStorageService) { }
 
-  // tslint:disable-next-line:typedef
   intercept(req, next) {
     let authReq = req;
-    const token = this.token.getToken();
+    const token = this.token.getJwtResponse() ;
     if (token != null) {
       authReq = req.clone({
         setHeaders: {

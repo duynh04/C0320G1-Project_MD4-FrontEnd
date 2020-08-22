@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {TokenStorageService} from './token-storage.service';
 @Injectable({providedIn: 'root'})
-export class AuthGuard implements CanActivate {
+export class UserGuard implements CanActivate {
   constructor(
     private router: Router,
     private authenticationService: TokenStorageService
@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
 
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const currentUser = this.authenticationService.getUsername();
+    const currentUser = this.authenticationService.getJwtResponse().accountName;
     if (currentUser) {
       // logged in so return true
       return true;

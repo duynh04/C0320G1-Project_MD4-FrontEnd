@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
 
   email: string;
   cartCount: number;
+  isAdmin: boolean;
 
   constructor(
     private token: TokenStorageService,
@@ -21,8 +22,9 @@ export class HeaderComponent implements OnInit {
     this.router.events
       .pipe(filter(event => event instanceof NavigationStart))
       .subscribe(() => {
-        this.email = window.sessionStorage.getItem('AuthUsername');
-        const userId = this.token.getUserId();
+        this.email = this.token.getJwtResponse().accountName ;
+        this.isAdmin = this.token.getAuthorities().indexOf('ROLE_ADMIN') !== -1;
+        const userId = this.token.getJwtResponse().userId;
         this.cartService.getCart(userId).subscribe(cart => {
           this.cartCount = cart.cartDetails.length;
         }, () => this.cartCount = 0);
@@ -30,7 +32,6 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.email = window.sessionStorage.getItem('AuthUsername');
   }
 
   logOut() {

@@ -1,9 +1,13 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {JwtResponse} from './jwt-response';
 
 const TOKEN_KEY = 'AuthToken';
 const USERNAME_KEY = 'AuthUsername';
 const AUTHORITIES_KEY = 'AuthAuthorities';
-const IDUSER_KEY = 'AuthIdUser';
+const USERID_KEY = 'AuthUserId';
+const USER_KEY = 'AuthUser';
+const JWTRESPONSE_KEY = 'JwtResponse';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,48 +17,31 @@ export class TokenStorageService {
 
   constructor() {
   }
+
   signOut() {
-    window.sessionStorage.clear();
-  }
-  public saveToken(token: string) {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, token);
-  }
-
-  public getToken(): string {
-    return sessionStorage.getItem(TOKEN_KEY);
-  }
-  public saveUsername(username: string) {
-    window.sessionStorage.removeItem(USERNAME_KEY);
-    window.sessionStorage.setItem(USERNAME_KEY, username);
-  }
-
-  public getUsername(): string {
-    return sessionStorage.getItem(USERNAME_KEY);
-  }
-  public saveAuthorities(authorities: string[]) {
-    window.sessionStorage.removeItem(AUTHORITIES_KEY);
-    window.sessionStorage.setItem(AUTHORITIES_KEY, JSON.stringify(authorities));
+    window.localStorage.clear();
   }
 
   public getAuthorities(): string[] {
     this.roles = [];
-
-    if (sessionStorage.getItem(TOKEN_KEY)) {
-      JSON.parse(sessionStorage.getItem(AUTHORITIES_KEY)).forEach(authority => {
+    if (window.localStorage.getItem(JWTRESPONSE_KEY)) {
+      JSON.parse(window.localStorage.getItem(JWTRESPONSE_KEY)).authorities.forEach(authority => {
         this.roles.push(authority.authority);
       });
     }
-
     return this.roles;
   }
 
-  public saveUserId(userId: number) {
-    window.sessionStorage.removeItem(IDUSER_KEY);
-    window.sessionStorage.setItem(IDUSER_KEY, userId.toString());
+  public saveJwtResponse(jwtResponse: JwtResponse) {
+    window.localStorage.removeItem(JWTRESPONSE_KEY);
+    window.localStorage.setItem(JWTRESPONSE_KEY, JSON.stringify(jwtResponse));
   }
 
-  public getUserId(): number {
-    return Number(sessionStorage.getItem(IDUSER_KEY));
+  public getJwtResponse(): JwtResponse {
+    return JSON.parse(window.localStorage.getItem(JWTRESPONSE_KEY));
   }
 }
+
+
+
+

@@ -12,7 +12,6 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthJwtService {
-  isLoggedIn = false;
 
   loginUrl = 'http://localhost:8080/api/v1/login';
   constructor(private http: HttpClient) {
@@ -21,10 +20,5 @@ export class AuthJwtService {
   attemptAuth(userInfo: AuthLoginInfo): Observable<JwtResponse> {
     return this.http.post<JwtResponse>(this.loginUrl, userInfo, httpOptions);
   }
-  // registerAuth(accountInfo: AuthAccountInfo): Observable<JwtResponse> {
-  //   return this.http.post<JwtResponse>(this.registerUrl, accountInfo, httpOptions);
-  // }
-  logout(): void {
-    this.isLoggedIn = false;
-  }
+
 }

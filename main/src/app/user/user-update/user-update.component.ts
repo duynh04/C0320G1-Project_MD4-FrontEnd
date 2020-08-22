@@ -56,8 +56,8 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
       gender:['',[Validators.required]],
       address: ['',[Validators.required]]
     });
-      this.userService.getUserById("1").subscribe(data=>{
-  
+      this.userService.getUserById("1").subscribe(data=> {
+
         this.userForm.patchValue(data);
       },error=>{this.errorMessage="Lỗi!! Không tìm thấy tài khoản của bạn"})
   }
@@ -83,7 +83,7 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
 
   backToHomePage(){
     this.router.navigateByUrl("/home");
-  }  
+  }
   togglePass(){
     if(this.hideableDiv==true){
       this.hideableDiv=false;

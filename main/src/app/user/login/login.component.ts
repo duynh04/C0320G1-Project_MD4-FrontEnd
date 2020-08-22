@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthLoginInfo } from '../../auth/login-info';
-import { AuthJwtService } from '../../auth/auth-jwt.service';
-import { TokenStorageService } from '../../auth/token-storage.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthLoginInfo} from '../../auth/login-info';
+import {AuthJwtService} from '../../auth/auth-jwt.service';
+import {TokenStorageService} from '../../auth/token-storage.service';
+import {Router, ActivatedRoute} from '@angular/router';
+
 declare let $: any;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,18 +18,21 @@ export class LoginComponent implements OnInit {
   submitted = false;
   userInfo: AuthLoginInfo;
   message = '';
+  isRemember: boolean;
+
   constructor(
     private auth: AuthJwtService,
     private fb: FormBuilder,
     private tokenStorage: TokenStorageService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, validateWhitespace,
-      Validators.pattern('^[a-z][a-z0-9_\\.]{2,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$')]],
+        Validators.pattern('^[a-z][a-z0-9_\\.]{2,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$')]],
       password: ['', [Validators.required]],
     });
 
@@ -42,6 +47,7 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
   onSubmit() {
     this.submitted = true;
     this.userInfo = new AuthLoginInfo(this.femail.value, this.fpassword.value);
@@ -51,16 +57,20 @@ export class LoginComponent implements OnInit {
   get femail() {
     return this.loginForm.get('email');
   }
+
   get fpassword() {
     return this.loginForm.get('password');
   }
+
+  remember($event) {
+    this.isRemember = $event.target.checked;
+  }
+
   public login(userInfo) {
     this.auth.attemptAuth(userInfo).subscribe(
       data => {
-        this.tokenStorage.saveAuthorities(data.authorities);
-        this.tokenStorage.saveToken(data.jwttoken);
-        this.tokenStorage.saveUsername(data.accountName);
-        this.tokenStorage.saveUserId(data.userId);
+        this.tokenStorage.saveJwtResponse(data);
+        console.log(data) ;
       },
       error => {
         console.log('Error ', error);
@@ -80,11 +90,12 @@ export class LoginComponent implements OnInit {
   }
 
 }
+
 function validateWhitespace(c: AbstractControl) {
   if (c.value !== '') {
     const isWhitespace = c.value.trim().length === 0;
     const isValid = !isWhitespace;
-    return isValid ? null : { whitespace: true };
+    return isValid ? null : {whitespace: true};
   }
   return null;
 }

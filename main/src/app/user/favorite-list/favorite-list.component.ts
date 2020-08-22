@@ -23,7 +23,7 @@ export class FavoriteListComponent implements OnInit {
   constructor(
     private favoriteProductService: FavoriteProductService,
     private token: TokenStorageService) {
-    this.userId = this.token.getUserId();
+    this.userId = this.token.getJwtResponse().userId;
     this.page = 1;
   }
 
