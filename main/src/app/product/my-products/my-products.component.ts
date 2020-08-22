@@ -1,3 +1,4 @@
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Product } from './../../shared/models/product';
@@ -17,7 +18,7 @@ export class MyProductsComponent implements OnInit {
   myProductList: Observable<Product[]>;
   stt: number[] ;
   cancelProduct : Product;
-  ownerId : number = 1;
+  ownerId : number;
   productName : string = "";
   approvementStatusName : string = "";
   currentProductName = "";
@@ -30,7 +31,7 @@ export class MyProductsComponent implements OnInit {
   constructor(
     private productService : ProductService,
     private router : Router,
-    private activatedRoute : ActivatedRoute
+    private tokenStorageService : TokenStorageService,
   ) { }
 
   getColor(approvementStatusName : string) : string {
@@ -105,6 +106,7 @@ export class MyProductsComponent implements OnInit {
 
   ngOnInit() {
     this.elementRef.nativeElement.focus();
+    this.ownerId = this.tokenStorageService.getJwtResponse().userId;
     this.getPage(1);
     // this.test();
   }

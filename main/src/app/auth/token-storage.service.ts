@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Authority, JwtResponse } from './jwt-response';
 
-const TOKEN_KEY = 'AuthToken';
-const USERNAME_KEY = 'AuthUsername';
-const AUTHORITIES_KEY = 'AuthAuthorities';
-const USERID_KEY = 'AuthUserId';
-const USER_KEY = 'AuthUser';
+
 const JWTRESPONSE_KEY = "JwtResponse";
 @Injectable({
   providedIn: 'root'
