@@ -9,12 +9,7 @@ import { Page } from '../models/dtos/page';
   providedIn: 'root'
 })
 export class AuctionService {
-  //creator: Hung-test
-  private readonly API_URL_AUCTION = "http://localhost:8080/api/v1/auctions/";
-  getAllAuctions():Observable<Auction[]>{
-    return this.http.get<Auction[]>(this.API_URL_AUCTION);
-  }
-
+ 
   // Creator: Cường
   private readonly API_URL = "http://localhost:8080/api/v1";
 
@@ -46,5 +41,21 @@ export class AuctionService {
       this.getMyAuctionRecordHttpOptions(productName,recordStatusName,page));
 
   }
+   
+  //Creator: Hùng.
+  getAuctionsProductByAuctionId(id: number):Observable<Auction[]>{
+    return this.http.get<Auction[]>(this.API_URL+'/auctionStatus/'+id);
+  }
+
+  //Creator: BHung.
+  getTopAuction():Observable<Auction[]>{
+    return this.http.get<Auction[]>(this.API_URL+'/topAuction');
+  }
+
+   //Creator: BHung.
+   getAucionsListByAuctionIdAndCategoryName(id:number,name: string):Observable<Auction[]>{
+    return this.http.get<Auction[]>(this.API_URL+'/'+id+'/'+name);
+  }
+
 
 }

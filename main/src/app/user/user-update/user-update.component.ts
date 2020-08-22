@@ -53,7 +53,8 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
   dateOfBirth:string;
   constructor(private fb: FormBuilder,
               private userService: UserService,
-              private router : Router
+              private router : Router,
+              // private tokenStorageService: TokenStorageService
             ) {}
   ngAfterViewInit(): void {
     this.elementRef.nativeElement.focus();
@@ -86,7 +87,7 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
     this.user.password = this.userForm.get('pwGroup').get('password').value;
     this.user.newPassword = this.userForm.get('pwGroup').get('newPassword').value;
     this.user.confirmPassword = this.userForm.get('pwGroup').get('confirmPassword').value;
-    this.user.id= Number.parseInt(localStorage.getItem("id"));
+    // this.user.id= this.tokenStorageService.getUser().userId;
     this.user.id=1;
     this.userService.updateUser(this.userForm.value,"1").subscribe(data=>{
       console.log(data.backendMessage)

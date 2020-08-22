@@ -17,9 +17,13 @@ export class UserService {
       'Content-Type' : 'application/json'
     })
   }
+  // httpOptions = {
+  //   headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ` + this.tokenStorage.getUser().jwttoken })
+  //   , 'Access-Control-Allow-Origin': 'http://localhost:4200', 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+  // };
   //creator: Nguyễn Xuân Hùng
   getUserById(id) : Observable<UserUpdateDto>{
-    return this.http.get<UserUpdateDto>(this.API_URL_USER+id);
+    return this.http.get<UserUpdateDto>(this.API_URL_USER+id,this.httpOptions);
   }
   //creator: Nguyễn Xuân Hùng
   updateUser(user: UserUpdateDto, id) : Observable<UserUpdateDto>{

@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <h2 class="text-center mt-3 mb-3">TOP SẢN PHẨM ĐẤU GIÁ THÀNH CÔNG</h2>
+    <table class="table table-striped ">
+        <thead class="bg-primary text-white">
+          <tr>
+            <th scope="col">Số thứ tự</th>
+            <th scope="col">Tên sản phẩm</th>
+            <th scope="col">Giá</th>
+            <th scope="col">Thời gian</th>
+            <th scope="col">Họ và tên người đấu giá</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let auction of topAuction index as stt">
+            <th scope="row">{{stt+1}}</th>
+            <td>{{auction.product.name}}</td>
+            <ng-container *ngFor="let record of auction.records">
+              <td *ngIf="record.isWinner==true">{{record.bidPrice|number}} VND</td>
+            </ng-container>
+            <ng-container *ngFor="let record of auction.records">
+              <td *ngIf="record.isWinner==true">{{record.bidTime|date:"dd/MM/yyyy hh:mm:ss"}}</td>
+            </ng-container>
+            <ng-container *ngFor="let record of auction.records">
+              <td *ngIf="record.isWinner==true">{{record.bidder.fullname}}</td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+</div>
+

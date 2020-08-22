@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 
 import { AuctionRoutingModule } from './auction-routing.module';
 import { MyAuctionComponent } from './my-auction/my-auction.component';
+import { TopAuctionComponent } from './top-auction/top-auction.component';
 
 
 @NgModule({
-  declarations: [MyAuctionComponent],
+  declarations: [MyAuctionComponent, TopAuctionComponent],
   imports: [
     CommonModule,
     AuctionRoutingModule,
