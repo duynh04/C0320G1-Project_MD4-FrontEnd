@@ -1,30 +1,32 @@
 import { Injectable } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpInterceptor } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { TokenStorageService } from './token-storage.service';
+import { Observable } from 'rxjs';
 
 const TOKEN_HEADER_KEY = 'Authorization';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-    constructor(private token: TokenStorageService) { }
+    constructor(private tokenStorageService: TokenStorageService) { }
 
-    // tslint:disable-next-line:typedef
-    intercept(req, next) {
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let authReq = req;
-        const token = this.token.getToken();
-        if (token != null) {
+
+        const jwtResponse = this.tokenStorageService.getJwtResponse();
+        if (jwtResponse != null) {
             authReq = req.clone({
                 setHeaders: {
-                    Authorization: `Bearer ${token}`,
-                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+                    'authorization': `Bearer ${jwtResponse.jwttoken}`,
+                    // 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    // 'Access-Control-Allow-Origin': 'http://localhost:4200'
                 },
             });
         }
-        return next.handle(authReq);
+        return next.handle(authReq)
     }
 }
 
 export const httpInterceptorProviders = [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-];
+]

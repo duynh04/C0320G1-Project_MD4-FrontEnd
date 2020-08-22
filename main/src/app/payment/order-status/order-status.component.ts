@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { OrderService } from "./../../shared/services/order.service";
 import { Order } from "./../../shared/models/order";
 import { Component, OnInit } from "@angular/core";
+// import { AddressInfo } from 'dgram'; Lỗi nè
 import { OrderAddressInfo } from 'src/app/shared/models/dtos/delivery-adddress-dto';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 
@@ -27,7 +28,7 @@ export class OrderStatusComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.orderService.getOrderByBuyerId(this.tokenStorageService.getUser().userId).subscribe((data) => {
+    this.orderService.getOrderByBuyerId(this.tokenStorageService.getJwtResponse().userId).subscribe((data) => {
       this.order = data;
       if (data.deliverMethod == "Giao hàng tiêu chuẩn") {
         this.deliveryPrice = 50000;

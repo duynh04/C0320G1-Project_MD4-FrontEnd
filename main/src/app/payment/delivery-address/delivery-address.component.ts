@@ -97,7 +97,7 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
       deliveryAddress.user = { id: 12 };
       this.paymentService.updateLatestAddress(deliveryAddress).subscribe((res) => {
         if (res != null) {
-          console.log(res.errors);
+          console.log(res);
         }
       })
     }

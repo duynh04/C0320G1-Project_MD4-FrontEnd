@@ -21,10 +21,13 @@
     "@angular/router": "~8.2.14",
     "bootstrap": "^4.5.2",
     "jquery": "^3.5.1",
+    "angular-6-social-login": "^1.1.1",
+    "ngx-pagination": "^5.0.0",
     "ngx-braintree": "^8.0.0",
     "ngx-paypal": "^6.1.0",
     "nodemailer": "^6.4.11",
     "rxjs": "~6.4.0",
+    "socket.io-client": "^2.3.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },
