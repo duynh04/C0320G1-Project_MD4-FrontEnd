@@ -8,6 +8,8 @@ import { FooterComponent } from "./footer/footer.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { NgxPayPalModule } from "ngx-paypal";
 import { httpInterceptorProviders } from './auth/auth-interceptor';
+import { ChatBoxComponent } from './chatbox/chat-box/chat-box.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -15,8 +17,9 @@ import { httpInterceptorProviders } from './auth/auth-interceptor';
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,
+    ChatBoxComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgxPayPalModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgxPayPalModule,FormsModule],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
 })
