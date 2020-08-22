@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommentLevel2Service } from '../../shared/services/comment-level2.service';
 import { CommentLevel2 } from '../../shared/models/comment-level2';
 import { Router } from '@angular/router';
+import $ from 'jquery';
 
 @Component({
   selector: 'app-child-box',

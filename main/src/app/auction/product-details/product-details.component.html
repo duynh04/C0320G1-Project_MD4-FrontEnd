@@ -265,20 +265,30 @@
                 <div class="comment-form">
                   <app-comment-box (userComment)="receiveComment($event)"></app-comment-box>
                 </div>
-                <div *ngFor="let commentLv1 of commentLv1List">
-                  <div class="userComment">
-                    <div class="nameUser">
-                      <strong id="nameUser">{{commentLv1?.user?.fullname}}</strong>
+                <ul *ngIf="commentLv1List?.length > 0">
+                  <div *ngFor="let commentLv1 of commentLv1List; let i = index">
+                    <div class="userComment">
+                      <div class="nameUser">
+                        <strong id="nameUser">{{commentLv1?.user?.fullname}}</strong>
+                      </div>
+                      <span style="margin-left: 45px">{{commentLv1?.content}}</span>
                     </div>
-                    <span style="margin-left: 60px">{{commentLv1?.content}}</span>
-                  </div>
-                  <div class="comment-reply" *ngFor="let commentLv2 of commentLv1.commentLevel2List">
-                    <div class="nameReply">
-                      <strong id="nameReply">{{commentLv2?.user?.fullname}}</strong>
+                    <div class="buttonReply">
+                      <button class="btn btn-sm btn-info" style="width: 60px; height: 30px" (click)="replyComments(i)">
+                        Trả lời
+                      </button>
                     </div>
-                    <span style="margin-left: 10px">{{commentLv2?.content}}</span>
+                    <div class="replyComment">
+                      <div ReplyContainer></div>
+                    </div>
+                    <div class="comment-reply" *ngFor="let commentLv2 of commentLv1.commentLevel2List">
+                      <div class="nameReply">
+                        <strong id="nameReply">{{commentLv2?.user?.fullname}}</strong>
+                      </div>
+                      <span style="margin-left: 10px">{{commentLv2?.content}}</span>
+                    </div>
                   </div>
-                </div>
+                </ul>
               </div>
             </div>
           </div>
