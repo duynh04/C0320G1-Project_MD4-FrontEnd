@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {DealManageService} from '../../shared/services/deal-manage.service';
-import {Observable, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import { DealDTO } from 'src/app/shared/models/deal-manage';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {map} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-deal-manage',
@@ -12,27 +13,30 @@ import {map} from 'rxjs/operators';
 })
 export class DealManageComponent implements OnInit {
 
-  private dealList: Observable<DealDTO[]>;
+  private dealList: DealDTO[];
   private pageSize: number = 10;
   private lastPage: number;
   private currentPage: number;
+  private commandToPagination: string;
 
-  private arrayIdToDelete: number[] = [];
+  private idsToDelete: number[] = [];
+  private idsNotAllowToDelete: number[] = [];
   private checkbox: any;
 
   private createForm: FormGroup;
-  private searchMessage: string;
-  private commandToPagination: string;
+  private message: string;
 
   private interval: any;
   private subscription: Subscription = new Subscription();
 
   constructor(
     public dealManageService: DealManageService,
+    private httpClient: HttpClient,
   ) {}
 
   ngOnInit() {
-    this.reloadData(1, this.pageSize, 'paginationOfList');
+    this.reloadData(1, this.pageSize, 'list');
+    this.commandToPagination = 'list';
     this.createForm = new FormGroup({
       nameSeller: new FormControl('', Validators.pattern('[ A-ZẮẰẲẴẶĂẤẦẨẪẬÂÁÀÃẢẠĐẾỀỂỄỆÊÉÈẺẼẸÍÌỈĨỊỐỒỔỖỘÔỚỜỞỠỢƠÓÒÕỎỌỨỪỬỮỰƯÚÙỦŨỤÝỲỶỸỴa-zắằẳẵặăấầẩẫậâáàãảạđếềểễệêéèẻẽẹíìỉĩịốồổỗộôớờởỡợơóòõỏọứừửữựưúùủũụýỳỷỹỵ]{1,}')),
       nameBuyer: new FormControl('', Validators.pattern('[ A-ZẮẰẲẴẶĂẤẦẨẪẬÂÁÀÃẢẠĐẾỀỂỄỆÊÉÈẺẼẸÍÌỈĨỊỐỒỔỖỘÔỚỜỞỠỢƠÓÒÕỎỌỨỪỬỮỰƯÚÙỦŨỤÝỲỶỸỴa-zắằẳẵặăấầẩẫậâáàãảạđếềểễệêéèẻẽẹíìỉĩịốồổỗộôớờởỡợơóòõỏọứừửữựưúùủũụýỳỷỹỵ]{1,}')),
@@ -40,19 +44,28 @@ export class DealManageComponent implements OnInit {
       totalPayment: new FormControl('', [Validators.min(1), Validators.pattern('[0-9]{1,}')]),
       statusOfDeal: new FormControl(''),
     });
-    this.commandToPagination = 'paginationOfList';
+
+    this.httpClient
+      .get( 'http://localhost:8080/api/v1/deal-management', { observe: 'response' })
+      .toPromise()
+      // .then( resp => console.log('Success writed by Thao', resp))
+      .catch(err => {
+        this.message = 'Lỗi kết nối server';
+      });
   }
 
   reloadData(page, pageSize, commandToPagination) {
-    if ( commandToPagination === 'paginationOfList' ) {
+    // load data for list
+    if ( commandToPagination === 'list' ) {
       this.dealManageService.getOnePage(page, pageSize).subscribe(data => {
         this.dealList = data.items;
         this.currentPage = data.currentPage;
         this.lastPage = data.totalPage;
-        this.searchMessage = 'Danh sách hiện thời có ' + data.totalItems + ' giao dịch';
+        this.message = 'Danh sách hiện thời có ' + data.totalItems + ' giao dịch';
         console.log(this.commandToPagination);
       });
-      } else if ( commandToPagination === 'paginationOfSearchList' ) {
+    // load data for search
+      } else if ( commandToPagination === 'search' ) {
         if (this.createForm.value.totalPayment === '' ) {
           this.createForm.patchValue({totalPayment: 1});
         }
@@ -61,16 +74,62 @@ export class DealManageComponent implements OnInit {
           .subscribe(data => {
             if (data === null) {
               this.dealList = null;
-              this.searchMessage = 'Không tìm thấy dữ liệu khớp với tìm kiếm';
+              this.message = 'Không tìm thấy dữ liệu khớp với tìm kiếm';
             }
             this.dealList =  data.items;
             this.currentPage = data.currentPage;
             this.lastPage = data.totalPage;
-            this.searchMessage = 'Có ' + data.totalItems + ' kết quả được tìm thấy';
+            this.message = 'Có ' + data.totalItems + ' kết quả được tìm thấy';
             console.log(data);
             console.log(this.commandToPagination);
           });
       }
+  }
+
+  // delete function
+  checkCheckBoxes(): any {
+    this.idsToDelete = [];
+    this.idsNotAllowToDelete = [];
+    this.checkbox = document.getElementsByClassName('checkthis');
+    for (let i in this.checkbox) {
+      if (this.checkbox[i].checked) {
+        if ( this.dealList.find(x => x.id == this.checkbox[i].defaultValue ).statusOfDeal != 'Đang chờ thanh toán' ) {
+          this.idsToDelete.push(Number(this.checkbox[i].defaultValue));
+        } else {
+          this.idsNotAllowToDelete.push(Number(this.checkbox[i].defaultValue));
+        }
+      }
+    }
+    this.reloadData(1, this.pageSize, this.commandToPagination);
+    return this.idsToDelete;
+  }
+
+  deleteDeals(): void {
+    this.dealManageService.setDealsIsDeleted(this.idsToDelete)
+      .subscribe(data => {
+        this.interval = setInterval(() => {
+          this.reloadData(1, this.pageSize, this.commandToPagination);
+          this.stopReload();
+        }, 100);
+        console.log(data);
+      });
+  }
+
+  stopReload() {
+    this.subscription.unsubscribe();
+    clearInterval(this.interval);
+  }
+
+  // search by fields function
+  searchDeals(): void {
+    this.commandToPagination = 'search';
+    console.log(this.commandToPagination);
+    if ( this.createForm.valid ) {
+      this.reloadData(1, this.pageSize, this.commandToPagination);
+      this.createForm.patchValue({totalPayment: ''});
+    } else {
+      this.message = 'Vui lòng nhập đúng thông tin hợp lệ để tìm kiếm';
+    }
   }
 
   // pagination function
@@ -98,51 +157,8 @@ export class DealManageComponent implements OnInit {
     this.reloadData(this.lastPage, this.pageSize, this.commandToPagination);
   }
 
-  // delete function
-  checkCheckBoxes(): any {
-    this.arrayIdToDelete = [];
-    this.checkbox = document.getElementsByClassName('checkthis');
-    for (let i = 0; i < this.checkbox.length; i++) {
-      if (this.checkbox[i].checked) {
-        this.arrayIdToDelete.push(Number(this.checkbox[i].defaultValue));
-      }
-    }
-    console.log(this.arrayIdToDelete);
-    this.reloadData(1, this.pageSize, this.commandToPagination);
-    return this.arrayIdToDelete;
-  }
-
-  deleteDeals(): void {
-    this.dealManageService.setDealsIsDeleted(this.arrayIdToDelete)
-      .subscribe(data => {
-        this.interval = setInterval(() => {
-          this.stopReload();
-          this.reloadData(1, this.pageSize, this.commandToPagination);
-          this.stopReload();
-        }, 100);
-        console.log(data);
-      });
-  }
-
-  stopReload() {
-    this.subscription.unsubscribe();
-    clearInterval(this.interval);
-  }
-
-  //search by fields function
-  searchDeals(): void {
-    this.commandToPagination = 'paginationOfSearchList';
-    console.log(this.commandToPagination);
-    if ( this.createForm.valid ) {
-      this.reloadData(1, this.pageSize, this.commandToPagination);
-      this.createForm.patchValue({totalPayment: ''});
-    } else {
-      this.searchMessage = 'Vui lòng nhập đúng thông tin hợp lệ để tìm kiếm';
-    }
-  }
-
-  // set color for field Tình trạng giao  dịch
-  setcolorFieldStatusOfDeal(status) {
+  // set color for field Tình trạng giao dịch
+  setColorFieldStatusOfDeal(status) {
     if (status === 'Thành công') {
       return 'text-success';
     } else if (status === 'Thất bại') {
@@ -151,4 +167,5 @@ export class DealManageComponent implements OnInit {
       return 'text-danger';
     }
   }
+
 }

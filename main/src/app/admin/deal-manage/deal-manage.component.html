@@ -68,7 +68,7 @@
         <br>
     </div>
   </div>
-  <h6 class="text-success"><b><i>{{searchMessage}}</i></b></h6>
+  <h6 class="text-success"><b><i>{{message}}</i></b></h6>
       <div class="row" >
         <div class="col-md-12">
           <div class="table-responsive">
@@ -95,9 +95,9 @@
                   <td>{{deal.nameBuyer | titlecase}}</td>
                   <td>{{deal.nameProduct}}</td>
                   <td>{{deal.amount}}</td>
-                  <td>{{deal.totalPayment | currency:'VND'}}</td>
-                  <td>{{deal.serviceFee | currency:'VND'}}</td>
-                  <td [class]="setcolorFieldStatusOfDeal(deal.statusOfDeal)">{{deal.statusOfDeal}}</td>
+                  <td>{{deal.totalPayment | number}}</td>
+                  <td>{{deal.serviceFee | number}}</td>
+                  <td [class]="setColorFieldStatusOfDeal(deal.statusOfDeal)">{{deal.statusOfDeal}}</td>
                 </tr>
 
               </tbody>
@@ -113,11 +113,10 @@
 
               <nav class="two">
                 <ul class="pagination justify-content-end">
-                  <li class="page-item"><a class="page-link" (click)="goFirstPage()" >Trang đầu</a></li>
-                  <li class="page-item"><a class="page-link" (click)="goPreviousPage()">&laquo;</a></li>
-                  <li class="page-item"><a class="page-link" >{{currentPage}}</a></li>
-                  <li class="page-item"><a class="page-link" (click)="goNextPage()">&raquo;</a></li>
-                  <li class="page-item"><a class="page-link" (click)="goLastPage()">Trang cuối</a></li>
+                  <li class="page-item"><a class="page-link" id="firstPage" (click)="goFirstPage()" >Trang đầu</a></li>
+                  <li class="page-item"><a class="page-link" id="previousPage" (click)="goPreviousPage()">&laquo;</a></li>
+                  <li class="page-item"><a class="page-link" id="nextPage" (click)="goNextPage()">&raquo;</a></li>
+                  <li class="page-item"><a class="page-link" id="lastPage" (click)="goLastPage()">Trang cuối</a></li>
                 </ul>
               </nav>
             </div>
@@ -135,21 +134,26 @@
       </div>
       <div class="modal-body">
         <div class="alert alert-danger">
-          <div *ngIf="arrayIdToDelete.length != 0 ; else elseBlock">
-            <div>
+          <div *ngIf="idsNotAllowToDelete.length != 0 ">
+            <i class="fas fa-exclamation-triangle"></i>  Không được xóa giao dịch có trạng thái đang thanh toán<br><br>
+            <ul *ngFor="let id of idsNotAllowToDelete">
+              <li>Mã giao dịch: {{id}}</li>
+            </ul>
+          </div>
+          <br>
+          <div *ngIf="idsToDelete.length != 0">
               <i class="fas fa-exclamation-triangle"></i>  Bạn chắc chắn muốn xóa giao dịch này?<br><br>
-              <ul *ngFor="let id of arrayIdToDelete">
+              <ul *ngFor="let id of idsToDelete">
                 <li>Mã giao dịch: {{id}}</li>
               </ul>
-            </div>
           </div>
-          <ng-template #elseBlock>
+          <div *ngIf="idsToDelete.length == 0 && idsNotAllowToDelete.length == 0">
               <i class="fas fa-exclamation-triangle"></i>  Vui lòng chọn giao dịch để thực hiện xóa<br><br>
-          </ng-template>
+          </div>
         </div>
       </div> <!--modal-body-->
       <div class="modal-footer ">
-        <div *ngIf="arrayIdToDelete.length != 0">
+        <div *ngIf="idsToDelete.length != 0">
           <button (click)="deleteDeals()" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-check-circle"></i> Xóa</button>
           <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Không</button>
         </div>

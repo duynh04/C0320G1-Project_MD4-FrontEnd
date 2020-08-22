@@ -7,12 +7,12 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 })
 export class DealManageService {
 
-  public API = 'http://localhost:8080/api/v1/deal-management';
+  public url_API = 'http://localhost:8080/api/v1/deal-management';
 
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': 'http://localhost:4200',
       Authorization: 'my-auth-token'
     })
   };
@@ -31,24 +31,16 @@ export class DealManageService {
   ) { }
 
   getOnePage(currentPage, pageSize): Observable<any> {
-    return this.http.get(this.API + `?page=${currentPage}&limit=${pageSize}`, this.httpOptions);
+    return this.http.get(this.url_API + `?page=${currentPage}&limit=${pageSize}`, this.httpOptions);
   }
 
   setDealsIsDeleted(idsToDelete: number[]): any {
-      const data = {ids : idsToDelete};
-      return this.http.put<any>(this.API + '/delete', data, this.options);
+      return this.http.put<any>(this.url_API + '/delete', JSON.stringify(idsToDelete), this.options);
   }
 
   search(formValue: any, currentPage: number, pageSize: number) {
-    const requestSearchInfo = {
-      nameBuyer: formValue.nameBuyer,
-      nameSeller: formValue.nameSeller,
-      nameProduct: formValue.nameProduct,
-      totalPayment: formValue.totalPayment,
-      statusOfDeal: formValue.statusOfDeal
-    };
-    return this.http.post<any>(this.API + `/search?page=${currentPage}&limit=${pageSize}`, requestSearchInfo, this.options);
-    }
+    return this.http.post<any>(this.url_API + `/search?page=${currentPage}&limit=${pageSize}`, JSON.stringify(formValue), this.options);
+  }
 }
 
 
