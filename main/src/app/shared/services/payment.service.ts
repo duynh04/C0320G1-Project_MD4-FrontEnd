@@ -23,7 +23,7 @@ export class PaymentService {
   private readonly PAYMENT_URL = "http://localhost:8080/api/v1/payment";
 
   private httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ` + this.tokenStorage.getUser().jwttoken })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     , 'Access-Control-Allow-Origin': 'http://localhost:4200', 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
   };
   // private httpOptions = { headers: new HttpHeaders({
@@ -31,7 +31,7 @@ export class PaymentService {
   //   })
   // };
 
-  private userId = 1;
+  private userId;
   addressInfo: OrderAddressInfo;
   captureOrder: IOrderDetails;
 
@@ -77,7 +77,7 @@ export class PaymentService {
   // Creator: DUY
   //Get delivery address
   getAddress(): Observable<DeliveryAddressDTO> {
-    return this.http.get<DeliveryAddressDTO>(`${this.PAYMENT_URL}/address/${this.userId}`)
+    return this.http.get<DeliveryAddressDTO>(`${this.PAYMENT_URL}/address/${this.tokenStorage.getJwtResponse().userId}`)
   }
 
   // Creator: DUY
@@ -93,7 +93,7 @@ export class PaymentService {
   // get captured order
   setPayPalTransaction(deliveryMethod: string): Observable<IOrderDetails> {
     const transfer: ITransfer = {
-      userId: this.userId,
+      userId: this.tokenStorage.getJwtResponse().userId,
       deliveryMethod: deliveryMethod
     }
     return this.http.post<IOrderDetails>(`${this.PAYMENT_URL}/paypal-create`, transfer);
@@ -117,7 +117,7 @@ export class PaymentService {
   // create purchase visa payment 
   createVisaTransaction(nonce: string, deliveryMethod: string): Observable<any> {
     const tranfer: ITransfer = {
-      userId: this.userId,
+      userId: this.tokenStorage.getJwtResponse().userId,
       nonce: nonce,
       deliveryMethod: deliveryMethod
     }

@@ -6,11 +6,13 @@ import { PaymentOptionComponent } from './payment-option/payment-option.componen
 import { OrderStatusComponent } from './order-status/order-status.component';
 import { PaymentInvoiceComponent } from './payment-invoice/payment-invoice.component';
 import { DeliveryAddressResolverService } from './delivery-address-resolver.service';
+import { UserGuard } from '../auth/user.guard';
 
 
 const routes: Routes = [
   {
-    path: "", component: PaymentCenterComponent,
+    path: '', component: PaymentCenterComponent,
+    canActivateChild: [UserGuard],
     children: [
       {
         path: '',

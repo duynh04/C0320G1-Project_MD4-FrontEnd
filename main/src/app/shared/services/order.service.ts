@@ -15,7 +15,7 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 export class OrderService {
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ` + this.tokenStorage.getUser().jwttoken })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     , 'Access-Control-Allow-Origin': 'http://localhost:4200', 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
   };
 
