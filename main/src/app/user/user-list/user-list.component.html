@@ -50,99 +50,113 @@
       </div>
     </div>
     <div class="show">
-      <div [formGroup]="addForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <button class="btn btn-success special" style="margin: 0px;" (click)="onAddRow()" *ngIf="addForm.get('rows')">
-            <i
-              class="fas fa-plus-square"></i></button>
+      <button class="btn btn-success special" style="margin: 0px;" (click)="onAddRow()">
+        <i
+          class="fas fa-plus-square"></i></button>
 
-          <table class="table table-striped" style="text-align: center; ">
+      <table class="table table-sm table-striped" style="text-align: center; ">
 
 
-            <thead style="background-color: #189EFF; color: white;">
-            <tr>
-              <th scope="col">STT</th>
-              <th scope="col">ID</th>
-              <th scope="col">Tên Thành Viên</th>
-              <th scope="col">Địa Chỉ</th>
-              <th scope="col">Xếp Hạng</th>
-              <th scope="col">Email</th>
-              <th scope="col">Số Điện Thoại</th>
-              <th scope="col">Lần Đăng Nhập Cuối</th>
-              <th scope="col">Điểm Cống Hiến</th>
-              <th scope="col">Chọn</th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
+        <thead style="background-color: #189EFF; color: white;">
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">ID</th>
+          <th scope="col">Tên Thành Viên</th>
+          <th scope="col">Địa Chỉ</th>
+          <th scope="col">Xếp Hạng</th>
+          <th scope="col">Email</th>
+          <th scope="col">Số Điện Thoại</th>
+          <th scope="col">Lần Đăng Nhập Cuối</th>
+          <th scope="col">Điểm Cống Hiến</th>
+          <th scope="col">Chọn</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
 
-            <tr *ngFor="let user of users">
-              <th scope="row">1</th>
-              <td>{{user.id}}</td>
-              <td><a href="">{{user.fullname}}</a></td>
-              <td>{{user.address}}</td>
-              <td>{{user.rate}}</td>
-              <td>{{user.email}}</td>
-              <td>{{user.phoneNumber}}</td>
-              <td>{{user.lastLogin}}</td>
-              <td>{{user.point}}</td>
-              <td>
-                <input type='checkbox'/>
-              </td>
-              <td>
-                <button class="btn btn-primary"><i class="fas fa-tools"></i> Sửa</button>
-              </td>
-              <td>
-                <button class="btn btn-danger"><i class="far fa-trash-alt"></i> Xóa</button>
-              </td>
-            </tr>
+        <tr *ngFor="let user of users; let count=index">
+          <td>
+            1
+          </td>
+          <td>
+            {{user.id}}
+          </td>
+          <td>
+            <span (keyup)="changeValue(count, 'fullname', $event)" (blur)="updateList(count, 'fullname', $event)" contenteditable="true">
+              <a href="">{{user.fullname}}</a>
+            </span>
+          </td>
+          <td>
+            <span contenteditable="true" (keyup)="changeValue(count, 'address', $event)" (blur)="updateList(count, 'address', $event)">{{user.address}}</span>
+          </td>
+          <td>
+            <span contenteditable="true" (keyup)="changeValue(count, 'rate.name', $event)" (blur)="updateList(count, 'rate.name', $event)">{{user.rate.name}}</span>
+          </td>
+          <td>
+            <span contenteditable="true" (keyup)="changeValue(count, 'email', $event)" (blur)="updateList(count, 'email', $event)">{{user.email}}</span>
+          </td>
+          <td>
+            <span contenteditable="true" (keyup)="changeValue(count, 'phoneNumber', $event)" (blur)="updateList(count, 'phoneNumber', $event)">{{user.phoneNumber}}</span>
+          </td>
+          <td>
+            <span contenteditable="true" (keyup)="changeValue(count, 'lastLogin', $event)" (blur)="updateList(count, 'lastLogin', $event)">{{user.lastLogin}}</span>
+          </td>
+          <td>
+            <span contenteditable="true" (keyup)="changeValue(count, 'point', $event)" (blur)="updateList(count, 'point', $event)">{{user.point}}</span>
+          </td>
+          <td>
+            <input type='checkbox'/>
+          </td>
+          <td>
+            <button class="btn btn-primary" (click)="edit()"><i class="fas fa-tools"></i> Sửa</button>
+          </td>
+          <td>
+            <button class="btn btn-danger"><i class="far fa-trash-alt"></i> Xóa</button>
+          </td>
+        </tr>
 
-            <tr *ngFor="let row of addForm.get('rows')?.controls;let index = index;">
-              <td>
-                <input style="width: 100px">
-              </td>
-              <td>
-                <input style="width: 100px" [formControl]="row.get('id')">
-              </td>
-              <td>
-                <input style="width: 100px" [formControl]="row.get('fullname')">
-              </td>
-              <td>
-                <input style="width: 100px" [formControl]="row.get('address')">
-              </td>
-              <td>
-                <input style="width: 100px" [formControl]="row.get('rate')">
-              </td>
-              <td>
-                <input style="width: 100px" [formControl]="row.get('email')">
-              </td>
-              <td>
-                <input style="width: 100px" [formControl]="row.get('phoneNumber')">
-              </td>
-              <td>
-                <input style="width: 100px" [formControl]="row.get('lastLogin')">
-              </td>
-              <td>
-                <input style="width: 100px" [formControl]="row.get('point')">
-              </td>
-              <td>
-                <input type='checkbox'/>
-              </td>
-              <td>
-                <button class="btn btn-primary" (click)="createUser(row)"><i class="fas fa-tools"></i> Lưu</button>
-              </td>
-              <td>
-                <button class="btn btn-danger" (click)="onRemoveRow(index)"><i class="far fa-trash-alt"></i> Hủy
-                </button>
-              </td>
-            </tr>
-            </tbody>
-
-
-          </table>
-        </div>
-      </div>
+        <tr [formGroup]="addForm" *ngFor="let user of addForm.get('rows')?.controls;let index = index;">
+          <td>
+            <label style="width: 100px"></label>
+          </td>
+          <td>
+            <label style="width: 100px" [formControl]="user.get('id')"></label>
+          </td>
+          <td>
+            <input style="width: 100px" [formControl]="user.get('fullname')">
+          </td>
+          <td>
+            <input style="width: 100px" [formControl]="user.get('address')">
+          </td>
+          <td>
+            <input style="width: 100px" [formControl]="user.get('rate')">
+          </td>
+          <td>
+            <input style="width: 100px" [formControl]="user.get('email')">
+          </td>
+          <td>
+            <input style="width: 100px" [formControl]="user.get('phoneNumber')">
+          </td>
+          <td>
+            <input style="width: 100px" disabled [formControl]="user.get('lastLogin')">
+          </td>
+          <td>
+            <input style="width: 100px" [formControl]="user.get('point')">
+          </td>
+          <td>
+            <input type='checkbox'/>
+          </td>
+          <td>
+            <button class="btn btn-primary" (click)="createUser(index)"><i class="fas fa-tools"></i> Lưu</button>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="onRemoveRow(index)"><i class="far fa-trash-alt"></i> Hủy
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
     <div class="action">
       <button type="button" (click)="open()" class="btn btn-danger special" data-toggle="modal" id="myBtn"
