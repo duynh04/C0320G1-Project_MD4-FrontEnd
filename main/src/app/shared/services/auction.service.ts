@@ -1,5 +1,5 @@
 import { TokenStorageService } from './../../auth/token-storage.service';
-import { WebsocketService } from './websocket.service';
+
 
 import { AuctionRecord } from './../models/auction-record';
 import { Auction } from './../models/auction';
@@ -32,9 +32,13 @@ export class AuctionService {
 
   private currentPrice = "http://localhost:8080/api/v1/highestPrice"
 
+  private recordByAuctionAndUser = 'http://localhost:8080/api/v1/auctionRecordByUser'
+
  
 
-       
+  getRecordByAuctionAndUser(auctionId: number, userId: number): Observable<AuctionRecord> {
+    return this.httpClient.get<AuctionRecord>(this.recordByAuctionAndUser + `/${auctionId}/${userId}`);
+  }     
 
   getAuctionById(auctionId: number): Observable<Auction> {
     return this.httpClient.get<Auction>(this.auctionAPI + `/${auctionId}`, this.httpOptions);

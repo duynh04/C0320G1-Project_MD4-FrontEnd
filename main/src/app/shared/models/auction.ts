@@ -6,5 +6,5 @@ export interface Auction {
     id: number;
     product: Product;
     auctionStatus: AuctionStatus;
-    closeTime: Date;
+    closeTime: string;
 }

@@ -13,7 +13,7 @@ import { CartDetailDTO } from 'src/app/shared/models/dtos/cart-detail-dto';
 // Creator: Hoai Ngan team C
 
 //Khai báo socket để connect với server nodejs
-const socket = io('http://localhost:3000');
+const socket = io('https://nancy-auction.herokuapp.com');
 
 //endDate của bảng product
 let endtime;
@@ -217,6 +217,7 @@ export class AuctionPageComponent implements OnInit {
         clearInterval(loop);
         clearInterval(loop1);   
         
+        this.socket.emit('message', "Đấu giá kết thúc");
       //lấy record người thắng để xử lý  
       this.auctionService.getRecordHavingBestPrice(this.auctionId).subscribe(data =>{  
         

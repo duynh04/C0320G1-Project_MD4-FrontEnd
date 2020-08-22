@@ -6,11 +6,12 @@ import * as io from 'socket.io-client';
 @Injectable({
   providedIn: 'root'
 })
-// class này dùng để kết nối với server nodejstr
+// class này dùng để kết nối với server nodejs
 export class WebsocketService {
 
   socket: any;
-  readonly uri: string = 'http://localhost:3000';
+  // readonly uri: string = 'http://localhost:3000';
+  readonly uri: string = 'https://nancy-auction.herokuapp.com';
 
 constructor(){
   this.socket = io(this.uri);
