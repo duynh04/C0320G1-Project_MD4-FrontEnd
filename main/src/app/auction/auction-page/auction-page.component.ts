@@ -74,8 +74,7 @@ export class AuctionPageComponent implements OnInit {
                 
                 // nhận về bảng đấu giá, người thắng và giá đấu hiện tại từ server nodejs
                 // gạch đỏ do lúc compile thì ide chưa hiểu thuộc tính gửi từ server về, runtime ok
-                this.socket.listen('newData-from-server').subscribe(data => {
-                  console.log(data);
+                this.socket.listen('newData-from-server').subscribe((data: any) => {                  
                   this.currentBid = data.price;
                   this.currentWinner = data.winner;
                   this.records = data.records
@@ -155,8 +154,11 @@ export class AuctionPageComponent implements OnInit {
     $("#reaffirm").html('Bạn đang là người thắng với giá '+newPrice+ 'k');
 
 
-    //chuẩn bị đối tượng record để chuẩn bị lưu xuống db
-    let auctionRecord: AuctionRecord = {
+    this.auctionService.getRecordByAuctionAndUser(this.auctionId, this.tokenStorageService.getUser().userId).subscribe(data =>{
+      if(data == null){
+
+      //chuẩn bị đối tượng record để chuẩn bị lưu xuống db
+      let auctionRecord: AuctionRecord = {
 
       auction: this.auction,
       // lấy userId từ token trong storage
@@ -165,25 +167,49 @@ export class AuctionPageComponent implements OnInit {
       bidPrice: this.newBid.value,
       isWinner: false
    }
+      
+    //gửi thời gian mới về cho server node.js 
+    this.socket.emit('remaining', (new Date()).getTime() + 30000);
+      
+    this.auctionService.saveNewAuctionRecord(auctionRecord).subscribe(data =>  {
+    //đồng thời cập nhật lại bảng lịch sử đấu giá và các thông tin 
+    this.auctionService.getTopAuctionRecords(this.auctionId).subscribe(data => {  
 
-   //gửi thời gian mới về cho server node.js
-   this.socket.emit('remaining', (new Date()).getTime() + 30000);
+      this.records = data;
+      this.currentBid = data[0].bidPrice;
+      this.currentWinner = data[0].bidder.email;
 
-   //lưu record về db (tạm thời xử lý mỗi lần đấu giá là 1 record chứ k edit)
-   this.auctionService.saveNewAuctionRecord(auctionRecord).subscribe(data =>
-    {
+      //cũng gửi đống thông tin mới về cho server node.js để đồng bộ giữa các client
+      this.socket.emit('newData', {'price': data[0].bidPrice, 
+                                 'winner': data[0].bidder.email,
+                                 'records': data })
+    });
+    }); 
+
+    } else {
+
+    console.log(data);
+
+    data.bidTime = new Date();
+    data.bidPrice = this.newBid.value;
+    
+    this.socket.emit('remaining', (new Date()).getTime() + 30000);    
+    this.auctionService.saveNewAuctionRecord(data).subscribe(data =>  {
       //đồng thời cập nhật lại bảng lịch sử đấu giá và các thông tin 
       this.auctionService.getTopAuctionRecords(this.auctionId).subscribe(data => {  
-
+  
         this.records = data;
         this.currentBid = data[0].bidPrice;
         this.currentWinner = data[0].bidder.email;
-
+  
         //cũng gửi đống thông tin mới về cho server node.js để đồng bộ giữa các client
         this.socket.emit('newData', {'price': data[0].bidPrice, 
                                    'winner': data[0].bidder.email,
                                    'records': data })
       });
+      })
+    
+  } 
     });   
 
     //kết thúc hàm xử lý đấu giá yehhh :(   

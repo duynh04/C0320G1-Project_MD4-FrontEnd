@@ -37,7 +37,7 @@ export class AuctionService {
  
 
   getRecordByAuctionAndUser(auctionId: number, userId: number): Observable<AuctionRecord> {
-    return this.httpClient.get<AuctionRecord>(this.recordByAuctionAndUser + `/${auctionId}/${userId}`);
+    return this.httpClient.get<AuctionRecord>(this.recordByAuctionAndUser + `/${auctionId}/${userId}`, this.httpOptions);
   }     
 
   getAuctionById(auctionId: number): Observable<Auction> {

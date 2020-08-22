@@ -35,10 +35,7 @@ export class PaymentInvoiceComponent implements OnInit {
     status: null,
     paymentMethod: null,
     deadlineDelivery: null,
-    // deliveryAddress: {
-    //   id: 1,
-
-    // },
+    deliveryAddress: null,
     deliveryMethod: null,
     cart: {
       id: null,
