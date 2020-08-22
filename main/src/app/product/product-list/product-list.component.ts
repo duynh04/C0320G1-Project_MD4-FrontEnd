@@ -5,7 +5,6 @@ import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {Product} from '../../shared/models/product';
 import {ProductService} from "../../shared/services/product.service";
 import {ValidateService} from "../../shared/validations/productS.service"
 ;
@@ -29,15 +28,18 @@ export class ProductListComponent implements OnInit,OnDestroy {
   public categoryList;
   private category;
   ownerObject;
-  thongtin: String;
+  thongtin: string;
   bsModalRef: BsModalRef;
+  namePattern:string = "^[A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯĂẠẢẤẦẨẪẬẮẰẲẴẶỬỮỰỲỴÝỶỸ]{1}[a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
+              "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
+              "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$"
 
 
   constructor(private productServices: ProductService,
               private router: Router,
               public formBuilder: FormBuilder,
               private validate: ValidateService,
-              private modalService: BsModalService
+              private modalService: BsModalService,
                ) {}
   ngOnDestroy(): void {
     
@@ -58,7 +60,7 @@ export class ProductListComponent implements OnInit,OnDestroy {
 
     //Creator Son
     this.formAddNewProduct = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required,Validators.pattern(this.namePattern)]],
       owner: ['', [Validators.required],[this.validate.validateCode(this.productServices).bind(ValidateService)]],
       category: ['', [Validators.required]],
       initialPrice: ['', [Validators.required]],
@@ -172,8 +174,8 @@ export class ProductListComponent implements OnInit,OnDestroy {
     $(document).ready(function(){
       $("#kiemtra").click(function(){
         console.log("Thong tin nguoi dang da dissable")
-       
         $("#infoOwner").prop('hidden',false)
+        // $("#thongTinNguoiDang")
         $("#thongTinNguoiDang").prop('disabled', true)
       });
     });
@@ -191,8 +193,13 @@ export class ProductListComponent implements OnInit,OnDestroy {
          .end()
       .find("input[type=checkbox], input[type=radio]")
          .prop("checked", "")
-         .end();
-      // $("#thongTinNguoiDang").prop('disabled', false)
+         .end()
+      .find("textarea")
+          .prop('disabled', false)
+      $("#infoOwner").prop('hidden',true)
+      $("#thongTinNguoiDang").prop('disabled', false)
+      .val('')
+      .end();
   })
 
   }
@@ -205,9 +212,11 @@ export class ProductListComponent implements OnInit,OnDestroy {
         console.log(data)
         this.ownerObject = data
         this.thongtin = "ID: " + this.ownerObject.id + "\r" + "Họ tên: " + this.ownerObject.fullname + "\r" + "Email:" + this.ownerObject.email
+        document.getElementById("thongTinNguoiDang").innerHTML = this.thongtin;
       } else {
         console.log("No data of User")
         this.thongtin = "Không tìm thấy id người đăng, vui lòng kiểm tra lại id !!!"
+        document.getElementById("thongTinNguoiDang").innerHTML = this.thongtin;
       }
     })
   }

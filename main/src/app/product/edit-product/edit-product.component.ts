@@ -24,8 +24,11 @@ export class EditProductComponent implements OnInit {
   private category;
   data:any;
   data1:any;
-  thongtin:String;
+  thongtin:string;
   ownerObject
+  namePattern:string = "^[A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯĂẠẢẤẦẨẪẬẮẰẲẴẶỬỮỰỲỴÝỶỸ]{1}[a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
+  "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
+  "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$"
   
   public event: EventEmitter<any> = new EventEmitter();
 
@@ -43,7 +46,7 @@ export class EditProductComponent implements OnInit {
 
     this.formEditProduct = this.formBuilder.group({
    
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required,Validators.pattern(this.namePattern)]],
       owner: ['', [Validators.required],[this.validate.validateCode(this.productServices).bind(ValidateService)]],
       category: ['', [Validators.required]],
       initialPrice: ['', [Validators.required]],
@@ -61,6 +64,17 @@ export class EditProductComponent implements OnInit {
       this.data1 = Object.assign({}, this.data)
       this.data1.owner = this.data1.owner.id
       this.formEditProduct.patchValue(this.data1);
+
+
+      $(document).ready(function(){
+        $("#kiemtra").click(function(){
+          console.log("Thong tin nguoi dang da dissable")
+          $("#infoOwner").prop('hidden',false)
+          // $("#thongTinNguoiDang")
+          $("#thongTinNguoiDang").prop('disabled', true)
+        });
+      });
+  
   }
 
   getCategoryId(){
@@ -105,6 +119,7 @@ export class EditProductComponent implements OnInit {
         console.log(data)
         this.ownerObject = data
         this.thongtin = "ID: " + this.ownerObject.id + "\r" + "Họ tên: " + this.ownerObject.fullname + "\r" + "Email:" + this.ownerObject.email
+
       } else {
         console.log("No data of User")
         this.thongtin = "Không tìm thấy id người đăng, vui lòng kiểm tra lại id !!!"
