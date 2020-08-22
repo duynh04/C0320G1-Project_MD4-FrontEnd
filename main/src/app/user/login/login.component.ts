@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
   submitted = false;
   userInfo: AuthLoginInfo;
   message = '';
+  isRemember: boolean;
+  showPassword = false;
 
   constructor(
     private auth: AuthJwtService,
@@ -39,8 +41,10 @@ export class LoginComponent implements OnInit {
       // tslint:disable-next-line:triple-equals
       if (passwordFieldType == 'password') {
         $('#password').prop('type', 'text');
+        this.showPassword = true;
       } else {
         $('#password').prop('type', 'password');
+        this.showPassword = false;
       }
     });
   }
@@ -59,10 +63,14 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
 
+  remember($event) {
+    this.isRemember = $event.target.checked;
+  }
+
   public login(userInfo) {
     this.auth.attemptAuth(userInfo).subscribe(
       data => {
-        this.tokenStorage.saveJwtResponse(data);
+        this.tokenStorage.saveJwtResponse(data, this.isRemember);
       },
       error => {
         console.log('Error ', error);

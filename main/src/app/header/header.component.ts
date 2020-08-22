@@ -22,7 +22,6 @@ export class HeaderComponent implements OnInit {
     this.router.events
       .pipe(filter(event => event instanceof NavigationStart))
       .subscribe(() => {
-        console.log('HeaderComponent');
         if (this.token.getJwtResponse()) {
           this.email = this.token.getJwtResponse().accountName;
           this.isAdmin = this.token.getAuthorities().includes('ROLE_ADMIN');

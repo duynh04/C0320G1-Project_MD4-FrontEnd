@@ -47,7 +47,8 @@
   height: 30px;
 
 }
-#title{
+
+#title {
   color: #007bff
 }
 
@@ -61,8 +62,13 @@
   height: 150px;
   border-radius: 50%;
 }
-#cancel{
+
+#cancel {
   background-color: #f8f8eb;
   color: #8d918e;
   border: none;
+}
+
+.my-eye {
+  min-width: 30px;
 }

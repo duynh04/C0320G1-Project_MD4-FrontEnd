@@ -1,15 +1,15 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="card my-5">
           <div class="card-body">
-            <h2 id="title"  class="card-title text-center">ĐĂNG NHẬP</h2>
+            <h2 id="title" class="card-title text-center">ĐĂNG NHẬP</h2>
 
             <div class="form-group">
               <label>Tài khoản</label>
               <div class="input-group">
-                <input id="name" type="email" class="form-control" formControlName="email" placeholder="Email của bạn" >
+                <input id="name" type="email" class="form-control" formControlName="email" placeholder="Email của bạn">
               </div>
               <small class="d-block text-danger"
                      *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">
@@ -21,10 +21,14 @@
 
             <div class="form-group">
               <label>Mật khẩu</label>
-              <div class="input-group align-items-center">
-                <input class="form-control" placeholder="******" type="password" id="password" formControlName="password">
+              <div class="input-group">
+                <input class="form-control" placeholder="******" type="password" id="password"
+                       formControlName="password">
                 <div class="input-group-append">
-                  <button type="button" id="togglePassword" class="input-group-text "> <span class="far fa-eye" ></span></button>
+                  <button type="button" id="togglePassword" class="input-group-text">
+                    &#;<i class="fas fa-eye my-eye" *ngIf="!showPassword"></i>
+                    <i class="fas fa-eye-slash my-eye" *ngIf="showPassword"></i>
+                  </button>
                 </div>
               </div>
               <small class="d-block text-danger"
@@ -34,11 +38,12 @@
             </div>
 
             <div class="custom-control custom-checkbox mb-3">
-              <input type="checkbox" class="custom-control-input" id="customCheck1">
+              <input type="checkbox" (change)="remember($event)" class="custom-control-input" id="customCheck1">
               <label class="custom-control-label" for="customCheck1">Nhớ mật khẩu</label>
               <a class="float-right" href="#">Quên mật khẩu?</a>
             </div>
-            <input type="submit" [disabled]="loginForm.invalid" class="btn btn-primary btn-block text-uppercase" value="Đăng Nhập" >
+            <input type="submit" [disabled]="loginForm.invalid" class="btn btn-primary btn-block text-uppercase"
+                   value="Đăng Nhập">
             <div class="text-danger" role="alert">
               {{message}}
             </div>
