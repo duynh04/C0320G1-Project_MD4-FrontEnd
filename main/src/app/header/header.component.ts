@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { TokenStorageService } from '../auth/token-storage.service';
-import { Router, NavigationStart } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { CartService } from '../shared/services/cart.service';
+import {Component, OnInit} from '@angular/core';
+import {TokenStorageService} from '../auth/token-storage.service';
+import {NavigationStart, Router} from '@angular/router';
+import {filter} from 'rxjs/operators';
+import {CartService} from '../shared/services/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -22,16 +22,19 @@ export class HeaderComponent implements OnInit {
     this.router.events
       .pipe(filter(event => event instanceof NavigationStart))
       .subscribe(() => {
-        this.email = this.token.getJwtResponse().accountName ;
-        this.isAdmin = this.token.getAuthorities().indexOf('ROLE_ADMIN') !== -1;
-        const userId = this.token.getJwtResponse().userId;
-        this.cartService.getCart(userId).subscribe(cart => {
-          this.cartCount = cart.cartDetails.length;
-        }, () => this.cartCount = 0);
+        if (this.token.getJwtResponse()) {
+          this.email = this.token.getJwtResponse().accountName;
+          this.isAdmin = this.token.getAuthorities().includes('ROLE_ADMIN');
+          const userId = this.token.getJwtResponse().userId;
+          this.cartService.getCart(userId).subscribe(cart => {
+            this.cartCount = cart.cartDetails.length;
+          }, () => this.cartCount = 0);
+        }
       });
   }
 
   ngOnInit() {
+    this.email = window.sessionStorage.getItem('AuthUsername');
   }
 
   logOut() {

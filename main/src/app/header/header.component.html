@@ -36,7 +36,7 @@
                     <div class="dropdown-menu dropdown-menu-right">
                         <button class="dropdown-item">Xem hồ sơ</button>
                         <button class="dropdown-item">Đổi mật khẩu</button>
-                        <button *ngIf="isAdmin" class="dropdown-item">Đến trang Admin</button>
+                        <button class="dropdown-item" *ngIf="isAdmin">Đến trang Admin</button>
                         <div class="dropdown-divider"></div>
                         <button class="dropdown-item" (click)="logOut()">Đăng xuất</button>
                     </div>

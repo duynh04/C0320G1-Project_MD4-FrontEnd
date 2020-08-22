@@ -13,7 +13,7 @@ export class AdminGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const currentUser = this.tokenStorageService.getJwtResponse();
     if (currentUser) {
-      if (this.tokenStorageService.getAuthorities().indexOf('ROLE_ADMIN') !== -1 ) {
+      if (this.tokenStorageService.getAuthorities().indexOf('ROLE_ADMIN') !== -1) {
         return true;
       } else {
         this.router.navigateByUrl('/');

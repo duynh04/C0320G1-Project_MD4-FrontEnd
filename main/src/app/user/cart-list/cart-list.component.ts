@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { CartService } from 'src/app/shared/services/cart.service';
-import { Cart } from '../../shared/models/cart';
-import { CartDetail } from '../../shared/models/cart-detail';
-import { Router } from '@angular/router';
-import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import {Component, OnInit} from '@angular/core';
+import {CartService} from 'src/app/shared/services/cart.service';
+import {Cart} from '../../shared/models/cart';
+import {CartDetail} from '../../shared/models/cart-detail';
+import {Router} from '@angular/router';
+import {TokenStorageService} from 'src/app/auth/token-storage.service';
+import {UserService} from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-cart-list',
@@ -22,8 +23,10 @@ export class CartListComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private router: Router,
-    private token: TokenStorageService) {
+    private token: TokenStorageService,
+    private userService: UserService) {
     this.userId = this.token.getJwtResponse().userId;
+    userService.getUserById(this.userId).subscribe(value => console.log(value.fullName));
   }
 
   ngOnInit() {

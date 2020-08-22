@@ -1,13 +1,13 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { NgxPayPalModule } from 'ngx-paypal';
-import { AuthInterceptor } from './auth/auth-interceptor';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
+import { AppRoutingModule } from "./app-routing.module";
+import { HttpClientModule } from "@angular/common/http";
+import { AppComponent } from "./app.component";
+import { HeaderComponent } from "./header/header.component";
+import { FooterComponent } from "./footer/footer.component";
+import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
+import { NgxPayPalModule } from "ngx-paypal";
+import { httpInterceptorProviders } from './auth/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -16,15 +16,8 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     FooterComponent,
     PageNotFoundComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    NgxPayPalModule
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-  ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgxPayPalModule],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
