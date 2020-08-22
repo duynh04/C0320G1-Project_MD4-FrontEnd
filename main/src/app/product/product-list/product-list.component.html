@@ -258,7 +258,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-warning" data-dismiss="modal">Đóng</button>
             <button type="button" class="btn btn-secondary" id="dismiss" >Nhập lại</button>
-            <button type="button" [disabled]="formAddNewProduct.invalid" class="btn btn-primary" (click)=" addNewProduct()" [routerLink]="['/product/list']" id="saveProduct">Lưu lại</button>
+            <button type="button" [disabled]="formAddNewProduct.invalid" class="btn btn-primary" (click)=" addNewProduct()" data-dismiss="modal" id="saveProduct">Lưu lại</button>
           </div>
         </div>
       </div>
@@ -300,12 +300,14 @@
           <td>{{product.description}}</td>
           <td>{{product.productImages}}</td>
           <td>
-            <button class="btn btn-primary">Sửa</button>
+            <button class="btn btn-primary" (click)="openModalWithComponent(product)" >Sửa</button>
           </td>
         </tr>
         </tbody>
       </table>
     </div>
+
+
     <div class="row d-flex justify-content-between mt-3">
       <div>
         <button class="btn btn-danger mr-3"><i class="far fa-trash-alt"></i> Xóa</button>

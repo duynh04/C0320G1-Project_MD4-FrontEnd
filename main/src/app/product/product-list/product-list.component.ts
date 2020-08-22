@@ -1,5 +1,7 @@
+import { Product } from './../../shared/models/product';
+import { EditProductComponent } from './../edit-product/edit-product.component';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
@@ -7,6 +9,7 @@ import {Product} from '../../shared/models/product';
 import {ProductService} from "../../shared/services/product.service";
 import {ValidateService} from "../../shared/validations/productS.service"
 ;
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 declare let $:any
 @Component({
@@ -14,24 +17,31 @@ declare let $:any
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit,OnDestroy {
   //Creator: Long
   private formSearchList: FormGroup;
   products: Observable<Product[]>;
 
   //Creator: Son
   formAddNewProduct: FormGroup;
+
   registerDate: Date = new Date();
   public categoryList;
   private category;
   ownerObject;
   thongtin: String;
+  bsModalRef: BsModalRef;
+
 
   constructor(private productServices: ProductService,
               private router: Router,
               public formBuilder: FormBuilder,
-              private validate: ValidateService
+              private validate: ValidateService,
+              private modalService: BsModalService
                ) {}
+  ngOnDestroy(): void {
+    
+  }
 
   reloadData() {
     this.products = this.productServices.getProductList();
@@ -60,6 +70,8 @@ export class ProductListComponent implements OnInit {
       description: ['', [Validators.required]],
       // approvementStatus:[{id: 1, "name": "dang cho duyet" }]
     })
+
+
 
     // giai quyet van de ...
     $(document).ready(function(){
@@ -200,18 +212,7 @@ export class ProductListComponent implements OnInit {
     })
   }
 
-  // checkIDOwner(){
-  //   this.productServices.getOwnerById(this.formAddNewProduct.value.owner).subscribe(data => {
-  //     if (data == null){
-  //       console.log("No data of User")
-  //       $(document).ready(function(){
-  //         $("#saveProduct").prop('disabled',true)
-  //         });
-  //     } else {
-  //       console.log(data)
-  //     }
-  //   })
-  // }
+
 
   getListCategory(){
     this.productServices.getListCategory().subscribe(data=>{
@@ -251,9 +252,29 @@ export class ProductListComponent implements OnInit {
       console.log( this.formAddNewProduct.value.category)
       console.log(data);
       // this.router.navigateByUrl('product/list');
+      this.ngOnInit()
     });
 
   }
+
+
+  openModalWithComponent(product:any) {
+    const initialState = {
+      data:product ,
+      
+
+  };
+
+  
+    this.bsModalRef = this.modalService.show(EditProductComponent,{initialState,class: 'gray modal-lg'});
+   
+    this.bsModalRef.content.event.subscribe(res => {
+      // this.ngOnDestroy();
+      this.ngOnInit()
+
+    });
+  }
+  
   
 
 }
