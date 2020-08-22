@@ -10,7 +10,7 @@ import {Product} from '../models/product';
 })
 // Coder: Nguyen Thanh Tu
 export class ProductService {
-  private  readonly API_URL = 'http://localhost:8080/product';
+  private  readonly API_URL = 'http://localhost:8080/api/v1/product';
   constructor(private http: HttpClient) { }
 
   httpOptions = {

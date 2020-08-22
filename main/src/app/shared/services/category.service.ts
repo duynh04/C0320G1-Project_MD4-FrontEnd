@@ -8,7 +8,7 @@ import {Category} from '../../shared/models/category';
 })
 // Creator Nguyen Thanh Tu
 export class CategoryService {
-  private readonly API_URL = 'http://localhost:8080/category';
+  private readonly API_URL = 'http://localhost:8080/api/v1/category';
   constructor(private http: HttpClient) { }
 
   httpOption = {

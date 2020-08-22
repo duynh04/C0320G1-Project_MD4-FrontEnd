@@ -61,90 +61,280 @@
     </div>
   </form>
 
+<!--  Son modal -->
+  <div class="container">
+    <div class="row d-flex justify-content-left">
+      <button class="btn btn-success "  data-toggle="modal" data-target="#addProduct" (click)="getListCategory()"><i class="fas fa-plus-square"></i> Thêm sản phẩm</button>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" >
+      <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-primary" id="exampleModalLabel">Thêm sản phẩm</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+
+            <div class="container-fluid">
+
+              <div class="container-fluid px-3 m-2">
+                <form [formGroup]="formAddNewProduct">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-3">
+                        <label required>Tên sản phẩm <span class="text-danger">*</span> </label>
+                      </div>
+                      <div class="col-8">
+                        <input type="text" class="form-control" formControlName="name" id="tenSP">
+                        <p *ngIf="formAddNewProduct.controls.name.errors?.required && formAddNewProduct.controls.name.touched" class="text-danger">Required not null</p>
+                      </div>
+
+
+                      <div  class="col-1" style="float: right;" id="checkten" >
+                        <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-3">
+                        <label>ID người đăng<span class="text-danger">*</span></label>
+                      </div>
+
+                      <div class="col-8">
+                        <div class="row">
+                          <div class="col-lg-9 col-md-6 col-sm-6">
+                            <input type="number" class="form-control w-85@ m-0 p-0" formControlName="owner" id="idNguoiDang">
+                          </div>
+                          <div class="col-lg-3 col-md-5 col-sm-6">
+                            <button class="btn btn-light" type="button" data-toggle="button" style="width: 100%; display: block; text-align: center;" id="kiemtra" (click)=checkOwner()> Kiểm tra </button>
+                          </div>
+
+                        </div>
+                        <p *ngIf="formAddNewProduct.controls.owner.errors?.required && formAddNewProduct.controls.owner.touched" class="text-danger">Required not null</p>
+                        <!-- <p *ngIf="formAddNewProduct.controls.owner.errors?.validateCode && formAddNewProduct.controls.owner.touched" class="text-danger">Something here</p> -->
+                        <p *ngIf="formAddNewProduct.get('owner').hasError('invalidCode') && formAddNewProduct.controls.owner.touched"
+                           class="text-danger">Không tìm thấy Id của người đăng</p>
+                      </div>
+                      <div  class="col-1" style="float: right;" id="checkID">
+                        <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                      </div>
+                    </div>
+                    <!-- </div> -->
+                  </div>
+                  <div class="form-group" id="infoOwner" hidden>
+                    <div class="row">
+                      <div class="col-3">
+                        <label >Thông tin người đăng</label>
+                      </div>
+                      <div class="col-8">
+                              <textarea class="form-control" rows="3" id="thongTinNguoiDang"  [innerHTML]="thongtin">
+                              </textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-3">
+                        <label>Chủng loại <span class="text-danger">*</span> </label>
+                      </div>
+                      <div class="col-8">
+                        <select class="form-control" formControlName="category" id="chungloai" (click)=getCategoryId()>
+
+                          <option value="" disabled selected >Chọn chủng loại </option>
+                          <option *ngFor= "let item of categoryList ">{{item.name}}</option>
+                        </select>
+                      </div>
+                      <div  class="col-1" style="float: right;" id="checkChungLoai">
+                        <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-3">
+                        <label >Giá ban đầu <span class="text-danger">*</span> </label>
+                      </div>
+                      <div class="col-8">
+                        <input type="number" class="form-control" formControlName="initialPrice"  id="giabandau">
+                        <p *ngIf="formAddNewProduct.controls.initialPrice.errors?.required && formAddNewProduct.controls.initialPrice.touched" class="text-danger">Required not null</p>
+                      </div>
+
+
+                      <div  class="col-1" style="float: right;" id="checkgiabandau">
+                        <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-3">
+                        <label >Bước giá <span class="text-danger">*</span> </label>
+                      </div>
+                      <div class="col-8">
+                        <input type="number" class="form-control" placeholder="Là giá thấp nhất trong mỗi lần tăng giá" formControlName="increaseAmount" id="buocgia">
+                        <p *ngIf="formAddNewProduct.controls.increaseAmount.errors?.required && formAddNewProduct.controls.increaseAmount.touched" class="text-danger">Required not null</p>
+                      </div>
+                      <div  class="col-1" style="float: right;" id="checkbuocgia">
+                        <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-3">
+                        <label>Hình ảnh sản phẩm <span class="text-danger">*</span> </label>
+                      </div>
+                      <div class="col-8">
+                        <input type="file" class="form-control" id="hinhanh">
+                      </div>
+                      <div  class="col-1" style="float: right;" id="checkhinhanh">
+                        <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-3">
+                        <label >Thời gian bắt đầu <span class="text-danger">*</span> </label>
+                      </div>
+                      <div class="col-8">
+                        <!-- <input type="date" class="form-control" placeholder="name@example.com" formControlName="startDate" id="ngaybatdau"> -->
+                        <!-- <button mat-button color="primary">Basic</button> -->
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="startDate" style="display: block">
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <p *ngIf="formAddNewProduct.controls.startDate.errors?.required && formAddNewProduct.controls.startDate.touched" class="text-danger">Required not null</p>
+                      </div>
+                      <div  class="col-1" style="float: right;" id="checkngaybatdau">
+                        <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-3">
+                        <label >Thời gian kết thúc <span class="text-danger">*</span> </label>
+                      </div>
+                      <div class="col-8">
+                        <!-- <input type="date" class="form-control" placeholder="name@example.com" formControlName="endDate" id='ngayketthuc'> -->
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="picker1" placeholder="Choose a date" formControlName="endDate" style="display: block">
+                          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                          <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                        <p *ngIf="formAddNewProduct.controls.endDate.errors?.required && formAddNewProduct.controls.endDate.touched" class="text-danger">Required not null</p>
+                      </div>
+                      <div  class="col-1" style="float: right;" id="checkngayketthuc">
+                        <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group" >
+                    <div class="row">
+                      <div class="col-3">
+                        <label >Thông tin chi tiết <span class="text-danger">*</span> </label>
+                      </div>
+                      <div class="col-8">
+                        <textarea class="form-control" rows="3" formControlName="description" id="thongtinchitiet"></textarea >
+                        <p *ngIf="formAddNewProduct.controls.description.errors?.required && formAddNewProduct.controls.description.touched" class="text-danger">Required not null</p>
+                      </div>
+                      <div  class="col-1" style="float: right;" id="checkthongtinchitiet">
+                        <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-warning" data-dismiss="modal">Đóng</button>
+              <button type="button" class="btn btn-secondary" id="dismiss" >Nhập lại</button>
+              <button type="button" [disabled]="formAddNewProduct.invalid" class="btn btn-primary" (click)=" addNewProduct()" [routerLink]="['/product/list']" id="saveProduct">Lưu lại</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<!--    end Son modal-->
+
   <!--  List product-->
   <div class="container">
-        <div class="row justify-content-center mt-3">
-          <form [formGroup]="formEditListRow">
-          <table class="table mt-2 table-striped">
-            <thead style="background-color: #189EFF; color: white;">
-            <tr>
-              <th>STT</th>
-              <th>Chọn</th>
-              <th>ID sản phẩm</th>
-              <th>Tên sản phẩm</th>
-              <th>Chủng loại</th>
-              <th>Người đăng</th>
-              <th>Giá ban đầu</th>
-              <th>Trạng thái duyệt</th>
-              <th>Tình trạng</th>
-              <th>Chi tiết sản phẩm</th>
-              <th>Hình ảnh</th>
-              <th>Hành động</th>
-            </tr>
-            </thead>
-            <tbody>
+    <div class="row justify-content-center mt-3">
+      <form [formGroup]="formArrayEdit">
+        <table class="table mt-2 table-striped">
+          <thead style="background-color: #189EFF; color: white;">
+          <tr>
+            <th>STT</th>
+            <th>Chọn</th>
+            <th>ID sản phẩm</th>
+            <th>Tên sản phẩm</th>
+            <th>Chủng loại</th>
+            <th>Người đăng</th>
+            <th>Giá ban đầu</th>
+            <th>Trạng thái duyệt</th>
+            <th>Tình trạng</th>
+            <th>Chi tiết sản phẩm</th>
+            <th>Hình ảnh</th>
+            <th>Hành động</th>
+          </tr>
+          </thead>
+          <tbody>
 
 
-            <tr *ngFor="let product of products | async; index as i">
-              <td>{{i+1}}</td>
-              <td><input type="checkbox"></td>
-              <td>
-                <input [name]="'displayData'+ product.id" [value]="product.id" disabled class="form-control" style="background-color: transparent; border-color: transparent">
-                <input [name]="'inputData'+ product.id" type="text" formControlName="id"
-                       class="form-control" style="display: none;background-color: transparent" [value]="product.id" disabled>
-              </td>
-              <td>
-                <input [name]="'displayData'+ product.id" [value]="product.name" [routerLink]="['/admin/approvement/', product.id]" disabled class="form-control" style="background-color: transparent; border-color: transparent">
-                <input [name]="'inputData'+ product.id" type="text" formControlName="name"
-                       class="form-control" style="display: none;background-color: transparent" [value]="product.name">
-              </td>
-              <td>
-                <input [name]="'displayData'+ product.id" [value]="product.category.name" disabled class="form-control" style="background-color: transparent; border-color: transparent">
-                <input [name]="'inputData'+ product.id" type="text" formControlName="categoryId"
-                       class="form-control" style="display: none;background-color: transparent" [value]="product.category.id">
-              </td>
-              <td>
-                <input [name]="'displayData'+ product.id" [value]="product.owner.fullName" disabled class="form-control" style="background-color: transparent; border-color: transparent">
-                <input [name]="'inputData'+ product.id" type="text" formControlName="ownerId"
-                       class="form-control" style="display: none;background-color: transparent" [value]="product.owner.id">
-              </td>
-              <td>
-                <input [name]="'displayData'+ product.id" [value]="product.initialPrice" disabled class="form-control" style="background-color: transparent; border-color: transparent">
-                <input [name]="'inputData'+ product.id" type="text" formControlName="initialPrice"
-                       class="form-control" style="display: none;background-color: transparent" [value]="product.initialPrice">
-              </td>
-              <td>
-                <input [name]="'displayData'+ product.id" [value]="product.approvementStatus.name" disabled class="form-control" style="background-color: transparent; border-color: transparent">
-                <input [name]="'inputData'+ product.id" type="text" formControlName="approvementStatusId"
-                       class="form-control" style="display: none;background-color: transparent" [value]="product.approvementStatus.id">
-              </td>
-              <td>
-                <input [name]="'displayData'+ product.id" [value]="product" disabled class="form-control">
-                <input [name]="'inputData'+ product.id" type="text"
-                       class="form-control" style="display: none;background-color: transparent" [value]="product">
-              </td>
-              <td>
-                <input [name]="'displayData'+ product.id" [value]="product.description" disabled class="form-control" style="background-color: transparent; border-color: transparent">
-                <input [name]="'inputData'+ product.id" type="text" formControlName="description"
-                       class="form-control" style="display: none;background-color: transparent" [value]="product.description">
-              </td>
-    <!--          <td>-->
-    <!--            <input [name]="'displayData'+ product.id" [value]="product.productImages" disabled class="form-control">-->
-    <!--            <input [name]="'inputData'+ product.id" type="file" formControlName="productImages"-->
-    <!--                   class="form-control" style="display: none" [value]="product.productImages">-->
-    <!--          </td>-->
-              <td>
+          <tr *ngFor="let product of products | async; index as i">
+            <td>{{i+1}}</td>
+            <td><input type="checkbox" (click)="insertListUpdateToDb(i)"></td>
+            <td>
+              <span class="editProduct" (blur)="updateProductField(i, 'id', $event)" contenteditable="true">{{product.id}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'name', $event)" contenteditable="true">{{product.name}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'category.name', $event)" contenteditable="true">{{product.category.name}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'owner.fullName', $event)" contenteditable="true">{{product.owner.fullName}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'initialPrice', $event)" contenteditable="true">{{product.initialPrice}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'approvementStatusId', $event)" contenteditable="true">{{product.approvementStatus.name}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'product', $event)" contenteditable="true">{{product.id}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'description', $event)" contenteditable="true">{{product.description}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'productImages', $event)" contenteditable="true">{{product}}</span>
+            </td>
+            <td>
               <div style="margin: 0px;padding: 0px;display: flex;flex-direction: row">
                 <button [name]="'editData'+ product.id" class="btn btn-primary" (click)="editRowData(product.id)">Sửa</button>
                 <button [name]="'saveData'+ product.id" class="btn btn-primary" (click)="updateProduct(product.id)" style="display: none;margin-right: 2px">Lưu</button>
                 <button [name]="'cancelEdit'+ product.id" class="btn btn-primary" (click)="cancelEdit(product.id)" style="display: none">Thoát</button>
               </div>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-          </form>
-        </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+
     <!--    creator Tu-->
     <!--    direct add new product from list of product-->
     <div class="row justify-content-center mt-1">
@@ -154,7 +344,8 @@
             <tbody>
             <tr id="row1" style="height: 20px; margin-bottom: 5px">
               <td>
-                <button class="btn btn-primary mr-2" (click)="removeGroup(formArray.at(i))">Xóa</button>
+                <button class="btn btn-primary mr-2 mb-2" (click)="removeRow(formArray.at(i))">Xóa</button>
+                <button class="btn btn-warning mr-1" (click)="checkOwnerInfor()">Kiểm tra</button>
               </td>
               <td >
                 <input required style="width: 150px" type="text" placeholder="Tên sản phẩm" formControlName="name" class="form-control">
@@ -176,6 +367,7 @@
               <td>
                 <input style="width: 150px" placeholder="ID người đăng" formControlName="ownerId" class="form-control">
                 <i class="alert-danger" role="alert" *ngIf="form.get('ownerId').hasError('required') && form.get('ownerId').touched"> Id người đăng bắt buộc nhập </i>
+                <i id="checkOwnerId" class="alert-danger">{{thongtin}}</i>
               </td>
               <td>
                 <select style="width: 180px" formControlName="approvementStatusId" class="form-control">
@@ -198,9 +390,9 @@
                 <textarea style="height: 37.097px; width: 200px" placeholder="Thông tin chi tiết" formControlName="description" class="form-control"></textarea>
                 <i class="alert-danger" role="alert" *ngIf="form.get('description').hasError('required') && form.get('description').touched"> Vui lòng nhập thông tin sản phẩm  </i>
               </td>
-              <!--                  <td  style="height: 37.097px">-->
-              <!--                    <input type="file" style="height: 37.097px; width: 200px; margin: 0px; padding: 3px" placeholder="Hình ảnh" formControlName="productImages" class="form-control">-->
-              <!--                  </td>-->
+<!--              <td  style="height: 37.097px">-->
+<!--                <input type="file" style="height: 37.097px; width: 200px; margin: 0px; padding: 3px" placeholder="Hình ảnh" formControlName="productImages" class="form-control">-->
+<!--              </td>-->
               <td>
                 <input style="width: 200px" type="date" placeholder="Ngày đăng" formControlName="registerDate" class="form-control">
                 <i class="alert-danger" role="alert" *ngIf="form.get('registerDate').hasError('required') && form.get('registerDate').touched"> Vui lòng nhập thời gian đăng ký  </i>
@@ -223,7 +415,7 @@
       <div>
         <button class="btn btn-danger mr-3"><i class="far fa-trash-alt"></i> Xóa</button>
         <button class="btn btn-success mr-3" (click)="addRow()"><i class="fas fa-plus-square"></i> Thêm sản phẩm</button>
-        <button class="btn btn-primary" (click)=" createNewProduct()"><i class="fas fa-save"></i> Lưu sản phẩm</button>
+        <button class="btn btn-primary" (click)="saveAll()"><i class="fas fa-save"></i> Lưu chỉnh sửa</button>
       </div>
       <div>
         <nav aria-label="Page navigation example">

@@ -1,4 +1,9 @@
+::ng-deep.cdk-overlay-container{
+  z-index: 2000;
+}
+
 td{
   margin: 0px;
   padding: 2px;
 }
+
