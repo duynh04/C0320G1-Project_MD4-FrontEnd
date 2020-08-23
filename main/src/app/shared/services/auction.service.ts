@@ -51,12 +51,12 @@ export class AuctionService {
     return this.httpClient.get(this.currentPrice + '/' + auctionId, this.httpOptions);
   }
 
-  editRecordHavingBestPrice(auctionId: number, auctionRecord: AuctionRecord): Observable<any>{
-    return this.httpClient.put(this.currentPrice + '/' + auctionId, JSON.stringify(auctionRecord), this.httpOptions)
+  editRecordHavingBestPrice(auctionRecord: AuctionRecord): Observable<any>{
+    return this.httpClient.put(this.currentPrice, JSON.stringify(auctionRecord), this.httpOptions)
   }
 
-  editAuctionById(auctionId: number, auction: Auction): Observable<any>{
-    return this.httpClient.put(this.auctionAPI + '/' + auctionId, JSON.stringify(auction), this.httpOptions) ;
+  editAuctionById(auction: Auction): Observable<any>{
+    return this.httpClient.put(this.auctionAPI, JSON.stringify(auction), this.httpOptions) ;
   }
 
   saveNewAuctionRecord(auctionRecord: AuctionRecord): Observable<any> {

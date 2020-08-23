@@ -18,8 +18,8 @@ export class AuthInterceptor implements HttpInterceptor {
       authReq = req.clone({
         setHeaders: {
           'authorization' : `Bearer ${jwtResponse.jwttoken}`,
-          // 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-          // 'Access-Control-Allow-Origin': 'http://localhost:4200'
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+          'Access-Control-Allow-Origin': 'http://localhost:4200'
         },
       });
     }

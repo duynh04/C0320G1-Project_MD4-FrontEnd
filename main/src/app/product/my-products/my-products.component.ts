@@ -79,7 +79,6 @@ export class MyProductsComponent implements OnInit {
   getPage(pageNumber: number) {
     this.myProductList = this.productService.getMyProducts(this.ownerId,this.productName,this.approvementStatusName,pageNumber - 1).pipe(
       tap(res => {
-        console.log(res)
         this.totalElements = res.totalElements;
         this.pageSize = res.size;
         this.currentPage = pageNumber;

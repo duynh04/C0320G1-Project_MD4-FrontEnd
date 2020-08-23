@@ -253,6 +253,7 @@ export class AuctionPageComponent implements OnInit {
     //xử lý sau khi kết thúc đấu giá
     if (time == 0 || time < 0){
 
+        console.log(time);
         $("#countdown").html('Kết thúc');
         $('#bidButton').prop('disabled', true);
         $('#newBid').prop('disabled', true);
@@ -270,10 +271,10 @@ export class AuctionPageComponent implements OnInit {
           let productToCart : CartDetailDTO = {
             userId : this.tokenStorageService.getJwtResponse().userId,
             auctionId : this.auctionId,
-            productWinPrice : data,
+            winPrice : data,
             closeTime: new Date().toISOString().substring(0, 19)            
         }        
-          this.cartService.saveToCart(productToCart);
+          this.cartService.saveToCart(productToCart).subscribe(data => {});
         
           $('#finished-success').modal('show');
         } else {
@@ -290,22 +291,22 @@ export class AuctionPageComponent implements OnInit {
       if (this.finalRecord == null){        
         this.auction.auctionStatus = {
           id: 4,
-          name: 'đấu giá thất bại'
+          // name: 'đấu giá thất bại'
       }
       // trường hợp có người thắng
       } else{
         this.finalRecord.isWinner = true;
         this.auction.auctionStatus = {
           id: 3,
-          name: 'đấu giá thành công'
+          // name: 'đấu giá thành công'
       }
       //cập nhật lại auction của Record (thấy sai sai mà kệ)
         this.finalRecord.auction = this.auction;
      }  
      
      //edit lại phiên đấu giá và record của người thắng khi phiên đấu giá kết thúc
-     this.auctionService.editAuctionById(this.auctionId, this.auction).subscribe();
-     this.auctionService.editRecordHavingBestPrice(this.auctionId, this.finalRecord).subscribe();
+    //  this.auctionService.editAuctionById(this.auction).subscribe();
+    //  this.auctionService.editRecordHavingBestPrice(this.finalRecord).subscribe();
 
     });
 
