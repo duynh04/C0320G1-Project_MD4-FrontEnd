@@ -26,6 +26,12 @@
 .text-warning {
   margin-left: 18%;
 }
+select {
+  /* for Firefox */
+  -moz-appearance: none;
+  /* for Chrome */
+  -webkit-appearance: none;
+}
 
 
 

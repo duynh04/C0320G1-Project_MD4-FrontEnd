@@ -1,20 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {UserService} from '../../shared/services/user.service';
 import {UserDto} from '../../shared/models/dtos/userDto';
 import {NOTIFICATION_USER} from '../../shared/validations/createUserValidator';
 import {validPhoneNumber} from '../../shared/validations/custom-validators';
-
+import {checkBirthday} from '../../shared/validations/validatorBirthday';
+import {uniqueEmail} from '../../shared/validations/uniqueEmail';
+import {uniquePhoneNumber} from '../../shared/validations/uniquePhoneNumber';
 declare var $: any;
 declare let Email: any;
 
-
 @Component({
-  selector: 'app-account',
-  templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css']
+  selector: 'app-registration-user',
+  templateUrl: './registration-user.component.html',
+  styleUrls: ['./registration-user.component.css']
 })
-export class AccountComponent implements OnInit {
+export class RegistrationUserComponent implements OnInit {
   constructor(private fb: FormBuilder, private  userService: UserService) {
   }
 
@@ -32,11 +33,7 @@ export class AccountComponent implements OnInit {
     question: null,
     answer: null,
     confirmCaptchaCode: null,
-    notificationEmail: null,
-    notificationPhoneNumber: null,
   };
-  messagesEmails: string[];
-  messagesPhones: string[];
   registerForm: FormGroup;
   date: any;
   captchaCode: string;
@@ -44,17 +41,14 @@ export class AccountComponent implements OnInit {
   test;
   authenticationFailed = '';
 
-
-
-
   ngOnInit() {
     this.date = new Date().toISOString().slice(0, 10);
     this.registerForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]+$/)]],
       gender: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.pattern(/^[A-Za-z0-9]+@[A-Za-z0-9]+(\.[A-Za-z0-9]+)$/)]],
-      birthday: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required, validPhoneNumber]],
+      email: ['', [Validators.required, Validators.pattern(/^[A-Za-z0-9]+@[A-Za-z0-9]+(\.[A-Za-z0-9]+)$/)], [uniqueEmail(this.userService)]],
+      birthday: ['', [Validators.required, checkBirthday]],
+      phoneNumber: ['', [Validators.required, validPhoneNumber], [uniquePhoneNumber(this.userService)]],
       idCard: ['', [Validators.required, Validators.pattern(/(^[0-9]{9}$)|(^[0-9]{12}$)/)]],
       address: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\/\- ]+$/), Validators.maxLength(25)]],
       password: ['', [Validators.required, Validators.pattern(/(^[0-9A-Za-z]*$)/), Validators.minLength(8)]],
@@ -62,7 +56,7 @@ export class AccountComponent implements OnInit {
       question: ['', [Validators.required]],
       answer: ['', [Validators.required]],
       confirmCaptchaCode: ['', [Validators.required]],
-    }, {validators: [checkBirthday, checkPassword, this.checkCaptchaCode.bind(this)]});
+    }, {validators: [ checkPassword, this.checkCaptchaCode.bind(this)]});
   }
 
   sendEmail() {
@@ -78,23 +72,19 @@ export class AccountComponent implements OnInit {
     });
     this.test = numberConfirm;
   }
-
   confirmRegistration() {
-    // $('#myModal').modal({backdrop: 'static', keyboard: false});
     const cf = (document.getElementById('confirmRegistration') as HTMLInputElement).value;
     if (this.test.toString() === cf.toString()) {
       this.onSubmit();
+      alert('thêm thành công');
+      $('#myModal').modal('hide');
     } else {
       this.authenticationFailed = 'Mã xác nhận không đúng! vui lòng nhập lại';
     }
   }
-
   onSubmit() {
-    // @ts-ignore
-    this.userService.createUser(this.registerForm.value).subscribe(
-      // tslint:disable-next-line:max-line-length
-      data => (this.messagesEmails = data.notificationEmail , this.messagesPhones = data.notificationPhoneNumber), error => console.log(error)
-    );
+    this.userService.createUser(this.registerForm.value)
+      .subscribe(data => console.log(data), error => console.log(error));
   }
 
   createCaptcha() {
@@ -105,7 +95,6 @@ export class AccountComponent implements OnInit {
     const lengthOtp = 5;
     const captcha = [];
     for (let i = 0; i < lengthOtp; i++) {
-      // below code will not allow Repetition of Characters
       const index = Math.floor(Math.random() * charsArray.length + 1); // get the next character from the array
       if (captcha.indexOf(charsArray[index]) === -1) {
         captcha.push(charsArray[index]);
@@ -123,17 +112,6 @@ export class AccountComponent implements OnInit {
     // storing captcha so that can validate you can save it somewhere else according to your specific requirements
     this.captchaCode = captcha.join('');
     document.getElementById('captcha').appendChild(canv); // adds the canvas to the body element
-  }
-
-  checkCheckBox() {
-    const checkbox = document.getElementById('agree') as HTMLInputElement;
-    if (checkbox.checked === true) {
-      const element = document.getElementById('registration') as HTMLInputElement;
-      element.disabled = false;
-    } else {
-      const element = document.getElementById('registration') as HTMLInputElement;
-      element.disabled = true;
-    }
   }
 
   checkCaptchaCode(formGroup: AbstractControl): ValidationErrors | null {
@@ -196,15 +174,15 @@ export class AccountComponent implements OnInit {
 
 }
 
-function checkBirthday(formGroup: AbstractControl): ValidationErrors | null {
-  const us: UserDto = formGroup.value;
-  const birthday = new Date(us.birthday).getTime();
-  const now = new Date().getTime();
-  if (((now - birthday) / 365.25 / 24 / 60 / 60 / 1000) < 18) {
-    return {checkBirthday: true};
-  }
-  return null;
-}
+// function checkBirthday(formGroup: AbstractControl): ValidationErrors | null {
+//   const us: UserDto = formGroup.value;
+//   const birthday = new Date(us.birthday).getTime();
+//   const now = new Date().getTime();
+//   if (((now - birthday) / 365.25 / 24 / 60 / 60 / 1000) < 18) {
+//     return {checkBirthday: true};
+//   }
+//   return null;
+// }
 
 function checkPassword(formGroup: AbstractControl): ValidationErrors | null {
   const pass: UserDto = formGroup.value;
@@ -215,6 +193,7 @@ function checkPassword(formGroup: AbstractControl): ValidationErrors | null {
   }
   return null;
 }
+
 
 
 

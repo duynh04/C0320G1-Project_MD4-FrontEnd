@@ -20,7 +20,7 @@ const routes: Routes = [
   {
     path: 'user', loadChildren: () => import('./user/user.module').then(mod => mod.UserModule)
   },
-  { path: '**', component: PageNotFoundComponent },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

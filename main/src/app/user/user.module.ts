@@ -4,11 +4,12 @@ import {UserUpdateComponent} from './user-update/user-update.component';
 import {FormsModule} from '@angular/forms';
 import {CartListComponent} from './cart-list/cart-list.component';
 import {UserRoutingModule} from './user-routing.module';
-import {AccountComponent} from './account/account.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import { RegistrationUserComponent } from './registration-user/registration-user.component';
+import { ConfirmRegistrationComponent } from './confirm-registration/confirm-registration.component';
 
 @NgModule({
-  declarations: [CartListComponent, UserUpdateComponent, AccountComponent],
+  declarations: [CartListComponent, UserUpdateComponent, RegistrationUserComponent, ConfirmRegistrationComponent],
   imports: [
     CommonModule,
     UserRoutingModule,

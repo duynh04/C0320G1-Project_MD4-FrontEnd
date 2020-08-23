@@ -12,7 +12,6 @@ export class UserDto {
   answer: string;
   question: string;
   confirmCaptchaCode: string;
-  notificationEmail: string[];
-  notificationPhoneNumber: string[];
+
 
 }

@@ -10,15 +10,18 @@ export  const NOTIFICATION_USER = {
   ],
   birthdayErrors: [
     {code: 'required', message: 'vui lòng nhập ngày sinh'},
+    {code: 'checkBirthday', message: 'ôi bạn ơi!! bạn chưa đủ 18 tuổi'}
   ],
   emailErrors: [
+    {code: 'required', message: 'vui lòng nhập địa chỉ email'},
     {code: 'pattern', message: 'email không hợp lệ'},
-    {code: 'required', message: 'vui lòng nhập địa chỉ email'}
+    {code: 'takenEmail', message: 'Email này đã được đăng kí. vui lòng nhập địa chỉ email khác'}
   ],
   phoneNumberErrors: [
     {code: 'required', message: 'vui lòng nhập số điện thoại'},
     { code: 'format', message: 'Số điện thoại không hợp lệ' },
     { code: 'alphabel', message: 'Kí tự không hợp lệ' },
+    {code: 'takenPhone', message: 'SDT này đã được đăng kí. vui lòng nhập sdt khác'}
   ],
   idCardErrors: [
     {code: 'required', message: 'vui lòng cmnd'},

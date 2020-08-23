@@ -1,6 +1,5 @@
 import {UserUpdateDto} from '../models/dtos/UserUpdateDto';
 import {UserDto} from '../models/dtos/userDto';
-import {User} from './../models/User';
 import {Injectable} from '@angular/core';
 import {HttpHeaders, HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
@@ -10,6 +9,7 @@ import {AbstractControl} from '@angular/forms';
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserService {
   private readonly API_URL_USER = 'http://localhost:8080/api/v1/user/';
   constructor(private http: HttpClient) { }
@@ -33,11 +33,18 @@ export class UserService {
       passwordnotmatch : true
     };
   }
-  createUser(accountDto: UserDto): Observable<UserDto> {
-    return  this.http.post<UserDto>(this.API_URL_USER , JSON.stringify(accountDto), this.httpOptions);
-  }
-  getAllUsers(): Observable<UserDto[]> {
-    return this.http.get<UserDto[]>(this.API_URL_USER);
+  // creator: Trương Khánh Mậu
+  createUser(userDto: UserDto): Observable<UserDto> {
+    return  this.http.post<UserDto>(this.API_URL_USER , JSON.stringify(userDto), this.httpOptions);
   }
 
+  // creator: Trương Khánh Mậu
+  checkEmail(email: string): Observable<any> {
+    return  this.http.post<any>(this.API_URL_USER + 'checkEmail' , email, this.httpOptions);
+  }
+
+  // creator: Trương Khánh Mậu
+  checkPhone(phoneNumber: string): Observable<any> {
+    return  this.http.post<any>(this.API_URL_USER + 'checkPhone' , phoneNumber, this.httpOptions);
+  }
 }

@@ -25,4 +25,9 @@ function createCaptcha() {
     code = captcha.join("");
     document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
 }
-
+$(document).ready(function(){
+  $("#myModal").modal({
+    show:false,
+    backdrop:'static'
+  });
+});

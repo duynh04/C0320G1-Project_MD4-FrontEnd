@@ -7,8 +7,8 @@
       <label for="fullName" class="col-md-3 col-form-label">Họ và tên <span
         class="text-danger">*</span></label>
       <div class="col-md-9">
-          <input formControlName="fullName" type="text" class="form-control" id="fullName"
-                 [class.mark-success]="email.valid">
+        <input formControlName="fullName" type="text" class="form-control" id="fullName"
+               [class.mark-success]="fullName.valid">
         <div *ngIf="fullName.touched">
           <ng-container *ngFor="let error of errors.fullNameErrors">
             <small *ngIf="fullName.hasError(error.code)" class="d-block text-danger"
@@ -23,11 +23,17 @@
         class="text-danger">*</span></label>
       <div class="col-md-9">
         <label>
-          <input formControlName="gender" type="radio" name="gender" value="Nam">
+          <input  formControlName="gender" type="radio" name="gender" value="Nam">
         </label> Nam
         <label>
           <input formControlName="gender" type="radio" name="gender" value="Nữ">
         </label> Nữ
+        <div *ngIf="gender.touched">
+          <ng-container *ngFor="let error of errors.genderErrors">
+            <small *ngIf="gender.hasError(error.code)" class="d-block text-danger"
+                   role="alert">{{error.message}}</small>
+          </ng-container>
+        </div>
       </div>
     </div>
 
@@ -37,14 +43,11 @@
       <div class="col-md-9">
         <input formControlName="email" type="text" class="form-control" id="email"
                [class.mark-success]="email.valid">
-        <div *ngIf="email.touched && email.dirty">
+        <div *ngIf="email.touched">
           <ng-container *ngFor="let error of errors.emailErrors">
             <small *ngIf="email.hasError(error.code)" class="d-block text-danger"
                    role="alert">{{error.message}}</small>
           </ng-container>
-        </div>
-        <div *ngFor="let mess of messagesEmails">
-          <div class="d-block text-danger" role="alert"><small>{{mess}}</small></div>
         </div>
       </div>
     </div>
@@ -61,8 +64,6 @@
                    role="alert">{{error.message}}</small>
           </ng-container>
         </div>
-        <div class="d-block text-danger" role="alert"
-             *ngIf="registerForm.hasError('checkBirthday')"><small>Ôi bạn ơi! bạn chưa đủ 18 tuổi</small></div>
       </div>
     </div>
 
@@ -77,9 +78,6 @@
             <small *ngIf="phoneNumber.hasError(error.code)" class="d-block text-danger"
                    role="alert">{{error.message}}</small>
           </ng-container>
-        </div>
-        <div *ngFor="let mess of messagesPhones">
-          <div class="d-block text-danger" role="alert"><small>{{mess}}</small></div>
         </div>
       </div>
     </div>
@@ -119,7 +117,8 @@
       <label for="password" class="col-md-3 col-form-label">Mật Khẩu<span
         class="text-danger">*</span></label>
       <div class="col-md-9">
-        <input maxlength="16" formControlName="password" type="password" class="form-control" id="password">
+        <input maxlength="16" formControlName="password" type="password" class="form-control" id="password"
+               [class.mark-success]="password.valid">
         <div *ngIf="password.touched">
           <ng-container *ngFor="let error of errors.passwordErrors">
             <small *ngIf="password.hasError(error.code)" class="d-block text-danger"
@@ -133,7 +132,8 @@
       <label for="confirmPassword" class="col-md-3 col-form-label">Xác nhận mật khẩu<span
         class="text-danger">*</span></label>
       <div class="col-md-9">
-        <input formControlName="confirmPassword" type="password" class="form-control" id="confirmPassword">
+        <input formControlName="confirmPassword" type="password" class="form-control" id="confirmPassword"
+               [class.mark-success]="confirmPassword.valid">
         <div *ngIf="confirmPassword.touched">
           <ng-container *ngFor="let error of errors.confirmPasswordError">
             <small *ngIf="confirmPassword.hasError(error.code)" class="d-block text-danger"
@@ -152,9 +152,9 @@
       <label for="subDistrict" class="col-md-3 col-form-label">Câu Hỏi Bảo Mật<span
         class="text-danger">*</span></label>
       <div class="col-md-9">
-        <select formControlName="answer" class="form-control" id="subDistrict">
-          <option value="Thành phố bạn sinh ra ?" [selected]="true" disabled >chọn câu hỏi bảo mật </option>
-          <option value="Thành phố bạn sinh ra ?" >Thành phố bạn sinh ra ?</option>
+        <select formControlName="answer" class="form-control" id="subDistrict" [class.mark-success]="answer.valid">
+          <option value="Thành phố bạn sinh ra ?" [selected]="true" disabled>chọn câu hỏi bảo mật</option>
+          <option value="Thành phố bạn sinh ra ?">Thành phố bạn sinh ra ?</option>
           <option value="Con vật yêu thích của bạn ?">Con vật yêu thích của bạn ?</option>
           <option value="Tên cha mẹ bạn ?">Tên cha mẹ bạn ?</option>
         </select>
@@ -213,10 +213,11 @@
     <div class="form-group row">
       <label class="col-md-3 col-form-label"></label>
       <div class="col-md-9">
-        <label for="agree"></label><input  type="checkbox" id="agree" name="agree">
+        <label for="agree"></label><input type="checkbox" id="agree" name="agree">
         <label style="margin-left: 5px">Đồng ý <a style="color: #189EFF; text-decoration: underline">điều khoản</a> của
           website</label><br>
-        <input id="registration" type="submit" class="btn btn-success " [disabled] = "!registerForm.valid" data-toggle="modal" data-target="#myModal" value="Đăng Ký">
+        <input id="registration" type="submit" class="btn btn-success " [disabled] = "!registerForm.valid"
+               data-toggle="modal" data-target="#myModal" value="Đăng Ký">
 
       </div>
     </div>
@@ -230,12 +231,13 @@
           <h4 class="modal-title">xác nhận đăng ký thành viên</h4>
         </div>
         <div class="modal-body">
-          <label for="confirmRegistration"></label><input class="form-control" placeholder="nhập mã xác nhận" id="confirmRegistration">
+          <h6>vui lòng vào gmail để lấy mã hoặc bấm vào <a target="_blank" href="https://mail.google.com/mail/u/2/?tab=wm#spam">đây</a></h6>
+          <label for="confirmRegistration"></label><input class="form-control" placeholder="nhập mã xác nhận"
+                                                          id="confirmRegistration">
           <small class="d-block text-danger">{{authenticationFailed}}</small>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-<!--          <button type="button" (click)="sendEmail()" class="btn btn-primary" data-dismiss="modal">Gửi lại mã</button>-->
           <button type="button" (click)="confirmRegistration()" class="btn btn-primary">Xác nhận</button>
         </div>
       </div>
