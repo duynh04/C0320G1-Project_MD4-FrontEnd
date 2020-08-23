@@ -36,8 +36,8 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit() {
     this.formSearchList = this.formBuilder.group({
-      name: ['', [Validators.pattern('^[A-Za-z0-9]{0,}$')]],
-      owner: ['', [Validators.pattern('^[A-Za-z0-9]{0,}$')]],
+      name: ['', [Validators.pattern('^[a-zA-Z0-9\\ ]*$')]],
+      owner: ['', [Validators.pattern('^[a-zA-Z0-9\\ ]*$')]],
       category: [''],
       price: [''],
       status: ['']
