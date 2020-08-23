@@ -63,7 +63,7 @@ export class AuctionPageComponent implements OnInit {
     this.socket.listen('remaining-time').subscribe(data => {
       clearInterval(loop);
       clearInterval(loop1);
-      console.log(data);
+      // console.log(data);
       // if u wonder why i pass this.auctionId as a param
       // that's the temporary solution for the prob which is
       // callback function of setInterval doesnt understand global variables hmmmm
@@ -114,7 +114,7 @@ export class AuctionPageComponent implements OnInit {
 
     //xử lý ban đầu nếu chưa có người đấu giá
     this.auctionService.getRecordHavingBestPrice(this.auctionId).subscribe(data => {
-      console.log(data);
+      // console.log(data);
       if (this.currentBid == null) {
         this.currentBid = 0;
       }
@@ -177,7 +177,6 @@ export class AuctionPageComponent implements OnInit {
 
         // khi nào remainingtime < 30 mà có người đấu giá mới thì lại tăng remaining time lên lại 30s
         if ((Date.parse(endtime) - new Date().getTime()) < 30000) {
-          console.log('helllo');
           //xử lý bất đồng bộ của setInterval (giây nhảy thay phiên thay vì chờ setInterval kia hoàn thành)
           clearInterval(loop);
           clearInterval(loop1);
@@ -262,7 +261,7 @@ export class AuctionPageComponent implements OnInit {
     //xử lý sau khi kết thúc đấu giá
     if (time == 0 || time < 0) {
 
-      console.log(time);
+      // console.log(time);
       $('#countdown').html('Kết thúc');
       $('#bidButton').prop('disabled', true);
       $('#newBid').prop('disabled', true);
@@ -283,7 +282,7 @@ export class AuctionPageComponent implements OnInit {
             winPrice: Number(data.bidPrice),
             closeTime: new Date().toISOString().substring(0, 19)
           };
-          this.cartService.saveToCart(productToCart).subscribe(v => console.log(v));
+          this.cartService.saveToCart(productToCart).subscribe();
 
           $('#finished-success').modal('show');
         } else {
@@ -312,9 +311,9 @@ export class AuctionPageComponent implements OnInit {
           //cập nhật lại auction của Record (thấy sai sai mà kệ)
           // this.finalRecord.auction = this.auction;
         }
-        console.log(this.auction);
+        // console.log(this.auction);
         this.auctionService.closeAuctionById(this.auctionId, this.auction.auctionStatus.id, this.auction.closeTime)
-          .subscribe(v2 => console.log(v2));
+          .subscribe();
         //edit lại phiên đấu giá và record của người thắng khi phiên đấu giá kết thúc
         // this.auctionService.editAuctionById(this.auction).subscribe();
         this.auctionService.editRecordHavingBestPrice(this.finalRecord).subscribe();

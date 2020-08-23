@@ -38,11 +38,11 @@
         <div class="current row">
             <div class="current-bid col-3">
                 <p><small>BƯỚC GIÁ: </small></p>
-                <p>{{increment}}k</p>
+                <p>{{increment | number}}</p>
             </div>
             <div class="current-bid col-3">
                 <p><small>GIÁ HIỆN TẠI: </small></p>
-                <p id="currentBid">{{currentBid}}k</p>
+                <p id="currentBid">{{currentBid | number}}</p>
             </div>
             <div class="current-winner col-4">
                 <p><small>NGƯỜI THẮNG: </small></p>
@@ -52,7 +52,7 @@
         </div>
 
 
-        <p class= "mt-4 pt-4"><small><b><i>**Nhập giá thách đấu ở ô phía dưới. Đơn vị: nghìn đồng (1k = 1000VND)</i></b></small></p>
+        <p class= "mt-4 pt-4"><small><b><i>**Nhập giá thách đấu ở ô phía dưới</i></b></small></p>
         <div class="bid row">
             <input type="text" onfocus="this.value=''" class="form-control col-7 mr-4" id="newBid" [formControl]="newBid">
             <button [disabled] = "newBid.invalid && newBid.touched" class="btn btn-primary col-4" id="bidButton" data-toggle = "modal" data-target="#bidSuccess" (click)= "addAuctionRecord()"> Đặt giá thầu</button>
@@ -80,7 +80,7 @@
         <tbody>
         <tr *ngFor = "let record of records">
             <td>{{record.id}}</td>
-            <td>{{record.bidPrice}}</td>
+            <td>{{record.bidPrice | number}}</td>
             <td>1</td>
             <td>{{record.bidTime}}</td>
         </tr>
