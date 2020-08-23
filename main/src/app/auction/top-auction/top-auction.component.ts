@@ -1,3 +1,4 @@
+// creator: B-Hùng
 import { Auction } from './../../shared/models/auction';
 import { Component, OnInit } from '@angular/core';
 import { AuctionService } from 'src/app/shared/services/auction.service';

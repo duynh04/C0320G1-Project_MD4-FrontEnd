@@ -1,3 +1,4 @@
+import { OrderAddressInfo } from './../../shared/models/dtos/delivery-adddress-dto';
 import { PaymentService } from 'src/app/shared/services/payment.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartDetail } from './../../shared/models/cart-detail';
@@ -19,7 +20,7 @@ export class PaymentInvoiceComponent implements OnInit {
       id: null,
       fullname: null,
       email: null,
-      phoneNumber:null,
+      phoneNumber: null,
       address: null,
       birthday: null,
       idCard: null,
@@ -32,21 +33,7 @@ export class PaymentInvoiceComponent implements OnInit {
     status: null,
     paymentMethod: null,
     deadlineDelivery: null,
-    deliveryAddress: {
-      id: null,
-      firstName: null,
-      lastName: null,
-      city: null,
-      district: null,
-      ward: null,
-      street: null,
-      nation: null,
-      email: null,
-      phoneNumber: null,
-      instruction: null,
-      isDefault: null,
-      user: null
-    },
+    deliveryAddress: null,
     deliveryMethod: null,
     cart: {
       id: null,
@@ -57,10 +44,11 @@ export class PaymentInvoiceComponent implements OnInit {
     },
     paymentStatus: null
   }
+  deliveryAddress: OrderAddressInfo;
   cartDetail: CartDetail[] = [];
-  constructor(private activatedRoute:ActivatedRoute,
-              private paymentService: PaymentService,
-              private router:Router) { }
+  constructor(private activatedRoute: ActivatedRoute,
+    private paymentService: PaymentService,
+    private router: Router) { }
 
   ngOnInit() {
     printPdf();
@@ -73,10 +61,11 @@ export class PaymentInvoiceComponent implements OnInit {
         }else{
           this.deliveryPrice = 100000;
         }
+        this.deliveryAddress = this.paymentService.addressInfo;
       })
     })
   }
-  backToHomePage(){
+  backToHomePage() {
     this.router.navigateByUrl("/home");
   }
 

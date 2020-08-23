@@ -1,3 +1,4 @@
+import { UserGuard } from './../auth/user.guard';
 import { PaymentInvoiceComponent } from './payment-invoice/payment-invoice.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -17,7 +18,7 @@ const routes: Routes = [
       { path: 'order', component: OrderStatusComponent },
     ]
   },
-  { path: 'invoice/:id',component: PaymentInvoiceComponent }
+  { path: 'invoice/:id',component: PaymentInvoiceComponent,canActivate:[UserGuard] }
 ];
 
 @NgModule({

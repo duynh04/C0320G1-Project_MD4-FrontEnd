@@ -42,20 +42,24 @@ export class AuctionService {
 
   }
    
-  //Creator: Hùng.
+   //creator: B-Nguyễn Xuân Hùng.
   getAuctionsProductByAuctionId(id: number):Observable<Auction[]>{
-    return this.http.get<Auction[]>(this.API_URL+'/auctionStatus/'+id);
+    return this.http.get<Auction[]>(this.API_URL+'/home/auctionStatus/'+id);
   }
 
-  //Creator: BHung.
+   //creator: B-Nguyễn Xuân Hùng.
   getTopAuction():Observable<Auction[]>{
-    return this.http.get<Auction[]>(this.API_URL+'/topAuction');
+    return this.http.get<Auction[]>(this.API_URL+'/home/topAuction');
   }
 
-   //Creator: BHung.
+   //creator: B-Nguyễn Xuân Hùng.
    getAucionsListByAuctionIdAndCategoryName(id:number,name: string):Observable<Auction[]>{
-    return this.http.get<Auction[]>(this.API_URL+'/'+id+'/'+name);
+    return this.http.get<Auction[]>(this.API_URL+'/home/'+id+'/'+name);
   }
 
+  //creator: B-Nguyễn Xuân Hùng.
+  searchAuctionsAtHomePage(productName:string, price: string, categoryName: string) :Observable<Auction[]>{
+    return this.http.get<Auction[]>(this.API_URL+"search",{params: {productName: productName,price:price,categoryName:categoryName}})
+  }
 
 }

@@ -1,107 +1,77 @@
 import { Router } from "@angular/router";
-import { User } from "./../../shared/models/user";
-import { DeliveryAddress } from "./../../shared/models/delivery-address";
 import { OrderDto } from "./../../shared/models/dtos/orderDto";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
 import { IPayPalConfig } from 'ngx-paypal';
-
 import { OrderService } from "src/app/shared/services/order.service";
 import { PaymentService } from 'src/app/shared/services/payment.service';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import { Observable } from 'rxjs';
 @Component({
   selector: "app-payment-option",
   templateUrl: "./payment-option.component.html",
   styleUrls: ["./payment-option.component.css"],
 })
+
+//creator: Đặng Hồng Quân team C
 export class PaymentOptionComponent implements OnInit {
+
   // Duy 
   //paypal config
-  public payPalConfig?: IPayPalConfig;
+  payPalConfig?: IPayPalConfig;
   //
   orderForm: FormGroup;
   payments: any;
   orderDto: OrderDto = new OrderDto();
-  paymentMethod: String;
-  deliveryMethod: String = "Giao hàng tiêu chuẩn";
-
-  buyer: User = {
-    id: 1,
-    fullname: "Lương",
-    email: "cuong@gmail.com",
-    phoneNumber: "0123111222",
-    address: "Da Nang",
-    birthday: "1996-11-08",
-    idCard: "123123123",
-    gender: "Nam",
-    rate: {
-      id: 1,
-      name: "kim cương",
-    },
-    point: 100,
-    lastLogin: "2020-08-13T00:00:00",
-    status: true,
-  };
-
-  deliveryAddress: DeliveryAddress = {
-    id: 2,
-    nation: "Viet Nam",
-    city: "Da Nang",
-    district: "Hoa Phuoc",
-    ward: "Hoa Vang",
-    street: "Đường 605",
-    phoneNumber: "0123456789",
-    isDefault: true,
-    user: {
-      id: 1,
-      // fullname: "Lương",
-      // email: "cuong@gmail.com",
-      // phoneNumber: "0123111222",
-      // address: "Da Nang",
-      // birthday: "1996-11-08",
-      // idCard: "123123123",
-      // gender: "Nam",
-      // rate: {
-      //   id: 1,
-      //   name: "kim cương",
-      // },
-      // point: 100,
-      // lastLogin: "2020-08-13T00:00:00",
-      // status: true,
-    },
-  };
+  paymentMethod: string;
+  deliveryMethod: string = "Giao hàng tiêu chuẩn";
+  deliveryAddress: string = "da nang"
+  paymentStatus = "Fail";
 
   constructor(
-    private formBuilder: FormBuilder,
     private orderService: OrderService,
     private router: Router,
-    private paymentService: PaymentService
-  ) { }
+    private paymentService: PaymentService,
+    private tokenStorageService: TokenStorageService
+
+  ) { };
+
+
 
   ngOnInit() {
     // initialize paypal
     this.initPayPalSdk();
-    this.orderForm = this.formBuilder.group({
-      paymentMethod: "",
-      deliveryMethod: "",
-    });
-  }
+    console.log(this.tokenStorageService.getUsername())
+    this.tokenStorageService.getAuthorities()
+    this.deliveryAddress = this.paymentService.addressInfo.street + ', '
+      + this.paymentService.addressInfo.ward + ', '
+      + this.paymentService.addressInfo.district + ', '
+      + this.paymentService.addressInfo.city + '.'
+  };
+
 
   selectPayment(pay) {
     this.payments = pay;
+    if (pay == "TT") {
+      this.paymentStatus = "Success"
+    } else {
+      this.paymentStatus = "Fail"
+    }
   }
 
   onSubmit() {
-    console.log(this.orderForm.value.paymentMethod);
+
     this.orderDto.paymentMethod = this.paymentMethod;
     this.orderDto.deliveryMethod = this.deliveryMethod;
-    if (this.orderForm.value.paymentMethod == "Thanh toán trực tiếp") {
+    if (this.paymentMethod == "Thanh toán trực tiếp") {
       this.orderDto.paymentState = "Đang chờ thanh toán";
     } else {
       this.orderDto.paymentState = "Đã thanh toán thành công";
     }
     this.orderDto.deliveryAddress = this.deliveryAddress;
-    this.orderDto.buyer = this.buyer;
 
+    this.orderDto.buyer = { id: this.tokenStorageService.getJwtResponse().userId}
+    console.log(this.paymentStatus)
     this.orderService
       .createOrder(this.orderDto)
       .subscribe(() => this.router.navigate(["payment/order"]));
@@ -114,7 +84,7 @@ export class PaymentOptionComponent implements OnInit {
         layout: 'horizontal'
       },
       createOrderOnServer: (data: any) => {
-        return this.paymentService.setTransaction(1).toPromise().then(res => {
+        return this.paymentService.setTransaction(12, this.deliveryMethod).toPromise().then(res => {
           // console.log(res);
           this.paymentService.captureOrder = res;
           return res.id;
@@ -122,12 +92,36 @@ export class PaymentOptionComponent implements OnInit {
       },
       onApprove: (data) => {
         this.paymentService.confirmTransaction(data.orderID).subscribe(res => {
-          console.log(`confirm transaction: ${res.status}`);
+          this.paymentStatus = res.status;
+          console.log(this.paymentStatus);
         });
       },
       onError: err => {
         console.log('OnError', err);
       },
+      onCancel: (cancel) => {
+        this.paymentStatus = "Fail"
+      }
     };
+  }
+
+  getClientTokenFn(): Observable<string> {
+    return this.paymentService.retrieveToken();
+  }
+
+  createPurchase(nonce: string): Observable<any> {
+    const data = { nonce: nonce };
+    console.log(data);
+    return this.paymentService.createTransaction(nonce, this.deliveryMethod);
+  }
+
+  onPaymentStatus(response): void {
+    if (response.status != undefined) {
+      this.paymentStatus = "Success";
+      console.log(response.status);
+    } else {
+      this.paymentStatus = "Fail";
+      console.log(response.message);
+    }
   }
 }

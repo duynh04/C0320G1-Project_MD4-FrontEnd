@@ -32,27 +32,27 @@
                <p class="font-weight-bold headerdetail m-0">Thông tin khách hàng:</p>
                <p class="m-0">
                    <span class="font-weight-bold">Họ và tên: </span> 
-                   <span>{{order.buyer.fullname}}</span> 
+                   <span>{{deliveryAddress?.fullName}}</span> 
                 </p>
                 <p class="m-0">
                     <span class="font-weight-bold">Địa chỉ: </span> 
-                    <span>{{order.deliveryAddress.street}}</span> 
+                    <span>{{deliveryAddress?.street}}</span> 
                 </p>
                 <p class="m-0">
                     <span class="font-weight-bold">Quận/Huyện: </span> 
-                    <span>{{order.deliveryAddress.district}}</span> 
+                    <span>{{deliveryAddress?.district}}</span> 
                 </p>
                 <p class="m-0">
                     <span class="font-weight-bold">Phường/Xã: </span> 
-                    <span>{{order.deliveryAddress.ward}}</span> 
+                    <span>{{deliveryAddress?.ward}}</span> 
                 </p>
                 <p class="m-0">
                     <span class="font-weight-bold">Thành phố: </span> 
-                    <span>{{order.deliveryAddress.city}}</span> 
+                    <span>{{deliveryAddress?.city}}</span> 
                 </p>
                 <p class="m-0">
                     <span class="font-weight-bold">Quốc gia: </span> 
-                    <span>{{order.deliveryAddress.nation}}</span> 
+                    <span>{{deliveryAddress?.nation}}</span> 
                 </p>
            </div>
            <div class="col-md-6 mt-2 mb-2 h-100 w-50 text-right">

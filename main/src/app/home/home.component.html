@@ -21,13 +21,12 @@
     </div>
 <form *ngIf="showSearch" class="mb-0 mt-2" >
     <div class="d-flex row mx-0 mb-0">
-        <div class="form-group col-md-3 row">
-            <label class=" col-md-6 col-form-label">Tên sản phẩm: </label>
-            <input class="col-md-6 form-control" type="text" [(ngModel)]="productName">
+        <div class="form-group col-md-4 row">
+            <label class=" col-md-6 col-form-label pl-5">Tên sản phẩm: </label>
+            <input class="col-md-6 form-control" type="text" [(ngModel)]="currentProductName" name="product">
         </div>
-        <div class="form-group col-md-3 row">
-                <label class=" col-md-5 col-form-label">Danh mục: </label>
-                <select class=" col-md-7 form-control" [(ngModel)]="categoryName" >
+        <div class="form-group col-md-2 row ml-2">
+                <select class=" form-control" [(ngModel)]="currentCategoryName" name="category">
                     <option selected value="">Tất cả danh mục</option>
                     <option value="Điện tử">Điện tử</option>
                     <option value="Gia dụng">Gia dụng</option>
@@ -37,19 +36,18 @@
                     <option value="Khác">Khác</option>
                 </select>
         </div>
-        <div class="form-group col-md-3 row">
-            <label class=" col-md-4 col-form-label">Mức giá: </label>
-            <select class=" col-md-8 form-control" [(ngModel)]="price">
-                <option value="100000" selected>Dưới 100.000</option>
-                <option value="100000-500000">100.000-500.000</option>
+        <div class="form-group col-md-2 row ml-2">
+            <select class=" form-control" [(ngModel)]="currentPrice" name="price">
+                <option value="" selected >Mức giá</option>
+                <option value="100000" >Dưới 100.000</option>
+                <option  value="100000-500000">100.000-500.000</option>
                 <option value="500000-1000000">500.000-1.000.000</option>
                 <option value="1000000-5000000">1.000.000-5.000.000</option>
                 <option value="5000000">Trên 5.000.000</option>
             </select>
     </div>
-    {{price + categoryName + productName}}
         <div class="mx-2 pl-3">
-            <button type="button" class="btn btn-primary">Tìm kiếm</button>
+            <button type="button" class="btn btn-primary"(click)="search()">Tìm kiếm</button>
         </div>
     </div>
 </form>

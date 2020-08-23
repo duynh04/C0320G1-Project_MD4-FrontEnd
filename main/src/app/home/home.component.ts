@@ -1,9 +1,6 @@
-import { FormGroup } from '@angular/forms';
+//creator: Nguyễn Xuân Hùng
 import { Router } from '@angular/router';
 import { Auction } from './../shared/models/auction';
-import { ProductService } from './../shared/services/product.service';
-import { printPdf } from 'src/assets/javascript/generate-pdf';
-import { Product } from './../shared/models/product';
 import { Component, OnInit } from '@angular/core';
 import { AuctionService } from '../shared/services/auction.service';
 
@@ -17,9 +14,12 @@ export class HomeComponent implements OnInit {
   auctionStatusId =2;
   message="";
   showSearch :boolean;
-  productName="";
-  price="";
-  categoryName=""; 
+  productName :string="";
+  price : string="";
+  categoryName : string=""; 
+  currentProductName :string="";
+  currentPrice : string="";
+  currentCategoryName : string="";
   constructor(private auctionService: AuctionService,
     private router:Router) { }
   
@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
     this.message="";
      this.auctionService.getAuctionsProductByAuctionId(this.auctionStatusId).subscribe(data=> {
        this.auctionList=data;
-       console.log(this.auctionList);
       })
      
   }
@@ -52,7 +51,6 @@ export class HomeComponent implements OnInit {
     if(value==""){
       this.ngOnInit();
     }else{
-      console.log(value);
       this.auctionService.getAucionsListByAuctionIdAndCategoryName(2,value).subscribe(data=>{
         this.auctionList= data;
         if(this.auctionList.length==0){
@@ -69,5 +67,11 @@ export class HomeComponent implements OnInit {
     }else{
       this.showSearch=true;
     }
+  }
+  search(){
+    this.productName=this.currentProductName;
+    this.categoryName = this.currentCategoryName;
+    this.price = this.currentPrice;
+    this.auctionService.searchAuctionsAtHomePage(this.productName,this.price,this.currentPrice)
   }
 }

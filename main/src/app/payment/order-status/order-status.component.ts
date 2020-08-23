@@ -1,22 +1,33 @@
+import { PaymentService } from 'src/app/shared/services/payment.service';
 import { Router } from "@angular/router";
 import { OrderService } from "./../../shared/services/order.service";
 import { Order } from "./../../shared/models/order";
 import { Component, OnInit } from "@angular/core";
+// import { AddressInfo } from 'dgram'; Lỗi nè
+import { OrderAddressInfo } from 'src/app/shared/models/dtos/delivery-adddress-dto';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
+
 declare let Email: any;
 @Component({
   selector: "app-order-status",
   templateUrl: "./order-status.component.html",
   styleUrls: ["./order-status.component.css"],
 })
+
+//creator: Đặng Hồng Quân team C
 export class OrderStatusComponent implements OnInit {
   order: Order;
   deliveryPrice: number;
   serviceFee: number;
   totalCost: number;
-  constructor(private orderService: OrderService, private router: Router) {}
+  deliveryAddress: OrderAddressInfo
+  constructor(private orderService: OrderService,
+    private router: Router,
+    private paymentService: PaymentService,
+    private tokenStorageService: TokenStorageService) { }
 
   ngOnInit() {
-    this.orderService.getOrderByBuyerId(1).subscribe((data) => {
+    this.orderService.getOrderByBuyerId(this.tokenStorageService.getJwtResponse().userId).subscribe((data) => {
       this.order = data;
       if (data.deliverMethod == "Giao hàng tiêu chuẩn") {
         this.deliveryPrice = 50000;
@@ -28,6 +39,7 @@ export class OrderStatusComponent implements OnInit {
         data.cart.totalPrice + this.serviceFee + this.deliveryPrice;
       console.table(this.order);
     });
+    this.deliveryAddress = this.paymentService.addressInfo
   }
 
   sendMail(buttonStatus) {
@@ -35,7 +47,7 @@ export class OrderStatusComponent implements OnInit {
       Host: "smtp.elasticemail.com",
       Username: "quandanght@gmail.com",
       Password: "E528393F610CF064ECC039D0468AC7825EA6",
-      To: "haitac51196@gmail.com",
+      To: this.order.buyer.email,
       From: "quandanght@gmail.com",
       Subject: "test mail",
       Body: "Thành công",
@@ -50,7 +62,7 @@ export class OrderStatusComponent implements OnInit {
     if (buttonStatus == "không") {
       this.router.navigate(["/"]);
     } else {
-      this.router.navigate(["/"]);
+      this.router.navigate(["/payment/invoice", this.order.id]);
     }
   }
 }

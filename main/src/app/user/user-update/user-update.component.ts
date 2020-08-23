@@ -5,6 +5,7 @@ import { UserUpdateDto } from '../../shared/models/dtos/UserUpdateDto';
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup,AbstractControl } from '@angular/forms';
 import { UserService } from 'src/app/shared/services/user.service';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 
 function validateWhitespace(c:AbstractControl) {
   if(c.value!=''){
@@ -54,7 +55,7 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
   constructor(private fb: FormBuilder,
               private userService: UserService,
               private router : Router,
-              // private tokenStorageService: TokenStorageService
+              private tokenStorageService: TokenStorageService
             ) {}
   ngAfterViewInit(): void {
     this.elementRef.nativeElement.focus();
@@ -75,7 +76,8 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
       gender:['',[Validators.required]],
       address: ['',[Validators.required,Validators.maxLength(255)]]
     });
-      this.userService.getUserById("1").subscribe(data=>{
+    this.user.id= this.tokenStorageService.getJwtResponse().userId;
+      this.userService.getUserById(this.user.id).subscribe(data=>{
   
         this.userForm.patchValue(data);
       },error=>{this.errorMessage="Lỗi!! Không tìm thấy tài khoản của bạn"})
@@ -87,10 +89,8 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
     this.user.password = this.userForm.get('pwGroup').get('password').value;
     this.user.newPassword = this.userForm.get('pwGroup').get('newPassword').value;
     this.user.confirmPassword = this.userForm.get('pwGroup').get('confirmPassword').value;
-    // this.user.id= this.tokenStorageService.getUser().userId;
-    this.user.id=1;
-    this.userService.updateUser(this.userForm.value,"1").subscribe(data=>{
-      console.log(data.backendMessage)
+    this.user.id= this.tokenStorageService.getJwtResponse().userId;
+    this.userService.updateUser(this.user,this.tokenStorageService.getJwtResponse().userId).subscribe(data=>{
         this.backendMessages = data.backendMessage;
     },error=>{this.errorMessage="Cập nhật tài khoản thất bại"},()=>{
       if(this.backendMessages.length==0){
