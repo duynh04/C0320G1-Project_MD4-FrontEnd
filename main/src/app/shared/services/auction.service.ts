@@ -115,7 +115,7 @@ export class AuctionService {
 
   //creator: B-Nguyễn Xuân Hùng.
   searchAuctionsAtHomePage(productName:string, price: string, categoryName: string) :Observable<Auction[]>{
-    return this.httpClient.get<Auction[]>(this.API_URL+"search",{params: {productName: productName,price:price,categoryName:categoryName}})
+    return this.httpClient.get<Auction[]>(this.API_URL+"/home/search",{params: {productName: productName,price:price,categoryName:categoryName}})
   }
 
 }

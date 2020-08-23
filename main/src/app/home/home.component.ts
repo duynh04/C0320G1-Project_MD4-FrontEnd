@@ -83,6 +83,8 @@ export class HomeComponent implements OnInit {
     this.productName=this.currentProductName;
     this.categoryName = this.currentCategoryName;
     this.price = this.currentPrice;
-    this.auctionService.searchAuctionsAtHomePage(this.productName,this.price,this.currentPrice)
+    this.auctionService.searchAuctionsAtHomePage(this.productName,this.currentPrice,this.categoryName).subscribe(data=>{
+      this.auctionList = data;
+    });
   }
 }
