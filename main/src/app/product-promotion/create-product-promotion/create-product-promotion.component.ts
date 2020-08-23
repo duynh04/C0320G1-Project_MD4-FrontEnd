@@ -5,9 +5,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ProductPromotionService} from '../../shared/services/product-promotion.service';
-import {ProductService} from '../../shared/services/product.service';
 import {Product} from '../../shared/models/product';
-declare let Email: any;
+import {MatDialog} from '@angular/material';
+import {CommitSendMailComponent} from '../commit-send-mail/commit-send-mail.component';
+
 
 // creator : đưc Thông
 function checkPrice(control: AbstractControl): { [key: string]: boolean } | null {
@@ -24,6 +25,20 @@ function checkPercent(control: AbstractControl): { [key: string]: boolean } | nu
   return null;
 }
 
+function checkDate(control: AbstractControl): { [key: string]: boolean } | null {
+  if (control.value !== undefined && (isNaN(control.value) || control.value < Date.now())) {
+    return { dateInvalid: true };
+  }
+  return null;
+}
+
+function checkEndDate(control: AbstractControl): { [key: string]: boolean } | null {
+  if (control.value !== undefined && (isNaN(control.value) || control.value < Date.now())) {
+    return { endDateInvalid: true };
+  }
+  return null;
+}
+
 @Component({
   selector: 'app-create-product-promotion',
   templateUrl: './create-product-promotion.component.html',
@@ -33,25 +48,30 @@ export class CreateProductPromotionComponent implements OnInit {
 
   formAddNewPromotion: FormGroup;
   products: Product[];
-  startDate: any;
+  usersEmail;
   id: number;
-
-
+  start = new Date(2020, 1, 1);
+  private startDayCheck: Date;
+  private timeValidate: boolean;
+  private currentDay: Date;
+  private endDayCheck: Date;
 
   constructor(private productPromotionService: ProductPromotionService,
-              private productService: ProductService,
               private router: Router,
               private formBuilder: FormBuilder,
-              private activatedRoute: ActivatedRoute
+              private activatedRoute: ActivatedRoute,
+              private dialog: MatDialog
   ) { }
 
   ngOnInit() {
+    this.currentDay = new Date(Date.now());
+    console.log(this.currentDay);
     this.reloadData();
     this.formAddNewPromotion = this.formBuilder.group({
       idProduct: [null, [Validators.required]],
       content: [''],
-      startDate: [''],
-      endDate: [''],
+      startDate: ['', [Validators.required, checkDate]],
+      endDate: ['', [Validators.required, checkEndDate]],
       percent: [null, [ Validators.required, checkPercent]],
       price: [null, [ Validators.required, checkPrice]],
     },
@@ -59,26 +79,28 @@ export class CreateProductPromotionComponent implements OnInit {
   }
 
   reloadData() {
-    this.productService.getProductList().subscribe((data: Product[]) => {
+    this.productPromotionService.getProductList().subscribe((data: Product[]) => {
       this.products = data;
+    });
+    this.productPromotionService.getUserList().subscribe(data => {
+      this.usersEmail = data;
     });
   }
 
   save() {
-    Email.send({
-      Host: 'smtp.elasticemail.com',
-      Username: 'thong220700@gmail.com',
-      Password: 'EB79B477DC0EAD8F1B62D27C2019ADAD8B0C',
-      To: 'thong22072000@gmail.com',
-      From: 'thong220700@gmail.com',
-      Subject: 'test mail',
-      // tslint:disable-next-line:max-line-length
-      Body: 'qdasdsadasdasdas'
-    }).then(message => {
-      alert('gửi mail');
+      this.productPromotionService.createProductPromotion(this.formAddNewPromotion.value).subscribe(data => {
     });
-    this.productPromotionService.createProductPromotion(this.formAddNewPromotion.value).subscribe(data => {
-      this.router.navigateByUrl('');
+      const dialogRef = this.dialog.open(CommitSendMailComponent, {
+      width: '510px',
+      height: '240px',
+        data: {length: this.usersEmail.length,
+              name: this.products[this.formAddNewPromotion.controls.idProduct.value].name
+        },
+      disableClose: true,
+    });
+
+      dialogRef.afterClosed().subscribe(result => {
+      this.gotoList();
     });
   }
 
@@ -87,7 +109,18 @@ export class CreateProductPromotionComponent implements OnInit {
   }
 
   gotoList() {
-    this.router.navigateByUrl('productPromotions');
+    this.router.navigateByUrl('/productPromotion');
   }
 
+  checkValidateTimeInput(a: Date, b: Date) {
+    this.timeValidate = false;
+    if (a == null || b == null) {
+      return 0;
+    }
+    if (a.getTime() > b.getTime()) {
+      this.timeValidate = true;
+    } else {
+      this.timeValidate = false;
+    }
+  }
 }

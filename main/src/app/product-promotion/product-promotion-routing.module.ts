@@ -6,10 +6,15 @@ import {UpdateProductPromotionComponent} from './update-product-promotion/update
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'productPromotions', pathMatch: 'full' },
-  { path: 'productPromotions', component: ProductPromotionListComponent },
-  { path: 'promotion/add', component: CreateProductPromotionComponent },
-  { path: 'promotion/update/:id', component: UpdateProductPromotionComponent },
+  {
+    path: '', component: ProductPromotionListComponent,
+    children: [
+      // { path: 'add', component: CreateProductPromotionComponent },
+      // { path: 'update/:id', component: UpdateProductPromotionComponent },
+      ]
+  },
+  { path: 'add', component: CreateProductPromotionComponent },
+  { path: 'update/:id', component: UpdateProductPromotionComponent },
 ];
 
 @NgModule({

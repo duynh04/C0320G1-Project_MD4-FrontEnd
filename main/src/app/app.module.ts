@@ -7,6 +7,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NgxPayPalModule } from 'ngx-paypal';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { NgxPayPalModule } from 'ngx-paypal';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxPayPalModule
+    NgxPayPalModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

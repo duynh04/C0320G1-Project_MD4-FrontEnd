@@ -20,7 +20,6 @@ export class ProductPromotionListComponent implements OnInit {
   private mapProductPromotion = new Map();
 
   constructor(private productPromotionService: ProductPromotionService,
-              private productService: ProductService,
               private router: Router,
   ) {}
 
@@ -38,12 +37,12 @@ export class ProductPromotionListComponent implements OnInit {
         });
       });
     }});
-    // this.productService.getProductList().subscribe((data: Product[]) => {{
-    //   this.products = data;
-    //   this.products.forEach(element => {
-    //     this.mapProduct.set(element.id, element.name);
-    //   });
-    // }});
+    this.productPromotionService.getProductList().subscribe((data: Product[]) => {{
+      this.products = data;
+      this.products.forEach(element => {
+        this.mapProduct.set(element.id, element.name);
+      });
+    }});
   }
 
   deleteProductPromotion(id: number) {
@@ -68,8 +67,8 @@ export class ProductPromotionListComponent implements OnInit {
   //     });
   //   });
   // }
-
-  updateProductPromotion(id: number) {
-    this.router.navigate(['promotion/update', id]);
-  }
+  //
+  // updateProductPromotion(id: number) {
+  //   this.router.navigate(['promotion/update', id]);
+  // }
 }

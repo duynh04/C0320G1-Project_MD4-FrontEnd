@@ -21,6 +21,20 @@ function checkPercent(control: AbstractControl): { [key: string]: boolean } | nu
   return null;
 }
 
+function checkDate(control: AbstractControl): { [key: string]: boolean } | null {
+  if (control.value !== undefined && (isNaN(control.value) || control.value < Date.now())) {
+    return { dateInvalid: true };
+  }
+  return null;
+}
+
+function checkEndDate(control: AbstractControl): { [key: string]: boolean } | null {
+  if (control.value !== undefined && (isNaN(control.value) || control.value < Date.now())) {
+    return { endDateInvalid: true };
+  }
+  return null;
+}
+
 @Component({
   selector: 'app-update-product-promotion',
   templateUrl: './update-product-promotion.component.html',
@@ -31,6 +45,11 @@ export class UpdateProductPromotionComponent implements OnInit {
   id: number;
   public formEditPromotion: FormGroup;
   products: Product[];
+  start = new Date(2020, 1, 1);
+  private startDayCheck: Date;
+  private timeValidate: boolean;
+  private currentDay: Date;
+  private endDayCheck: Date;
 
   constructor(
               public activatedRoute: ActivatedRoute,
@@ -45,8 +64,8 @@ export class UpdateProductPromotionComponent implements OnInit {
     this.formEditPromotion = this.formBuilder.group({
       idProduct: [null, [Validators.required]],
       content: [''],
-      startDate: [''],
-      endDate: [''],
+      startDate: ['', [Validators.required, checkDate]],
+      endDate: ['', [Validators.required, checkEndDate]],
       percent: [null, [ Validators.required, checkPercent]],
       price: [null, [ Validators.required, checkPrice]],
     });
@@ -61,14 +80,14 @@ export class UpdateProductPromotionComponent implements OnInit {
   }
 
   reloadData() {
-    this.productService.getProductList().subscribe((data: Product[]) => {
+    this.productPromotionService.getProductList().subscribe((data: Product[]) => {
       this.products = data;
     });
   }
 
   updatePromotion() {
     this.productPromotionService.updateProductPromotion(this.id, this.formEditPromotion.value).subscribe((data: ProductPromotion) => {
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('productPromotion');
     });
   }
 
@@ -77,6 +96,18 @@ export class UpdateProductPromotionComponent implements OnInit {
   }
 
   gotoList() {
-    this.router.navigateByUrl('/productPromotions');
+    this.router.navigateByUrl('/productPromotion');
+  }
+
+  checkValidateTimeInput(a: Date, b: Date) {
+    this.timeValidate = false;
+    if (a == null || b == null) {
+      return 0;
+    }
+    if (a.getTime() > b.getTime()) {
+      this.timeValidate = true;
+    } else {
+      this.timeValidate = false;
+    }
   }
 }

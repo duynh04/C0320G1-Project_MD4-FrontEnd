@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ProductPromotion} from '../models/ProductPromotion';
+import {ProductPromotionDto} from '../models/dtos/product-promotion-dto';
 
 
 @Injectable({
@@ -10,7 +11,9 @@ import {ProductPromotion} from '../models/ProductPromotion';
 export class ProductPromotionService {
 
   private baseUrl = 'http://localhost:8080/api/v1/productPromotions';
-  private baseUrl2 = 'http://localhost:8080/api/v1/productPromotionsDto';
+  private baseUrlDto = 'http://localhost:8080/api/v1/productPromotionsDto';
+  private baseUrProduct = 'http://localhost:8080//api/v1/products';
+  private baseUrlUser = 'http://localhost:8080//api/v1/users';
 
   constructor(private http: HttpClient) { }
 
@@ -19,11 +22,11 @@ export class ProductPromotionService {
   }
 
   getProductPromotionDto(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl2}/${id}`);
+    return this.http.get(`${this.baseUrlDto}/${id}`);
   }
 
 
-  createProductPromotion(productPromotion: ProductPromotion): Observable<any> {
+  createProductPromotion(productPromotion: ProductPromotionDto): Observable<any> {
     return this.http.post(`${this.baseUrl}`, productPromotion);
   }
 
@@ -38,5 +41,14 @@ export class ProductPromotionService {
 
   getProductPromotionList(): Observable<any> {
     return this.http.get(`${this.baseUrl}`);
+  }
+
+  getProductList(): Observable<any> {
+    // @ts-ignore
+    return this.http.get(`${this.baseUrProduct}`);
+  }
+  getUserList(): Observable<any> {
+    // @ts-ignore
+    return this.http.get(`${this.baseUrlUser}`);
   }
 }

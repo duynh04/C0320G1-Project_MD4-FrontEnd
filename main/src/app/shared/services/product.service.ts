@@ -10,7 +10,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class ProductService {
 
   // Creator: Cường
-  private readonly API_URL = "http://localhost:8080/api/v1";
+  private readonly API_URL = 'http://localhost:8080/api/v1';
 
   constructor(private http: HttpClient) { }
 
@@ -52,7 +52,7 @@ export class ProductService {
   // Creator: Cường
   getMyProducts(ownerId : number,productName : string,approvementStatusName : string,
                 page :number) : Observable<Page<Product>> {
-                  
+
     return this.http.get<Page<Product>>(this.API_URL + "/myProduct/" + ownerId,
       this.getMyProductHttpOptions(productName,approvementStatusName,page))
   }
@@ -60,9 +60,9 @@ export class ProductService {
   // Creator: Cường
   cancelRegister(ownerId : number,productName : string,approvementStatusName : string,
                 cancelProductId : number, page : number) : Observable<Page<Product>> {
-  
+
     return this.http.put<Page<Product>>(this.API_URL + "/myProduct/cancel/" + ownerId,null,
       this.getCancelProductHttpOptions(productName,approvementStatusName,cancelProductId,page))
   }
-  
+
 }

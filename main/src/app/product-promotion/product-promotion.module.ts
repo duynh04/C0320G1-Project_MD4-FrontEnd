@@ -1,35 +1,41 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {BrowserModule} from '@angular/platform-browser';
 import {ProductPromotionRoutingModule} from './product-promotion-routing.module';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {ProductPromotionListComponent} from './product-promotion-list/product-promotion-list.component';
 import {CreateProductPromotionComponent} from './create-product-promotion/create-product-promotion.component';
 import {UpdateProductPromotionComponent} from './update-product-promotion/update-product-promotion.component';
-import {AppComponent} from '../app.component';
+import {MatButtonModule, MatDatepickerModule, MatDialogModule, MatInputModule, MatNativeDateModule} from '@angular/material';
+import { CommitSendMailComponent } from './commit-send-mail/commit-send-mail.component';
+import { DeleteProductPromotionComponent } from './delete-product-promotion/delete-product-promotion.component';
+
 
 
 
 @NgModule({
   declarations: [
-    AppComponent,
     ProductPromotionListComponent,
     CreateProductPromotionComponent,
     UpdateProductPromotionComponent,
+    CommitSendMailComponent,
+    DeleteProductPromotionComponent,
   ],
   imports: [
     CommonModule,
-    BrowserModule,
     ProductPromotionRoutingModule,
-    BrowserAnimationsModule,
-    // MatDatepickerModule,
-    // MatNativeDateModule,
-    // MatInputModule,
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDialogModule,
+  ],
+  entryComponents: [
+    DeleteProductPromotionComponent,
+    CommitSendMailComponent,
   ]
 })
 export class ProductPromotionModule { }

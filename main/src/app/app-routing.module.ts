@@ -8,6 +8,10 @@ const routes: Routes = [
     path: 'payment', loadChildren: () => import('./payment/payment.module').then(mod => mod.PaymentModule)
   },
   {
+    // tslint:disable-next-line:max-line-length
+    path: 'productPromotion', loadChildren: () => import('./product-promotion/product-promotion.module').then(mod => mod.ProductPromotionModule)
+  },
+  {
     path: 'admin', loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule)
   },
   {
