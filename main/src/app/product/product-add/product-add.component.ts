@@ -1,20 +1,20 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   AbstractControl, FormArray,
   FormBuilder, FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {ProductService} from '../../shared/services/product.service';
-import {Router} from '@angular/router';
-import {CategoryService} from '../../shared/services/category.service';
-import {finalize, tap} from 'rxjs/operators';
-import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
-import {Observable, Subscription} from 'rxjs';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {PRODUCT_MESSAGES} from '../../shared/validations/error-messages';
-import {UserValidatorService} from '../../shared/validations/user-validator.service';
-import {validCompareDate, validDate, validMaxImage} from '../../shared/validations/custom-validators';
+import { ProductService } from '../../shared/services/product.service';
+import { Router } from '@angular/router';
+import { CategoryService } from '../../shared/services/category.service';
+import { finalize, tap } from 'rxjs/operators';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import { Observable, Subscription } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { PRODUCT_MESSAGES } from '../../shared/validations/error-messages';
+import { UserValidatorService } from '../../shared/validations/user-validator.service';
+import { validCompareDate, validDate, validMaxImage } from '../../shared/validations/custom-validators';
 
 
 
@@ -25,15 +25,15 @@ import {validCompareDate, validDate, validMaxImage} from '../../shared/validatio
 })
 export class ProductAddComponent implements OnInit {
   constructor(private fb: FormBuilder,
-              private userValidatorService: UserValidatorService,
-              private productService: ProductService,
-              private router: Router,
-              private categoryService: CategoryService,
-              private storage: AngularFireStorage,
-              private db: AngularFirestore) {
+    private userValidatorService: UserValidatorService,
+    private productService: ProductService,
+    private router: Router,
+    private categoryService: CategoryService,
+    private storage: AngularFireStorage,
+    private db: AngularFirestore) {
   }
 
-// Thành
+  // Thành
   createProductForm: FormGroup;
   categoriesList;
   files: File[] = [];
@@ -68,7 +68,7 @@ export class ProductAddComponent implements OnInit {
         validators: [validCompareDate]
       }),
       // tslint:disable-next-line:max-line-length
-      description: ['', [Validators.required, Validators.pattern('^[A-Z]{1}[ a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$')]],
+      description: ['', [Validators.required]],
       category: this.fb.group({
         id: ['', Validators.required]
       }),
@@ -82,19 +82,19 @@ export class ProductAddComponent implements OnInit {
 
   onSubmit() {
     this.newProduct = {
-        name: this.createProductForm.value.name,
-        initialPrice: this.createProductForm.value.initialPrice,
-        increaseAmount: this.createProductForm.value.increaseAmount,
-        registerDate: new Date(),
-        startDate: this.createProductForm.value.date.startDate,
-        endDate: this.createProductForm.value.date.endDate,
-        description: this.createProductForm.value.description,
-        category: this.createProductForm.value.category,
-        productImageList: []
-      }
-    ;
+      name: this.createProductForm.value.name,
+      initialPrice: this.createProductForm.value.initialPrice,
+      increaseAmount: this.createProductForm.value.increaseAmount,
+      registerDate: new Date(),
+      startDate: this.createProductForm.value.date.startDate,
+      endDate: this.createProductForm.value.date.endDate,
+      description: this.createProductForm.value.description,
+      category: this.createProductForm.value.category,
+      productImages: []
+    }
+      ;
     (this.createProductForm.get('productImageList') as FormArray).controls.forEach(val => {
-      this.newProduct.productImageList.push({link : val.value});
+      this.newProduct.productImages.push({ link: val.value });
     });
     console.log(this.newProduct);
     this.productService.createProduct(this.newProduct).subscribe(
@@ -131,7 +131,7 @@ export class ProductAddComponent implements OnInit {
         this.downloadURL = await ref.getDownloadURL().toPromise();
         (this.createProductForm.get('productImageList') as FormArray).push(new FormControl(this.downloadURL));
         console.log(this.downloadURL);
-        this.db.collection('files').add({downloadURL: this.downloadURL, path});
+        this.db.collection('files').add({ downloadURL: this.downloadURL, path });
       })
     ).subscribe();
   }
