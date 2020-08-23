@@ -7,7 +7,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 })
 export class DealManageService {
 
-  public url_API = 'http://localhost:8080/api/v1/deal-management';
+  public url_API = 'http://localhost:8080/api/v1/admin/deal-management';
 
   private httpOptions = {
     headers: new HttpHeaders({
