@@ -9,7 +9,13 @@ import { PageNotFoundComponent } from "./page-not-found/page-not-found.component
 import { NgxPayPalModule } from "ngx-paypal";
 import { httpInterceptorProviders } from './auth/auth-interceptor';
 import { ChatBoxComponent } from './chatbox/chat-box/chat-box.component';
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from "@angular/forms";
+import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from "./material.module";
 
 @NgModule({
   declarations: [
@@ -19,8 +25,19 @@ import {FormsModule} from "@angular/forms";
     PageNotFoundComponent,
     ChatBoxComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgxPayPalModule,FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    NgxPayPalModule,
+    FormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    BrowserAnimationsModule,
+    MaterialModule
+  ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

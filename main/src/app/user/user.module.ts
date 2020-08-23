@@ -10,6 +10,7 @@ import { RegistrationUserComponent } from './registration-user/registration-user
 import { ConfirmRegistrationComponent } from './confirm-registration/confirm-registration.component';
 
 
+
 @NgModule({
   declarations: [CartListComponent, UserUpdateComponent, LoginComponent, RegistrationUserComponent, ConfirmRegistrationComponent],
   imports: [

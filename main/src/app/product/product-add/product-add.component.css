@@ -1,0 +1,17 @@
+body,html {
+  height: 100%;
+}
+.progress{
+  width: 410px;
+}
+.mark-success {
+  background-image: url(https://cdn.chilindo.com/gfx/checkmark-green.png);
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+select {
+  /* for Firefox */
+  -moz-appearance: none;
+  /* for Chrome */
+  -webkit-appearance: none;
+}
