@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Product} from '../models/product';
-import {Page} from "../models/dtos/page";
-import {ProductSearchDTO} from "../models/dtos/productSearchDTO";
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Product } from '../models/product';
+import { Page } from "../models/dtos/page";
+import { ProductSearchDTO } from "../models/dtos/productSearchDTO";
+import { ProductDto } from '../models/dtos/productDto';
 
 @Injectable({
   providedIn: 'root'
@@ -56,19 +57,19 @@ export class AdminService {
 
   // Thành Long
   unApprovementProduct(banned: string, id: number): Observable<any> {
-    const data = {id, banned};
+    const data = { id, banned };
     return this.http.put<any>(`${this.baseUrl}/approvement/unApprove`, data, this.options);
 
   }
 
   // Thành Long
-  getProduct(searchField: ProductSearchDTO, page: number): Observable<Page<Product>> {
-    return this.http.get<Page<Product>>(`${this.baseUrl}/product-list`, this.getProductHttpOptions(searchField, page));
+  getProduct(searchField: ProductSearchDTO, page: number): Observable<Page<ProductDto>> {
+    return this.http.get<Page<ProductDto>>(`${this.baseUrl}/product-list`, this.getProductHttpOptions(searchField, page));
   }
 
   // Thành Long
   deleteProducts(idsToDelete: number[]): any {
-    const data = {ids : idsToDelete};
+    const data = { ids: idsToDelete };
     return this.http.put<any>(`${this.baseUrl}/product-list/delete`, data, this.options);
   }
 

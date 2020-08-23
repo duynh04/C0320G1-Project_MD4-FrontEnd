@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Product} from '../../shared/models/product';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AdminService} from '../../shared/services/admin.service';
+import { Component, OnInit } from '@angular/core';
+import { Product } from '../../shared/models/product';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AdminService } from '../../shared/services/admin.service';
+import { ProductDto } from 'src/app/shared/models/dtos/productDto';
 
 @Component({
   selector: 'app-admin-approvement',
@@ -11,26 +12,26 @@ import {AdminService} from '../../shared/services/admin.service';
 export class AdminApprovementComponent implements OnInit {
 
   id: number;
-  product: Product;
+  product: ProductDto;
   text: any;
   banned: string;
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              private adminService: AdminService) {
+    private router: Router,
+    private adminService: AdminService) {
   }
 
-// Thành Long
+  // Thành Long
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
 
     this.adminService.getProductById(this.id)
       .subscribe(data => {
         console.log(data);
-        this.product = data;
+        this.product = data as ProductDto;
       }, error => console.log(error));
   }
 
-// Thành Long
+  // Thành Long
   approvement() {
     this.adminService.approvementProduct(this.id)
       .subscribe(data => console.log(data), error => console.log(error));
@@ -43,8 +44,8 @@ export class AdminApprovementComponent implements OnInit {
     this.text = document.getElementById('banned');
     this.banned = this.text.value;
     if (this.banned) {
-    this.adminService.unApprovementProduct(this.banned, this.id)
-      .subscribe(data => console.log(data), error => console.log(error));
+      this.adminService.unApprovementProduct(this.banned, this.id)
+        .subscribe(data => console.log(data), error => console.log(error));
     }
     this.router.navigate(['admin/product-list']);
   }

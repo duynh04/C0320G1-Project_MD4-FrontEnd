@@ -1,7 +1,6 @@
 import DateTimeFormat = Intl.DateTimeFormat;
 
 export interface ProductDto {
-  // Thành
   id: number;
   name: string;
   initialPrice: bigint;
@@ -9,19 +8,15 @@ export interface ProductDto {
   registerDate: DateTimeFormat;
   startDate: DateTimeFormat;
   endDate: DateTimeFormat;
-  approvementStatus: {
-    id: number,
-    name: string
-  };
+  approvementStatus: string;
   description: string;
-  category: {
-    id: number,
-    name: string
-  };
-  owner: number;
-  productImageList: [
+  category: string;
+  owner: string;
+  productImages: [
     {
       link: string;
     }
   ];
+  auctionStatus: string;
+  baned: string;
 }

@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Product} from '../../shared/models/product';
-import {ProductSearchDTO} from '../../shared/models/dtos/productSearchDTO';
-import {Observable, Subscription} from 'rxjs';
-import {AdminService} from '../../shared/services/admin.service';
-import {map, tap} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Product } from '../../shared/models/product';
+import { ProductSearchDTO } from '../../shared/models/dtos/productSearchDTO';
+import { Observable, Subscription } from 'rxjs';
+import { AdminService } from '../../shared/services/admin.service';
+import { map, tap } from 'rxjs/operators';
+import { ProductDto } from 'src/app/shared/models/dtos/productDto';
 
 
 @Component({
@@ -14,7 +15,7 @@ import {map, tap} from 'rxjs/operators';
 })
 export class ProductListComponent implements OnInit {
   private formSearchList: FormGroup;
-  productList: Observable<Product[]>;
+  productList: Observable<ProductDto[]>;
   stt: number[] = [];
   private arrayIdToDelete: number[] = [];
   private checkbox: any;
@@ -30,7 +31,7 @@ export class ProductListComponent implements OnInit {
   private subscription: Subscription = new Subscription();
 
   constructor(private adminService: AdminService,
-              public formBuilder: FormBuilder) {
+    public formBuilder: FormBuilder) {
   }
 
 
