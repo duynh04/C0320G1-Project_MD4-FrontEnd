@@ -271,7 +271,7 @@ export class AuctionPageComponent implements OnInit {
           let productToCart : CartDetailDTO = {
             userId : this.tokenStorageService.getJwtResponse().userId,
             auctionId : this.auctionId,
-            winPrice : data,
+            winPrice : data.bidPrice,
             closeTime: new Date().toISOString().substring(0, 19)            
         }        
           this.cartService.saveToCart(productToCart).subscribe(data => {});
@@ -305,8 +305,8 @@ export class AuctionPageComponent implements OnInit {
      }  
      
      //edit lại phiên đấu giá và record của người thắng khi phiên đấu giá kết thúc
-    //  this.auctionService.editAuctionById(this.auction).subscribe();
-    //  this.auctionService.editRecordHavingBestPrice(this.finalRecord).subscribe();
+     this.auctionService.editAuctionById(this.auction).subscribe();
+     this.auctionService.editRecordHavingBestPrice(this.finalRecord).subscribe();
 
     });
 
