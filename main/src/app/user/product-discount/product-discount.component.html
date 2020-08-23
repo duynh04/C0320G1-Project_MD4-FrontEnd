@@ -9,7 +9,7 @@
 <body>
 <div class="wrapper">
   <div class="sidebar">
-    <h2>Sidebar</h2>
+    <h2></h2>
     <ul>
       <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
       <li><a href="#"><i class="fas fa-user"></i>Profile</a></li>
@@ -26,36 +26,36 @@
     </div>
   </div>
   <div class="main_content">
-    <div class="header">Welcome! have a nice day.</div>
     <div class="info">
-      <div class="search">
-        <form class="container" [formGroup]="formSearch">
-          <div class="col-2">
-            <label for="inputTextBox"></label>
-            <input id="inputTextBox" type="text" placeholder="name" formControlName="content"  />
+        <form class="form-group row" [formGroup]="formSearch">
+          <div class="form-group text-center col-sm-3">
+            <p>Tên sản phẩm</p>
+            <label>
+              <input class="form-control" type="text" placeholder="name" formControlName="content"  />
+            </label>
             <p *ngIf="formSearch.controls.content.errors?.required && formSearch.controls.content.touched" class="text-danger">Please Enter The Name</p>
           </div>
-          <div class="col-2">
-            <label for="startDate"></label>
-            <input type="text" name="startDate" id="startDate" class="validDate" placeholder="startDate" formControlName="saleDate" />
-            <p *ngIf="formSearch.controls.saleDate.errors?.required && formSearch.controls.saleDate.touched" class="text-danger">Please Enter Sale Date</p>
-          </div>
-          <div class="col-2">
-            <label for="endDate"></label>
-            <input type="text" name="endDate" id="endDate" class="validDate" placeholder="endDate" formControlName="endOfEvent"/>
+          <div class="form-group text-center col-sm-3">
+            <p>Ngày kết thúc</p>
+            <label>
+              <input type="text" class="form-control" placeholder="endDate" formControlName="endOfEvent"/>
+            </label>
             <p *ngIf="formSearch.controls.endOfEvent.errors?.required && formSearch.controls.endOfEvent.touched" class="text-danger">Please Enter End Of The Event</p>
+            <p *ngIf="formSearch.controls.endOfEvent.errors?.pattern" class="text-danger">Please Enter Follow Pattern yyyy-mm-dd</p>
           </div>
-          <div class="col-2">
-            <label for='percent'></label>
-            <input type='text' id='percent' placeholder="number" formControlName="percent" >
+          <div class="form-group text-center col-sm-3">
+            <p>Phần trăm khuyến mãi</p>
+            <label>
+              <input class="form-control" type="number" placeholder="percent" formControlName="percent" >
+            </label>
             <p *ngIf="formSearch.controls.percent.errors?.required && formSearch.controls.percent.touched" class="text-danger">Please Enter Discount Percent</p>
           </div>
-          <div class="col-2" >
-            <button class="column5" type="submit" (click)=sendDetails()></button>
-            <button class="column6" type="submit" (click)="clearSearch()"></button>
+          <div class="col-sm-3 text-center "  >
+            <p class="text-center">Action</p>
+            <button class="btn btn-primary mx-2" type="submit" (click)=sendDetails()>Search</button>
+            <button class="btn btn-warning mx-2" type="submit" (click)="clearSearch()">Clear</button>
           </div>
         </form>
-      </div>
       <div>
         <table class="content_table">
           <thead>
@@ -66,30 +66,35 @@
             <th>Ngày bắt đầu</th>
             <th>Sale Percent</th>
             <th>Hạn cuối</th>
-            <th>Trạng thái</th>
-            <th>Giá</th>
-            <th>Số lượng</th>
+            <th>Giá cuối</th>
             <th>Xử lí</th>
           </tr>
           </thead>
           <tbody>
-          <tr class="active-row" *ngFor="let product of products" >
-            <td class="id">{{product.discountId}}</td>
+<!--          | async |paginate: {id:'list', itemsPerPage: 5, currentPage: page, totalItems: total}-->
+          <tr class="active-row" *ngFor="let product of ProductPromotion.content | paginate: { itemsPerPage: 5, currentPage: p }" >
+            <td class="id">{{product.id}}</td>
             <td><a href="#"><img src="" class="avatar" alt="Avatar">{{product.content}}</a></td>
             <td>{{product.price}}</td>
-            <td>{{product.saleDate}}</td>
-            <td class="product-discount-label">{{product.salePercent}}</td>
-            <td>{{product.endOfEvent}}</td>
-            <td><span class="status text-success">&bull;</span>{{product.flag}}</td>
-            <td>{{product.price * product.salePercent /100}}</td>
-            <td>{{product.amount}}</td>
+            <td>{{product.startDate}}</td>
+            <td class="product-discount-label">{{product.percent}}</td>
+            <td><span class="status text-success">&bull;</span>{{product.endDate}}</td>
+            <td>{{product.price * product.percent /100}}</td>
             <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i class="fas fa-cart-arrow-down"></i></a></td>
           </tr>
           </tbody>
         </table>
-      </div>
+<!--        <div class="d-flex justify-content-end" >-->
+<!--          <pagination-controls-->
+<!--            id="list"-->
+<!--            maxSize="5"-->
+<!--            directionLinks="true"-->
+<!--          (pageChange)="page=$event"></pagination-controls>-->
+<!--        </div>-->
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
   </div>
+</div>
 </div>
 </body>
 </html>

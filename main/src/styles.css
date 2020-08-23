@@ -77,7 +77,6 @@ body {
 }
 .wrapper .main_content .info {
   margin: 20px;
-  color:  #717171;
   line-height: 25px;
 }
 .wrapper .main_content .info div{
@@ -129,12 +128,7 @@ body {
   color: #009879;
 }
 
-.search{
-  box-sizing: border-box;
-  border: 1px solid rgba(0,0,0,0.05);
-  background-color: #007bff;
-  margin-top: 0;
-}
+
 
 
 
