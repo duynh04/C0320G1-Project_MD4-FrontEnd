@@ -1,19 +1,26 @@
+
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 import { UserUpdateComponent } from './user-update/user-update.component';
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {CartListComponent} from './cart-list/cart-list.component';
-import {LoginComponent} from './login/login.component';
+import { CartListComponent } from './cart-list/cart-list.component';
+import { LoginComponent } from './login/login.component';
+import { RegistrationUserComponent } from './registration-user/registration-user.component';
+import { ConfirmRegistrationComponent } from './confirm-registration/confirm-registration.component';
+
 
 const routes: Routes = [
   {
     path: '',
     children: [
-      {path: 'cart', component: CartListComponent},
-      {path: 'login', component: LoginComponent},
+      { path: 'registration', component: RegistrationUserComponent, },
+      { path: 'confirm', component: ConfirmRegistrationComponent, },
+      { path: 'cart', component: CartListComponent },
+      { path: 'login', component: LoginComponent },
       {
         path: 'update', component: UserUpdateComponent
       }
     ]
+
   }
 ];
 

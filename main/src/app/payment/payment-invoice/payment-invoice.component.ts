@@ -15,7 +15,6 @@ import { printPdf } from 'src/assets/javascript/generate-pdf'
   styleUrls: ['./payment-invoice.component.css']
 })
 export class PaymentInvoiceComponent implements OnInit {
-
   order: Order = {
     id: null,
     code: null,
@@ -46,7 +45,7 @@ export class PaymentInvoiceComponent implements OnInit {
       cartDetails: null
     },
     paymentStatus: null
-  }
+  };
   cartDetail: CartDetail[] = [];
   constructor(private activatedRoute: ActivatedRoute,
     private paymentService: PaymentService,

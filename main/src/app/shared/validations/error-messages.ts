@@ -18,5 +18,4 @@ export const DELIVERRY_MESSAGES = {
         { code: 'format', message: 'Số điện thoại không hợp lệ' },
         { code: 'alphabel', message: 'Kí tự không hợp lệ' },
     ],
-}
-//
+};
