@@ -3,11 +3,13 @@ import { Router } from "@angular/router";
 import { OrderService } from "./../../shared/services/order.service";
 import { Order } from "./../../shared/models/order";
 import { Component, OnInit } from "@angular/core";
-import { AddressInfo } from 'dgram';
 import { OrderAddressInfo } from 'src/app/shared/models/dtos/delivery-adddress-dto';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import { exception } from 'console';
+
 
 declare let Email: any;
+declare let $: any;
 @Component({
   selector: "app-order-status",
   templateUrl: "./order-status.component.html",
@@ -16,7 +18,7 @@ declare let Email: any;
 
 //creator: Đặng Hồng Quân team C
 export class OrderStatusComponent implements OnInit {
-  order: Order;
+  order: Order = null;
   deliveryPrice: number;
   serviceFee: number;
   totalCost: number;
@@ -27,6 +29,7 @@ export class OrderStatusComponent implements OnInit {
     private tokenStorageService: TokenStorageService) { }
 
   ngOnInit() {
+
     this.orderService.getOrderByBuyerId(this.tokenStorageService.getUser().userId).subscribe((data) => {
       this.order = data;
       if (data.deliverMethod == "Giao hàng tiêu chuẩn") {
@@ -40,6 +43,12 @@ export class OrderStatusComponent implements OnInit {
       console.table(this.order);
     });
     this.deliveryAddress = this.paymentService.addressInfo
+
+    // $(document).ready(function () {
+    //   $("#myModal").modal('show');
+    // });
+
+
   }
 
   sendMail(buttonStatus) {
@@ -66,3 +75,6 @@ export class OrderStatusComponent implements OnInit {
     }
   }
 }
+
+
+

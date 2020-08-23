@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {HTTP_INTERCEPTORS, HttpInterceptor} from '@angular/common/http';
-import {TokenStorageService} from './token-storage.service';
+import { Injectable } from '@angular/core';
+import { HTTP_INTERCEPTORS, HttpInterceptor } from '@angular/common/http';
+import { TokenStorageService } from './token-storage.service';
 
 const TOKEN_HEADER_KEY = 'Authorization';
 
@@ -12,11 +12,11 @@ export class AuthInterceptor implements HttpInterceptor {
   // tslint:disable-next-line:typedef
   intercept(req, next) {
     let authReq = req;
-    const token = this.token.getToken();
+    const token = this.token.getUser().jwttoken;
     if (token != null) {
       authReq = req.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ` + token,
           'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
         },
       });

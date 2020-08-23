@@ -7,6 +7,8 @@ import { HeaderComponent } from "./header/header.component";
 import { FooterComponent } from "./footer/footer.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { NgxPayPalModule } from "ngx-paypal";
+import { httpInterceptorProviders } from './auth/auth-interceptor';
+import { AuthServiceConfig } from 'angular-6-social-login';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,8 @@ import { NgxPayPalModule } from "ngx-paypal";
     PageNotFoundComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgxPayPalModule],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
