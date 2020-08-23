@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {CartListComponent} from './cart-list/cart-list.component';
 
 @NgModule({
-  declarations: [CartListComponent,UserUpdateComponent],
+  declarations: [CartListComponent, UserUpdateComponent],
   imports: [
     CommonModule,
     UserRoutingModule,

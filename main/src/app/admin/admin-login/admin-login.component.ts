@@ -12,14 +12,14 @@ import {Router} from '@angular/router';
 })
 export class AdminLoginComponent implements OnInit {
   private formLoginAdmin: FormGroup;
-  submitted = false;
-  userInfo: AuthLoginInfo;
+  // submitted = false;
+  // userInfo: AuthLoginInfo;
 
   constructor(
     public formBuilder: FormBuilder,
-    private auth: AuthJwtService,
-    private tokenStorage: TokenStorageService,
-    private router: Router
+    // private auth: AuthJwtService,
+    // private tokenStorage: TokenStorageService,
+    // private router: Router
   ) {
   }
 
@@ -39,39 +39,39 @@ export class AdminLoginComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    this.submitted = true;
-    this.userInfo = new AuthLoginInfo(this.fusername.value, this.fpassword.value);
-    this.login(this.userInfo);
-  }
+  // onSubmit() {
+  //   this.submitted = true;
+  //   this.userInfo = new AuthLoginInfo(this.fusername.value, this.fpassword.value);
+  //   this.login(this.userInfo);
+  // }
 
-  get fusername() {
-    return this.formLoginAdmin.get('username');
-  }
+  // get fusername() {
+  //   return this.formLoginAdmin.get('username');
+  // }
+  //
+  // get fpassword() {
+  //   return this.formLoginAdmin.get('password');
+  // }
 
-  get fpassword() {
-    return this.formLoginAdmin.get('password');
-  }
-
-  public login(userInfo) {
-    console.log(userInfo);
-    this.auth.attemptAuth(userInfo).subscribe(
-      data => {
-
-        this.tokenStorage.saveAuthorities(data.authorities);
-        this.tokenStorage.saveToken(data.token);
-        this.tokenStorage.saveUsername(data.accountName);
-        // tslint:disable-next-line:triple-equals
-        if (this.tokenStorage.getAuthorities().indexOf('ROLE_ADMIN') != -1) {
-          this.router.navigateByUrl('/product/list');
-        }
-        console.log(this.tokenStorage.getAuthorities());
-      },
-      error => {
-        console.log('Error ', error);
-      }
-    );
-
-  }
+  // public login(userInfo) {
+  //   console.log(userInfo);
+  //   this.auth.attemptAuth(userInfo).subscribe(
+  //     data => {
+  //
+  //       this.tokenStorage.saveAuthorities(data.authorities);
+  //       this.tokenStorage.saveToken(data.token);
+  //       this.tokenStorage.saveUsername(data.accountName);
+  //       // tslint:disable-next-line:triple-equals
+  //       if (this.tokenStorage.getAuthorities().indexOf('ROLE_ADMIN') != -1) {
+  //         this.router.navigateByUrl('admin/product-list');
+  //       }
+  //       console.log(this.tokenStorage.getAuthorities());
+  //     },
+  //     error => {
+  //       console.log('Error ', error);
+  //     }
+  //   );
+  //
+  // }
 
 }

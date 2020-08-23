@@ -5,7 +5,7 @@
       <div class="row mt-3">
         <div class="form-group col-md-4">
           <label class="col-form-label mr-2">Tên sản phẩm</label>
-          <input class="form-control" type="text" placeholder="Vd: Nồi Cơm Điện"
+          <input id="productName" class="form-control" type="text"  placeholder="Vd: Nồi Cơm Điện"
                  formControlName="name">
           <p *ngIf="formSearchList.controls.name.errors?.pattern && formSearchList.controls.name.touched"
              class="text-danger font-weight-bold">
@@ -13,15 +13,15 @@
         </div>
         <div class="form-group col-md-4">
           <label class="col-form-label mr-2">Loại sản phẩm</label>
-          <select class="custom-select">
+          <select class="custom-select" id="productType" formControlName="category">
             <option selected disabled value="">Chọn...</option>
             <option>Tất cả</option>
             <option value="Điện tử">Điện tử</option>
             <option value="Điện lạnh">Điện lạnh</option>
-            <option value="Điện thoại - Máy tính bảng">Điện thoại - Máy tính bảng</option>
+            <option value="Điện thoại">Điện thoại</option>
             <option value="Thời trang - Phụ Kiện ">Thời trang - Phụ kiện</option>
             <option value="Làm đẹp - Sức khỏe">Làm đẹp - Sức khỏe</option>
-            <option value="Hàng tiêu dùng">Điện gia dụng</option>
+            <option value="Điện gia dụng">Điện gia dụng</option>
             <option value="Làm đẹp - Sức khỏe">Làm đẹp - Sức khỏe</option>
             <option value="Phương tiện">Phương tiện</option>
             <option value="Sách">Sách</option>
@@ -29,7 +29,7 @@
         </div>
         <div class="form-group col-md-4">
           <label class="col-form-label mr-2">Người đăng</label>
-          <input class="form-control" type="text" [(ngModel)]="fullName" placeholder="Vd: Nguyễn Văn A"
+          <input id="fullName" class="form-control" type="text" placeholder="Vd: Nguyễn Văn A"
                  formControlName="owner">
           <p *ngIf="formSearchList.controls.owner.errors?.pattern && formSearchList.controls.owner.touched"
              class="text-danger font-weight-bold">
@@ -39,19 +39,19 @@
       <div class="row">
         <div class="form-group col-md-4">
           <label class="col-form-label mr-2">Giá</label>
-          <select class="custom-select">
+          <select id="price" class="custom-select" formControlName="price">
             <option selected disabled value="">Chọn...</option>
-            <option>Tất cả</option>
-            <option>Từ 0 đến 100.000 VND</option>
-            <option>Từ 100.000 đến 500.000 VND</option>
-            <option>Từ 500.000 đến 1.000.000 VND</option>
-            <option>Từ 1.000.000 đến 5.000.000 VND</option>
-            <option>Trên 5.000.000 VND</option>
+            <option value="">Tất cả</option>
+            <option value="0">Từ 0 đến 100.000 VND</option>
+            <option value="1">Từ 100.000 đến 500.000 VND</option>
+            <option value="2">Từ 500.000 đến 1.000.000 VND</option>
+            <option value="3">Từ 1.000.000 đến 5.000.000 VND</option>
+            <option value="4">Trên 5.000.000 VND</option>
           </select>
         </div>
         <div class="form-group col-md-4">
           <label class="col-form-label mr-2">Tình trạng</label>
-          <select class="custom-select">
+          <select id="AuctionStatus"  class="custom-select" formControlName="status">
             <option selected disabled value="">Chọn...</option>
             <option value="Tất cả">Tất cả</option>
             <option value="Chưa đấu giá">Chưa đấu giá</option>
@@ -65,7 +65,7 @@
           <button (click)="search()" type="button" class="btn btn-primary mt-2" style="width: 360px"><i
             class="fas fa-search"></i> Lọc
             kết quả
-          </button>
+          </button >
         </div>
       </div>
     </div>
@@ -94,9 +94,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let product of productList; index as i">
+        <tr *ngFor="let product of productList | async | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalElements}; index as i">
           <td>{{stt[i]}}</td>
-          <td><input type="checkbox"></td>
+          <td><input type="checkbox" class="checkthis" value={{product.id}}/></td>
           <td>{{product.id}}</td>
           <td><a [routerLink]="['/admin/approvement/', product.id]">{{product.name}}</a></td>
           <td>{{product.category.name}}</td>
@@ -115,28 +115,15 @@
     </div>
     <div class="row d-flex justify-content-between mt-3">
       <div>
-        <button class="btn btn-danger mr-3"><i class="far fa-trash-alt"></i> Xóa</button>
+        <button (click)="deleteProducts()" class="btn btn-danger mr-3"><i class="far fa-trash-alt"></i> Xóa</button>
         <button class="btn btn-success mr-3"><i class="fas fa-plus-square"></i> Thêm</button>
         <button class="btn btn-primary"><i class="fas fa-save"></i> Lưu chỉnh sửa</button>
       </div>
       <div>
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link text-primary" (click)="previous()" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item"><a class="page-link text-primary">{{page + 1}}</a></li>
-            <li class="page-item"><a class="page-link text-primary">/</a></li>
-            <li class="page-item"><a class="page-link text-primary">{{totalPages}}</a></li>
-            <li class="page-item">
-              <a class="page-link text-primary" (click)="next()" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+
+        <div class="mt-3 d-flex justify-content-end">
+          <pagination-controls (pageChange)="getPage($event)"></pagination-controls>
+        </div>
       </div>
     </div>
   </div>

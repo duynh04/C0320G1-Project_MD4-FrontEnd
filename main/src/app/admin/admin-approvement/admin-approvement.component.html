@@ -51,16 +51,17 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form (click)="unApprovement()">
+                  <form>
                     <div class="form-group">
-                      <label for="message-text" class="col-form-label">Nhập lý do bài đăng
+                      <p class="productId" style="display: none;">{{product.id}}</p>
+                      <label class="col-form-label">Nhập lý do bài đăng
                         không được duyệt:</label>
-                      <textarea class="form-control" rows="5" id="message-text"></textarea>
+                      <textarea class="form-control" rows="5" id="banned"></textarea>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng
                       </button>
-                      <button (click)="list()" type="button" class="btn btn-primary">Gửi Nội Dung</button>
+                      <button (click)="unApprovement()" type="button" data-dismiss="modal" class="btn btn-primary">Gửi Nội Dung</button>
                     </div>
                   </form>
                 </div>

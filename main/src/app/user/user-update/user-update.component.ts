@@ -4,7 +4,8 @@ import { UserUpdateDto } from '../../shared/models/dtos/UserUpdateDto';
 
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { UserService } from 'src/app/shared/services/user.service';
+import {UserService} from "../../shared/services/user.service";
+
 
 @Component({
   selector: 'app-user-update',

@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Product} from '../../shared/models/product';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AdminService} from '../../shared/services/admin.service';
-import {ProductService} from '../../shared/services/product.service';
 
 @Component({
   selector: 'app-admin-approvement',
@@ -13,7 +12,8 @@ export class AdminApprovementComponent implements OnInit {
 
   id: number;
   product: Product;
-
+  text: any;
+  banned: string;
   constructor(private route: ActivatedRoute,
               private router: Router,
               private adminService: AdminService) {
@@ -34,18 +34,23 @@ export class AdminApprovementComponent implements OnInit {
   approvement() {
     this.adminService.approvementProduct(this.id)
       .subscribe(data => console.log(data), error => console.log(error));
-    this.router.navigate(['product/list']);
+    this.router.navigate(['admin/product-list']);
   }
 
   // Thành Long
   unApprovement() {
-    this.adminService.unApprovementProduct(this.product)
+    this.id = this.route.snapshot.params.id;
+    this.text = document.getElementById('banned');
+    this.banned = this.text.value;
+    if (this.banned) {
+    this.adminService.unApprovementProduct(this.banned, this.id)
       .subscribe(data => console.log(data), error => console.log(error));
-    this.router.navigate(['product/list']);
+    }
+    this.router.navigate(['admin/product-list']);
   }
 
   // Thành Long
   list() {
-    this.router.navigate(['product/list']);
+    this.router.navigate(['admin/product-list']);
   }
 }
