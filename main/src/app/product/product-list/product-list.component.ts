@@ -4,7 +4,7 @@ import {Product} from '../../shared/models/product';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProductService} from '../../shared/services/product.service';
 import {CategoryService} from '../../shared/services/category.service';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import * as $ from 'jquery';
 import {ApprovementStatus} from '../../shared/models/Approvement-status';
 import {ApprovementStatusService} from '../../shared/services/approvement.status.service';
@@ -12,6 +12,9 @@ import {Router} from '@angular/router';
 import {ProductDto} from '../../shared/models/dtos/ProductDto ';
 import {ValidateService} from '../../shared/validations/productS.service';
 import {ProductServices} from '../../shared/services/productServices.service';
+import {AngularFireStorage} from '@angular/fire/storage';
+import {finalize} from 'rxjs/operators';
+
 
 declare let $: any;
 @Component({
@@ -34,6 +37,9 @@ export class ProductListComponent implements OnInit {
 
 
 // creator Tu
+  files: File[] = [];
+  imgSrc: any;
+  selectedImage: any = null;
   listProductUpdateToDb = new Array<number>();
   editField: string;
   private listProduct: Product[];
@@ -48,6 +54,7 @@ export class ProductListComponent implements OnInit {
               private router: Router,
               private formBuilder: FormBuilder,
               // creator Tu
+              private storage: AngularFireStorage,
               private categoryService: CategoryService,
               private approvementStatusService: ApprovementStatusService,
               // Creator Son
@@ -273,7 +280,8 @@ export class ProductListComponent implements OnInit {
         Validators.required,
         Validators.pattern('^[A-Za-z0-9]{0,}$')
       ])),
-      ownerId: ['', [Validators.required]]
+      ownerId: ['', [Validators.required]],
+      productImages: this.formBuilder.array([]),
     });
   }
   addRow(): void {
@@ -300,6 +308,88 @@ export class ProductListComponent implements OnInit {
     });
   }
 
+  submit() {
+    console.log('test');
+    console.log(this.selectedImage);
+    if (this.selectedImage !== null) {
+      const  filePath = `productImages/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
+      console.log(filePath);
+      const fileRef = this.storage.ref(filePath);
+      console.log(fileRef);
+      this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe(url => {
+            this.imgSrc = url;
+            console.log(this.imgSrc);
+            this.formArray.at(0).value.productImages.push(this.imgSrc);
+          });
+        })
+
+      // finalize(async () => {
+      //   //       this.downloadURL = await ref.getDownloadURL().toPromise();
+      //   //       // (this.createProductForm.get('productImageList') as FormArray).push(new FormControl(this.downloadURL));
+      //   //       console.log(this.downloadURL);
+      //   //       this.db.collection('files').add({downloadURL: this.downloadURL, path});
+      //   //     })
+      ).subscribe();
+    }
+    console.log(this.formArray.at(0).value);
+  }
+
+  showPreview(event: any) {
+
+    console.log(event.target.files);
+    if ( event.target.files ) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => this.imgSrc = e.target.result;
+      reader.readAsDataURL(event.target.files[0]);
+      this.selectedImage = event.target.files[0];
+      this.submit();
+    } else {
+      console.log('view')
+      this.imgSrc = './../../../assets/Placeholder.jpg';
+      this.selectedImage = null;
+    }
+  }
+
+
+  // onDrop(files: FileList) {
+  //   this.files.splice(0);
+  //   // (this.createProductForm.get('productImageList') as FormArray).clear();
+  //   for (let i = 0; i < files.length; i++) {
+  //     this.files.push(files.item(i));
+  //   }
+  // }
+  //
+  // startUpload(file) {
+  //   // The storage path
+  //   const path = `test/${Date.now()}_${file.name}`;
+  //   // Reference to storage bucket
+  //   const ref = this.storage.ref(path);
+  //   // The main task
+  //   this.task = this.storage.upload(path, file);
+  //   // Progress monitoring
+  //   this.percentage = this.task.percentageChanges();
+  //   this.snapshot = this.task.snapshotChanges().pipe(
+  //     tap(console.log),
+  //     // The file's download URL
+  //     finalize(async () => {
+  //       this.downloadURL = await ref.getDownloadURL().toPromise();
+  //       // (this.createProductForm.get('productImageList') as FormArray).push(new FormControl(this.downloadURL));
+  //       console.log(this.downloadURL);
+  //       this.db.collection('files').add({downloadURL: this.downloadURL, path});
+  //     })
+  //   ).subscribe();
+  // }
+  //
+  // onClick() {
+  //   for(let i = 0; i < this.files.length; i++) {
+  //     console.log(this.files);
+  //     this.startUpload(this.files[i]);
+  //   }
+  // }
+
+
   // Edit product from table directly
   updateProductField(index: number, property: string, event: any) {
     const editField = event.target.textContent;
@@ -318,7 +408,7 @@ export class ProductListComponent implements OnInit {
         }
       }
 
-      this.listProduct[index][firstProperty]["id"] = categoryIdEdit;
+      this.listProduct[index][firstProperty].id = categoryIdEdit;
       console.log(this.listProduct[index].category.id);
     } else {
       this.listProduct[index][property] = editField;
@@ -375,6 +465,7 @@ export class ProductListComponent implements OnInit {
     // tslint:disable-next-line:prefer-for-of
     if ( this.formArray.length > 0) {
       for (let i = 0; i < this.formArray.length; i++) {
+        console.log(this.formArray.at(i).value);
         this.productsService.addProduct(this.formArray.at(i).value).subscribe(
           () => {
           }
@@ -384,7 +475,7 @@ export class ProductListComponent implements OnInit {
     } else {
       this.saveListUpdateToDb();
     }
-    window.location.reload();
+    // window.location.reload();
   }
 
   checkOwner() {
@@ -499,4 +590,5 @@ export class ProductListComponent implements OnInit {
   //   $(`button[name= ${name4}]`).hide();
   //   $(`button[name= ${name5}]`).hide();
   // }
+
 }

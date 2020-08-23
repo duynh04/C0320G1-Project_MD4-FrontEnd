@@ -320,7 +320,14 @@
               <span (blur)="updateProductField(i, 'description', $event)" contenteditable="true">{{product.description}}</span>
             </td>
             <td>
-              <span (blur)="updateProductField(i, 'productImages', $event)" contenteditable="true">{{product}}</span>
+              <img src="https://salt.tikicdn.com/cache/280x280/media/catalog/product//e/x/ex200-2.u425.d20170309.t162916.222253.jpg" alt="HTML Map" border="0" usemap="#html"/>
+<!--              <a (blur)="updateProductField(i, 'productImages', $event)" contenteditable="true" href="https://salt.tikicdn.com/cache/280x280/media/catalog/product//e/x/ex200-2.u425.d20170309.t162916.222253.jpg">Xem</a>-->
+              <map name="html">
+                <area shape="circle"
+                      coords="80,80,20" href="../css/index.jsp" alt="CSS Link" target="_self" />
+                <area shape="rect"
+                      coords="5,5,40,40" alt="jQuery Link" href="../jquery/index.jsp" target="_self" />
+              </map>
             </td>
             <td>
               <div style="margin: 0px;padding: 0px;display: flex;flex-direction: row">
@@ -390,9 +397,6 @@
                 <textarea style="height: 37.097px; width: 200px" placeholder="Thông tin chi tiết" formControlName="description" class="form-control"></textarea>
                 <i class="alert-danger" role="alert" *ngIf="form.get('description').hasError('required') && form.get('description').touched"> Vui lòng nhập thông tin sản phẩm  </i>
               </td>
-<!--              <td  style="height: 37.097px">-->
-<!--                <input type="file" style="height: 37.097px; width: 200px; margin: 0px; padding: 3px" placeholder="Hình ảnh" formControlName="productImages" class="form-control">-->
-<!--              </td>-->
               <td>
                 <input style="width: 200px" type="date" placeholder="Ngày đăng" formControlName="registerDate" class="form-control">
                 <i class="alert-danger" role="alert" *ngIf="form.get('registerDate').hasError('required') && form.get('registerDate').touched"> Vui lòng nhập thời gian đăng ký  </i>
@@ -404,6 +408,15 @@
               <td>
                 <input style="width: 200px" type="date" placeholder="Thời gian kết thúc" formControlName="endDate" class="form-control">
                 <i class="alert-danger" role="alert" *ngIf="form.get('endDate').hasError('required') && form.get('endDate').touched"> Vui lòng nhập thời gian kết thúc  </i>
+              </td>
+              <td>
+                <div formArrayName="productImages">
+                  <input style="width: 200px" type="file"  name="productImages"
+                         (change) = "showPreview($event)" placeholder="Chọn hình ảnh" id="productImages" #fileUpLoad   class="form-control" >
+                  <img [src]="imgSrc" height="125" width="100" (click)="fileUpLoad.click()"/>
+                  <!--                <input type="file" id="image" (change)="onDrop($event.target.files)" accept=".jpg, .jpeg, .png" multiple>-->
+                  <!--                <small class="preview text-danger d-block "></small>-->
+                </div>
               </td>
             </tr>
             </tbody>
@@ -438,4 +451,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>

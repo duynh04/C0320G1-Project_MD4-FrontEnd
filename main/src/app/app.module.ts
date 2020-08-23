@@ -9,6 +9,12 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { NgxPayPalModule } from 'ngx-paypal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
+import {AngularFireModule} from "@angular/fire";
+import {environment} from "../environments/environment";
+import {AngularFireStorageModule} from "@angular/fire/storage";
+import {AngularFireDatabaseModule} from "@angular/fire/database";
+import {finalize} from "rxjs/operators";
+
 
 @NgModule({
   declarations: [
@@ -23,7 +29,10 @@ import { MaterialModule } from './material.module';
     HttpClientModule,
     NgxPayPalModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
+    AngularFireDatabaseModule
   ],
   providers: [],
   bootstrap: [AppComponent],
