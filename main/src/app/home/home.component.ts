@@ -80,11 +80,15 @@ export class HomeComponent implements OnInit {
     }
   }
   search(){
+    this.message="";
     this.productName=this.currentProductName;
     this.categoryName = this.currentCategoryName;
     this.price = this.currentPrice;
     this.auctionService.searchAuctionsAtHomePage(this.productName,this.currentPrice,this.categoryName).subscribe(data=>{
       this.auctionList = data;
+      if(this.auctionList.length==0){
+        this.message="Hiện tại không có sản phẩm này đang đấu giá cho tìm kiếm này";
+      }
     });
   }
 }
