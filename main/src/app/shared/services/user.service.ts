@@ -10,14 +10,14 @@ import { AbstractControl } from '@angular/forms';
 })
 
 export class UserService {
-  private readonly API_URL_USER = "http://localhost:8080/api/v1/user/"
+  private readonly API_URL_USER = 'http://localhost:8080/api/v1/user/'
   constructor(private http: HttpClient) { }
   httpOptions = {
     headers : new HttpHeaders({
       'Content-Type' : 'application/json'
     })
   }
-  //creator: Nguyễn Xuân Hùng
+  // creator: Nguyễn Xuân Hùng
   getUserById(id) : Observable<UserUpdateDto>{
     return this.http.get<UserUpdateDto>(this.API_URL_USER+id);
   }

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset=UTF-8">
+  <title>Side Navigator Bar</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+</head>
+<body>
+<div class="wrapper">
+  <div class="sidebar">
+    <h2></h2>
+    <ul>
+      <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
+      <li><a href="#"><i class="fas fa-user"></i>Profile</a></li>
+      <li><a href="#"><i class="fas fa-address-card"></i>About</a></li>
+      <li><a href="#"><i class="fas fa-project-diagram"></i>Portfolio</a></li>
+      <li><a href="#"><i class="fas fa-blog"></i>Blog</a></li>
+      <li><a href="#"><i class="fas fa-address-book"></i>Contact</a></li>
+      <li><a href="#"><i class="fas fa-map-pin"></i>Map</a></li>
+    </ul>
+    <div class="social_media">
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+  <div class="main_content">
+    <div class="info">
+        <form class="form-group row" [formGroup]="formSearch">
+          <div class="form-group text-center col-sm-3">
+            <p>Tên sản phẩm</p>
+            <label>
+              <input class="form-control" type="text" placeholder="name" formControlName="content"  />
+            </label>
+            <p *ngIf="formSearch.controls.content.errors?.required && formSearch.controls.content.touched" class="text-danger">Please Enter The Name</p>
+          </div>
+          <div class="form-group text-center col-sm-3">
+            <p>Ngày kết thúc</p>
+            <label>
+              <input type="text" class="form-control" placeholder="endDate" formControlName="endOfEvent"/>
+            </label>
+            <p *ngIf="formSearch.controls.endOfEvent.errors?.required && formSearch.controls.endOfEvent.touched" class="text-danger">Please Enter End Of The Event</p>
+            <p *ngIf="formSearch.controls.endOfEvent.errors?.pattern" class="text-danger">Please Enter Follow Pattern yyyy-mm-dd</p>
+          </div>
+          <div class="form-group text-center col-sm-3">
+            <p>Phần trăm khuyến mãi</p>
+            <label>
+              <input class="form-control" type="number" placeholder="percent" formControlName="percent" >
+            </label>
+            <p *ngIf="formSearch.controls.percent.errors?.required && formSearch.controls.percent.touched" class="text-danger">Please Enter Discount Percent</p>
+          </div>
+          <div class="col-sm-3 text-center "  >
+            <p class="text-center">Action</p>
+            <button class="btn btn-primary mx-2" type="submit" (click)=sendDetails()>Search</button>
+            <button class="btn btn-warning mx-2" type="submit" (click)="clearSearch()">Clear</button>
+          </div>
+        </form>
+      <div>
+        <table class="content_table">
+          <thead>
+          <tr>
+            <th class="id_Title">#</th>
+            <th class="product_title">Sản phẩm</th>
+            <th>Giá gốc</th>
+            <th>Ngày bắt đầu</th>
+            <th>Sale Percent</th>
+            <th>Hạn cuối</th>
+            <th>Giá cuối</th>
+            <th>Xử lí</th>
+          </tr>
+          </thead>
+          <tbody>
+<!--          | async |paginate: {id:'list', itemsPerPage: 5, currentPage: page, totalItems: total}-->
+          <tr class="active-row" *ngFor="let product of ProductPromotion.content | paginate: { itemsPerPage: 5, currentPage: p }" >
+            <td class="id">{{product.id}}</td>
+            <td><a href="#"><img src="" class="avatar" alt="Avatar">{{product.content}}</a></td>
+            <td>{{product.price}}</td>
+            <td>{{product.startDate}}</td>
+            <td class="product-discount-label">{{product.percent}}</td>
+            <td><span class="status text-success">&bull;</span>{{product.endDate}}</td>
+            <td>{{product.price * product.percent /100}}</td>
+            <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i class="fas fa-cart-arrow-down"></i></a></td>
+          </tr>
+          </tbody>
+        </table>
+<!--        <div class="d-flex justify-content-end" >-->
+<!--          <pagination-controls-->
+<!--            id="list"-->
+<!--            maxSize="5"-->
+<!--            directionLinks="true"-->
+<!--          (pageChange)="page=$event"></pagination-controls>-->
+<!--        </div>-->
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+  </div>
+</div>
+</div>
+</body>
+</html>
+
