@@ -18,17 +18,19 @@ export class UserListComponent implements OnInit {
   addUser: FormArray;
   editField: string;
   rateId: number;
-  @Output()
-  doCreate = new EventEmitter();
-
+  public userList: Observable<User[]>;
+  public lastPage: number;
+  public currentPage: number;
+  // @Output()
+  // doCreate = new EventEmitter();
   constructor(
     public userService: UserService,
     private route: Router,
     private fb: FormBuilder
   ) {
     this.addForm = this.fb.group({
-      items: [null, Validators.required],
-      items_value: ['no', Validators.required]
+      items: [null],
+      items_value: ['no']
     });
     this.addUser = this.fb.array([]);
   }
@@ -50,10 +52,10 @@ export class UserListComponent implements OnInit {
       fullname: ["", Validators.required],
       address: ["", Validators.required],
       rate: ["", Validators.required],
-      email: ["", Validators.required],
-      phoneNumber: ["", Validators.required],
+      email: ["", [Validators.required,Validators.pattern(/^[a-z][a-z0-9_\.]{2,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/)]],
+      phoneNumber: ["",[Validators.required,Validators.pattern(/^[0-9]+$/)]],
       lastLogin: [null],
-      point: [0, Validators.required]
+      point: [10, Validators.required]
     });
   }
 
@@ -61,7 +63,7 @@ export class UserListComponent implements OnInit {
     this.addUser.removeAt(rowIndex);
   }
 
-  createUser(indexRow : number) {
+  createUser(indexRow: number) {
     let formGroup = this.addUser.value[0];
     formGroup.rate = formGroup.rate.trim();
     switch (formGroup.rate) {
@@ -117,7 +119,7 @@ export class UserListComponent implements OnInit {
         break;
     }
     if (property == "rate.name") {
-      let firstProperty = property.substring(0,4);
+      let firstProperty = property.substring(0, 4);
       let secondProperty = property.substring(5);
       this.users[count][firstProperty]["id"] = rateIdEdit;
       this.users[count][firstProperty][secondProperty] = editField;
@@ -139,20 +141,53 @@ export class UserListComponent implements OnInit {
     console.log(this.addUser.value[0]);
   }
 
+  reloadData(page, pageSize) {
+    this.userService.getOnePage(page, pageSize).subscribe(data => {
+      this.currentPage = page;
+      this.userList = data.items;
+      this.lastPage = data.totalPage;
+    });
+  }
 
+  goFirstPage() {
+    this.reloadData(1, 5);
+  }
 
+  goPreviousPage() {
+    console.log(this.currentPage);
+    if (this.currentPage > 1) {
+      return this.reloadData(this.currentPage - 1, 5);
+    }
+  }
+
+  goNextPage() {
+    console.log(this.currentPage);
+    if (this.currentPage < this.lastPage) {
+      return this.reloadData(this.currentPage + 1, 5);
+    }
+  }
+
+  goLastPage() {
+    this.reloadData(this.lastPage, 5);
+  }
+
+  // open() {
+  //   const modalRef = this.modalService.open(ModalComponent);
+  //   document.onreadystatechange = () => {
+  //     if (document.readyState === 'complete') {
+  //       var chkCount = 0;
+  //       var arrCheckboxes = document.getElementById("1");
+  //
+  //       if (chkCount === 0) {
+  //         modalRef.componentInstance.name = 'Tùng';
+  //       } else {
+  //         modalRef.componentInstance.name = 'Hưng';
+  //       }
+  //     }
+  //   };
 }
 
-// onSubmit() {
-//   let row = this.addForm.value as User;
-//   this.userService.createUser(row).subscribe(() => {
-//     this.doCreate.emit();
-// this.router.navigateByUrl('/employees');
-// });
-// createUser(index: number) {
-//
-// }
-// }
+
 
 
 
