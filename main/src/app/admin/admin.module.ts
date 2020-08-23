@@ -6,7 +6,6 @@ import { DealManageComponent } from './deal-manage/deal-manage.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 
-
 @NgModule({
   declarations: [
     DealManageComponent
