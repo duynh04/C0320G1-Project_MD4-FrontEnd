@@ -32,27 +32,27 @@
                <p class="font-weight-bold headerdetail m-0">Thông tin khách hàng:</p>
                <p class="m-0">
                    <span class="font-weight-bold">Họ và tên: </span> 
-                   <span>{{order.buyer.fullname}}</span> 
+                   <span>{{deliveryAddress?.fullName}}</span> 
                 </p>
                 <p class="m-0">
                     <span class="font-weight-bold">Địa chỉ: </span> 
-                    <span>{{order.deliveryAddress.street}}</span> 
+                    <span>{{deliveryAddress?.street}}</span> 
                 </p>
                 <p class="m-0">
                     <span class="font-weight-bold">Quận/Huyện: </span> 
-                    <span>{{order.deliveryAddress.district}}</span> 
+                    <span>{{deliveryAddress?.district}}</span> 
                 </p>
                 <p class="m-0">
                     <span class="font-weight-bold">Phường/Xã: </span> 
-                    <span>{{order.deliveryAddress.ward}}</span> 
+                    <span>{{deliveryAddress?.ward}}</span> 
                 </p>
                 <p class="m-0">
                     <span class="font-weight-bold">Thành phố: </span> 
-                    <span>{{order.deliveryAddress.city}}</span> 
+                    <span>{{deliveryAddress?.city}}</span> 
                 </p>
                 <p class="m-0">
                     <span class="font-weight-bold">Quốc gia: </span> 
-                    <span>{{order.deliveryAddress.nation}}</span> 
+                    <span>{{deliveryAddress?.nation}}</span> 
                 </p>
            </div>
            <div class="col-md-6 mt-2 mb-2 h-100 w-50 text-right">
@@ -103,26 +103,26 @@
               <tr *ngFor="let cart of cartDetail">
                 <th scope="row">{{cart.auction.product.name}}</th>
                 <td>{{cart.productQuantity}}</td>
-                <td>{{cart.productWinPrice-(cart.productWinPrice*10/100)|number}}</td>
-                <td>{{cart.productWinPrice-(cart.productWinPrice*10/100)|number}}</td>
+                <td>{{cart.productWinPrice|number}}</td>
+                <td>{{cart.productWinPrice|number}}</td>
               </tr>
               <tr>
                 <th scope="row">Phí dịch vụ 10%</th>
                 <td></td>
-                <td>{{(order.cart.totalPrice-49000)*10/100|number}}</td>
-                <td>{{(order.cart.totalPrice-49000)*10/100|number}}</td>
+                <td>{{(order.cart.totalPrice)*10/100|number}}</td>
+                <td>{{(order.cart.totalPrice)*10/100|number}}</td>
               </tr>
               <tr>
                 <th scope="row">Giao hàng</th>
                 <td></td>
-                <td>49,000</td>
-                <td>49,000</td>
+                <td>{{deliveryPrice|number}}</td>
+                <td>{{deliveryPrice|number}}</td>
               </tr>
               <tr>
                 <th scope="row">Tổng</th>
                 <td></td>
-                <td>{{order.cart.totalPrice|number}}</td>
-                <td>{{order.cart.totalPrice|number}}</td>
+                <td>{{(order.cart.totalPrice+deliveryPrice)|number}}</td>
+                <td>{{(order.cart.totalPrice+deliveryPrice)|number}}</td>
               </tr>
             </tbody>
           </table>
@@ -154,9 +154,12 @@
         </div>
     </div>
 </div>
-<div class="mb-5 mt-3 d-flex justify-content-end" style="width:77%" id="printPage">
-    <a class="btn btn-warning mr-3 printPageButton" (click)="backToHomePage()" id="huy" >Hủy</a>
-    <button id="generate" class="btn btn-danger printPageButton" >Xuất file PDF</button>
-    <button id="printPageButton" class="btn btn-success ml-2 printPageButton " style="background-color: #3bb33a;">In</button>
+<div class=" row mb-5 mt-3" id="printPage">
+    <div class="col-md-7"></div>
+    <div class="col-md-5">
+        <a class="btn btn-warning mr-3 printPageButton" (click)="backToHomePage()" id="huy" >Hủy</a>
+        <button id="generate" class="btn btn-danger printPageButton" >Xuất file PDF</button>
+        <button id="printPageButton" class="btn btn-success ml-2 printPageButton " style="background-color: #3bb33a;">In</button>
+    </div>
 </div>
 

@@ -25,6 +25,12 @@
   <script src="https://smtpjs.com/v3/smtp.js">
   </script>
   <script src="assets/js/chatbot.js"></script>
+  <script>
+    if (global === undefined) {
+      var global = window;
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 </head>
 
 <body>

@@ -15,7 +15,7 @@ const routes: Routes = [
       {path: 'cart', component: CartListComponent, canActivate: [UserGuard]},
       {path: 'favorite', component: FavoriteListComponent, canActivate: [UserGuard]},
       {path: 'login', component: LoginComponent},
-      {path: 'update', component: UserUpdateComponent},
+      {path: 'update', component: UserUpdateComponent,canActivate:[UserGuard]},
       {path: 'approved', component: ApprovedListComponent, canActivate: [UserGuard]},
       {path: 'wait-for-approval', component: WaitForApprovalComponent, canActivate: [UserGuard]}
     ],

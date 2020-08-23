@@ -1,3 +1,5 @@
+import { HomeComponent } from './home/home.component';
+
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
@@ -9,17 +11,28 @@ import { PageNotFoundComponent } from "./page-not-found/page-not-found.component
 import { NgxPayPalModule } from "ngx-paypal";
 import { httpInterceptorProviders } from './auth/auth-interceptor';
 import { ChatBoxComponent } from './chatbox/chat-box/chat-box.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    PageNotFoundComponent,
-    ChatBoxComponent
+    HomeComponent,
+    ChatBoxComponent,
+    PageNotFoundComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgxPayPalModule,FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    NgxPayPalModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
 })

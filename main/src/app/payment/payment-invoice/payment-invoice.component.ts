@@ -1,13 +1,10 @@
-import { Product } from './../../shared/models/product';
-import { DeliveryAddress } from './../../shared/models/delivery-address';
+import { OrderAddressInfo } from './../../shared/models/dtos/delivery-adddress-dto';
 import { PaymentService } from 'src/app/shared/services/payment.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartDetail } from './../../shared/models/cart-detail';
-import { User } from './../../shared/models/user';
 import { Order } from './../../shared/models/order';
 import { Component, OnInit } from '@angular/core';
-import { Auction } from 'src/app/shared/models/auction';
-import { printPdf } from 'src/assets/javascript/generate-pdf'
+import {printPdf} from 'src/assets/javascript/generate-pdf'
 
 @Component({
   selector: 'app-payment-invoice',
@@ -15,10 +12,10 @@ import { printPdf } from 'src/assets/javascript/generate-pdf'
   styleUrls: ['./payment-invoice.component.css']
 })
 export class PaymentInvoiceComponent implements OnInit {
-
-  order: Order = {
-    id: null,
-    code: null,
+  deliveryPrice = 0;
+  order : Order ={
+    id :null,
+    code : null,
     buyer: {
       id: null,
       fullname: null,
@@ -47,17 +44,24 @@ export class PaymentInvoiceComponent implements OnInit {
     },
     paymentStatus: null
   }
+  deliveryAddress: OrderAddressInfo;
   cartDetail: CartDetail[] = [];
   constructor(private activatedRoute: ActivatedRoute,
     private paymentService: PaymentService,
     private router: Router) { }
 
   ngOnInit() {
-    console.log(printPdf());
-    this.activatedRoute.paramMap.subscribe(data => {
-      this.paymentService.findInvoiceById(data.get('id')).subscribe(data => {
+    printPdf();
+    this.activatedRoute.paramMap.subscribe(data=>{
+      this.paymentService.findInvoiceById(data.get('id')).subscribe(data=>{
         this.cartDetail = data['cartDetail'];
         this.order = data['order'];
+        if(this.order.deliveryMethod="Giao hàng tiêu chuẩn"){
+          this.deliveryPrice = 50000;
+        }else{
+          this.deliveryPrice = 100000;
+        }
+        this.deliveryAddress = this.paymentService.addressInfo;
       })
     })
   }

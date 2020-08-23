@@ -1,0 +1,153 @@
+
+<!-- Creator: Hoai Ngan team C -->
+<div class="content-wrapper">     
+
+<div class="auction row"> 
+
+    <div class="mini-image">     
+        
+        <img *ngFor = "let image of productImages" src={{image.link}} alt="productImage"> 
+
+    </div>    
+    
+
+    <div class="image col-4 p-0">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner" >
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src={{firstImage}} alt="First img">
+                </div>
+                <div class="carousel-item" *ngFor = "let image of imagesExceptFirst">
+                    <img class="d-block w-100" src={{image.link}} alt="Second img">
+                </div>               
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+        
+    </div>
+
+    <div class="action col-md-5">
+        <h3 class="my-3">{{productName}}</h3>
+        <h3 id="countdown" class="my-5 text-danger" style="font-family: 'Open Sans', sans-serif; font-weight: bold;">----</h3>
+        <div class="current row">
+            <div class="current-bid col-3">
+                <p><small>BƯỚC GIÁ: </small></p>
+                <p>{{increment}}k</p>
+            </div>
+            <div class="current-bid col-3">
+                <p><small>GIÁ HIỆN TẠI: </small></p>
+                <p id="currentBid">{{currentBid}}k</p>
+            </div>
+            <div class="current-winner col-4">
+                <p><small>NGƯỜI THẮNG: </small></p>
+                <p>{{currentWinner}}</p>
+            </div>
+
+        </div>
+       
+
+        <p class= "mt-4 pt-4"><small><b><i>**Nhập giá thách đấu ở ô phía dưới. Đơn vị: nghìn đồng (1k = 1000VND)</i></b></small></p>
+        <div class="bid row">
+            <input type="text" onfocus="this.value=''" class="form-control col-7 mr-4" id="newBid" [formControl]="newBid">
+            <button [disabled] = "newBid.invalid && newBid.touched" class="btn btn-primary col-4" id="bidButton" data-toggle = "modal" data-target="#bidSuccess" (click)= "addAuctionRecord()"> Đặt giá thầu</button>
+        </div>
+        <p class= "pt-2" *ngIf="newBid.errors?.required && newBid.touched"><small class="text-danger">Vui lòng nhập giá thách đấu</small></p>
+        <p class= "pt-2" *ngIf="newBid.errors?.bidPrice"><small class="text-danger">Giá thách đấu đang chứa định dạng không hợp lệ</small></p>
+        <p class= "pt-2" *ngIf="newBid.errors?.invalidBid"><small class="text-danger">Giá thách đấu phải là bội số của bước giá và lớn hơn giá hiện tại </small></p>  
+    </div>
+
+</div>
+
+</div>
+
+<!-- Auction history -->
+<div class="records">
+    <table class="table table-striped table-bordered mx-0 px-0">
+        <thead>
+        <tr>
+            <th scope="col">Hồ sơ</th>
+            <th scope="col">Giá thầu</th>
+            <th scope="col">Số lượng</th>
+            <th scope="col">Thời gian</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor = "let record of records">
+            <td>{{record.id}}</td>
+            <td>{{record.bidPrice}}</td>
+            <td>1</td>
+            <td>{{record.bidTime}}</td>
+        </tr>        
+        </tbody>
+    </table>
+</div>
+
+<div class="detail-wrapper">
+    <div class="details">
+
+        
+    </div>
+</div>
+
+<div class="modal fade" id="bidSuccess" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Đặt giá thành công</h4>
+<!--                    <i class="fas fa-check-circle" style="color: #189EFF"></i>-->
+            </div>
+            <div class="modal-body">
+                <p id="reaffirm"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Tiếp tục</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="finished-success" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Thắng cuộc!</h4>
+<!--                    <i class="fas fa-trophy fa-lg" style="color: red"></i>-->
+            </div>
+            <div class="modal-body">
+                <p>Xin chúc mừng! Bạn đã đấu giá thành công</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Bỏ qua</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" >Giỏ hàng</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Trang chủ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="finished-failure" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Đấu giá kết thúc</h4>
+<!--                    <i class="fas fa-trophy fa-lg" style="color: red"></i>-->
+            </div>
+            <div class="modal-body">
+                <p>Chúc bạn may mắn lần sau! Xin cảm ơn</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Bỏ qua</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="goToCart()" >Giỏ hàng</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal" (click)="goToHomePage()">Trang chủ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
