@@ -1,15 +1,15 @@
-import {Router} from '@angular/router';
-import {UserUpdateDto} from '../../shared/models/dtos/UserUpdateDto';
-import {Component, OnInit, ElementRef, ViewChild, AfterViewInit} from '@angular/core';
-import {FormBuilder, Validators, FormGroup} from '@angular/forms';
-import {UserService} from 'src/app/shared/services/user.service';
+import { Router } from '@angular/router';
+import { UserUpdateDto } from '../../shared/models/dtos/UserUpdateDto';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { UserService } from 'src/app/shared/services/user.service';
 @Component({
   selector: 'app-user-update',
   templateUrl: './user-update.component.html',
   styleUrls: ['./user-update.component.css']
 })
 export class UserUpdateComponent implements OnInit, AfterViewInit {
-  @ViewChild('focusCheck', {static: true}) private elementRef: ElementRef;
+  @ViewChild('focusCheck', { static: true }) private elementRef: ElementRef;
   userForm: FormGroup;
   hideableDiv = false;
   user: UserUpdateDto = {
@@ -31,8 +31,8 @@ export class UserUpdateComponent implements OnInit, AfterViewInit {
   errorMessage = '';
 
   constructor(private fb: FormBuilder,
-              private userService: UserService,
-              private router: Router
+    private userService: UserService,
+    private router: Router
   ) {
   }
 
@@ -50,7 +50,7 @@ export class UserUpdateComponent implements OnInit, AfterViewInit {
         password: ['', [Validators.minLength(6), Validators.maxLength(20)]],
         newPassword: [''],
         confirmPassword: ['']
-      }, {validators: [this.userService.comparePassword]}),
+      }, { validators: [this.userService.comparePassword] }),
       idCard: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
       phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
       gender: ['', [Validators.required]],

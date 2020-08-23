@@ -6,6 +6,7 @@ import { ProductComponent } from './product-center/product.component';
 import { ProductAddComponent } from './product-add/product-add.component';
 import { AdminGuard } from '../auth/admin.guard';
 
+
 const routes: Routes = [
   { path: 'myProduct', component: MyProductsComponent, canActivate: [UserGuard] },
   { path: '', component: ProductComponent },

@@ -7,7 +7,7 @@ import { Product } from './../models/product';
 import { Page } from './../models/dtos/page';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -96,5 +96,4 @@ export class ProductService {
     return this.http.put<Page<Product>>(this.API_URL + "/myProduct/cancel/" + ownerId, null,
       this.getCancelProductHttpOptions(productName, approvementStatusName, cancelProductId, page))
   }
-
 }
