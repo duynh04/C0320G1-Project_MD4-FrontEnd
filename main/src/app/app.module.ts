@@ -23,4 +23,4 @@ import {FormsModule} from "@angular/forms";
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

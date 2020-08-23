@@ -1,11 +1,11 @@
-import { PaymentService } from 'src/app/shared/services/payment.service';
-import { Router } from "@angular/router";
-import { OrderService } from "./../../shared/services/order.service";
-import { Order } from "./../../shared/models/order";
-import { Component, OnInit } from "@angular/core";
+import {PaymentService} from 'src/app/shared/services/payment.service';
+import {Router} from '@angular/router';
+import {OrderService} from './../../shared/services/order.service';
+import {Order} from './../../shared/models/order';
+import {Component, OnInit} from '@angular/core';
 // import { AddressInfo } from 'dgram'; Lỗi nè
-import { OrderAddressInfo } from 'src/app/shared/models/dtos/delivery-adddress-dto';
-import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import {OrderAddressInfo} from 'src/app/shared/models/dtos/delivery-adddress-dto';
+import {TokenStorageService} from 'src/app/auth/token-storage.service';
 
 declare let Email: any;
 @Component({

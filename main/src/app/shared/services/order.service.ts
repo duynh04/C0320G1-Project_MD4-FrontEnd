@@ -1,9 +1,9 @@
-import { OrderDto } from "./../models/dtos/orderDto";
-import { Order } from "./../models/order";
-import { Observable } from "rxjs";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import {OrderDto} from './../models/dtos/orderDto';
+import {Order} from './../models/order';
+import {Observable} from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {TokenStorageService} from 'src/app/auth/token-storage.service';
 
 @Injectable({
   providedIn: "root",

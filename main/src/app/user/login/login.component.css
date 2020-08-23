@@ -48,6 +48,10 @@
 
 }
 
+#title {
+  color: #007bff
+}
+
 #avatar {
   width: 30px;
   height: 30px;
@@ -58,8 +62,13 @@
   height: 150px;
   border-radius: 50%;
 }
-#cancel{
+
+#cancel {
   background-color: #f8f8eb;
   color: #8d918e;
   border: none;
+}
+
+.my-eye {
+  min-width: 30px;
 }

@@ -1,15 +1,15 @@
-import { TokenStorageService } from './../../auth/token-storage.service';
+import {TokenStorageService} from './../../auth/token-storage.service';
 //creator: Nguyễn Xuân Hùng
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { Location } from '../models/dtos/location';
-import { IOrderDetails } from 'ngx-paypal'
-import { DeliveryAddress } from './../models/delivery-address';
-import { ErrorDetail } from './../models/dtos/error-detail';
-import { DeliveryAddressDTO, OrderAddressInfo } from '../models/dtos/delivery-adddress-dto';
-import { handler } from '../exceptions/exception-handler';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
+import {Location} from '../models/dtos/location';
+import {IOrderDetails} from 'ngx-paypal';
+import {DeliveryAddress} from './../models/delivery-address';
+import {ErrorDetail} from './../models/dtos/error-detail';
+import {DeliveryAddressDTO, OrderAddressInfo} from '../models/dtos/delivery-adddress-dto';
+import {handler} from '../exceptions/exception-handler';
 
 @Injectable({
   providedIn: 'root'
@@ -76,13 +76,13 @@ export class PaymentService {
     );
   }
 
-  // create order 
+  // create order
   // get captured order
   setTransaction(userId: number, deliveryMethod: string): Observable<IOrderDetails> {
     return this.http.post<IOrderDetails>(`${this.PAYMENT_URL}/create-transaction`, userId, this.httpOptions);
   }
 
-  //get confirm transaction 
+  //get confirm transaction
   confirmTransaction(orderId: string): Observable<IOrderDetails> {
     return this.http.post<IOrderDetails>(`${this.PAYMENT_URL}/confirm-transaction`, orderId, this.httpOptions);
   }
@@ -95,7 +95,7 @@ export class PaymentService {
     )
   }
 
-  // create purchase visa payment 
+  // create purchase visa payment
   createTransaction(nonce: string, deliveryMethod: string): Observable<any> {
     return this.http.get(`${this.PAYMENT_URL}/visa-create`, { params: { nonce: nonce, userId: '12', deliveryMethod: deliveryMethod }, headers: this.httpOptions.headers }).pipe(
       catchError(handler)

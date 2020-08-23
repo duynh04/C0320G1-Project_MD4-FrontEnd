@@ -8,8 +8,7 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': 'http://localhost:4200',
   'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
-  }) 
-  
+  })
 };
 @Injectable({
   providedIn: 'root'
@@ -23,5 +22,5 @@ export class AuthJwtService {
   attemptAuth(userInfo: AuthLoginInfo): Observable<JwtResponse> {
     return this.http.post<JwtResponse>(this.loginUrl, userInfo, httpOptions);
   }
-  
+
 }
