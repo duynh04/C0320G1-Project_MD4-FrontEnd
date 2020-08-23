@@ -342,6 +342,9 @@ export class AuctionPageComponent implements OnInit {
   goToHomePage(){
     this.router.navigateByUrl("/home");
   }
+  goToCart(){
+    this.router.navigateByUrl("/user/cart");
+  }
 }
 
 

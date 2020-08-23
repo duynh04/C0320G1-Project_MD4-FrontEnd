@@ -17,9 +17,7 @@ export class AuctionService {
               private tokenStorageService: TokenStorageService) { }
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json','Authorization': `Bearer `+ this.tokenStorageService.getJwtResponse().jwttoken}),
-    'Access-Control-Allow-Origin': 'http://localhost:4200',
-    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+    headers: new HttpHeaders({ 'Content-Type': 'application/json'}),
   }
   // Creator: Cường
   private readonly API_URL = "http://localhost:8080/api/v1";
