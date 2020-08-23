@@ -9,4 +9,9 @@ body,html {
   background-position: right center;
   background-repeat: no-repeat;
 }
-
+select {
+  /* for Firefox */
+  -moz-appearance: none;
+  /* for Chrome */
+  -webkit-appearance: none;
+}

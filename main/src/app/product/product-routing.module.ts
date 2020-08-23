@@ -5,8 +5,9 @@ import {ProductComponent} from './product-center/product.component';
 import {ProductAddComponent} from './product-add/product-add.component';
 
 
+
 const routes: Routes = [
-  { path : 'myProduct', component : MyProductsComponent },
+  { path : 'myProduct', component : MyProductsComponent},
   {path: '', component: ProductComponent},
   {path: 'add', component: ProductAddComponent}
 ];

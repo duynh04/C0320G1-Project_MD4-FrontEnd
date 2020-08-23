@@ -43,18 +43,18 @@ export class MyProductsComponent implements OnInit {
       this.cancelProduct = product;
   }
 
-  cancelRegister() {
-    this.productService.cancelRegister(this.ownerId, this.productName, this.approvementStatusName,
-      this.cancelProduct.id, this.page).subscribe(data => {
-        this.myProductList = data.content;
-        this.stt = [];
-        const firstIndex = this.pageSize * this.page + 1;
-        const lastIndeex = this.pageSize * (this.page + 1);
-        for (let i = firstIndex; i <= lastIndeex; i++) {
-        this.stt.push(i);
-      }
-      });
-  }
+  // cancelRegister() {
+  //   this.productService.cancelRegister(this.ownerId, this.productName, this.approvementStatusName,
+  //     this.cancelProduct.id, this.page).subscribe(data => {
+  //       this.myProductList = data.content;
+  //       this.stt = [];
+  //       const firstIndex = this.pageSize * this.page + 1;
+  //       const lastIndeex = this.pageSize * (this.page + 1);
+  //       for (let i = firstIndex; i <= lastIndeex; i++) {
+  //       this.stt.push(i);
+  //     }
+  //     });
+  // }
 
   previous() {
     if (this.page > 0) {
@@ -76,18 +76,18 @@ export class MyProductsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.productService.getMyProducts(this.ownerId, this.productName, this.approvementStatusName, this.page)
-    .subscribe(data => {
-      this.myProductList = data.content;
-      this.totalPages = data.totalPages;
-      this.pageSize = data.size;
-      this.stt = [];
-      const firstIndex = this.pageSize * this.page + 1;
-      const lastIndeex = this.pageSize * (this.page + 1);
-      for (let i = firstIndex; i <= lastIndeex; i++) {
-        this.stt.push(i);
-      }
-    });
+    // this.productService.getMyProducts(this.ownerId, this.productName, this.approvementStatusName, this.page)
+    // .subscribe(data => {
+    //   this.myProductList = data.content;
+    //   this.totalPages = data.totalPages;
+    //   this.pageSize = data.size;
+    //   this.stt = [];
+    //   const firstIndex = this.pageSize * this.page + 1;
+    //   const lastIndeex = this.pageSize * (this.page + 1);
+    //   for (let i = firstIndex; i <= lastIndeex; i++) {
+    //     this.stt.push(i);
+    //   }
+    // });
   }
 
 }

@@ -14,7 +14,8 @@ import {Observable, Subscription} from 'rxjs';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {PRODUCT_MESSAGES} from '../../shared/validations/error-messages';
 import {UserValidatorService} from '../../shared/validations/user-validator.service';
-import {validMaxImage} from "../../shared/validations/custom-validators";
+import {validCompareDate, validDate, validMaxImage} from '../../shared/validations/custom-validators';
+
 
 
 @Component({
@@ -32,38 +33,6 @@ export class ProductAddComponent implements OnInit {
               private db: AngularFirestore) {
   }
 
-  get name() {
-    return this.createProductForm.get('name');
-  }
-
-  get initialPrice() {
-    return this.createProductForm.get('initialPrice');
-  }
-
-  get increaseAmount() {
-    return this.createProductForm.get('increaseAmount');
-  }
-
-  get date() {
-    return this.createProductForm.get('date') as FormGroup;
-  }
-
-  get description() {
-    return this.createProductForm.get('description');
-  }
-
-  get category() {
-    return this.createProductForm.get('category');
-  }
-
-  get from() {
-    return this.createProductForm.get('date.startDate');
-  }
-
-  get to() {
-    return this.createProductForm.get('date.endDate');
-  }
-
 // Thành
   createProductForm: FormGroup;
   categoriesList;
@@ -77,6 +46,7 @@ export class ProductAddComponent implements OnInit {
   downloadURL: string;
   newProduct: any;
 
+  // Lựa chọn file để upload, lựa xong push vào mảng. Nếu chọn sai chọn lại thì xóa mảng làm lại từ đầu
   onDrop(files: FileList) {
     this.files.splice(0);
     (this.createProductForm.get('productImageList') as FormArray).clear();
@@ -92,10 +62,10 @@ export class ProductAddComponent implements OnInit {
       initialPrice: ['', [Validators.required, Validators.min(0)]],
       increaseAmount: ['', [Validators.required, Validators.min(0)]],
       date: this.fb.group({
-        startDate: ['', [this.userValidatorService.date]],
-        endDate: ['', [this.userValidatorService.date]]
+        startDate: ['', [validDate]],
+        endDate: ['', [validDate]]
       }, {
-        validators: [this.userValidatorService.compare('date')]
+        validators: [validCompareDate]
       }),
       // tslint:disable-next-line:max-line-length
       description: ['', [Validators.required, Validators.pattern('^[A-Z]{1}[ a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$')]],
@@ -129,19 +99,21 @@ export class ProductAddComponent implements OnInit {
     console.log(this.newProduct);
     this.productService.createProduct(this.newProduct).subscribe(
       data => {
-        this.router.navigateByUrl('product');
+        this.router.navigateByUrl('product/myProduct');
         alert('Đã gửi yêu cầu đấu giá thành công. Vui lòng chờ phê duyệt!');
       }
     );
   }
 
+  // Click để upload ảnh, có bao nhiêu ảnh thì chạy bấy nhiêu lần chỉ với 1 nút bấm
   onClick() {
-    for(let i = 0; i < this.files.length; i++) {
+    for (let i = 0; i < this.files.length; i++) {
       console.log(this.files);
       this.startUpload(this.files[i]);
     }
   }
 
+  // Hàm upload ảnh lên server
   startUpload(file) {
     // The storage path
 
@@ -162,5 +134,39 @@ export class ProductAddComponent implements OnInit {
         this.db.collection('files').add({downloadURL: this.downloadURL, path});
       })
     ).subscribe();
+  }
+  get name() {
+    return this.createProductForm.get('name');
+  }
+
+  get initialPrice() {
+    return this.createProductForm.get('initialPrice');
+  }
+
+  get increaseAmount() {
+    return this.createProductForm.get('increaseAmount');
+  }
+
+  get date() {
+    return this.createProductForm.get('date') as FormGroup;
+  }
+
+  get description() {
+    return this.createProductForm.get('description');
+  }
+
+  get category() {
+    return this.createProductForm.get('category.id');
+  }
+
+  get from() {
+    return this.createProductForm.get('date.startDate');
+  }
+
+  get to() {
+    return this.createProductForm.get('date.endDate');
+  }
+  get productImageList(): FormArray {
+    return this.createProductForm.get('productImageList') as FormArray;
   }
 }
