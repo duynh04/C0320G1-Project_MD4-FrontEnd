@@ -74,6 +74,15 @@ export class EditProductComponent implements OnInit {
           $("#thongTinNguoiDang").prop('disabled', true)
         });
       });
+      $(document).ready(function(){
+        $("#checkten").hide();
+  
+        $("#tenSP").change(function(){
+          $("#checkten").show(1000);
+  
+          // alert("Input has been changed.");
+        });
+      });
   
   }
 

@@ -188,7 +188,7 @@ export class ProductListComponent implements OnInit,OnDestroy {
           target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
   
     $(target)
-      .find("input,textarea,select")
+      .find("input,select")
          .val('')
          .end()
       .find("input[type=checkbox], input[type=radio]")
@@ -212,14 +212,15 @@ export class ProductListComponent implements OnInit,OnDestroy {
         console.log(data)
         this.ownerObject = data
         this.thongtin = "ID: " + this.ownerObject.id + "\r" + "Họ tên: " + this.ownerObject.fullname + "\r" + "Email:" + this.ownerObject.email
-        document.getElementById("thongTinNguoiDang").innerHTML = this.thongtin;
+        $("#thongTinNguoiDang").val(this.thongtin)
       } else {
         console.log("No data of User")
         this.thongtin = "Không tìm thấy id người đăng, vui lòng kiểm tra lại id !!!"
-        document.getElementById("thongTinNguoiDang").innerHTML = this.thongtin;
+        $("#thongTinNguoiDang").val(this.thongtin)
       }
     })
   }
+
 
 
 
