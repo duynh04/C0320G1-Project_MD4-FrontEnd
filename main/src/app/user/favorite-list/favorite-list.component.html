@@ -1,0 +1,63 @@
+<div id="favorite-products" class="container">
+  <div class="row my-3 mx-0">
+    <ul class="nav nav-tabs w-100">
+      <li class="nav-item">
+        <a id="cart" class="nav-link" href="/user/cart">Giỏ hàng</a>
+      </li>
+      <li id="favorites" class="nav-item">
+        <a class="nav-link active" href="/user/favorite">Danh sách yêu thích</a>
+      </li>
+      <li id="bid" class="nav-item">
+        <a class="nav-link" href="/user/approved">Danh sách sẽ đấu giá</a>
+      </li>
+      <li id="bid-later" class="nav-item">
+        <a class="nav-link" href="/user/wait-for-approval">Danh sách đấu giá sau</a>
+      </li>
+    </ul>
+  </div>
+  <div class="alert alert-info my-3" role="alert" *ngIf="isEmpty">
+    Không có sản phẩm nào trong danh sách yêu thích.
+  </div>
+  <div class="row mx-0 my-2">
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"
+      *ngFor="let item of favoriteProducts | async | paginate: { itemsPerPage: perPage, currentPage: page, totalItems: total}">
+      <div class="d-flex justify-content-end">
+        <button type="button" class="close" data-toggle="modal" data-target="#deleteCartItemModal"
+          (click)="pickItem(item)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <img class="w-100 mb-3" src="{{item.product.productImages[0].link}}">
+      <p class="truncate mb-0 px-3">{{item.product.name}}</p>
+      <p class="font-weight-bold mb-0 px-3">{{ item.product.initialPrice | currency:'VND' }}</p>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end" *ngIf="!isEmpty">
+    <pagination-controls (pageChange)="getPage($event)" (pageBoundsCorrection)="pageBoundsChanged($event)"
+      previousLabel="" nextLabel="" maxSize="5"></pagination-controls>
+  </div>
+  <!--Modal Delete Cart Item-->
+  <div class="modal fade" id="deleteCartItemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Cảnh báo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger font-weight-bold">Bạn có chắc muốn xóa sản phẩm này khỏi danh sách
+            yêu thích?
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" data-dismiss="modal">Hủy</button>
+          <button type="button" id="deleteCartItemBtn" class="btn btn-danger" data-dismiss="modal"
+            (click)="deletePickedItem()">Xóa</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
