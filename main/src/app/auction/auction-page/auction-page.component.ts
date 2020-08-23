@@ -275,18 +275,6 @@ export class AuctionPageComponent implements OnInit {
       this.auctionService.getRecordHavingBestPrice(this.auctionId).subscribe(data => {
 
         // thêm vào cart và hiện pop-up cho người thắng
-<<<<<<< HEAD
-        if(data.bidder.email === this.tokenStorageService.getJwtResponse().accountName){
-          
-          let productToCart : CartDetailDTO = {
-            userId : this.tokenStorageService.getJwtResponse().userId,
-            auctionId : this.auctionId,
-            winPrice : data.bidPrice,
-            closeTime: new Date().toISOString().substring(0, 19)            
-        }        
-          this.cartService.saveToCart(productToCart).subscribe(data => {});
-        
-=======
         if (data.bidder.email === this.tokenStorageService.getJwtResponse().accountName) {
 
           let productToCart = {
@@ -297,7 +285,6 @@ export class AuctionPageComponent implements OnInit {
           };
           this.cartService.saveToCart(productToCart).subscribe(v => console.log(v));
 
->>>>>>> 223dc3f55231de86751470c6ebbede3cc062ccfa
           $('#finished-success').modal('show');
         } else {
           // hiện pop-up thua cuộc
@@ -309,40 +296,18 @@ export class AuctionPageComponent implements OnInit {
         //chuyển thành string để lưu db
         this.auction.closeTime = new Date().toISOString().substring(0, 19);
 
-<<<<<<< HEAD
-      // trường hợp ko có ai đấu giá   
-      if (this.finalRecord == null){        
-        this.auction.auctionStatus = {
-          id: 4,
-          // name: 'đấu giá thất bại'
-      }
-      // trường hợp có người thắng
-      } else{
-        this.finalRecord.isWinner = true;
-        this.auction.auctionStatus = {
-          id: 3,
-          // name: 'đấu giá thành công'
-      }
-      //cập nhật lại auction của Record (thấy sai sai mà kệ)
-        this.finalRecord.auction = this.auction;
-     }  
-     
-     //edit lại phiên đấu giá và record của người thắng khi phiên đấu giá kết thúc
-     this.auctionService.editAuctionById(this.auction).subscribe();
-     this.auctionService.editRecordHavingBestPrice(this.finalRecord).subscribe();
-=======
         // trường hợp ko có ai đấu giá
         if (this.finalRecord == null) {
           this.auction.auctionStatus = {
             id: 4,
-            // name: 'đấu giá thất bại'
+            name: 'đấu giá thất bại'
           };
           // trường hợp có người thắng
         } else {
           this.finalRecord.isWinner = true;
           this.auction.auctionStatus = {
             id: 3,
-            // name: 'đấu giá thành công'
+            name: 'đấu giá thành công'
           };
           //cập nhật lại auction của Record (thấy sai sai mà kệ)
           // this.finalRecord.auction = this.auction;
@@ -353,7 +318,6 @@ export class AuctionPageComponent implements OnInit {
         //edit lại phiên đấu giá và record của người thắng khi phiên đấu giá kết thúc
         // this.auctionService.editAuctionById(this.auction).subscribe();
         this.auctionService.editRecordHavingBestPrice(this.finalRecord).subscribe();
->>>>>>> 223dc3f55231de86751470c6ebbede3cc062ccfa
 
       });
 
