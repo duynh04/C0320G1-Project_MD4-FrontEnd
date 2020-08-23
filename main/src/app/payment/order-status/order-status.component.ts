@@ -27,7 +27,7 @@ export class OrderStatusComponent implements OnInit {
     private tokenStorageService: TokenStorageService) { }
 
   ngOnInit() {
-    this.orderService.getOrderByBuyerId(this.tokenStorageService.getUser().userId).subscribe((data) => {
+    this.orderService.getOrderByBuyerId(this.tokenStorageService.getJwtResponse().userId).subscribe((data) => {
       this.order = data;
       if (data.deliverMethod == "Giao hàng tiêu chuẩn") {
         this.deliveryPrice = 50000;

@@ -23,8 +23,7 @@ export class PaymentService {
   private readonly PAYMENT_URL = "http://localhost:8080/api/v1/payment";
 
   private httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ` + this.tokenStorage.getUser().jwttoken })
-    , 'Access-Control-Allow-Origin': 'http://localhost:4200', 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   addressInfo: OrderAddressInfo;
