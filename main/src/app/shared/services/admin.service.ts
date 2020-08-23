@@ -11,9 +11,7 @@ import {ProductSearchDTO} from "../models/dtos/productSearchDTO";
 export class AdminService {
 
   private baseUrl = 'http://localhost:8080/api/v1/admin';
-  // private approveUrl = 'http://localhost:8080/api/v1/admin/approvement/approve';
-  // private unApproveUrl = 'http://localhost:8080/api/v1/admin/approvement/unApprove';
-
+  // Thành Long
   private options = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
