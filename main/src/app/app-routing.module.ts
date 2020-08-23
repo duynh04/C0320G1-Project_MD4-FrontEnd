@@ -8,7 +8,6 @@ const routes: Routes = [
   {
     path: '', component:HomeComponent
   },
-  { path: "", redirectTo: "home", pathMatch: "full" },
   {
     path: 'payment', loadChildren: () => import('./payment/payment.module').then(mod => mod.PaymentModule)
   },
