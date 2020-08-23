@@ -146,9 +146,9 @@ export class AuctionPageComponent implements OnInit {
    
   replacePrice(newPrice){
 
-    //xử lý bất đồng bộ của setInterval (giây nhảy thay phiên thay vì chờ setInterval kia hoàn thành)
-    clearInterval(loop);
-    clearInterval(loop1);
+    // //xử lý bất đồng bộ của setInterval (giây nhảy thay phiên thay vì chờ setInterval kia hoàn thành)
+    // clearInterval(loop);
+    // clearInterval(loop1);
 
     //in thông báo cho client trên modal
     $("#reaffirm").html('Bạn đang là người thắng với giá '+newPrice+ 'k');
@@ -167,9 +167,17 @@ export class AuctionPageComponent implements OnInit {
       bidPrice: this.newBid.value,
       isWinner: false
    }
-      
-    //gửi thời gian mới về cho server node.js 
-    this.socket.emit('remaining', (new Date()).getTime() + 30000);
+   
+   
+    // khi nào remainingtime < 30 mà có người đấu giá mới thì lại tăng remaining time lên lại 30s
+    if((Date.parse(endtime) - new Date().getTime())<30000){
+      console.log("helllo");
+      //xử lý bất đồng bộ của setInterval (giây nhảy thay phiên thay vì chờ setInterval kia hoàn thành)
+      clearInterval(loop);
+      clearInterval(loop1);
+       //gửi thời gian mới về cho server node.js 
+      this.socket.emit('remaining', new Date().getTime() + 30000);
+    }
       
     this.auctionService.saveNewAuctionRecord(auctionRecord).subscribe(data =>  {
     //đồng thời cập nhật lại bảng lịch sử đấu giá và các thông tin 
@@ -186,14 +194,21 @@ export class AuctionPageComponent implements OnInit {
     });
     }); 
 
-    } else {
+    } else {    
 
-    console.log(data);
+      // khi nào remainingtime < 30 mà có người đấu giá mới thì lại tăng remaining time lên lại 30s
+      if((Date.parse(endtime) - new Date().getTime())<30000){       
+        //xử lý bất đồng bộ của setInterval (giây nhảy thay phiên thay vì chờ setInterval kia hoàn thành)
+        clearInterval(loop);
+        clearInterval(loop1);
+         //gửi thời gian mới về cho server node.js 
+        this.socket.emit('remaining', new Date().getTime() + 30000);
+      }      
 
     data.bidTime = new Date();
     data.bidPrice = this.newBid.value;
     
-    this.socket.emit('remaining', (new Date()).getTime() + 30000);    
+    
     this.auctionService.saveNewAuctionRecord(data).subscribe(data =>  {
       //đồng thời cập nhật lại bảng lịch sử đấu giá và các thông tin 
       this.auctionService.getTopAuctionRecords(this.auctionId).subscribe(data => {  
@@ -209,13 +224,14 @@ export class AuctionPageComponent implements OnInit {
       });
       })
     
-  } 
+    } 
     });   
 
     //kết thúc hàm xử lý đấu giá yehhh :(   
   };  
+
  
-//hàm đếm ngược và xử lý kết thúc phiên đấu giá
+  //hàm đếm ngược và xử lý kết thúc phiên đấu giá
   updateCountdown(auctionId, time){      
     
     //time trên tham số là milliseconds parse ra từ endDate trong bảng product
@@ -243,13 +259,12 @@ export class AuctionPageComponent implements OnInit {
         clearInterval(loop);
         clearInterval(loop1);   
         
-        this.socket.emit('message', "Đấu giá kết thúc");
+      this.socket.emit('message', "Đấu giá kết thúc");
       //lấy record người thắng để xử lý  
       this.auctionService.getRecordHavingBestPrice(this.auctionId).subscribe(data =>{  
         
         // thêm vào cart và hiện pop-up cho người thắng
         if(data.bidder.email === this.tokenStorageService.getUsername()){
-
           
           let productToCart : CartDetailDTO = {
             userId : this.tokenStorageService.getUser().userId,
