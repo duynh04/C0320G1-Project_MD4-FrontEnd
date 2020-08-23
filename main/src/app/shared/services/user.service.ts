@@ -41,21 +41,9 @@ export class UserService {
       passwordnotmatch : true
     }
   }
-  getOnePage(currentPage, pageSize): Observable<any> {
-    return this.http.get(this.API_URL_USER + `?page=${currentPage}&limit=${pageSize}`, this.httpOptions);
-  }
   
-  getAllUser(): Observable<any> {
-    return this.http.get(`${this.API_URL_USER}`);
-  }
   deleteUser(id: number): Observable<any> {
     return this.http.delete(`${this.API_URL_USER}/${id}`, { responseType: 'text' });
   }
-  search(formValue: any): Observable<any> {
-    console.log(JSON.stringify(formValue));
-    this.http.post<any>(this.API_URL_USER + '/search', JSON.stringify(formValue), this.options).subscribe(data => {
-      console.log(data);
-    });
-    return of({});
-  }
+  
 }

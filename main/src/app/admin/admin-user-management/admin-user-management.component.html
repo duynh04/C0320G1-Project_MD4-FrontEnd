@@ -1,36 +1,36 @@
-<div class="container">
-    <form name="deleteFile">
+<!-- <div class="container"> -->
+    <!-- <form > -->
         <div class="nav nav-tabs" role="tablist" style="display: block;">
             <h1 class="active" style="text-align: center;"><strong>Quản Lý Thành Viên</strong> </h1>
         </div>
 
-        <div class="container px-0" [formGroup]="createForm" (ngSubmit)="search()">
+        <form class="container px-0" [formGroup]="createForm" (ngSubmit)="search()">
             <div class="row mt-3">
                 <div class="form-group col-md-4">
                     <label class="col-form-label mr-2">ID</label>
-                    <input class="form-control" type="text" placeholder="VD: 1" id="id">
+                    <input class="form-control" type="text" placeholder="VD: 1" id="id" formControlName="id">
                 </div>
                 <div class="form-group col-md-4">
                     <label class="col-form-label mr-2" >Địa Chỉ</label>
-                    <select  class="custom-select" id="address">
+                    <select  class="custom-select" id="address" formControlName="address">
                         <option selected disabled value="">Chọn...</option>
                         <option value="volvo" *ngFor="let user of user">{{user.address}}</option>
                     </select>
                 </div>
                 <div class="form-group col-md-4">
                     <label class="col-form-label mr-2">Tên Thành Viên</label>
-                    <input class="form-control" type="text" placeholder="VD: Tùng" id="fullname">
+                    <input class="form-control" type="text" placeholder="VD: Tùng" id="fullname" formControlName="fullname">
                 </div>
 
             </div>
             <div class="row">
                 <div class="form-group col-md-4">
                     <label class="col-form-label mr-2">Email</label>
-                    <input class="form-control" type="text" placeholder="VD: bighero6ts@gmail.com" id="email">
+                    <input class="form-control" type="text" placeholder="VD: bighero6ts@gmail.com" id="email" formControlName="email">
                 </div>
                 <div class="form-group col-md-4">
                     <label class="col-form-label mr-2">Xếp Hạng</label>
-                    <select class="custom-select" id="rate">
+                    <select class="custom-select" id="rate" formControlName="rate">
                         <option selected disabled value="">Chọn...</option>
                         <option value="kim cương">Kim Cương</option>
                         <option value="bạch kim">Bạch Kim</option>
@@ -48,7 +48,7 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </form>
         <div class="show">
             <button class="btn btn-success special" style="margin: 0px;" onclick="showAdd()"><i
                     class="fas fa-plus-square"></i></button>
@@ -70,9 +70,8 @@
                     </tr>
                 </thead>
                 <tbody>
-
-                    <tr *ngFor="let user of user">
-                        <th scope="row">1</th>
+                    <tr *ngFor="let user of userList$  | async | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalElements}; index as i">
+                        <th scope="row">{{stt[i]}}</th>
                         <td>{{user.id}}</td>
                         <td><a href="">{{user.fullname}}</a> </td>
                         <td>{{user.address}}</td>
@@ -91,7 +90,7 @@
             </table>
         </div>
         <div class="action">
-            <button type="button" (click)="open()" class="btn btn-danger special" data-toggle="modal" id="myBtn"
+            <button type="button" class="btn btn-danger special" data-toggle="modal" id="myBtn"
                 style="margin-left: 0px;"><i class="far fa-trash-alt"></i> Xóa Nhiều
             </button>
             <button class="btn btn-primary special" data-toggle="modal" onclick="confirm_lock();"><i
@@ -103,17 +102,20 @@
             <button class="btn btn-success special" onclick="showAdd()"> Thêm Mới</button>
            
         </div>
+        
         <div class="page">
-            <ul class="pagination justify-content-end" style="margin-top: 20px;">
+            <div class="mt-3 d-flex justify-content-end">
+            <pagination-controls (pageChange)="reloadData($event)"></pagination-controls>
+        </div>
+            <!-- <ul class="pagination justify-content-end" style="margin-top: 20px;">
                 <li class="page-item"><a class="page-link" (click)="goFirstPage()" >Trang đầu</a></li>
                 <li class="page-item"><a class="page-link" (click)="goPreviousPage()">&laquo;</a></li>
-                <!-- <li class="page-item"><a class="page-link" id="previousCurrentPage"  (click)="goToPage()">{{previousCurrentPage}}</a></li> -->
+                <li class="page-item"><a class="page-link" id="previousCurrentPage"  (click)="goToPage()">{{previousCurrentPage}}</a></li>
                 <li class="page-item"><a class="page-link" >{{currentPage}}</a></li>
-                <!-- <li class="page-item"><a class="page-link" id="nextCurrentPage" (click)="goToPage()">{{nextCurrentPage}}</a></li> -->
+                <li class="page-item"><a class="page-link" id="nextCurrentPage" (click)="goToPage()">{{nextCurrentPage}}</a></li>
                 <li class="page-item"><a class="page-link" (click)="goNextPage()">&raquo;</a></li>
                 <li class="page-item"><a class="page-link" (click)="goLastPage()">Trang cuối</a></li>
-              </ul>
-           
+              </ul> -->
         </div>
-    </form>
-</div>
+    <!-- </form> -->
+<!-- </div> -->
