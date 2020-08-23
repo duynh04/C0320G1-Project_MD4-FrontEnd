@@ -319,16 +319,9 @@
             <td>
               <span (blur)="updateProductField(i, 'description', $event)" contenteditable="true">{{product.description}}</span>
             </td>
-            <td>
-              <img src="https://salt.tikicdn.com/cache/280x280/media/catalog/product//e/x/ex200-2.u425.d20170309.t162916.222253.jpg" alt="HTML Map" border="0" usemap="#html"/>
-<!--              <a (blur)="updateProductField(i, 'productImages', $event)" contenteditable="true" href="https://salt.tikicdn.com/cache/280x280/media/catalog/product//e/x/ex200-2.u425.d20170309.t162916.222253.jpg">Xem</a>-->
-              <map name="html">
-                <area shape="circle"
-                      coords="80,80,20" href="../css/index.jsp" alt="CSS Link" target="_self" />
-                <area shape="rect"
-                      coords="5,5,40,40" alt="jQuery Link" href="../jquery/index.jsp" target="_self" />
-              </map>
-            </td>
+<!--            <td>-->
+<!--              <input multiple (blur)="updateProductField(i, 'productImages', $event)" contenteditable="true" src="https://salt.tikicdn.com/cache/280x280/media/catalog/product//e/x/ex200-2.u425.d20170309.t162916.222253.jpg">-->
+<!--            </td>-->
             <td>
               <div style="margin: 0px;padding: 0px;display: flex;flex-direction: row">
                 <button [name]="'editData'+ product.id" class="btn btn-primary" (click)="editRowData(product.id)">Sửa</button>

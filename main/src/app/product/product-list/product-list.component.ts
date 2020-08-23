@@ -457,6 +457,7 @@ export class ProductListComponent implements OnInit {
       productDto.increaseAmount = product.increaseAmount;
       productDto.initialPrice = product.initialPrice;
       this.productsService.editProduct(productDto, productDto.id).subscribe(next => {
+        this.ngOnInit();
       });
     }
   }
@@ -475,7 +476,6 @@ export class ProductListComponent implements OnInit {
     } else {
       this.saveListUpdateToDb();
     }
-    // window.location.reload();
   }
 
   checkOwner() {
