@@ -1,8 +1,13 @@
+import { WebsocketService } from './../shared/services/websocket.service';
 //creator: Nguyễn Xuân Hùng
 import { Router } from '@angular/router';
 import { Auction } from './../shared/models/auction';
 import { Component, OnInit } from '@angular/core';
 import { AuctionService } from '../shared/services/auction.service';
+import * as io from 'socket.io-client';
+
+//Khai báo socket để connect với server nodejs
+const socket = io('https://nancy-auction.herokuapp.com');
 
 @Component({
   selector: 'app-home',
@@ -21,7 +26,13 @@ export class HomeComponent implements OnInit {
   currentPrice : string="";
   currentCategoryName : string="";
   constructor(private auctionService: AuctionService,
-    private router:Router) { }
+    private router:Router,
+    private webSocket: WebsocketService) { 
+      this.webSocket.listen('message-from-server').subscribe(data=>{
+        this.ngOnInit();
+      })
+
+    }
   
   ngOnInit() {
     this.showSearch=false;

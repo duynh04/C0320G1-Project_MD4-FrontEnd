@@ -41,7 +41,7 @@ export class PaymentOptionComponent implements OnInit {
   ngOnInit() {
     // initialize paypal
     this.initPayPalSdk();
-    console.log(this.tokenStorageService.getUsername())
+    // console.log(this.tokenStorageService.getUsername())
     this.tokenStorageService.getAuthorities()
     this.deliveryAddress = this.paymentService.addressInfo.street + ', '
       + this.paymentService.addressInfo.ward + ', '

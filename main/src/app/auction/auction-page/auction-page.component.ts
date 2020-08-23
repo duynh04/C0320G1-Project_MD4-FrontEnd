@@ -4,7 +4,7 @@ import { WebsocketService } from '../../shared/services/websocket.service';
 import { Component, OnInit} from '@angular/core';
 import { FormControl, Validators, AbstractControl } from '@angular/forms';
 import { AuctionService } from 'src/app/shared/services/auction.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuctionRecord } from 'src/app/shared/models/auction-record';
 import * as io from 'socket.io-client';
 import { CartDetailDTO } from 'src/app/shared/models/dtos/cart-detail-dto';
@@ -53,7 +53,8 @@ export class AuctionPageComponent implements OnInit {
               private cartService: CartService,     
               private activatedRoute: ActivatedRoute, 
               private socket : WebsocketService,            
-              private tokenStorageService: TokenStorageService){  
+              private tokenStorageService: TokenStorageService,
+              private router:Router){  
                 
                 // giải quyết web socket để đồng bộ giữa các client -_-
 
@@ -154,7 +155,7 @@ export class AuctionPageComponent implements OnInit {
     $("#reaffirm").html('Bạn đang là người thắng với giá '+newPrice+ 'k');
 
 
-    this.auctionService.getRecordByAuctionAndUser(this.auctionId, this.tokenStorageService.getUser().userId).subscribe(data =>{
+    this.auctionService.getRecordByAuctionAndUser(this.auctionId, this.tokenStorageService.getJwtResponse().userId).subscribe(data =>{
       if(data == null){
 
       //chuẩn bị đối tượng record để chuẩn bị lưu xuống db
@@ -162,7 +163,7 @@ export class AuctionPageComponent implements OnInit {
 
       auction: this.auction,
       // lấy userId từ token trong storage
-      bidder: {id: this.tokenStorageService.getUser().userId},
+      bidder: {id: this.tokenStorageService.getJwtResponse().userId},
       bidTime: new Date(),
       bidPrice: this.newBid.value,
       isWinner: false
@@ -264,10 +265,10 @@ export class AuctionPageComponent implements OnInit {
       this.auctionService.getRecordHavingBestPrice(this.auctionId).subscribe(data =>{  
         
         // thêm vào cart và hiện pop-up cho người thắng
-        if(data.bidder.email === this.tokenStorageService.getUsername()){
+        if(data.bidder.email === this.tokenStorageService.getJwtResponse().accountName){
           
           let productToCart : CartDetailDTO = {
-            userId : this.tokenStorageService.getUser().userId,
+            userId : this.tokenStorageService.getJwtResponse().userId,
             auctionId : this.auctionId,
             productWinPrice : data,
             closeTime: new Date().toISOString().substring(0, 19)            
@@ -338,7 +339,9 @@ export class AuctionPageComponent implements OnInit {
   // }
 
 //  The End of Sorrow  :))))
-
+  goToHomePage(){
+    this.router.navigateByUrl("/home");
+  }
 }
 
 
