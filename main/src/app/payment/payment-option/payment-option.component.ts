@@ -1,12 +1,13 @@
-import { Router } from "@angular/router";
-import { OrderDto } from "./../../shared/models/dtos/orderDto";
-import { FormGroup } from "@angular/forms";
-import { Component, OnInit } from "@angular/core";
-import { IPayPalConfig } from 'ngx-paypal';
-import { OrderService } from "src/app/shared/services/order.service";
-import { PaymentService } from 'src/app/shared/services/payment.service';
-import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { Observable } from 'rxjs';
+import {Router} from '@angular/router';
+import {OrderDto} from './../../shared/models/dtos/orderDto';
+import {FormGroup} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {IPayPalConfig} from 'ngx-paypal';
+import {OrderService} from 'src/app/shared/services/order.service';
+import {PaymentService} from 'src/app/shared/services/payment.service';
+import {TokenStorageService} from 'src/app/auth/token-storage.service';
+import {Observable} from 'rxjs';
+
 @Component({
   selector: "app-payment-option",
   templateUrl: "./payment-option.component.html",
@@ -16,7 +17,7 @@ import { Observable } from 'rxjs';
 //creator: Đặng Hồng Quân team C
 export class PaymentOptionComponent implements OnInit {
 
-  // Duy 
+  // Duy
   //paypal config
   payPalConfig?: IPayPalConfig;
   //
@@ -41,7 +42,6 @@ export class PaymentOptionComponent implements OnInit {
   ngOnInit() {
     // initialize paypal
     this.initPayPalSdk();
-    console.log(this.tokenStorageService.getUsername())
     this.tokenStorageService.getAuthorities()
     this.deliveryAddress = this.paymentService.addressInfo.street + ', '
       + this.paymentService.addressInfo.ward + ', '
@@ -70,7 +70,7 @@ export class PaymentOptionComponent implements OnInit {
     }
     this.orderDto.deliveryAddress = this.deliveryAddress;
 
-    this.orderDto.buyer = { id: this.tokenStorageService.getUser().userId }
+    this.orderDto.buyer = { id: this.tokenStorageService.getJwtResponse().userId }
     console.log(this.paymentStatus)
     this.orderService
       .createOrder(this.orderDto)

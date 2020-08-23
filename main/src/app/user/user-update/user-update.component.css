@@ -11,16 +11,6 @@ input[type=checkbox] {
 input[type=radio] {
     transform: scale(1.3);
 }
-/* input:required, select:required {
-    background-image: url(https://cdn.chilindo.com/gfx/checkmark-green.png);
-    background-position: right center;
-    background-repeat: no-repeat;
-}
-
-input:invalid, select:invalid,input:out-of-range {
-    background-image: none;
-} */
-
 #primary-color {
     color: #189EFF;
 }

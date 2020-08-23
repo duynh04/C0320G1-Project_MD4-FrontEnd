@@ -1,6 +1,10 @@
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { AuctionRecord } from './../../shared/models/auction-record';
 import { AuctionService } from './../../shared/services/auction.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Observable } from 'rxjs';
+import { tap, map } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-my-auction',
@@ -9,16 +13,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyAuctionComponent implements OnInit {
 
-  myAuctionRecordList : AuctionRecord[];
-  stt: number[] = [];
-  bidderId : number = 2;
+  @ViewChild('focusOn',{static: true}) private elementRef: ElementRef;
+  myAuctionRecordList : Observable<AuctionRecord[]>;
+  stt: number[];
+  bidderId : number;
   productName : string = "";
   recordStatusName : string = "";
-  page : number = 0;
-  totalPages : number;
+  currentProductName : string = "";
+  currentRecordStatusName : string = "";
+  currentPage : number;
   pageSize : number;
+  totalElements : number;
+  isEmpty : boolean = false;
 
-  constructor(private auctionService : AuctionService) { }
+  constructor(
+    private auctionService : AuctionService,
+    private tokenStorageService : TokenStorageService
+    ) { }
 
   getColor(isWinner : boolean,auctionStatusName : string) : string {
     if (auctionStatusName == "đang đấu giá") {
@@ -44,38 +55,39 @@ export class MyAuctionComponent implements OnInit {
     }
   }
 
-  previous() {
-    if(this.page > 0) {
-      this.page = this.page - 1;
-      this.ngOnInit();
-    }
-  }
+  getPage(pageNumber: number) {
+    this.myAuctionRecordList = this.auctionService.getMyAuctionRecords(this.bidderId,this.productName,this.recordStatusName,pageNumber - 1).pipe(
+      tap(res => {
+        this.totalElements = res.totalElements;
+        this.pageSize = res.size;
+        this.currentPage = pageNumber;
 
-  next() {
-    if( (this.page + 1) < this.totalPages) {
-      this.page = this.page + 1;
-      this.ngOnInit();
-    }
+        this.stt = [];
+        let firstIndex = this.pageSize*(this.currentPage - 1) + 1;
+        let lastIndeex = this.pageSize*this.currentPage;
+        for (let i = firstIndex; i <= lastIndeex; i++) {
+          this.stt.push(i);
+        }
+
+        this.isEmpty = false;
+        if (res.content.length == 0) {
+          this.isEmpty = true;
+        }
+      }),
+      map(res => res.content)
+    );
   }
 
   search() {
-    this.page = 0;
-    this.ngOnInit();
+    this.productName = this.currentProductName.trim();
+    this.recordStatusName = this.currentRecordStatusName.trim();
+    this.getPage(1);
   }
 
   ngOnInit() {
-    this.auctionService.getMyAuctionRecords(this.bidderId,this.productName,this.recordStatusName,this.page)
-    .subscribe(data => {
-      this.myAuctionRecordList = data.content;
-      this.totalPages = data.totalPages;
-      this.pageSize = data.size;
-      this.stt = [];
-      let firstIndex = this.pageSize*this.page + 1;
-      let lastIndeex = this.pageSize*(this.page + 1);
-      for (let i = firstIndex; i <= lastIndeex; i++) {
-        this.stt.push(i);
-      }
-    })
+    this.elementRef.nativeElement.focus();
+    this.bidderId = this.tokenStorageService.getJwtResponse().userId;
+    this.getPage(1);
   }
 
 }
