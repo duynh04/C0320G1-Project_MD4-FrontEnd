@@ -16,7 +16,7 @@ export interface Product {
   description: string;
   category: Category;
   owner: User;
-  productImages: ProductImage[];
+  productImages: string;
 }
 
 

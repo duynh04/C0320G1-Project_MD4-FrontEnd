@@ -323,11 +323,7 @@
 <!--              <input multiple (blur)="updateProductField(i, 'productImages', $event)" contenteditable="true" src="https://salt.tikicdn.com/cache/280x280/media/catalog/product//e/x/ex200-2.u425.d20170309.t162916.222253.jpg">-->
 <!--            </td>-->
             <td>
-              <div style="margin: 0px;padding: 0px;display: flex;flex-direction: row">
-                <button [name]="'editData'+ product.id" class="btn btn-primary" (click)="editRowData(product.id)">Sửa</button>
-                <button [name]="'saveData'+ product.id" class="btn btn-primary" (click)="updateProduct(product.id)" style="display: none;margin-right: 2px">Lưu</button>
-                <button [name]="'cancelEdit'+ product.id" class="btn btn-primary" (click)="cancelEdit(product.id)" style="display: none">Thoát</button>
-              </div>
+              <button class="btn btn-primary" (click)="openModalWithComponent(product)" >Sửa</button>
             </td>
           </tr>
           </tbody>
@@ -403,7 +399,7 @@
                 <i class="alert-danger" role="alert" *ngIf="form.get('endDate').hasError('required') && form.get('endDate').touched"> Vui lòng nhập thời gian kết thúc  </i>
               </td>
               <td>
-                <div formArrayName="productImages">
+                <div formControlName="productImage">
                   <input style="width: 200px" type="file"  name="productImages"
                          (change) = "showPreview($event)" placeholder="Chọn hình ảnh" id="productImages" #fileUpLoad   class="form-control" >
                   <img [src]="imgSrc" height="125" width="100" (click)="fileUpLoad.click()"/>

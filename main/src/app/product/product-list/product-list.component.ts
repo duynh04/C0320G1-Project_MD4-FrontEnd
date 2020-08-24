@@ -281,7 +281,8 @@ export class ProductListComponent implements OnInit {
         Validators.pattern('^[A-Za-z0-9]{0,}$')
       ])),
       ownerId: ['', [Validators.required]],
-      productImages: this.formBuilder.array([]),
+      productImage: ['', [Validators.required]],
+      // productImages: this.formBuilder.array([]),
     });
   }
   addRow(): void {
@@ -321,16 +322,9 @@ export class ProductListComponent implements OnInit {
           fileRef.getDownloadURL().subscribe(url => {
             this.imgSrc = url;
             console.log(this.imgSrc);
-            this.formArray.at(0).value.productImages.push(this.imgSrc);
+            this.formArray.at(0).value.productImages = this.imgSrc;
           });
         })
-
-      // finalize(async () => {
-      //   //       this.downloadURL = await ref.getDownloadURL().toPromise();
-      //   //       // (this.createProductForm.get('productImageList') as FormArray).push(new FormControl(this.downloadURL));
-      //   //       console.log(this.downloadURL);
-      //   //       this.db.collection('files').add({downloadURL: this.downloadURL, path});
-      //   //     })
       ).subscribe();
     }
     console.log(this.formArray.at(0).value);
@@ -351,44 +345,6 @@ export class ProductListComponent implements OnInit {
       this.selectedImage = null;
     }
   }
-
-
-  // onDrop(files: FileList) {
-  //   this.files.splice(0);
-  //   // (this.createProductForm.get('productImageList') as FormArray).clear();
-  //   for (let i = 0; i < files.length; i++) {
-  //     this.files.push(files.item(i));
-  //   }
-  // }
-  //
-  // startUpload(file) {
-  //   // The storage path
-  //   const path = `test/${Date.now()}_${file.name}`;
-  //   // Reference to storage bucket
-  //   const ref = this.storage.ref(path);
-  //   // The main task
-  //   this.task = this.storage.upload(path, file);
-  //   // Progress monitoring
-  //   this.percentage = this.task.percentageChanges();
-  //   this.snapshot = this.task.snapshotChanges().pipe(
-  //     tap(console.log),
-  //     // The file's download URL
-  //     finalize(async () => {
-  //       this.downloadURL = await ref.getDownloadURL().toPromise();
-  //       // (this.createProductForm.get('productImageList') as FormArray).push(new FormControl(this.downloadURL));
-  //       console.log(this.downloadURL);
-  //       this.db.collection('files').add({downloadURL: this.downloadURL, path});
-  //     })
-  //   ).subscribe();
-  // }
-  //
-  // onClick() {
-  //   for(let i = 0; i < this.files.length; i++) {
-  //     console.log(this.files);
-  //     this.startUpload(this.files[i]);
-  //   }
-  // }
-
 
   // Edit product from table directly
   updateProductField(index: number, property: string, event: any) {

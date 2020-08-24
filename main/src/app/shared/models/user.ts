@@ -4,7 +4,7 @@ export interface User {
   id: number;
   fullName: string;
   email: string;
-  phoneNumber: User;
+  phoneNumber: number;
   address: string;
   birthday: string;
   idCard: string;
