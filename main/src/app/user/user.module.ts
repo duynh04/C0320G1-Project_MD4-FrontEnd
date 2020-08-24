@@ -10,15 +10,17 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { LoginComponent } from './login/login.component';
 import { ApprovedListComponent } from './approved-list/approved-list.component';
 import { WaitForApprovalComponent } from './wait-for-approval/wait-for-approval.component';
-
+import {ProductDiscountComponent} from './product-discount/product-discount.component';
 
 @NgModule({
-  declarations: [CartListComponent,
+  declarations: [
+    CartListComponent,
     UserUpdateComponent,
     LoginComponent,
     FavoriteListComponent,
     ApprovedListComponent,
-    WaitForApprovalComponent],
+    WaitForApprovalComponent,
+    ProductDiscountComponent],
   imports: [
     CommonModule,
     UserRoutingModule,
