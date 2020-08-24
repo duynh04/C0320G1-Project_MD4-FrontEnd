@@ -1,3 +1,4 @@
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +12,12 @@ import { NgxPayPalModule } from 'ngx-paypal';
 import {AdminModule} from "../app/admin/admin.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MaterialModule } from './material.module';
+import {AngularFireModule} from "@angular/fire";
+import {environment} from "../environments/environment";
+import {AngularFireStorageModule} from "@angular/fire/storage";
+import {AngularFireDatabaseModule} from "@angular/fire/database";
+import {finalize} from "rxjs/operators";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +32,10 @@ import { MaterialModule } from './material.module';
     AdminModule,
     BrowserAnimationsModule,
     MaterialModule,
-    NgxPayPalModule
+    NgxPayPalModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
