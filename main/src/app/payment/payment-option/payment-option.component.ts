@@ -22,7 +22,7 @@ export class PaymentOptionComponent implements OnInit {
   //
   orderForm: FormGroup;
   payments: any;
-  // orderDto: OrderDto = new OrderDto();
+  orderDto: OrderDto = {} as OrderDto;
   paymentMethod: string;
   deliveryMethod: string = "Giao hàng tiêu chuẩn";
   deliveryAddress: string = "da nang"
@@ -59,7 +59,7 @@ export class PaymentOptionComponent implements OnInit {
   }
 
   onSubmit() {
-    const orderDto = {} as OrderDto
+    const orderDto = {} as OrderDto;
     orderDto.paymentMethod = this.paymentMethod;
     orderDto.deliveryMethod = this.deliveryMethod;
     if (this.paymentMethod == "Thanh toán trực tiếp") {
@@ -69,7 +69,7 @@ export class PaymentOptionComponent implements OnInit {
     }
     orderDto.deliveryAddress = this.deliveryAddress;
 
-    // this.orderDto.buyer = { id: this.tokenStorageService.getUser().userId }
+    orderDto.buyer = { id: this.tokenStorageService.getJwtResponse().userId }
     console.log(orderDto)
     console.log(this.paymentStatus)
     this.orderService
