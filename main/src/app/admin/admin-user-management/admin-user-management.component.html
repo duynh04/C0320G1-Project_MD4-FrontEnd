@@ -100,22 +100,13 @@
                 id="myBtn"><i class="fa fa-unlock"></i> Mở Khóa
             </button>
             <button class="btn btn-success special" onclick="showAdd()"> Thêm Mới</button>
-           
         </div>
-        
+    
         <div class="page">
             <div class="mt-3 d-flex justify-content-end">
             <pagination-controls (pageChange)="reloadData($event)"></pagination-controls>
         </div>
-            <!-- <ul class="pagination justify-content-end" style="margin-top: 20px;">
-                <li class="page-item"><a class="page-link" (click)="goFirstPage()" >Trang đầu</a></li>
-                <li class="page-item"><a class="page-link" (click)="goPreviousPage()">&laquo;</a></li>
-                <li class="page-item"><a class="page-link" id="previousCurrentPage"  (click)="goToPage()">{{previousCurrentPage}}</a></li>
-                <li class="page-item"><a class="page-link" >{{currentPage}}</a></li>
-                <li class="page-item"><a class="page-link" id="nextCurrentPage" (click)="goToPage()">{{nextCurrentPage}}</a></li>
-                <li class="page-item"><a class="page-link" (click)="goNextPage()">&raquo;</a></li>
-                <li class="page-item"><a class="page-link" (click)="goLastPage()">Trang cuối</a></li>
-              </ul> -->
+            
         </div>
     <!-- </form> -->
 <!-- </div> -->

@@ -21,11 +21,11 @@ export class AdminService {
     })
   }
 
-  getOnePage(userDto: UserSearchField): Observable<Page<UserListDTO>> {
-    return this.http.get<Page<UserListDTO>>(`${this.ADMIN_URL}/user-list`, this.getUserHttpOptions(userDto));
+  getOnePage(userDto: UserSearchField, page: number): Observable<Page<UserListDTO>> {
+    return this.http.get<Page<UserListDTO>>(`${this.ADMIN_URL}/user-list`, this.getUserHttpOptions(userDto, page));
   }
 
-  private getUserHttpOptions(userDto: UserSearchField) : Object {
+  private getUserHttpOptions(userDto: UserSearchField, page: number) : Object {
 
     let myProductOptions = {
       headers: new HttpHeaders({
@@ -37,7 +37,7 @@ export class AdminService {
         email: userDto.email,
         address: userDto.address,
         rate: userDto.rate,
-        page : userDto.page
+        page : page
       }
     };
     return myProductOptions;

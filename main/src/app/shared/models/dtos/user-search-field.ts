@@ -4,5 +4,4 @@ export interface UserSearchField {
     email?: string,
     address?: string,
     rate?: string,
-    page: number
 }

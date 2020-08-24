@@ -25,7 +25,6 @@ export class AdminUserManagementComponent implements OnInit {
   totalElements : number;
   isEmpty : boolean = false;
   stt: number[];
-
   createForm: FormGroup;
   private searchField: UserSearchField = {} as UserSearchField;
 
@@ -35,8 +34,7 @@ export class AdminUserManagementComponent implements OnInit {
 
   ngOnInit() {
     this.getAllUser();
-    this.searchField.page = 1;
-    this.reloadData(this.searchField);
+    this.reloadData(1);
     this.createForm = new FormGroup({
       id: new FormControl(''),
       address: new FormControl(''),
@@ -47,9 +45,8 @@ export class AdminUserManagementComponent implements OnInit {
   }
 
   search() {
-   const searchField = this.createForm.value as UserSearchField;
-   searchField.page = 1;
-  this.reloadData(searchField);
+  this.searchField = this.createForm.value as UserSearchField;
+  this.reloadData(1);
   }
 
 
@@ -60,13 +57,13 @@ export class AdminUserManagementComponent implements OnInit {
   }
 
 
-  reloadData(searchField: UserSearchField) {
-    this.userList$ = this.adminService.getOnePage(searchField).pipe(
+  reloadData(pageNumber: number) {
+    this.userList$ = this.adminService.getOnePage(this.searchField, pageNumber).pipe(
       tap(res => {
         console.log(res)
         this.totalElements = res.totalElements;
         this.pageSize = res.size;
-        this.currentPage = searchField.page;
+        this.currentPage = pageNumber;
 
         this.stt = [];
         let firstIndex = this.pageSize*(this.currentPage - 1) + 1;
@@ -85,27 +82,5 @@ export class AdminUserManagementComponent implements OnInit {
       }),
       map(res => res.content)
     );
-  }
-  // // pagination
-  // goFirstPage() {
-  //   this.reloadData(1);
-  // }
-
-  // goPreviousPage() {
-  //   console.log(this.currentPage);
-  //   if (this.currentPage > 1) {
-  //     return this.reloadData(this.currentPage - 1);
-  //   }
-  // }
-
-  // goNextPage() {
-  //   console.log(this.currentPage);
-  //   if (this.currentPage < this.lastPage) {
-  //     return this.reloadData(this.currentPage + 1);
-  //   }
-  // }
-
-  // goLastPage() {
-  //   this.reloadData(this.lastPage);
-  // }
+    }
 }
