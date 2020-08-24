@@ -12,8 +12,7 @@ import { NgxPayPalModule } from "ngx-paypal";
 import { httpInterceptorProviders } from './auth/auth-interceptor';
 import { ChatBoxComponent } from './chatbox/chat-box/chat-box.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -31,7 +30,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     HttpClientModule,
     NgxPayPalModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],

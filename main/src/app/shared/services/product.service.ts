@@ -15,7 +15,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 export class ProductService {
 
   // Creator: Cường
-  private readonly API_URL = "http://localhost:8080/api/v1";
+  private readonly API_URL = 'http://localhost:8080/api/v1';
 
   constructor(
     private http: HttpClient,
