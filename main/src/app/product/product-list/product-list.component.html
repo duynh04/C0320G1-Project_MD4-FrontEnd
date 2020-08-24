@@ -189,8 +189,16 @@
                         <div class="col-3">
                           <label>Hình ảnh sản phẩm <span class="text-danger">*</span> </label>
                         </div>
+                        <!-- <div class="col-8">
+                          <input type="file" class="form-control" id="hinhanh" name="productImages">
+                        </div> -->
+
                         <div class="col-8">
-                          <input type="file" class="form-control" id="hinhanh">
+                          <input style="width: 200px" type="file"  name="productImages"
+                                 (change) = "showPreview($event)" placeholder="Chọn hình ảnh" id="productImages" #fileUpLoad   class="form-control" >
+                          <img [src]="imgSrc" height="125" width="125" (click)="fileUpLoad.click()"/>
+                          <!--                <input type="file" id="image" (change)="onDrop($event.target.files)" accept=".jpg, .jpeg, .png" multiple>-->
+                          <!--                <small class="preview text-danger d-block "></small>-->
                         </div>
                         <div  class="col-1" style="float: right;" id="checkhinhanh">
                           <i class="fas fa-check" style="color:rgba(0, 68, 255, 0.753)"></i>

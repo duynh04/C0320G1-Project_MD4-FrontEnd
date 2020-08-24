@@ -1,3 +1,4 @@
+import { ProductImage } from './../../shared/models/product-image';
 import { Product } from './../../shared/models/product';
 import { EditProductComponent } from './../edit-product/edit-product.component';
 
@@ -9,6 +10,8 @@ import {ProductService} from "../../shared/services/product.service";
 import {ValidateService} from "../../shared/validations/productS.service"
 ;
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { finalize } from 'rxjs/operators';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 declare let $:any
 @Component({
@@ -32,7 +35,10 @@ export class ProductListComponent implements OnInit,OnDestroy {
   bsModalRef: BsModalRef;
   namePattern:string = "^[A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯĂẠẢẤẦẨẪẬẮẰẲẴẶỬỮỰỲỴÝỶỸ]{1}[a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
               "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
-              "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$"
+              "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$";
+  //firebase
+  selectedImage: any = null;
+  imgSrc: any;
 
 
   constructor(private productServices: ProductService,
@@ -40,6 +46,7 @@ export class ProductListComponent implements OnInit,OnDestroy {
               public formBuilder: FormBuilder,
               private validate: ValidateService,
               private modalService: BsModalService,
+              private storage: AngularFireStorage
                ) {}
   ngOnDestroy(): void {
     
@@ -65,7 +72,6 @@ export class ProductListComponent implements OnInit,OnDestroy {
       category: ['', [Validators.required]],
       initialPrice: ['', [Validators.required]],
       increaseAmount: ['', [Validators.required]],
-      // productImg:['',[Validators.required]],
       registerDate: [this.registerDate],
       startDate: ['', [Validators.required]],
       endDate: ['', [Validators.required]],
@@ -255,14 +261,15 @@ export class ProductListComponent implements OnInit,OnDestroy {
       endDate: this.formAddNewProduct.value.endDate,
       // approvementStatusId: this.formAddNewProduct.value.,
       description: this.formAddNewProduct.value.description,
-      categoryId: this.category
+      categoryId: this.category,
+      productImages: this.imgSrc
     };
 
     this.productServices.addNewProduct(newProduct).subscribe(data => {
-      console.log( this.formAddNewProduct.value.category)
+      console.log("Form addNew value before add new")
       console.log(data);
-      // this.router.navigateByUrl('product/list');
       this.ngOnInit()
+      console.log("Addnew form was send and load ngOnInit is load")
     });
 
   }
@@ -271,18 +278,50 @@ export class ProductListComponent implements OnInit,OnDestroy {
   openModalWithComponent(product:any) {
     const initialState = {
       data:product ,
-      
-
   };
 
-  
     this.bsModalRef = this.modalService.show(EditProductComponent,{initialState,class: 'gray modal-lg'});
-   
     this.bsModalRef.content.event.subscribe(res => {
-      // this.ngOnDestroy();
       this.ngOnInit()
-
     });
+  }
+
+  //firebase
+  submit() {
+    console.log('Start using firebase');
+    console.log(this.selectedImage);
+    if (this.selectedImage !== null) {
+      const  filePath = `productImages/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
+      console.log(filePath);
+      const fileRef = this.storage.ref(filePath);
+      console.log(fileRef);
+      this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe(url => {
+            this.imgSrc = url;
+            console.log("Img url")
+            console.log(this.imgSrc);
+            console.log("check form addnew")
+            console.log(this.formAddNewProduct.value)
+            this.formAddNewProduct.value.productImages= this.imgSrc;
+          });
+        })
+      ).subscribe();
+    }
+  }
+  showPreview(event: any) {
+    console.log(event.target.files);
+    if ( event.target.files ) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => this.imgSrc = e.target.result;
+      reader.readAsDataURL(event.target.files[0]);
+      this.selectedImage = event.target.files[0];
+      this.submit();
+    } else {
+      console.log('view')
+      this.imgSrc = './../../../assets/Placeholder.jpg';
+      this.selectedImage = null;
+    }
   }
   
   
