@@ -39,12 +39,16 @@ export class OrderStatusComponent implements OnInit {
       this.totalCost =
         data.cart.totalPrice + this.serviceFee + this.deliveryPrice;
       console.table(this.order);
-    });
+    }, (error) => {
+      console.log("abc")
+      $(document).ready(function () {
+        $("#myModal").modal('show');
+      });
+    }
+    );
     this.deliveryAddress = this.paymentService.addressInfo
 
-    // $(document).ready(function () {
-    //   $("#myModal").modal('show');
-    // });
+
 
 
   }
