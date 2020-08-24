@@ -8,7 +8,7 @@ export interface Order {
   // nếu có người add rồi thì xin bỏ qua. xin cảm ơn.
   id: number;
   code: String;
-  buyer: User;
+  // buyer: User;
   status: boolean;
   paymentMethod: String;
   deadlineDelivery: String;
