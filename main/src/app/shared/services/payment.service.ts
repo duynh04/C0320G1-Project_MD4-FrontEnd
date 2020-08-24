@@ -83,7 +83,7 @@ export class PaymentService {
   // Creator: DUY
   //Update address
   updateLatestAddress(addr: DeliveryAddress): Observable<ErrorDetail | null> {
-    addr.user.id = this.userId;
+    addr.user = { id: this.tokenStorage.getJwtResponse().userId };
     return this.http.put<ErrorDetail | null>(`${this.PAYMENT_URL}/address`, addr).pipe(
       catchError(handler)
     );

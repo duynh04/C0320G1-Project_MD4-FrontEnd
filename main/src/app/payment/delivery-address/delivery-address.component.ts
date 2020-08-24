@@ -21,7 +21,7 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
   //cart info
   public total: number;
   // address_id
-  private address_id: number;
+  private address_id: number = 0;
 
   // get error messages
   errors = DELIVERRY_MESSAGES;
@@ -94,10 +94,11 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     let deliveryAddress = this.addressForm.value as DeliveryAddress;
-    deliveryAddress.id = this.address_id;
+    if (this.address_id != 0)
+      deliveryAddress.id = this.address_id;
     if (this.isUpdate.value) {
       // deliveryAddress.phoneNumber = "01234413413";
-      deliveryAddress.user = { id: 12 };
+      // deliveryAddress.user = { id: 12 };
       this.paymentService.updateLatestAddress(deliveryAddress).subscribe((res) => {
         if (res != null) {
           console.log(res);
