@@ -72,8 +72,8 @@ export class CartListComponent implements OnInit {
   }
 
   goToPayment() {
-    this.cartService.updateTotalCost(this.cart.id).subscribe(() => {
-      this.router.navigate(['payment']);
-    });
+    // this.cartService.updateTotalCost(this.cart.id).subscribe(() => {
+    this.router.navigate(['payment']);
+    // });
   }
 }

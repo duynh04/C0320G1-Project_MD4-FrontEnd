@@ -5,10 +5,11 @@ import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CartService } from 'src/app/shared/services/cart.service';
 import { DeliveryAddress } from './../../shared/models/delivery-address';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { DELIVERRY_MESSAGES } from './../../shared/validations/error-messages';
 import { validPhoneNumber } from 'src/app/shared/validations/custom-validators';
 import { DeliveryAddressDTO } from 'src/app/shared/models/dtos/delivery-adddress-dto';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-delivery-address',
@@ -32,6 +33,8 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
   subscr: Subscription[] = [];
   //address form
   addressForm: FormGroup;
+  //
+  private previousUrl;
 
   constructor(
     private router: Router,
