@@ -4,6 +4,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { HomeComponent } from './home/home.component';
 
 
+
 const routes: Routes = [
   {
     path: '', component:HomeComponent

@@ -1,13 +1,12 @@
-import {Router} from '@angular/router';
-import {OrderDto} from './../../shared/models/dtos/orderDto';
-import {FormGroup} from '@angular/forms';
-import {Component, OnInit} from '@angular/core';
-import {IPayPalConfig} from 'ngx-paypal';
-import {OrderService} from 'src/app/shared/services/order.service';
-import {PaymentService} from 'src/app/shared/services/payment.service';
-import {TokenStorageService} from 'src/app/auth/token-storage.service';
-import {Observable} from 'rxjs';
-
+import { Router } from "@angular/router";
+import { OrderDto } from "./../../shared/models/dtos/orderDto";
+import { FormGroup } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { IPayPalConfig } from 'ngx-paypal';
+import { OrderService } from "src/app/shared/services/order.service";
+import { PaymentService } from 'src/app/shared/services/payment.service';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import { Observable } from 'rxjs';
 @Component({
   selector: "app-payment-option",
   templateUrl: "./payment-option.component.html",
@@ -23,20 +22,20 @@ export class PaymentOptionComponent implements OnInit {
   //
   orderForm: FormGroup;
   payments: any;
-  orderDto: OrderDto = new OrderDto();
+  // orderDto: OrderDto = new OrderDto();
   paymentMethod: string;
   deliveryMethod: string = "Giao hàng tiêu chuẩn";
   deliveryAddress: string = "da nang"
   paymentStatus = "Fail";
 
+  result: string = "";
+  cssResult: string = "";
   constructor(
     private orderService: OrderService,
     private router: Router,
     private paymentService: PaymentService,
     private tokenStorageService: TokenStorageService
-
-  ) { };
-
+  ) { }
 
 
   ngOnInit() {
@@ -60,20 +59,21 @@ export class PaymentOptionComponent implements OnInit {
   }
 
   onSubmit() {
-
-    this.orderDto.paymentMethod = this.paymentMethod;
-    this.orderDto.deliveryMethod = this.deliveryMethod;
+    const orderDto = {} as OrderDto
+    orderDto.paymentMethod = this.paymentMethod;
+    orderDto.deliveryMethod = this.deliveryMethod;
     if (this.paymentMethod == "Thanh toán trực tiếp") {
-      this.orderDto.paymentState = "Đang chờ thanh toán";
+      orderDto.paymentState = "Đang chờ thanh toán";
     } else {
-      this.orderDto.paymentState = "Đã thanh toán thành công";
+      orderDto.paymentState = "Đã thanh toán thành công";
     }
-    this.orderDto.deliveryAddress = this.deliveryAddress;
+    orderDto.deliveryAddress = this.deliveryAddress;
 
-    this.orderDto.buyer = { id: this.tokenStorageService.getJwtResponse().userId }
+    // this.orderDto.buyer = { id: this.tokenStorageService.getUser().userId }
+    console.log(orderDto)
     console.log(this.paymentStatus)
     this.orderService
-      .createOrder(this.orderDto)
+      .createOrder(orderDto)
       .subscribe(() => this.router.navigate(["payment/order"]));
   }
 
@@ -84,16 +84,22 @@ export class PaymentOptionComponent implements OnInit {
         layout: 'horizontal'
       },
       createOrderOnServer: (data: any) => {
-        return this.paymentService.setTransaction(12, this.deliveryMethod).toPromise().then(res => {
+        return this.paymentService.setPayPalTransaction(this.deliveryMethod).toPromise().then(res => {
           // console.log(res);
           this.paymentService.captureOrder = res;
           return res.id;
         });
       },
       onApprove: (data) => {
-        this.paymentService.confirmTransaction(data.orderID).subscribe(res => {
+        this.paymentService.confirmPayPalTransaction(data.orderID).subscribe(res => {
           this.paymentStatus = res.status;
-          console.log(this.paymentStatus);
+          if (this.paymentStatus == "COMPLETED") {
+            this.result = "Thanh toán thành công.";
+            this.cssResult = "text-success";
+          } else {
+            this.result = "Thanh toán thất bại. Hãy thử lại.";
+            this.cssResult = "text-danger";
+          }
         });
       },
       onError: err => {
@@ -101,27 +107,31 @@ export class PaymentOptionComponent implements OnInit {
       },
       onCancel: (cancel) => {
         this.paymentStatus = "Fail"
+        this.result = "Thanh toán thất bại. Hãy thử lại.";
+        this.cssResult = "text-danger";
       }
     };
   }
 
   getClientTokenFn(): Observable<string> {
-    return this.paymentService.retrieveToken();
+    return this.paymentService.retrieveVisaToken();
   }
 
   createPurchase(nonce: string): Observable<any> {
     const data = { nonce: nonce };
     console.log(data);
-    return this.paymentService.createTransaction(nonce, this.deliveryMethod);
+    return this.paymentService.createVisaTransaction(nonce, this.deliveryMethod);
   }
 
   onPaymentStatus(response): void {
     if (response.status != undefined) {
       this.paymentStatus = "Success";
-      console.log(response.status);
+      this.result = "Thanh toán thành công.";
+      this.cssResult = "text-success";
     } else {
       this.paymentStatus = "Fail";
-      console.log(response.message);
+      this.result = "Thanh toán thất bại. Hãy thử lại.";
+      this.cssResult = "text-danger";
     }
   }
 }

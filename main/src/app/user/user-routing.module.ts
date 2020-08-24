@@ -8,6 +8,8 @@ import {ApprovedListComponent} from './approved-list/approved-list.component';
 import {WaitForApprovalComponent} from './wait-for-approval/wait-for-approval.component';
 import {UserGuard} from '../auth/user.guard';
 import {ProductDiscountComponent} from './product-discount/product-discount.component';
+import { RegistrationUserComponent } from './registration-user/registration-user.component';
+import { ConfirmRegistrationComponent } from './confirm-registration/confirm-registration.component';
 
 const routes: Routes = [
   {
@@ -20,6 +22,8 @@ const routes: Routes = [
       {path: 'approved', component: ApprovedListComponent, canActivate: [UserGuard]},
       {path: 'wait-for-approval', component: WaitForApprovalComponent, canActivate: [UserGuard]},
       {path: 'product-discount', component: ProductDiscountComponent},
+      { path: 'registration', component: RegistrationUserComponent, },
+      { path: 'confirm', component: ConfirmRegistrationComponent, }
     ],
   }
 ];

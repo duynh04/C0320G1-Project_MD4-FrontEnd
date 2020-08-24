@@ -2,13 +2,12 @@
 
 
 //creator: Đặng Hồng Quân team C
-export class OrderDto {
-  paymentMethod: String;
-  deliveryMethod: String;
-  paymentState: String;
+export interface OrderDto {
+  paymentMethod: string,
+  deliveryMethod: string,
+  paymentState: string,
   buyer: {
     id: number
-  }
-  deliveryAddress: String;
-
+  },
+  deliveryAddress: string,
 }

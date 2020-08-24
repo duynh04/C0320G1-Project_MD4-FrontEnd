@@ -6,16 +6,28 @@ import { PaymentCenterComponent } from './payment-center/payment-center.componen
 import { DeliveryAddressComponent } from './delivery-address/delivery-address.component';
 import { PaymentOptionComponent } from './payment-option/payment-option.component';
 import { OrderStatusComponent } from './order-status/order-status.component';
+import { PaymentInvoiceComponent } from './payment-invoice/payment-invoice.component';
+import { DeliveryAddressResolverService } from './delivery-address-resolver.service';
+import { UserGuard } from '../auth/user.guard';
+import { PaymentGuard } from './payment.guard';
 
 
 const routes: Routes = [
   {
-    path: "", component: PaymentCenterComponent,
+    path: '', component: PaymentCenterComponent,
+    canActivateChild: [UserGuard],
     children: [
-      { path: '', component: DeliveryAddressComponent },
-      { path: 'option', component: PaymentOptionComponent },
-      { path: 'invoice', component: PaymentOptionComponent },
-      { path: 'order', component: OrderStatusComponent },
+      {
+        path: '',
+        component: DeliveryAddressComponent,
+        canActivate: [PaymentGuard],
+        resolve: {
+          addr: DeliveryAddressResolverService
+        }
+      },
+      { path: 'option', component: PaymentOptionComponent, canActivate: [PaymentGuard] },
+      { path: 'invoice', component: PaymentInvoiceComponent },
+      { path: 'order', component: OrderStatusComponent, canActivate: [PaymentGuard] },
     ]
   },
   { path: 'invoice/:id',component: PaymentInvoiceComponent,canActivate:[UserGuard] }
