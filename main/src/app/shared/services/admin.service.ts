@@ -77,8 +77,6 @@ export class AdminService {
 
 
 
-
-
   getOnePage(userDto: UserSearchField, page: number): Observable<Page<UserListDTO>> {
     return this.http.get<Page<UserListDTO>>(`${this.ADMIN_URL}/user-list`, this.getUserHttpOptions(userDto, page));
   }

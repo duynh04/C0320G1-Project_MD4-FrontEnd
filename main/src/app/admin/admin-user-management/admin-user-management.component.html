@@ -1,112 +1,111 @@
-<!-- <div class="container"> -->
-    <!-- <form > -->
-        <div class="nav nav-tabs" role="tablist" style="display: block;">
-            <h1 class="active" style="text-align: center;"><strong>Quản Lý Thành Viên</strong> </h1>
-        </div>
+<div class="row">
+    <div class="nav nav-tabs" role="tablist" style="display: block;">
+        <h1 class="active" style="text-align: center;"><strong>Quản Lý Thành Viên</strong> </h1>
+    </div>
 
-        <form class="container px-0" [formGroup]="createForm" (ngSubmit)="search()">
-            <div class="row mt-3">
-                <div class="form-group col-md-4">
-                    <label class="col-form-label mr-2">ID</label>
-                    <input class="form-control" type="text" placeholder="VD: 1" id="id" formControlName="id">
-                </div>
-                <div class="form-group col-md-4">
-                    <label class="col-form-label mr-2" >Địa Chỉ</label>
-                    <select  class="custom-select" id="address" formControlName="address">
-                        <option selected disabled value="">Chọn...</option>
-                        <option value="volvo" *ngFor="let user of user">{{user.address}}</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <label class="col-form-label mr-2">Tên Thành Viên</label>
-                    <input class="form-control" type="text" placeholder="VD: Tùng" id="fullname" formControlName="fullname">
-                </div>
+    <form class="px-0" [formGroup]="createForm" (ngSubmit)="search()">
+        <div class="row mt-3">
+            <div class="form-group col-md-4">
+                <label class="col-form-label mr-2">ID</label>
+                <input class="form-control" type="text" placeholder="VD: 1" id="id" formControlName="id">
+            </div>
+            <div class="form-group col-md-4">
+                <label class="col-form-label mr-2">Địa Chỉ</label>
+                <select class="custom-select" id="address" formControlName="address">
+                    <option selected disabled value="">Chọn...</option>
+                    <option value="volvo" *ngFor="let user of user">{{user.address}}</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="col-form-label mr-2">Tên Thành Viên</label>
+                <input class="form-control" type="text" placeholder="VD: Tùng" id="fullname" formControlName="fullname">
+            </div>
 
-            </div>
-            <div class="row">
-                <div class="form-group col-md-4">
-                    <label class="col-form-label mr-2">Email</label>
-                    <input class="form-control" type="text" placeholder="VD: bighero6ts@gmail.com" id="email" formControlName="email">
-                </div>
-                <div class="form-group col-md-4">
-                    <label class="col-form-label mr-2">Xếp Hạng</label>
-                    <select class="custom-select" id="rate" formControlName="rate">
-                        <option selected disabled value="">Chọn...</option>
-                        <option value="kim cương">Kim Cương</option>
-                        <option value="bạch kim">Bạch Kim</option>
-                        <option value="vàng">Vàng</option>
-                        <option value="bạc">Bạc</option>
-                        <option value="đồng">Đồng</option>
-                    </select>
-                </div>
-                <div class="col-md-4 form-group" style="margin-top: -2px;">
-                    <label>&nbsp;</label><br>
-                    <button type="submit" class="btn btn-primary mt-2" style="width: 300px"><i
-                            class="fas fa-search"></i>
-                        Lọc
-                        kết quả
-                    </button>
-                </div>
-            </div>
-        </form>
-        <div class="show">
-            <button class="btn btn-success special" style="margin: 0px;" onclick="showAdd()"><i
-                    class="fas fa-plus-square"></i></button>
-            <table class="table table-striped" style="text-align: center; ">
-                <thead style="background-color: #189EFF; color: white;">
-                    <tr>
-                        <th scope="col">STT</th>
-                        <th scope="col">ID</th>
-                        <th scope="col">Tên Thành Viên</th>
-                        <th scope="col">Địa Chỉ</th>
-                        <th scope="col">Xếp Hạng</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Số Điện Thoại</th>
-                        <th scope="col">Lần Đăng Nhập Cuối</th>
-                        <th scope="col">Điểm Cống Hiến</th>
-                        <th scope="col">Chọn</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let user of userList$  | async | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalElements}; index as i">
-                        <th scope="row">{{stt[i]}}</th>
-                        <td>{{user.id}}</td>
-                        <td><a href="">{{user.fullname}}</a> </td>
-                        <td>{{user.address}}</td>
-                        <td>{{user.rate}}</td>
-                        <td>{{user.email}}</td>
-                        <td>{{user.phoneNumber}}</td>
-                        <td>{{user.lastLogin}}</td>
-                        <td>{{user.point}}</td>
-                        <td>
-                            <input type='checkbox' />
-                        </td>
-                        <td><button class="btn btn-primary"><i class="fas fa-tools"></i> Sửa</button></td>
-                        <td><button class="btn btn-danger"><i class="far fa-trash-alt"></i> Xóa</button></td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
-        <div class="action">
-            <button type="button" class="btn btn-danger special" data-toggle="modal" id="myBtn"
-                style="margin-left: 0px;"><i class="far fa-trash-alt"></i> Xóa Nhiều
-            </button>
-            <button class="btn btn-primary special" data-toggle="modal" onclick="confirm_lock();"><i
-                    class="fas fa-lock"></i> Khóa</button>
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary special" data-toggle="modal" onclick="confirm_unlock();"
-                id="myBtn"><i class="fa fa-unlock"></i> Mở Khóa
-            </button>
-            <button class="btn btn-success special" onclick="showAdd()"> Thêm Mới</button>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="col-form-label mr-2">Email</label>
+                <input class="form-control" type="text" placeholder="VD: bighero6ts@gmail.com" id="email"
+                    formControlName="email">
+            </div>
+            <div class="form-group col-md-4">
+                <label class="col-form-label mr-2">Xếp Hạng</label>
+                <select class="custom-select" id="rate" formControlName="rate">
+                    <option selected disabled value="">Chọn...</option>
+                    <option value="kim cương">Kim Cương</option>
+                    <option value="bạch kim">Bạch Kim</option>
+                    <option value="vàng">Vàng</option>
+                    <option value="bạc">Bạc</option>
+                    <option value="đồng">Đồng</option>
+                </select>
+            </div>
+            <div class="col-md-4 form-group" style="margin-top: -2px;">
+                <label>&nbsp;</label><br>
+                <button type="submit" class="btn btn-primary mt-2" style="width: 300px"><i class="fas fa-search"></i>
+                    Lọc
+                    kết quả
+                </button>
+            </div>
         </div>
-    
-        <div class="page">
-            <div class="mt-3 d-flex justify-content-end">
+    </form>
+    <div class="show">
+        <button class="btn btn-success special" style="margin: 0px;" onclick="showAdd()"><i
+                class="fas fa-plus-square"></i></button>
+        <table class="table table-striped" style="text-align: center; ">
+            <thead style="background-color: #189EFF; color: white;">
+                <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Tên Thành Viên</th>
+                    <th scope="col">Địa Chỉ</th>
+                    <th scope="col">Xếp Hạng</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Số Điện Thoại</th>
+                    <th scope="col">Lần Đăng Nhập Cuối</th>
+                    <th scope="col">Điểm Cống Hiến</th>
+                    <th scope="col">Chọn</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor="let user of userList$  | async | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalElements}; index as i">
+                    <th scope="row">{{stt[i]}}</th>
+                    <td>{{user.id}}</td>
+                    <td><a href="">{{user.fullname}}</a> </td>
+                    <td>{{user.address}}</td>
+                    <td>{{user.rate}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.phoneNumber}}</td>
+                    <td>{{user.lastLogin}}</td>
+                    <td>{{user.point}}</td>
+                    <td>
+                        <input type='checkbox' />
+                    </td>
+                    <td><button class="btn btn-primary"><i class="fas fa-tools"></i> Sửa</button></td>
+                    <td><button class="btn btn-danger"><i class="far fa-trash-alt"></i> Xóa</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="action">
+        <button type="button" class="btn btn-danger special" data-toggle="modal" id="myBtn" style="margin-left: 0px;"><i
+                class="far fa-trash-alt"></i> Xóa Nhiều
+        </button>
+        <button class="btn btn-primary special" data-toggle="modal" onclick="confirm_lock();"><i
+                class="fas fa-lock"></i>
+            Khóa</button>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary special" data-toggle="modal" onclick="confirm_unlock();"
+            id="myBtn"><i class="fa fa-unlock"></i> Mở Khóa
+        </button>
+        <button class="btn btn-success special" onclick="showAdd()"> Thêm Mới</button>
+    </div>
+    <div class="page">
+        <div class="mt-3 d-flex justify-content-end">
             <pagination-controls (pageChange)="reloadData($event)"></pagination-controls>
         </div>
-            
-        </div>
-    <!-- </form> -->
-<!-- </div> -->
+
+    </div>
+</div>
