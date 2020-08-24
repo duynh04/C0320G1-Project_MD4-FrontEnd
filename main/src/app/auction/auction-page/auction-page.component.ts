@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuctionRecord } from 'src/app/shared/models/auction-record';
 import * as io from 'socket.io-client';
 import { CartDetailDTO } from 'src/app/shared/models/dtos/cart-detail-dto';
+import { Auction } from '../../shared/models/auction';
 
 
 // Creator: Hoai Ngan team C
@@ -17,7 +18,7 @@ const socket = io('https://nancy-auction.herokuapp.com');
 
 //endDate của bảng product
 let endtime;
-//vòng lặp thời gian đầu tiên 
+//vòng lặp thời gian đầu tiên
 let loop;
 //vòng lặp thời gian sau khi có người đấu giá (18s)
 let loop1;
@@ -42,7 +43,7 @@ export class AuctionPageComponent implements OnInit {
   private increment;
   private currentWinner;
   private auctionId;
-  private auction;
+  private auction: Auction;
   private bidder;
   private productImages;
   private imagesExceptFirst;
@@ -62,33 +63,33 @@ export class AuctionPageComponent implements OnInit {
     this.socket.listen('remaining-time').subscribe(data => {
       clearInterval(loop);
       clearInterval(loop1);
-      console.log(data);
-      // if u wonder why i pass this.auctionId as a param 
-      // that's the temporary solution for the prob which is 
+      // console.log(data);
+      // if u wonder why i pass this.auctionId as a param
+      // that's the temporary solution for the prob which is
       // callback function of setInterval doesnt understand global variables hmmmm
       // dunno why .... as also dunno how to say that in vnamese srr
       loop1 = setInterval(() => {
-        this.updateCountdown(this.auctionId, data)
+        this.updateCountdown(this.auctionId, data);
       }, 1000);
 
-    })
+    });
 
     // nhận về bảng đấu giá, người thắng và giá đấu hiện tại từ server nodejs
     // gạch đỏ do lúc compile thì ide chưa hiểu thuộc tính gửi từ server về, runtime ok
     this.socket.listen('newData-from-server').subscribe((data: any) => {
       this.currentBid = data.price;
       this.currentWinner = data.winner;
-      this.records = data.records
-    })
+      this.records = data.records;
+    });
 
   }
 
   ngOnInit(): void {
 
     // lấy auctionId từ url để dùng cho những service sau
-    this.activatedRoute.params.subscribe(data => this.auctionId = data.id)
+    this.activatedRoute.params.subscribe(data => this.auctionId = data.id);
 
-    // lấy về phiên đấu giá hiện tại    
+    // lấy về phiên đấu giá hiện tại
     this.auctionService.getAuctionById(this.auctionId).subscribe(data => {
 
       //thông tin phiên đấu giá để interpolation
@@ -102,20 +103,24 @@ export class AuctionPageComponent implements OnInit {
       this.firstImage = this.productImages[0].link;
 
       //lấy về thời gian kết thúc ở backend và gọi vòng lặp để đếm ngược
-      //Date.parse() để đổi ra milliseconds 
+      //Date.parse() để đổi ra milliseconds
       endtime = data.product.endDate;
       loop = setInterval(() => {
-        this.updateCountdown(this.auctionId, Date.parse(endtime))
+        this.updateCountdown(this.auctionId, Date.parse(endtime));
       }, 1000);
 
-    })
+    });
 
 
     //xử lý ban đầu nếu chưa có người đấu giá
     this.auctionService.getRecordHavingBestPrice(this.auctionId).subscribe(data => {
-
-      if (this.currentBid == null) { this.currentBid = 0; }
-      if (this.currentWinner == null) { this.currentWinner = "đặt đi rồi có" }
+      // console.log(data);
+      if (this.currentBid == null) {
+        this.currentBid = 0;
+      }
+      if (this.currentWinner == null) {
+        this.currentWinner = 'đặt đi rồi có';
+      }
       this.currentBid = data.bidPrice;
       this.currentWinner = data.bidder.email;
 
@@ -123,12 +128,12 @@ export class AuctionPageComponent implements OnInit {
 
 
     // form control ô input nhập giá đấu và validate
-    // phải viết custom validate trực tiếp vì ko biết sao viết hàm riêng thì lại ko hiểu this.currentBid  
+    // phải viết custom validate trực tiếp vì ko biết sao viết hàm riêng thì lại ko hiểu this.currentBid
     this.newBid = new FormControl('', [Validators.required, this.positiveNumberValidator, (control: AbstractControl) => {
       const price = control.value;
       let check: boolean = false;
-      if ((price <= this.currentBid && price != "") || (price % this.increment != 0 && price != "")) {
-        check = true
+      if ((price <= this.currentBid && price != '') || (price % this.increment != 0 && price != '')) {
+        check = true;
       }
       return check ? { invalidBid: true } : null;
     }]);
@@ -136,13 +141,13 @@ export class AuctionPageComponent implements OnInit {
     // lấy về bảng lịch sử phiên đấu giá
     this.auctionService.getTopAuctionRecords(this.auctionId).subscribe(data => {
       this.records = data;
-    })
+    });
 
   }
 
   //thêm record mỗi lần client bấm đặt giá (nhập giá hợp lệ mới đc bấm)
   addAuctionRecord(): void {
-    this.replacePrice($("#newBid").val());
+    this.replacePrice($('#newBid').val());
   }
 
   replacePrice(newPrice) {
@@ -152,7 +157,7 @@ export class AuctionPageComponent implements OnInit {
     // clearInterval(loop1);
 
     //in thông báo cho client trên modal
-    $("#reaffirm").html('Bạn đang là người thắng với giá ' + newPrice + 'k');
+    $('#reaffirm').html('Bạn đang là người thắng với giá ' + newPrice + 'k');
 
 
     this.auctionService.getRecordByAuctionAndUser(this.auctionId, this.tokenStorageService.getJwtResponse().userId).subscribe(data => {
@@ -167,21 +172,20 @@ export class AuctionPageComponent implements OnInit {
           bidTime: new Date(),
           bidPrice: this.newBid.value,
           isWinner: false
-        }
+        };
 
 
         // khi nào remainingtime < 30 mà có người đấu giá mới thì lại tăng remaining time lên lại 30s
         if ((Date.parse(endtime) - new Date().getTime()) < 30000) {
-          console.log("helllo");
           //xử lý bất đồng bộ của setInterval (giây nhảy thay phiên thay vì chờ setInterval kia hoàn thành)
           clearInterval(loop);
           clearInterval(loop1);
-          //gửi thời gian mới về cho server node.js 
+          //gửi thời gian mới về cho server node.js
           this.socket.emit('remaining', new Date().getTime() + 30000);
         }
 
         this.auctionService.saveNewAuctionRecord(auctionRecord).subscribe(data => {
-          //đồng thời cập nhật lại bảng lịch sử đấu giá và các thông tin 
+          //đồng thời cập nhật lại bảng lịch sử đấu giá và các thông tin
           this.auctionService.getTopAuctionRecords(this.auctionId).subscribe(data => {
 
             this.records = data;
@@ -193,7 +197,7 @@ export class AuctionPageComponent implements OnInit {
               'price': data[0].bidPrice,
               'winner': data[0].bidder.email,
               'records': data
-            })
+            });
           });
         });
 
@@ -204,7 +208,7 @@ export class AuctionPageComponent implements OnInit {
           //xử lý bất đồng bộ của setInterval (giây nhảy thay phiên thay vì chờ setInterval kia hoàn thành)
           clearInterval(loop);
           clearInterval(loop1);
-          //gửi thời gian mới về cho server node.js 
+          //gửi thời gian mới về cho server node.js
           this.socket.emit('remaining', new Date().getTime() + 30000);
         }
 
@@ -213,7 +217,7 @@ export class AuctionPageComponent implements OnInit {
 
 
         this.auctionService.saveNewAuctionRecord(data).subscribe(data => {
-          //đồng thời cập nhật lại bảng lịch sử đấu giá và các thông tin 
+          //đồng thời cập nhật lại bảng lịch sử đấu giá và các thông tin
           this.auctionService.getTopAuctionRecords(this.auctionId).subscribe(data => {
 
             this.records = data;
@@ -225,14 +229,14 @@ export class AuctionPageComponent implements OnInit {
               'price': data[0].bidPrice,
               'winner': data[0].bidder.email,
               'records': data
-            })
+            });
           });
-        })
+        });
 
       }
     });
 
-    //kết thúc hàm xử lý đấu giá yehhh :(   
+    //kết thúc hàm xử lý đấu giá yehhh :(
   };
 
 
@@ -257,28 +261,28 @@ export class AuctionPageComponent implements OnInit {
     //xử lý sau khi kết thúc đấu giá
     if (time == 0 || time < 0) {
 
-      console.log(time);
-      $("#countdown").html('Kết thúc');
+      // console.log(time);
+      $('#countdown').html('Kết thúc');
       $('#bidButton').prop('disabled', true);
       $('#newBid').prop('disabled', true);
 
       clearInterval(loop);
       clearInterval(loop1);
 
-      this.socket.emit('message', "Đấu giá kết thúc");
-      //lấy record người thắng để xử lý  
+      this.socket.emit('message', 'Đấu giá kết thúc');
+      //lấy record người thắng để xử lý
       this.auctionService.getRecordHavingBestPrice(this.auctionId).subscribe(data => {
 
         // thêm vào cart và hiện pop-up cho người thắng
         if (data.bidder.email === this.tokenStorageService.getJwtResponse().accountName) {
 
-          let productToCart: CartDetailDTO = {
+          let productToCart = {
             userId: this.tokenStorageService.getJwtResponse().userId,
-            auctionId: this.auctionId,
-            winPrice: data.bidPrice,
+            auctionId: Number(this.auctionId),
+            winPrice: Number(data.bidPrice),
             closeTime: new Date().toISOString().substring(0, 19)
-          }
-          this.cartService.saveToCart(productToCart).subscribe(data => { });
+          };
+          this.cartService.saveToCart(productToCart).subscribe();
 
           $('#finished-success').modal('show');
         } else {
@@ -291,32 +295,34 @@ export class AuctionPageComponent implements OnInit {
         //chuyển thành string để lưu db
         this.auction.closeTime = new Date().toISOString().substring(0, 19);
 
-        // trường hợp ko có ai đấu giá   
+        // trường hợp ko có ai đấu giá
         if (this.finalRecord == null) {
           this.auction.auctionStatus = {
             id: 4,
-            // name: 'đấu giá thất bại'
-          }
+            name: 'đấu giá thất bại'
+          };
           // trường hợp có người thắng
         } else {
           this.finalRecord.isWinner = true;
           this.auction.auctionStatus = {
             id: 3,
-            // name: 'đấu giá thành công'
-          }
+            name: 'đấu giá thành công'
+          };
           //cập nhật lại auction của Record (thấy sai sai mà kệ)
-          this.finalRecord.auction = this.auction;
+          // this.finalRecord.auction = this.auction;
         }
-
+        // console.log(this.auction);
+        this.auctionService.closeAuctionById(this.auctionId, this.auction.auctionStatus.id, this.auction.closeTime)
+          .subscribe();
         //edit lại phiên đấu giá và record của người thắng khi phiên đấu giá kết thúc
-        this.auctionService.editAuctionById(this.auction).subscribe();
+        // this.auctionService.editAuctionById(this.auction).subscribe();
         this.auctionService.editRecordHavingBestPrice(this.finalRecord).subscribe();
 
       });
 
     } else {
       //nếu remainingTime lớn hơn 0 thì in ra trên màn hình đếm ngược
-      $("#countdown").html(`${hours} : ${minutes} : ${seconds}`);
+      $('#countdown').html(`${hours} : ${minutes} : ${seconds}`);
     }
   }
 
@@ -345,10 +351,11 @@ export class AuctionPageComponent implements OnInit {
 
   //  The End of Sorrow  :))))
   goToHomePage() {
-    this.router.navigateByUrl("/home");
+    this.router.navigateByUrl('/home');
   }
+
   goToCart() {
-    this.router.navigateByUrl("/user/cart");
+    this.router.navigateByUrl('/user/cart');
   }
 }
 
