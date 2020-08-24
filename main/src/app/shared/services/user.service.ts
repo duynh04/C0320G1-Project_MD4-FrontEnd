@@ -32,6 +32,12 @@ export class UserService {
       passwordnotmatch : true
     }
   }
+  validateBirthday(c:AbstractControl){
+    var chooseDate = new Date(c.value).getTime();
+    var currentDate = new Date().getTime();
+    return(chooseDate-currentDate>=0) ?
+      {chooseDateGreaterThanCurrentDate: true} : null;
+  }
 
   // B-Hoàng Long method
   addUser(user): Observable<any> {
@@ -39,13 +45,13 @@ export class UserService {
   }
 
   // B-Hoàng Long method
-  getAllUser(): Observable<any> {
-    return this.http.get(this.API_URL_USER);
+  lockUpUser(user, id): Observable<User> {
+    return this.http.put<User>(this.API_URL_USER + 'lock/' +id, user);
   }
 
   // B-Hoàng Long method
-  getUserByIdAndNeedToLock(id): Observable<any> {
-    return this.http.get(this.API_URL_USER + '/' + id);
+  search(page: number, pageSize: number, search: string): Observable<any> {
+    return this.http.get(this.API_URL_USER + 'lock' + `?page=${page}&size=${pageSize}&search=${search}`);
   }
 
 }

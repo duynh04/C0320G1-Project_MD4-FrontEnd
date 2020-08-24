@@ -14,7 +14,7 @@ import { PaymentService } from 'src/app/shared/services/payment.service';
   styleUrls: ["./payment-option.component.css"],
 })
 export class PaymentOptionComponent implements OnInit {
-  // Duy 
+  // Duy
   //paypal config
   public payPalConfig?: IPayPalConfig;
   //
@@ -26,7 +26,7 @@ export class PaymentOptionComponent implements OnInit {
 
   buyer: User = {
     id: 1,
-    fullname: "Lương",
+    fullName: "Lương",
     email: "cuong@gmail.com",
     phoneNumber: "0123111222",
     address: "Da Nang",
