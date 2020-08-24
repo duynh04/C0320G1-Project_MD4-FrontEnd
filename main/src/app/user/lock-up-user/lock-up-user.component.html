@@ -1,0 +1,79 @@
+<!--B-Hoàng Long tạo-->
+
+
+<div class="container">
+  <h2 class="text-center mb-4">Khóa <b>thành viên</b></h2>
+  <div class="w-75 mx-auto ">
+    <div class="mb-3 row">
+      <label class="col-sm-3 ">Thời gian khóa<span style="color: red">*</span>:</label>
+      <label class="col-sm-1" >Từ :</label>
+      <input class="col-sm-3"  type="date">
+      <label class="col-sm-1">Đến :</label>
+      <input class="col-sm-3 " type="date">
+    </div>
+    <div class="row mb-2">
+      <div class="col-sm-3" style="height: 470px">
+        <label style="margin: 0;padding: 0">Bạn có muốn khóa<span style="color: red">*</span>:</label>
+      </div>
+      <div class="col-sm-9" style="margin: 0;padding: 0">
+        <div class="col-sm-11" style="height: 470px ;margin: 0;padding: 0" >
+          <div class="w-100" style="border-style: ridge; margin: 0;height: 220px" >
+            <table class="table" style="margin: 0">
+              <tbody>
+              <tr *ngFor="let user of usersLock ">
+                <td>{{user.id}}</td>
+                <td>{{user.fullname}}</td>
+                <td>{{user.email}}</td>
+                <td>
+                  <button class="btn btn-warning btn-sm" type="button" (click)="deleteUserLock(user.id)">xóa</button>
+                </td>
+              </tr>
+            </table>
+            <div class="d-flex justify-content-end h-10">
+            </div>
+          </div>
+          <div class="w-100" style="border-style: ridge;height: 250px">
+            <div class="search">
+              <input class="col-sm-8 mr-sm-2" type="text" placeholder="tên cần khóa" [(ngModel)]="search">
+              <button class="btn btn-primary btn-sm" (click)="searchFullName()"><i class="fas fa-search"></i> Tìm</button>
+            </div>
+
+            <table class="table" style="margin: 0">
+              <tbody>
+              <tr *ngFor="let user of users ">
+                <td>{{user.id}}</td>
+                <td>{{user.fullname}}</td>
+                <td>{{user.email}}</td>
+                <td>
+                  <button class="btn btn-warning btn-sm" (click)="addUserNeedToLock(user.id)">them</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-end h-10">
+              <nav class="two">
+                <ul class="pagination justify-content-end">
+                  <li class="page-item"><a class="page-link" id="previousPage" (click)="goPreviousPage()">&laquo;</a></li>
+                  <li class="page-item"><a class="page-link" id="nextPage" (click)="goNextPage()">&raquo;</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3" style="height: 75px">
+        <label style="margin: 0;padding: 0">Lý do :</label>
+
+      </div>
+      <div class="col-sm-9" style="margin: 0;padding: 0">
+        <textarea class="col-sm-11" style="height: 75px" [(ngModel)]="reasonBan"></textarea>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center mt-2">
+      <button class="btn btn-success mr-3" (click)="lockUpUser()">Khóa</button>
+      <button class="btn btn-warning" >Hủy</button>
+    </div>
+  </div>
+</div>
