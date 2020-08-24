@@ -2,7 +2,7 @@ import { UserUpdateDto } from '../models/dtos/UserUpdateDto';
 import { UserDto } from '../models/dtos/userDto';
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AbstractControl } from '@angular/forms';
 
 
@@ -13,7 +13,7 @@ import { AbstractControl } from '@angular/forms';
 export class UserService {
   private readonly API_URL_USER = 'http://localhost:8080/api/v1/user/';
   constructor(private http: HttpClient) { }
-  httpOptions = {
+  private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })

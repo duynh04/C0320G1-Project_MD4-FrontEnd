@@ -19,10 +19,11 @@ const routes: Routes = [
       {
         path: 'update', component: UserUpdateComponent
       }
+
     ]
 
   }
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

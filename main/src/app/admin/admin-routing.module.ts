@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {AdminLoginComponent} from './admin-login/admin-login.component';
-import {AdminApprovementComponent} from './admin-approvement/admin-approvement.component';
-import {ProductListComponent} from './product-list/product-list.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AdminUserManagementComponent } from './admin-user-management/admin-user-management.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { AdminApprovementComponent } from './admin-approvement/admin-approvement.component';
+import { ProductListComponent } from './product-list/product-list.component';
 
 
 const routes: Routes = [
   {
-    path: 'login', component: AdminLoginComponent
-  },
-  {
-    path: 'approvement/:id', component: AdminApprovementComponent
-  },
-  {
-    path:  'product-list', component: ProductListComponent
+    path: '', component: AdminDashboardComponent,
+    children: [
+      { path: '', component: AdminUserManagementComponent },
+      { path: 'login', component: AdminLoginComponent },
+      { path: 'approvement/:id', component: AdminApprovementComponent },
+      { path: 'product-list', component: ProductListComponent }
+    ]
   }
 ];
 
