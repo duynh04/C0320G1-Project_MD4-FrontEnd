@@ -7,6 +7,7 @@ import { OrderStatusComponent } from './order-status/order-status.component';
 import { PaymentInvoiceComponent } from './payment-invoice/payment-invoice.component';
 import { DeliveryAddressResolverService } from './delivery-address-resolver.service';
 import { UserGuard } from '../auth/user.guard';
+import { PaymentGuard } from './payment.guard';
 
 
 const routes: Routes = [
@@ -17,13 +18,14 @@ const routes: Routes = [
       {
         path: '',
         component: DeliveryAddressComponent,
+        canActivate: [PaymentGuard],
         resolve: {
           addr: DeliveryAddressResolverService
         }
       },
-      { path: 'option', component: PaymentOptionComponent },
+      { path: 'option', component: PaymentOptionComponent, canActivate: [PaymentGuard] },
       { path: 'invoice', component: PaymentInvoiceComponent },
-      { path: 'order', component: OrderStatusComponent },
+      { path: 'order', component: OrderStatusComponent, canActivate: [PaymentGuard] },
     ]
   }
 ];

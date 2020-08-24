@@ -30,14 +30,12 @@ export class PaymentOptionComponent implements OnInit {
 
   result: string = "";
   cssResult: string = "";
-
   constructor(
     private orderService: OrderService,
     private router: Router,
     private paymentService: PaymentService,
     private tokenStorageService: TokenStorageService
   ) { }
-
 
 
   ngOnInit() {
