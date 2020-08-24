@@ -13,6 +13,8 @@ import {WaitForApprovalComponent} from './wait-for-approval/wait-for-approval.co
 import {ProductDiscountComponent} from './product-discount/product-discount.component';
 import {RegistrationUserComponent} from './registration-user/registration-user.component';
 import {ConfirmRegistrationComponent} from './confirm-registration/confirm-registration.component';
+import { CreateUserComponent } from './create-user/create-user.component';
+import { LockUpUserComponent } from './lock-up-user/lock-up-user.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import {ConfirmRegistrationComponent} from './confirm-registration/confirm-regis
     WaitForApprovalComponent,
     ProductDiscountComponent,
     RegistrationUserComponent,
-    ConfirmRegistrationComponent],
+    ConfirmRegistrationComponent,
+    CreateUserComponent,
+    LockUpUserComponent],
   imports: [
     CommonModule,
     UserRoutingModule,

@@ -10,6 +10,8 @@ import {UserGuard} from '../auth/user.guard';
 import {ProductDiscountComponent} from './product-discount/product-discount.component';
 import { RegistrationUserComponent } from './registration-user/registration-user.component';
 import { ConfirmRegistrationComponent } from './confirm-registration/confirm-registration.component';
+import {CreateUserComponent} from './create-user/create-user.component';
+import {LockUpUserComponent} from './lock-up-user/lock-up-user.component';
 
 const routes: Routes = [
   {
@@ -22,8 +24,11 @@ const routes: Routes = [
       {path: 'approved', component: ApprovedListComponent, canActivate: [UserGuard]},
       {path: 'wait-for-approval', component: WaitForApprovalComponent, canActivate: [UserGuard]},
       {path: 'product-discount', component: ProductDiscountComponent},
-      { path: 'registration', component: RegistrationUserComponent, },
-      { path: 'confirm', component: ConfirmRegistrationComponent, }
+      { path: 'registration', component: RegistrationUserComponent },
+      { path: 'confirm', component: ConfirmRegistrationComponent },
+      // Hoàng Long thêm routes
+      {path: 'create-user' , component: CreateUserComponent},
+      {path: 'lock-up-user' , component: LockUpUserComponent},
     ],
   }
 ];
