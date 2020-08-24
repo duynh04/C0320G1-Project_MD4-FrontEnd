@@ -53,8 +53,6 @@ export class ProductService {
     return this.http.post(`${this.baseUrl}`, product);
   }
 
-  }
-
   // Creator: Cường
   getCancelProductHttpOptions(productName: string, approvementStatusName: string, cancelProductId: number, page: number): Object {
 
