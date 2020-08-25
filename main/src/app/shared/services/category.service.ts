@@ -8,7 +8,7 @@ import {Category} from '../../shared/models/category';
 })
 // Creator Nguyen Thanh Tu
 export class CategoryService {
-  private readonly API_URL = 'http://localhost:8080/api/v1/category';
+  ApiCategories = 'http://localhost:8081/api/v1/categories';
   constructor(private http: HttpClient) { }
 
   httpOption = {
@@ -18,6 +18,6 @@ export class CategoryService {
   };
 
   getCategoryList(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.API_URL);
+    return this.http.get<Category[]>(this.ApiCategories, this.httpOption);
   }
 }

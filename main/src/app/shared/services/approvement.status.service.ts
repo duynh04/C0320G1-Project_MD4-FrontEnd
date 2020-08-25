@@ -7,7 +7,7 @@ import {ApprovementStatus} from '../models/Approvement-status';
   providedIn: 'root'
 })
 export class ApprovementStatusService {
-  private readonly API_URL = 'http://localhost:8080/approvementStatus';
+  ApiApprovermentStatus = 'http://localhost:8081/api/v1/approvementStatus';
   constructor(private http: HttpClient) { }
 
   httpOption = {
@@ -16,6 +16,6 @@ export class ApprovementStatusService {
     })
   };
   getApprovementStatusList(): Observable<ApprovementStatus[]> {
-    return this.http.get<ApprovementStatus[]>(this.API_URL);
+    return this.http.get<ApprovementStatus[]>(this.ApiApprovermentStatus, this.httpOption);
   }
 }

@@ -319,11 +319,15 @@
             <td>
               <span (blur)="updateProductField(i, 'description', $event)" contenteditable="true">{{product.description}}</span>
             </td>
-<!--            <td>-->
-<!--              <input multiple (blur)="updateProductField(i, 'productImages', $event)" contenteditable="true" src="https://salt.tikicdn.com/cache/280x280/media/catalog/product//e/x/ex200-2.u425.d20170309.t162916.222253.jpg">-->
-<!--            </td>-->
             <td>
-              <button class="btn btn-primary" (click)="openModalWithComponent(product)" >Sửa</button>
+              <button class="btn btn-primary" data-toggle="modal" data-target="#displayImagesModal">Xem</button>
+            </td>
+            <td>
+              <div style="margin: 0px;padding: 0px;display: flex;flex-direction: row">
+                <button [name]="'editData'+ product.id" class="btn btn-primary" (click)="editRowData(product.id)">Sửa</button>
+                <button [name]="'saveData'+ product.id" class="btn btn-primary" (click)="updateProduct(product.id)" style="display: none;margin-right: 2px">Lưu</button>
+                <button [name]="'cancelEdit'+ product.id" class="btn btn-primary" (click)="cancelEdit(product.id)" style="display: none">Thoát</button>
+              </div>
             </td>
           </tr>
           </tbody>
@@ -339,10 +343,6 @@
           <table aria-describedby="danhsach" class="table" style="margin-bottom: 0px">
             <tbody>
             <tr id="row1" style="height: 20px; margin-bottom: 5px">
-              <td>
-                <button class="btn btn-primary mr-2 mb-2" (click)="removeRow(formArray.at(i))">Xóa</button>
-                <button class="btn btn-warning mr-1" (click)="checkOwnerInfor()">Kiểm tra</button>
-              </td>
               <td >
                 <input required style="width: 150px" type="text" placeholder="Tên sản phẩm" formControlName="name" class="form-control">
                 <i class="alert-danger" role="alert" *ngIf="form.get('name').hasError('required') && form.get('name').touched"> Tên sản phẩm bắt buộc nhập </i>
@@ -399,13 +399,20 @@
                 <i class="alert-danger" role="alert" *ngIf="form.get('endDate').hasError('required') && form.get('endDate').touched"> Vui lòng nhập thời gian kết thúc  </i>
               </td>
               <td>
-                <div formControlName="productImage">
+                <div formArrayName="productImages">
                   <input style="width: 200px" type="file"  name="productImages"
                          (change) = "showPreview($event)" placeholder="Chọn hình ảnh" id="productImages" #fileUpLoad   class="form-control" >
-                  <img [src]="imgSrc" height="125" width="100" (click)="fileUpLoad.click()"/>
+<!--                  <img [src]="imgSrc" height="125" width="100" (click)="fileUpLoad.click()"/>-->
                   <!--                <input type="file" id="image" (change)="onDrop($event.target.files)" accept=".jpg, .jpeg, .png" multiple>-->
                   <!--                <small class="preview text-danger d-block "></small>-->
                 </div>
+              </td>
+              <td>
+                <div style="display: flex">
+                  <button class="btn btn-primary mr-2" (click)="removeRow(formArray.at(i))" style="width: 75px; height: 37px">Xóa</button>
+                  <button class="btn btn-warning " data-toggle="modal" data-target="#checkOwnerIdModal" (click)="checkOwnerInfor(i)" style="width: 90px; height: 37px">Kiểm tra</button>
+                </div>
+
               </td>
             </tr>
             </tbody>
@@ -417,7 +424,7 @@
       <div>
         <button class="btn btn-danger mr-3"><i class="far fa-trash-alt"></i> Xóa</button>
         <button class="btn btn-success mr-3" (click)="addRow()"><i class="fas fa-plus-square"></i> Thêm sản phẩm</button>
-        <button class="btn btn-primary" (click)="saveAll()"><i class="fas fa-save"></i> Lưu chỉnh sửa</button>
+        <button class="btn btn-primary" (click)="saveAll()" data-toggle="modal" data-target="#saveEditProductModal"><i class="fas fa-save" ></i> Lưu tất cả</button>
       </div>
       <div>
         <nav aria-label="Page navigation example">
@@ -441,4 +448,87 @@
     </div>
   </div>
 </div>
+</div>
+
+
+<!-- Modal -->
+<!--Creator Tu-->
+<!--Display success an unsuccess notification when add or edit product-->
+<div class="modal fade" id="saveEditProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="saveEditProductModalLabel">Thông báo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      {{notificationStatus}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Check the exist of product-->
+<div class="modal fade" id="checkOwnerIdModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="checkOwnerIdModalLabel">Thông báo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{thongtin}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Display images of product-->
+<div class="modal fade" id="displayImagesModal" tabindex="-1" aria-labelledby="displayImagesModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="displayImagesModalLabel">Thông báo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img class="d-block w-100" src="{{firstImage}}" alt="First image">
+            </div>
+            <div class="carousel-item" *ngFor="let image of imagesExceptFirst">
+              <img src="{{image.link}}" class="d-block w-100" alt="...">
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>

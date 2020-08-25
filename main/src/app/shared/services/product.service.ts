@@ -10,7 +10,7 @@ import {Product} from '../models/product';
 })
 // Coder: Nguyen Thanh Tu
 export class ProductService {
-  private  readonly API_URL = 'http://localhost:8080/api/v1/product';
+  ApiProduct = 'http://localhost:8081/api/v1/products';
   constructor(private http: HttpClient) { }
 
   httpOptions = {
@@ -20,24 +20,24 @@ export class ProductService {
   };
 
   getProductList(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.API_URL);
+    return this.http.get<Product[]>(this.ApiProduct);
   }
 
   addProduct(productCreateDto: AbstractControl): Observable<ProductDto > {
-    return this.http.post<ProductDto >(this.API_URL, JSON.stringify(productCreateDto), this.httpOptions);
+    return this.http.post<ProductDto >(this.ApiProduct, JSON.stringify(productCreateDto), this.httpOptions);
   }
 
   deleteProduct(id: number): Observable<any> {
-    return this.http.delete(`${this.API_URL}/${id}`, this.httpOptions);
+    return this.http.delete(`${this.ApiProduct}/${id}`, this.httpOptions);
   }
 
   getProductById(id: number): Observable<Product> {
-    return this.http.get<Product >(this.API_URL + '/' + id);
+    return this.http.get<Product >(this.ApiProduct + '/' + id);
   }
 
 
-  editProduct(productCreateDto, id): Observable<ProductDto > {
-    return this.http.put<ProductDto >(this.API_URL + '/' + id, productCreateDto);
+  editProductDto(productCreateDto, id): Observable<ProductDto > {
+    return this.http.put<ProductDto >(this.ApiProduct + '/' + id, productCreateDto);
   }
 }
 

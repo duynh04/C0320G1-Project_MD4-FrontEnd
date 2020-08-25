@@ -14,6 +14,9 @@ import {ValidateService} from '../../shared/validations/productS.service';
 import {ProductServices} from '../../shared/services/productServices.service';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
+import {UserService} from '../../shared/services/user.service';
+import {ProductImage} from "../../shared/models/product-image";
+import {ProductImageService} from "../../shared/services/product-image.service";
 
 
 declare let $: any;
@@ -37,6 +40,11 @@ export class ProductListComponent implements OnInit {
 
 
 // creator Tu
+  listProductImages: ProductImage[] ;
+  listProductImageLinks: string[] = [] ;
+  firstImage: ProductImage;
+  imagesExceptFirst: string[];
+  notificationStatus = 'Bạn chưa thực hiện thao tác hoặc thất bại';
   files: File[] = [];
   imgSrc: any;
   selectedImage: any = null;
@@ -57,6 +65,8 @@ export class ProductListComponent implements OnInit {
               private storage: AngularFireStorage,
               private categoryService: CategoryService,
               private approvementStatusService: ApprovementStatusService,
+              private userService: UserService,
+              private productImageService: ProductImageService,
               // Creator Son
               private validate: ValidateService,
               private productServices: ProductServices
@@ -212,6 +222,20 @@ export class ProductListComponent implements OnInit {
     });
 
     // creator Tu
+    this.productImageService.getImageList().subscribe(next => {
+      this.listProductImages = next;
+      // tslint:disable-next-line:prefer-for-of
+      for (let i = 0; i < this.listProductImages.length; i++) {
+        // @ts-ignore
+        this.listProductImageLinks.push(this.listProductImages[i].link);
+      }
+      console.log(this.listProductImageLinks);
+      this.imagesExceptFirst = this.listProductImageLinks.slice(1);
+      console.log(this.imagesExceptFirst);
+    });
+    console.log(this.imagesExceptFirst);
+    // this.firstImage = this.listProductImages[0];
+
     this.listProduct = new Array<Product>();
     this.productsService.getProductList().subscribe(next => {
       this.listProduct = next;
@@ -281,8 +305,7 @@ export class ProductListComponent implements OnInit {
         Validators.pattern('^[A-Za-z0-9]{0,}$')
       ])),
       ownerId: ['', [Validators.required]],
-      productImage: ['', [Validators.required]],
-      // productImages: this.formBuilder.array([]),
+      productImages: this.formBuilder.array([]),
     });
   }
   addRow(): void {
@@ -292,8 +315,9 @@ export class ProductListComponent implements OnInit {
     this.formArray.removeAt(index);
   }
 
-  checkOwnerInfor() {
-    this.productServices.getOwnerById(this.createAddNewFormGroup().value.ownerId).subscribe(data => {
+  checkOwnerInfor(index: number) {
+    this.userService.getUserById(this.formArray.at((index)).value.ownerId).subscribe(data => {
+      console.log(this.formArray.at((index)).value.ownerId);
       if (data != null) {
         console.log(data);
         this.ownerObject = data;
@@ -303,9 +327,6 @@ export class ProductListComponent implements OnInit {
         console.log('No data of User');
         this.thongtin = 'Không tìm thấy id người đăng, vui lòng kiểm tra lại id !!!';
       }
-    });
-    $(document).ready(function() {
-      $('#checkOwnerId').show();
     });
   }
 
@@ -321,13 +342,15 @@ export class ProductListComponent implements OnInit {
         finalize(() => {
           fileRef.getDownloadURL().subscribe(url => {
             this.imgSrc = url;
-            console.log(this.imgSrc);
-            this.formArray.at(0).value.productImages = this.imgSrc;
+            console.log(this.formArray.length);
+            for ( let i = 0;  i < this.formArray.length; i++) {
+              this.formArray.at(i).value.productImages.push(this.imgSrc);
+            }
           });
         })
       ).subscribe();
     }
-    console.log(this.formArray.at(0).value);
+    console.log(this.formArray);
   }
 
   showPreview(event: any) {
@@ -340,7 +363,7 @@ export class ProductListComponent implements OnInit {
       this.selectedImage = event.target.files[0];
       this.submit();
     } else {
-      console.log('view')
+      console.log('view');
       this.imgSrc = './../../../assets/Placeholder.jpg';
       this.selectedImage = null;
     }
@@ -412,7 +435,7 @@ export class ProductListComponent implements OnInit {
       productDto.name = product.name;
       productDto.increaseAmount = product.increaseAmount;
       productDto.initialPrice = product.initialPrice;
-      this.productsService.editProduct(productDto, productDto.id).subscribe(next => {
+      this.productsService.editProductDto(productDto, productDto.id).subscribe(next => {
         this.ngOnInit();
       });
     }
@@ -425,6 +448,8 @@ export class ProductListComponent implements OnInit {
         console.log(this.formArray.at(i).value);
         this.productsService.addProduct(this.formArray.at(i).value).subscribe(
           () => {
+            this.notificationStatus = 'Thao tác thành công';
+            this.ngOnInit();
           }
         );
       }
