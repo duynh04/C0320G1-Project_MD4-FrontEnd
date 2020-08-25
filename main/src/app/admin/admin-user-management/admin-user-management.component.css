@@ -1,0 +1,28 @@
+.form-control{
+    width: 300px;
+}
+.search {
+    padding-left: 20px;
+    float: left;
+    white-space: normal;
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+}
+.show{
+    float: left;
+    margin-top: 40px;
+}
+.special {
+    margin: 20px;
+    margin-right: 20px;
+}
+.action {
+    width: 60%;
+    float: left;
+    padding-right: 30px;
+}
+.page {
+    width: 40%;
+    float: left;
+}

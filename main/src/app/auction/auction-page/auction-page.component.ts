@@ -278,8 +278,8 @@ export class AuctionPageComponent implements OnInit {
 
           let productToCart = {
             userId: this.tokenStorageService.getJwtResponse().userId,
-            auctionId: Number(this.auctionId),
-            winPrice: Number(data.bidPrice),
+            auctionId: this.auctionId,
+            winPrice: data.bidPrice,
             closeTime: new Date().toISOString().substring(0, 19)
           };
           this.cartService.saveToCart(productToCart).subscribe();

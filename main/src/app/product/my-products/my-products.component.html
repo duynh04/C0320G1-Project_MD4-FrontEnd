@@ -3,6 +3,7 @@
     <div class="row">
         <div class="col">
             <h1>Mặt Hàng Của Tôi</h1>
+            <a class="mt-2 btn btn-success text-white"><i class="fas fa-plus-circle"></i> Mặt hàng</a>
         </div>
     </div>
 
@@ -10,17 +11,17 @@
         <div class="col">
             <div class="row">
                 <div class="col-md">
-                    <label>Tên Sản Phẩm</label>
+                    <label>Tên sản phẩm</label>
                     <input type="text" class="form-control" #focusOn [(ngModel)]="currentProductName" placeholder="Vd : Iphone">
                 </div>
                 <div class="col-md">
-                    <label>Tình Trạng Duyệt</label>
+                    <label>Tình trạng duyệt</label>
                     <select class="custom-select" [(ngModel)]="currentApprovementStatusName">
                         <option selected value="">Tất Cả</option>
-                        <option value="đang chờ duyệt">Đang Chờ Duyệt</option>
-                        <option value="duyệt thành công">Duyệt Thành Công</option>
-                        <option value="duyệt thất bại">Duyệt Thất Bại</option>
-                        <option value="đã hủy">Đã Hủy</option>
+                        <option value="chờ duyệt">Chờ duyệt</option>
+                        <option value="thành công">Thành công</option>
+                        <option value="thất bại">Thất bại</option>
+                        <option value="đã hủy">Đã hủy</option>
                     </select>
                 </div>
                 <div class="col-md">
@@ -40,13 +41,13 @@
             <table class="table table-sm table-striped text-center">
                 <thead class="bg-primary text-white">
                     <tr>
-                        <th scope="col">STT</th>
-                        <th scope="col">Mã Sản Phẩm</th>
-                        <th scope="col">Tên Sản Phẩm</th>
-                        <th scope="col">Thông Tin Sản Phẩm</th>
-                        <th scope="col">Ngày Đăng Ký</th>
-                        <th scope="col">Tình Trạng Duyệt</th>
-                        <th scope="col">Hủy Đăng Ký</th>
+                        <th scope="col">Stt</th>
+                        <th scope="col">Mã sản phẩm</th>
+                        <th scope="col">Tên sản phẩm</th>
+                        <th scope="col">Thông tin sản phẩm</th>
+                        <th scope="col">Ngày đăng ký</th>
+                        <th scope="col">Tình trạng duyệt</th>
+                        <th scope="col">Hủy đăng ký</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,7 +59,7 @@
                         <td>{{product.registerDate | date : 'dd-MM-yyyy , HH:mm:ss'}}</td>
                         <td [class]="getColor(product.approvementStatus.name)">{{product.approvementStatus.name | titlecase}}</td>
                         <td>
-                            <button [disabled]="product.approvementStatus.name != 'đang chờ duyệt' " 
+                            <button [disabled]="product.approvementStatus.name != 'chờ duyệt' " 
                             class="btn btn-danger text-white" data-toggle="modal" data-target="#myModal"
                             (click)="setCancelProduct(product)" >Hủy Đăng Ký</button>
                         </td>

@@ -1,7 +1,7 @@
-/* .page-header {
-    min-height: 100vh;
-    padding-bottom: 100px;
-} */
+.page-header {
+    min-height: 700px;
+    /* padding-bottom: 100px; */
+}
 
 .page-footer {
     /* position: absolute; */

@@ -1,0 +1,130 @@
+label{
+ font-size: 16px;
+}
+body{
+  background: linear-gradient(wheat,white);
+}
+
+#p1{
+  margin-top: -4px;
+}
+.text-danger{
+  font-size: 14px;
+  flex: 0;
+  margin: 0;
+}
+.text-success{
+  font-size: 14px;
+  flex: 0;
+  margin: 0;
+}
+h4{
+color: deepskyblue;
+  margin-left: 220px;
+  margin-top: 6px
+}
+
+select{
+ width: 290px
+}
+
+option{
+  text-align: right;color: black
+}
+
+#div1{
+  margin-left: 40px;
+  margin-top: 14px;
+  height: 72px
+}
+
+#div2{
+  height: 74px;
+  margin-left: 40px
+}
+
+#div3{
+  height: 74px;
+  margin-left: 130px
+}
+
+#div4{
+  margin-left: 38px;
+  height: 76px;
+  margin-top: 22px
+}
+
+#div5,#div7{
+ width:90%
+}
+
+#div6{
+margin-left: 45px
+}
+
+#div8{
+  height: 160px;margin-left: 38px;font-size: 14px;margin-top: 20px
+}
+
+#div9{
+  background: deepskyblue;
+  text-align: center;
+  font-size: 35px;
+  height: 200px;
+  color: #dc3545
+}
+
+#div10{
+  background: white;
+  font-size: 17px;
+  height: 160px;
+  color: #141214
+}
+
+#i1{
+  color: greenyellow;
+  float: right;
+  margin-top: 26px
+}
+
+#i2,#i3{
+color: greenyellow;
+  float: right;
+  margin-top: -26px
+}
+
+#material1,#meterial2{
+  width: 210px
+}
+
+#i4,#i5{
+  color: greenyellow;
+  float: right;
+  margin-top: -30px;
+}
+
+#span1,#span2{
+  font-size: 10px;
+  background:#e9ecef
+}
+ textarea{
+   height: 67%;
+ }
+
+ #add{
+   margin-left: 18%;
+   height: 40px;
+   width: 130px
+}
+
+ button{
+  margin-left:10%;
+   height: 40px;
+   width: 160px
+ }
+
+mat-datepicker-toggle{
+ float: right;
+  margin-top: -40px;
+  margin-right: 25px;
+}

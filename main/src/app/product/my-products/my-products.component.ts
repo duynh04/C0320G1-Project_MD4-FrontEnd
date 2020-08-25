@@ -14,48 +14,48 @@ import { tap, map, subscribeOn } from 'rxjs/operators';
 })
 export class MyProductsComponent implements OnInit {
 
-  @ViewChild('focusOn',{static: true}) private elementRef: ElementRef;
+  @ViewChild('focusOn', { static: true }) private elementRef: ElementRef;
   myProductList: Observable<Product[]>;
-  stt: number[] ;
-  cancelProduct : Product;
-  ownerId : number;
-  productName : string = "";
-  approvementStatusName : string = "";
+  stt: number[];
+  cancelProduct: Product;
+  ownerId: number;
+  productName: string = "";
+  approvementStatusName: string = "";
   currentProductName = "";
   currentApprovementStatusName = "";
-  currentPage : number;
-  pageSize : number;
-  totalElements : number;
-  isEmpty : boolean = false;
+  currentPage: number;
+  pageSize: number;
+  totalElements: number;
+  isEmpty: boolean = false;
 
   constructor(
-    private productService : ProductService,
-    private router : Router,
-    private tokenStorageService : TokenStorageService,
+    private productService: ProductService,
+    private router: Router,
+    private tokenStorageService: TokenStorageService,
   ) { }
 
-  getColor(approvementStatusName : string) : string {
-    switch(approvementStatusName) {
-      case "đang chờ duyệt" :
-        return "text-warning";
-      case "duyệt thành công" :
-        return "text-success";
-      case "duyệt thất bại" :
-        return "text-danger";
-      case "đã hủy":
-        return "text-secondary";
+  getColor(approvementStatusName: string): string {
+    switch (approvementStatusName) {
+      case 'chờ duyệt':
+        return 'text-warning';
+      case 'thành công':
+        return 'text-success';
+      case 'thất bại':
+        return 'text-danger';
+      case 'đã hủy':
+        return 'text-secondary';
       default:
-        return "";
+        return '';
     }
   }
 
-  setCancelProduct(product : Product) {
-      this.cancelProduct = product;
+  setCancelProduct(product: Product) {
+    this.cancelProduct = product;
   }
 
   cancelRegister() {
-    this.myProductList = this.productService.cancelRegister(this.ownerId,this.productName,this.approvementStatusName,
-      this.cancelProduct.id,this.currentPage - 1).pipe(
+    this.myProductList = this.productService.cancelRegister(this.ownerId, this.productName, this.approvementStatusName,
+      this.cancelProduct.id, this.currentPage - 1).pipe(
         map(res => res.content)
       )
   }
@@ -67,25 +67,25 @@ export class MyProductsComponent implements OnInit {
   }
 
   test() {
-    this.productService.getMyProducts(this.ownerId,this.productName,this.approvementStatusName,0).subscribe(data => {
+    this.productService.getMyProducts(this.ownerId, this.productName, this.approvementStatusName, 0).subscribe(data => {
       console.log("vào được next");
       console.log(data);
-    },error => {
+    }, error => {
       console.log(error);
       console.log("vào được error của subscribe")
     })
   }
 
   getPage(pageNumber: number) {
-    this.myProductList = this.productService.getMyProducts(this.ownerId,this.productName,this.approvementStatusName,pageNumber - 1).pipe(
+    this.myProductList = this.productService.getMyProducts(this.ownerId, this.productName, this.approvementStatusName, pageNumber - 1).pipe(
       tap(res => {
         this.totalElements = res.totalElements;
         this.pageSize = res.size;
         this.currentPage = pageNumber;
 
         this.stt = [];
-        let firstIndex = this.pageSize*(this.currentPage - 1) + 1;
-        let lastIndeex = this.pageSize*this.currentPage;
+        let firstIndex = this.pageSize * (this.currentPage - 1) + 1;
+        let lastIndeex = this.pageSize * this.currentPage;
         for (let i = firstIndex; i <= lastIndeex; i++) {
           this.stt.push(i);
         }
@@ -94,11 +94,11 @@ export class MyProductsComponent implements OnInit {
         if (res.content.length == 0) {
           this.isEmpty = true;
         }
-      },error => {
+      }, error => {
         console.log(error);
         console.log("vào được err của tap");
       }),
-      map(res => res),map(res => res.content)
+      map(res => res), map(res => res.content)
     );
   }
 
@@ -111,7 +111,7 @@ export class MyProductsComponent implements OnInit {
   }
 
   // testError() {
-    
+
   //   this.productService.testError().subscribe((data : TestUser | ErrorDetail) => {
 
   //     // console.log(data);

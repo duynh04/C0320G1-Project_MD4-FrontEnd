@@ -12,7 +12,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req : HttpRequest<any>, next : HttpHandler) : Observable<HttpEvent<any>> {
     let authReq = req;
-  
+
     const jwtResponse = this.tokenStorageService.getJwtResponse();
     if (jwtResponse != null) {
       authReq = req.clone({

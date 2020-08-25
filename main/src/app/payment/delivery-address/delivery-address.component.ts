@@ -5,10 +5,11 @@ import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CartService } from 'src/app/shared/services/cart.service';
 import { DeliveryAddress } from './../../shared/models/delivery-address';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { DELIVERRY_MESSAGES } from './../../shared/validations/error-messages';
 import { validPhoneNumber } from 'src/app/shared/validations/custom-validators';
 import { DeliveryAddressDTO } from 'src/app/shared/models/dtos/delivery-adddress-dto';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-delivery-address',
@@ -20,7 +21,7 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
   //cart info
   public total: number;
   // address_id
-  private address_id: number;
+  private address_id: number = 0;
 
   // get error messages
   errors = DELIVERRY_MESSAGES;
@@ -32,6 +33,8 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
   subscr: Subscription[] = [];
   //address form
   addressForm: FormGroup;
+  //
+  private previousUrl;
 
   constructor(
     private router: Router,
@@ -62,26 +65,27 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
       instruction: [''],
       isUpdate: [false]
     });
-    this.subscr[1] = this.paymentService.getAddress('12').subscribe((user: DeliveryAddressDTO) => {
-      if (user.addresses.length == 0) {
+    this.subscr[1] = this.route.data.subscribe((data: { addr: DeliveryAddressDTO }) => {
+      console.log(data.addr);
+      if (data.addr.addresses.length == 0) {
         this.addressForm.patchValue({
-          fullName: user.fullname,
-          email: user.email,
+          fullName: data.addr.fullname,
+          email: data.addr.email,
           nation: 'Việt Nam'
         })
       } else {
-        this.address_id = user.addresses[0].id;
-        this.onCityChange(user.addresses[0].city);
-        this.onDistrictChange(user.addresses[0].city, user.addresses[0].district);
+        this.address_id = data.addr.addresses[0].id;
+        this.onCityChange(data.addr.addresses[0].city);
+        this.onDistrictChange(data.addr.addresses[0].city, data.addr.addresses[0].district);
         this.addressForm.patchValue({
-          fullName: user.fullname,
-          city: user.addresses[0].city,
-          district: user.addresses[0].district,
-          ward: user.addresses[0].ward,
-          street: user.addresses[0].street,
-          nation: user.addresses[0].nation,
-          email: user.email,
-          phoneNumber: user.addresses[0].phoneNumber,
+          fullName: data.addr.fullname,
+          city: data.addr.addresses[0].city,
+          district: data.addr.addresses[0].district,
+          ward: data.addr.addresses[0].ward,
+          street: data.addr.addresses[0].street,
+          nation: data.addr.addresses[0].nation,
+          email: data.addr.email,
+          phoneNumber: data.addr.addresses[0].phoneNumber,
         })
       }
 
@@ -90,10 +94,11 @@ export class DeliveryAddressComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     let deliveryAddress = this.addressForm.value as DeliveryAddress;
-    deliveryAddress.id = this.address_id;
+    if (this.address_id != 0)
+      deliveryAddress.id = this.address_id;
     if (this.isUpdate.value) {
       // deliveryAddress.phoneNumber = "01234413413";
-      deliveryAddress.user = { id: 12 };
+      // deliveryAddress.user = { id: 12 };
       this.paymentService.updateLatestAddress(deliveryAddress).subscribe((res) => {
         if (res != null) {
           console.log(res);

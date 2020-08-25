@@ -13,37 +13,7 @@ import {printPdf} from 'src/assets/javascript/generate-pdf'
 })
 export class PaymentInvoiceComponent implements OnInit {
   deliveryPrice = 0;
-  order : Order ={
-    id :null,
-    code : null,
-    buyer: {
-      id: null,
-      fullname: null,
-      email: null,
-      phoneNumber: null,
-      address: null,
-      birthday: null,
-      idCard: null,
-      gender: null,
-      rate: null,
-      point: null,
-      lastLogin: null,
-      status: null
-    },
-    status: null,
-    paymentMethod: null,
-    deadlineDelivery: null,
-    deliveryAddress: null,
-    deliveryMethod: null,
-    cart: {
-      id: null,
-      totalPrice: null,
-      status: null,
-      user: null,
-      cartDetails: null
-    },
-    paymentStatus: null
-  }
+  order : Order;
   deliveryAddress: OrderAddressInfo;
   cartDetail: CartDetail[] = [];
   constructor(private activatedRoute: ActivatedRoute,
