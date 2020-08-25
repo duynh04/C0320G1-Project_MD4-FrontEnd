@@ -40,7 +40,7 @@
             <div class="custom-control custom-checkbox mb-3">
               <input type="checkbox" (change)="remember($event)" class="custom-control-input" id="customCheck1">
               <label class="custom-control-label" for="customCheck1">Nhớ mật khẩu</label>
-              <a class="float-right" href="#">Quên mật khẩu?</a>
+              <a data-toggle="modal" data-target="#exampleModal" href="#" class="float-right">Forgot Password?</a>
             </div>
             <input type="submit" [disabled]="loginForm.invalid" class="btn btn-primary btn-block text-uppercase"
               value="Đăng Nhập">
@@ -61,3 +61,4 @@
     </div>
   </div>
 </div>
+<app-reset-password></app-reset-password>

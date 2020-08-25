@@ -38,7 +38,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule
-  ]
+  ],
+  entryComponents: [ResetPasswordComponent]
 })
 export class UserModule {
 }

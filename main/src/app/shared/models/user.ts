@@ -21,5 +21,5 @@ export interface User {
   password: null,
   question: string;
   answer: string;
-  passwordResetCode: string;
+  passwordResetCode?: string;
 }
