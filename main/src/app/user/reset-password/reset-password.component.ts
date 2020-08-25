@@ -3,13 +3,16 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../shared/models/user';
 import {UserService} from '../../shared/services/user.service';
 import {ResponseDTO} from "../../shared/models/dtos/ResponseDTO";
-
+import { AuthService, FacebookLoginProvider, SocialUser } from 'angularx-social-login';
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
+  title = 'angular-fblogin';
+  userFb: SocialUser;
+  loggedIn: boolean;
   recoverMailForm: FormGroup;
   recoverInfoForm: FormGroup;
   user: User;
@@ -31,10 +34,26 @@ export class ResetPasswordComponent implements OnInit {
 
 
   constructor(private userService: UserService,
-              private  formBuilder: FormBuilder) {
+              private  formBuilder: FormBuilder,
+              private authService: AuthService) {
   }
-
+  signInWithFB(): void {
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  }
+  signOut(): void {
+    this.authService.signOut();
+  }
   ngOnInit() {
+    // LoginFacebook
+    if (localStorage.fbToken) {
+      this.loggedIn = true;
+    }
+    this.authService.authState.subscribe((userFb) => {
+      this.userFb = userFb;
+      this.loggedIn = (userFb != null);
+      console.log(this.userFb);
+    });
+    // End LoginFacebook
     this.recoverMailForm = this.formBuilder.group(
       {
         email: ['', [Validators.required, Validators.pattern(/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/)]]
