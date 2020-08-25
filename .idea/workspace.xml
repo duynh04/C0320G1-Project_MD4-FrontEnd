@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fd78abe5-2cab-4538-a751-a0ab794b9c66" name="Default Changelist" comment="" />
+    <list default="true" id="fd78abe5-2cab-4538-a751-a0ab794b9c66" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/C0320G1-Project_MD4-FrontEnd.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/C0320G1-Project_MD4-FrontEnd.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/main/package.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,7 +24,11 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/main" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="ts.external.directory.path" value="D:\C0320G1_Huynh_Ngoc_Thanh\module4\Sprint 1 Frontend\C0320G1-Project_MD4-FrontEnd\main\node_modules\typescript\lib" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -33,13 +41,48 @@
       <option name="presentableId" value="Default" />
       <updated>1597649003494</updated>
       <workItem from="1597649006905" duration="16000" />
+      <workItem from="1598320798945" duration="84000" />
+      <workItem from="1598320913168" duration="27000" />
+      <workItem from="1598320942998" duration="331000" />
+      <workItem from="1598321276540" duration="1674000" />
+      <workItem from="1598323539948" duration="3410000" />
+      <workItem from="1598328378697" duration="14320000" />
+      <workItem from="1598352475989" duration="4277000" />
+      <workItem from="1598360613580" duration="288000" />
     </task>
+    <task id="LOCAL-00001" summary="push">
+      <created>1598360895810</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1598360895810</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="push" />
+    <option name="LAST_COMMIT_MESSAGE" value="push" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="463" y="124" key="FileChooserDialogImpl" timestamp="1597649022383">
+    <state x="275" y="28" key="#Notifications" timestamp="1598321351570">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="463" y="124" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1597649022383" />
+    <state x="275" y="28" key="#Notifications/0.0.1366.738@0.0.1366.738" timestamp="1598321351570" />
+    <state x="218" y="0" key="CommitChangelistDialog2" timestamp="1598360991824">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="218" y="0" key="CommitChangelistDialog2/0.0.1366.738@0.0.1366.738" timestamp="1598360991824" />
+    <state x="463" y="124" key="FileChooserDialogImpl" timestamp="1598321271401">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="463" y="124" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1598321271401" />
+    <state x="339" y="165" key="run.anything.popup" timestamp="1598347854463">
+      <screen x="0" y="0" width="1366" height="738" />
+    </state>
+    <state x="339" y="165" key="run.anything.popup/0.0.1366.738@0.0.1366.738" timestamp="1598347854463" />
   </component>
 </project>
