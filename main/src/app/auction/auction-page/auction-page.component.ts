@@ -254,7 +254,6 @@ export class AuctionPageComponent implements OnInit {
     minutes = minutes < 10 ? '0' + minutes : minutes;
     seconds = seconds < 10 ? '0' + seconds : seconds;
 
-
     //xử lý sau khi kết thúc đấu giá
     if (time == 0 || time < 0) {
 
@@ -270,52 +269,40 @@ export class AuctionPageComponent implements OnInit {
       //lấy record người thắng để xử lý
       this.auctionService.getRecordHavingBestPrice(this.auctionId).subscribe(data => {
 
-        // thêm vào cart và hiện pop-up cho người thắng
-        if (data.bidder.email === this.tokenStorageService.getJwtResponse().accountName) {
-
-          let productToCart = {
-            userId: this.tokenStorageService.getJwtResponse().userId,
-            auctionId: this.auctionId,
-            winPrice: data.bidPrice,
-            closeTime: new Date().toISOString().substring(0, 19)
-          };
-          this.cartService.saveToCart(productToCart).subscribe();
-
-          $('#finished-success').modal('show');
-        } else {
-          // hiện pop-up thua cuộc
-          $('#finished-failure').modal('show');
-        }
-
-
-        this.finalRecord = data as AuctionRecord;
-        this.finalRecord.auction.product.auction = null;
-        //chuyển thành string để lưu db
-        this.auction.closeTime = new Date().toISOString().substring(0, 19);
-
-        // trường hợp ko có ai đấu giá
-        if (this.finalRecord == null) {
+        if (data == null) {
           this.auction.auctionStatus = {
             id: 4,
             name: 'đấu giá thất bại'
           };
-          // trường hợp có người thắng
         } else {
+          this.finalRecord = data;
+          this.finalRecord.auction.product.auction = null;
           this.finalRecord.isWinner = true;
           this.auction.auctionStatus = {
             id: 3,
             name: 'đấu giá thành công'
           };
-          //cập nhật lại auction của Record (thấy sai sai mà kệ)
-          // this.finalRecord.auction = this.auction;
+          if (data.bidder.email === this.tokenStorageService.getJwtResponse().accountName) {
+
+            let productToCart = {
+              userId: this.tokenStorageService.getJwtResponse().userId,
+              auctionId: this.auctionId,
+              winPrice: data.bidPrice,
+              closeTime: new Date().toISOString().substring(0, 19)
+            };
+            this.cartService.saveToCart(productToCart).subscribe();
+
+            $('#finished-success').modal('show');
+          } else {
+            // hiện pop-up thua cuộc
+            $('#finished-failure').modal('show');
+          }
+
+          this.auctionService.editRecordHavingBestPrice(this.finalRecord).subscribe();
         }
-        // console.log(this.auction);
+        this.auction.closeTime = new Date().toISOString().substring(0, 19);
         this.auctionService.closeAuctionById(this.auctionId, this.auction.auctionStatus.id, this.auction.closeTime)
           .subscribe();
-        //edit lại phiên đấu giá và record của người thắng khi phiên đấu giá kết thúc
-        // this.auctionService.editAuctionById(this.auction).subscribe();
-        this.auctionService.editRecordHavingBestPrice(this.finalRecord).subscribe();
-
       });
 
     } else {
@@ -335,17 +322,6 @@ export class AuctionPageComponent implements OnInit {
 
     return check ? {bidPrice: true} : null;
   }
-
-  //validate giá đấu phải lớn hơn giá hiện tại và là bội số của bước giá, nhưng ko dùng đc
-  // bidPriceValidator(control: AbstractControl){
-
-  // const price = control.value;
-  //   let check: boolean = false;
-  //   if (price <= this.currentBid && price != ""||price%this.increment!=0&& price != ""){
-  //     check = true
-  //   }
-  //   return  check? {invalidBid: true} : null;
-  // }
 
 //  The End of Sorrow  :))))
   goToHomePage() {
