@@ -1,17 +1,19 @@
+import { TopAuctionComponent } from './top-auction/top-auction.component';
+import { AuctionPageComponent } from './auction-page/auction-page.component';
 import { MyAuctionComponent } from './my-auction/my-auction.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { ProductDetailsComponent } from './product-details/product-details.component';
 import { UserGuard } from '../auth/user.guard';
 
+
 const routes: Routes = [
-  { path: 'product-details/:id', component: ProductDetailsComponent},
-  {path : 'myAuction', component : MyAuctionComponent, canActivate: [UserGuard]}
+  {path: 'topAuction',component:TopAuctionComponent},
+  {path : 'myAuction', component : MyAuctionComponent, canActivate: [UserGuard]},
+  {path: ":id", component: AuctionPageComponent}
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class AuctionRoutingModule { }

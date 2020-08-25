@@ -1,0 +1,27 @@
+#primary-color {
+  color: #189EFF;
+}
+
+#secondary-color {
+  color: #FFFFFF;
+}
+
+body {
+  margin: 0;
+}
+
+thead, .navbar, .btn-filter {
+  color: white;
+}
+
+.navbar-brand {
+  color: white;
+}
+
+.table tr td, .table thead th {
+  vertical-align: middle;
+  text-align: center;
+}
+
+#delete-btn-pagination {width:100%;height:auto;display:flex;}
+.one,.two{width:50%;height:100px;margin:10px;}

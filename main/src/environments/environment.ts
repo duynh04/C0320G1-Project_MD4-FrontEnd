@@ -5,14 +5,14 @@
 export const environment = {
   production: false,
   firebaseConfig : {
-    apiKey: "AIzaSyAyxAxq_EPQlUSdhNlEFj2q_HN8YKHh4wA",
-    authDomain: "upload-image-comment.firebaseapp.com",
-    databaseURL: "https://upload-image-comment.firebaseio.com",
-    projectId: "upload-image-comment",
-    storageBucket: "upload-image-comment.appspot.com",
-    messagingSenderId: "327751284521",
-    appId: "1:327751284521:web:a71ce29da1747780536938",
-    measurementId: "G-XF7XR9HKP5"
+    apiKey: 'AIzaSyAYkiq3e3hBbSelmKYmjbcZ5I--kj7BSHw',
+    authDomain: 'bid-projectc03.firebaseapp.com',
+    databaseURL: 'https://bid-projectc03.firebaseio.com',
+    projectId: 'bid-projectc03',
+    storageBucket: 'bid-projectc03.appspot.com',
+    messagingSenderId: '402680805413',
+    appId: '1:402680805413:web:7c98a5ce9924619b4327cc',
+    measurementId: 'G-57V1S12XTF'
   }
 };
 

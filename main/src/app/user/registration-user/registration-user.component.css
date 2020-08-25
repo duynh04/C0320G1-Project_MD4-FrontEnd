@@ -1,0 +1,38 @@
+#primary-color {
+  color: #189EFF;
+}
+
+#secondary-color {
+  color: #FFFFFF;
+}
+
+.input-form input {
+  width: 90%;
+}
+
+.verification-code {
+  width: 250px;
+}
+
+
+.mark-success {
+  /* background-image: url(https://cdn.chilindo.com/gfx/checkmark-green.png); */
+  background-image: url('/assets/checkmark-green.png');
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+
+.text-warning {
+  margin-left: 18%;
+}
+select {
+  /* for Firefox */
+  -moz-appearance: none;
+  /* for Chrome */
+  -webkit-appearance: none;
+}
+
+
+
+

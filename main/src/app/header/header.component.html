@@ -1,6 +1,6 @@
 <div class="container-fluid px-0">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" routerLink="/">
             <img id="logo-brand" src="assets/images/logo.png" alt="logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -11,7 +11,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Hệ thống đấu giá sản phẩm</a>
+                    <a class="nav-link active" routerLink="/">Hệ thống đấu giá sản phẩm</a>
                 </li>
             </ul>
             <ul class="navbar-nav" *ngIf="email">
@@ -21,22 +21,22 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" routerLink="/product/myProduct">Đấu giá của tôi</a>
+                    <a class="nav-link active" routerLink="/product/myProduct">Mặt hàng của tôi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" routerLink="/auction/myAuction">Mặt hàng của tôi</a>
+                    <a class="nav-link active" routerLink="/auction/myAuction">Đấu giá của tôi</a>
                 </li>
             </ul>
             <div>
-                <button class="btn btn-primary my-2 my-sm-0 ml-2" *ngIf="!email" (click)="logIn()">Đăng nhập</button>
-                <div class="dropdown " *ngIf="email">
+                <button class="btn btn-primary my-2 my-sm-0 mr-3" *ngIf="!email" (click)="logIn()"><i class="fas fa-sign-in-alt"></i> Đăng nhập</button>  
+                <button class="btn btn-primary my-2 my-sm-0 mr-5" *ngIf="!email" routerLink="/user/registration" ><i class="fas fa-registered"></i> Đăng ký</button>      
+                <div class="dropdown" *ngIf="email">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         {{email}}
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <button class="dropdown-item">Xem hồ sơ</button>
-                        <button class="dropdown-item">Đổi mật khẩu</button>
-                        <button class="dropdown-item" *ngIf="isAdmin">Đến trang Admin</button>
+                        <a class="dropdown-item" routerLink="/user/update">Xem hồ sơ</a>
+                        <a class="dropdown-item" *ngIf="isAdmin">Đến trang Admin</a>
                         <div class="dropdown-divider"></div>
                         <button class="dropdown-item" (click)="logOut()">Đăng xuất</button>
                     </div>

@@ -7,6 +7,11 @@ import {LoginComponent} from './login/login.component';
 import {ApprovedListComponent} from './approved-list/approved-list.component';
 import {WaitForApprovalComponent} from './wait-for-approval/wait-for-approval.component';
 import {UserGuard} from '../auth/user.guard';
+import {ProductDiscountComponent} from './product-discount/product-discount.component';
+import { RegistrationUserComponent } from './registration-user/registration-user.component';
+import { ConfirmRegistrationComponent } from './confirm-registration/confirm-registration.component';
+import {CreateUserComponent} from './create-user/create-user.component';
+import {LockUpUserComponent} from './lock-up-user/lock-up-user.component';
 
 const routes: Routes = [
   {
@@ -15,9 +20,15 @@ const routes: Routes = [
       {path: 'cart', component: CartListComponent, canActivate: [UserGuard]},
       {path: 'favorite', component: FavoriteListComponent, canActivate: [UserGuard]},
       {path: 'login', component: LoginComponent},
-      {path: 'update', component: UserUpdateComponent},
+      {path: 'update', component: UserUpdateComponent,canActivate:[UserGuard]},
       {path: 'approved', component: ApprovedListComponent, canActivate: [UserGuard]},
-      {path: 'wait-for-approval', component: WaitForApprovalComponent, canActivate: [UserGuard]}
+      {path: 'wait-for-approval', component: WaitForApprovalComponent, canActivate: [UserGuard]},
+      {path: 'product-discount', component: ProductDiscountComponent},
+      { path: 'registration', component: RegistrationUserComponent },
+      { path: 'confirm', component: ConfirmRegistrationComponent },
+      // Hoàng Long thêm routes
+      {path: 'create-user' , component: CreateUserComponent},
+      {path: 'lock-up-user' , component: LockUpUserComponent},
     ],
   }
 ];

@@ -1,0 +1,136 @@
+<!--// creator : đưc Thông-->
+
+
+<div class="container" xmlns="http://www.w3.org/1999/html">
+  <h4>Chỉnh sửa chương trình khuyến mãi</h4>
+  <div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="formEditPromotion">
+
+      <div id="div1" class="form-group row">
+        <div class="col-md-4">
+          <label class="mdb-main-label">Chọn sản phẩm<span class="text-danger">*</span>
+            <select formControlName="idProduct" class="form-control" id="idProduct" required
+                    name="idProduct">
+              <option *ngFor="let product of products"
+                      value="{{product.id}}">{{product.name}}</option>
+            </select>
+          </label>
+          <i id="i1" class="material-icons"
+             *ngIf="(!formEditPromotion.controls.idProduct.errors?.required)&&formEditPromotion.controls.idProduct.valid && formEditPromotion.controls.idProduct.touched">&#xE876;</i>
+          <p id="p1" class=" text-danger"
+             *ngIf="formEditPromotion.controls.idProduct.errors?.required && formEditPromotion.controls.idProduct.touched">
+            Vui lòng chọn sản phẩm
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group row" id="div2">
+        <div class="col-md-3 mb-0 ">
+          <label>Ngày bắt đầu<span class="text-danger">*</span>
+          </label>
+          <!--        <input type="date" class="form-control" id="startDate" formControlName="startDate" name="startDate">-->
+          <input id="material1" readonly class="form-control" formControlName="startDate" [(ngModel)]="startDayCheck"
+                 placeholder="mm/dd/yyyy" matInput
+                 [matDatepicker]="picker1" (dateChange)="checkValidateTimeInput(startDayCheck,endDayCheck)">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1 startView="year" [startAt]="start"></mat-datepicker>
+          <i class="material-icons" id="i4"
+             *ngIf="(!formEditPromotion.controls.startDate.errors?.required)&&formEditPromotion.controls.startDate.valid && formEditPromotion.controls.startDate.touched">&#xE876;</i>
+          <p class=" text-danger" *ngIf="formEditPromotion.controls.startDate.errors?.dateInvalid && formEditPromotion.controls.startDate.touched">
+            Ngày bắt đầu phải sau hôm nay</p>
+          <p
+            *ngIf="formEditPromotion.controls.startDate.errors?.required && formEditPromotion.controls.startDate.touched"
+            class="text-danger">Vui lòng chọn ngày bắt đầu</p>
+        </div>
+
+        <div class="col-md-3" id="div3">
+          <label>Ngày kết thúc<span class="text-danger">*</span>
+          </label>
+          <input id ="meterial2" readonly class="form-control" formControlName="endDate"
+                 [(ngModel)]="endDayCheck" placeholder="mm/dd/yyyy" matInput
+                 [matDatepicker]="picker2" (dateChange)="checkValidateTimeInput(startDayCheck,endDayCheck)">
+
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2 startView="year" [startAt]="start"></mat-datepicker>
+          <i class="material-icons" id="i5"
+             *ngIf="(!formEditPromotion.controls.endDate.errors?.required)&&formEditPromotion.controls.endDate.valid && formEditPromotion.controls.endDate.touched">&#xE876;</i>
+          <p
+            *ngIf="formEditPromotion.controls.endDate.errors?.required && formEditPromotion.controls.endDate.touched"
+            class="text-danger">Vui lòng chọn ngày kết thúc</p>
+          <p class=" text-danger" *ngIf="formEditPromotion.controls.endDate.errors?.endDateInvalid&&(!timeValidate)&& formEditPromotion.controls.endDate.touched">
+            Ngày kết thúc phải sau hôm nay</p>
+          <p class="text-danger" *ngIf="formEditPromotion.controls.endDate.errors?.endDateInvalid &&(timeValidate)&& formEditPromotion.controls.endDate.touched">
+            Ngày kết thúc phải sau hôm nay</p>
+          <p class="text-danger" *ngIf="(!formEditPromotion.controls.endDate.errors?.endDateInvalid) &&timeValidate&& formEditPromotion.controls.endDate.touched">
+            Ngày kết thúc phải sau ngày bắt đầu</p>
+        </div>
+      </div>
+
+      <div class="form-group row" id="div4">
+        <div class="col-md-4">
+          <label>Giá</label><span class="text-danger">*</span>
+          <div class="input-group" id="div5">
+            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" id="price" required
+                   formControlName="price"
+                   name="price" placeholder="số tiền">
+            <div class="input-group-append">
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+          <i class="material-icons" id="i2"
+             *ngIf="(!formEditPromotion.controls.price.errors?.required)&&formEditPromotion.controls.price.valid && formEditPromotion.controls.price.touched">&#xE876;</i>
+          <p class=" text-danger"
+             *ngIf="formEditPromotion.controls.price.errors?.required && formEditPromotion.controls.price.touched">
+            Vui
+            lòng nhập giá sản phẩm
+          <p class=" text-danger"
+             *ngIf="formEditPromotion.controls.price.errors?.priceInvalid && formEditPromotion.controls.price.touched">
+            Giá sản phẩm không hợp lệ
+        </div>
+
+        <div class="col-md-4" id="div6">
+          <label>khuyến mãi</label><span class="text-danger">*</span>
+          <div class="input-group" id="div7">
+            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" id="percent" required
+                   formControlName="percent"
+                   name="percent" placeholder="phần trăm khuyến mãi">
+            <div class="input-group-append">
+              <span class="input-group-text" id="span2">%</span>
+            </div>
+          </div>
+          <i class="material-icons" id="i3"
+             *ngIf="(!formEditPromotion.controls.percent.errors?.required)&&formEditPromotion.controls.percent.valid && formEditPromotion.controls.percent.touched">&#xE876;</i>
+          <p class=" text-danger"
+             *ngIf="formEditPromotion.controls.percent.errors?.required && formEditPromotion.controls.percent.touched">
+            Vui
+            lòng nhập phần trăm khuyến mãi
+          <p class=" text-danger"
+             *ngIf="formEditPromotion.controls.percent.errors?.percentInvalid && formEditPromotion.controls.percent.touched">
+            Khuyến mãi không hợp lệ
+        </div>
+      </div>
+      <div class="col-md-8" id="div8">
+
+        <label for="content">Nội dung</label>
+        <textarea type="text" class="form-control" id="content" formControlName="content"
+                  name="content">
+      </textarea>
+      </div>
+
+      <input id="add" type="button" class="btn btn-danger mt-1" (click)="gotoList()" value="Hủy">
+      <button type="submit" [disabled]="formEditPromotion.invalid" class="btn btn-primary mt-1">Lưu thay đổi
+      </button>
+    </form>
+  </div>
+</div>
+
+<script src="https://smtpjs.com/v3/smtp.js">
+</script>
+<script>
+  // Material Select Initialization
+  $(document).ready(function () {
+    $('.mdb-select').materialSelect();
+  });
+</script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">

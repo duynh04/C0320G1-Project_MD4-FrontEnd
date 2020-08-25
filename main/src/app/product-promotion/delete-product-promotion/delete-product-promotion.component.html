@@ -1,0 +1,14 @@
+<div id="modal-content-wrapper" class="d-fex justify-content-center">
+  <header id="modal-header">
+    <h1 id="modal-title">Xóa khuyên mãi</h1>
+  </header>
+  <section id="modal-body">
+    <p>Xác nhận xóa khuyến mãi <span class="text-primary font-weight-bold">{{content}}</span> ? <br class="mt-2">
+      <span class="text-danger font-weight-bold">Chú ý:</span> Xóa không thể hoàn tác !!!</p>
+  </section>
+  <footer id="modal-footer" style="float: right">
+    <button mat-raised-button class="btn btn-danger mr-3" id="modal-action-button" (click)="deleteStudent()">Xóa
+    </button>
+    <button mat-raised-button class="btn btn-warning mr-3" id="modal-cancel-button" mat-dialog-close>Hủy</button>
+  </footer>
+</div>

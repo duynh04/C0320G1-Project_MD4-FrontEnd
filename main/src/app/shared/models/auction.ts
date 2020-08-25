@@ -1,10 +1,10 @@
+import { AuctionRecord } from './auction-record';
 import { AuctionStatus } from './auction-status';
 import { Product } from './product';
-import { AuctionRecord } from './auction-record';
 export interface Auction {
-  id: number;
-  product: Product;
-  auctionStatus: AuctionStatus;
-  closeTime: string;
-  records: AuctionRecord[];
+    [prop: string]: any;
+    id: number;
+    product: Product;
+    auctionStatus: AuctionStatus;
+    closeTime: string;
 }

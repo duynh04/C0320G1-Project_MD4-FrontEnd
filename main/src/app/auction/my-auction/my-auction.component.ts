@@ -1,3 +1,4 @@
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { AuctionRecord } from './../../shared/models/auction-record';
 import { AuctionService } from './../../shared/services/auction.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
@@ -15,7 +16,7 @@ export class MyAuctionComponent implements OnInit {
   @ViewChild('focusOn',{static: true}) private elementRef: ElementRef;
   myAuctionRecordList : Observable<AuctionRecord[]>;
   stt: number[];
-  bidderId : number = 2;
+  bidderId : number;
   productName : string = "";
   recordStatusName : string = "";
   currentProductName : string = "";
@@ -27,7 +28,7 @@ export class MyAuctionComponent implements OnInit {
 
   constructor(
     private auctionService : AuctionService,
-    private activatedRoute : ActivatedRoute,
+    private tokenStorageService : TokenStorageService
     ) { }
 
   getColor(isWinner : boolean,auctionStatusName : string) : string {
@@ -47,9 +48,9 @@ export class MyAuctionComponent implements OnInit {
       return "đang đấu giá";
     } else {
         if (isWinner == true) {
-          return "đấu giá thành công";
+          return "thành công";
         } else {
-          return "đấu giá thất bại";
+          return "thất bại";
         }
     }
   }
@@ -85,10 +86,7 @@ export class MyAuctionComponent implements OnInit {
 
   ngOnInit() {
     this.elementRef.nativeElement.focus();
-    // this.activatedRoute.params.subscribe ( (param) => {
-    //     const userId = Number(param.id);
-    //     this.bidderId = userId;
-    // } )
+    this.bidderId = this.tokenStorageService.getJwtResponse().userId;
     this.getPage(1);
   }
 

@@ -7,20 +7,22 @@ import { Product } from './../models/product';
 import { Page } from './../models/dtos/page';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class ProductService {
 
   // Creator: Cường
-  private readonly API_URL = "http://localhost:8080/api/v1";
+  private readonly API_URL = 'http://localhost:8080/api/v1';
+  private readonly baseUrl = 'http://localhost:8080/api/v1/products';
 
   constructor(
     private http: HttpClient,
-    private tokenStorage : TokenStorageService
-    ) { }
+    private tokenStorage: TokenStorageService
+  ) { }
 
   // Creator: Cường
   // testError() : Observable<TestUser | ErrorDetail> {
@@ -45,7 +47,10 @@ export class ProductService {
       }
     };
     return myProductOptions;
+  }
 
+  createProduct(product: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}`, product);
   }
 
   // Creator: Cường
