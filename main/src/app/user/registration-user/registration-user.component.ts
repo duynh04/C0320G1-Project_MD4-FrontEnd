@@ -7,6 +7,10 @@ import {validPhoneNumber} from '../../shared/validations/custom-validators';
 import {checkBirthday} from '../../shared/validations/validatorBirthday';
 import {uniqueEmail} from '../../shared/validations/uniqueEmail';
 import {uniquePhoneNumber} from '../../shared/validations/uniquePhoneNumber';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthJwtService} from '../../auth/auth-jwt.service';
+import {TokenStorageService} from '../../auth/token-storage.service';
+import {AuthLoginInfo} from '../../auth/login-info';
 declare var $: any;
 declare let Email: any;
 
@@ -16,7 +20,12 @@ declare let Email: any;
   styleUrls: ['./registration-user.component.css']
 })
 export class RegistrationUserComponent implements OnInit {
-  constructor(private fb: FormBuilder, private  userService: UserService) {
+  constructor(private fb: FormBuilder,
+              private  userService: UserService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router,
+              private tokenStorage: TokenStorageService,
+              private auth: AuthJwtService) {
   }
 
   user: UserDto = {
@@ -40,18 +49,23 @@ export class RegistrationUserComponent implements OnInit {
   errors = NOTIFICATION_USER;
   test;
   authenticationFailed = '';
+  isRemember: boolean;
+  userInfo: AuthLoginInfo;
 
   ngOnInit() {
     this.date = new Date().toISOString().slice(0, 10);
     this.registerForm = this.fb.group({
-      fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]+$/)]],
+      // tslint:disable-next-line:max-line-length
+      fullName: ['', [Validators.required, Validators.pattern(/^[ a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/)]],
       gender: ['', [Validators.required]],
+      // tslint:disable-next-line:max-line-length
       email: ['', [Validators.required, Validators.pattern(/^[A-Za-z0-9]+@[A-Za-z0-9]+(\.[A-Za-z0-9]+)$/)], [uniqueEmail(this.userService)]],
       birthday: ['', [Validators.required, checkBirthday]],
       phoneNumber: ['', [Validators.required, validPhoneNumber], [uniquePhoneNumber(this.userService)]],
       idCard: ['', [Validators.required, Validators.pattern(/(^[0-9]{9}$)|(^[0-9]{12}$)/)]],
-      address: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\/\- ]+$/), Validators.maxLength(25)]],
-      password: ['', [Validators.required, Validators.pattern(/(^[0-9A-Za-z]*$)/), Validators.minLength(8)]],
+      // tslint:disable-next-line:max-line-length
+      address: ['', [Validators.required, Validators.pattern(/^[ a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/), Validators.maxLength(25)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required]],
       question: ['', [Validators.required]],
       answer: ['', [Validators.required]],
@@ -76,8 +90,8 @@ export class RegistrationUserComponent implements OnInit {
     const cf = (document.getElementById('confirmRegistration') as HTMLInputElement).value;
     if (this.test.toString() === cf.toString()) {
       this.onSubmit();
-      alert('thêm thành công');
       $('#myModal').modal('hide');
+      this.login(this.userInfo);
     } else {
       this.authenticationFailed = 'Mã xác nhận không đúng! vui lòng nhập lại';
     }
@@ -85,6 +99,22 @@ export class RegistrationUserComponent implements OnInit {
   onSubmit() {
     this.userService.createUser(this.registerForm.value)
       .subscribe(data => console.log(data), error => console.log(error));
+  }
+  public login(userInfo) {
+    this.auth.attemptAuth(userInfo).subscribe(
+      data => {
+        this.tokenStorage.saveJwtResponse(data, this.isRemember);
+      }, () => {
+        this.activatedRoute.queryParamMap.subscribe(value => {
+          const returnUrl = value.get('returnUrl');
+          if (returnUrl) {
+            this.router.navigateByUrl(returnUrl);
+          } else {
+            this.router.navigateByUrl('/');
+          }
+        });
+      }
+    );
   }
 
   createCaptcha() {
@@ -173,16 +203,6 @@ export class RegistrationUserComponent implements OnInit {
 
 
 }
-
-// function checkBirthday(formGroup: AbstractControl): ValidationErrors | null {
-//   const us: UserDto = formGroup.value;
-//   const birthday = new Date(us.birthday).getTime();
-//   const now = new Date().getTime();
-//   if (((now - birthday) / 365.25 / 24 / 60 / 60 / 1000) < 18) {
-//     return {checkBirthday: true};
-//   }
-//   return null;
-// }
 
 function checkPassword(formGroup: AbstractControl): ValidationErrors | null {
   const pass: UserDto = formGroup.value;

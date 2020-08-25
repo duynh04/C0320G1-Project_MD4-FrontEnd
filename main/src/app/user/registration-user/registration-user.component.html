@@ -231,14 +231,14 @@
           <h4 class="modal-title">xác nhận đăng ký thành viên</h4>
         </div>
         <div class="modal-body">
-          <h6>vui lòng vào gmail để lấy mã hoặc bấm vào <a target="_blank" href="https://mail.google.com/mail/u/2/?tab=wm#spam">đây</a></h6>
+          <h6>vui lòng vào gmail để lấy mã hoặc bấm vào <a target="_blank" href="https://mail.google.com/mail/u/0/#spam">đây</a></h6>
           <label for="confirmRegistration"></label><input class="form-control" placeholder="nhập mã xác nhận"
                                                           id="confirmRegistration">
           <small class="d-block text-danger">{{authenticationFailed}}</small>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-          <button type="button" (click)="confirmRegistration()" class="btn btn-primary">Xác nhận</button>
+          <button type="button" (click)="confirmRegistration()"  class="btn btn-primary">Xác nhận</button>
         </div>
       </div>
     </div>
