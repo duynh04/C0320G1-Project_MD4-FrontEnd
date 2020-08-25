@@ -157,7 +157,7 @@ export class AuctionPageComponent implements OnInit {
     // clearInterval(loop1);
 
     //in thông báo cho client trên modal
-    $('#reaffirm').html('Bạn đang là người thắng với giá ' + newPrice + 'k');
+    $('#reaffirm').html('Giá hiện tại đang là ' + newPrice + 'k');
 
 
     this.auctionService.getRecordByAuctionAndUser(this.auctionId, this.tokenStorageService.getJwtResponse().userId).subscribe(data => {

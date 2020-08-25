@@ -1,3 +1,4 @@
+import { TokenStorageService } from './../auth/token-storage.service';
 import { WebsocketService } from './../shared/services/websocket.service';
 //creator: Nguyễn Xuân Hùng
 import { Router } from '@angular/router';
@@ -8,6 +9,14 @@ import * as io from 'socket.io-client';
 
 //Khai báo socket để connect với server nodejs
 const socket = io('https://nancy-auction.herokuapp.com');
+
+//endDate của bảng product
+let endtime;
+//vòng lặp thời gian đầu tiên
+let loop;
+
+// để xuống dưới sử dụng được jquery
+declare var $: any;
 
 @Component({
   selector: 'app-home',
@@ -25,13 +34,19 @@ export class HomeComponent implements OnInit {
   currentProductName :string="";
   currentPrice : string="";
   currentCategoryName : string="";
+  email: string;
+  endDateList: string[];
+  auctionId: any;
   constructor(private auctionService: AuctionService,
     private router:Router,
-    private webSocket: WebsocketService) { 
+    private webSocket: WebsocketService,
+    private tokenStorage:TokenStorageService) { 
       this.webSocket.listen('message-from-server').subscribe(data=>{
         this.ngOnInit();
       })
-
+      if(tokenStorage.getJwtResponse()){
+        this.email = tokenStorage.getJwtResponse().accountName;
+      }
     }
   
   ngOnInit() {
@@ -40,7 +55,17 @@ export class HomeComponent implements OnInit {
      this.auctionService.getAuctionsProductByAuctionId(this.auctionStatusId).subscribe(data=> {
        this.auctionList=data;
       })
-     
+     // lấy về phiên đấu giá hiện tại
+    this.auctionService.getAuctionById(this.auctionId).subscribe(data => {
+
+      //lấy về thời gian kết thúc ở backend và gọi vòng lặp để đếm ngược
+      //Date.parse() để đổi ra milliseconds
+      endtime = data.product.endDate;
+      loop = setInterval(() => {
+        this.updateCountdown(Date.parse(endtime));
+      }, 1000);
+
+    });
   }
   changeStatusAuction(value){
     if(value=="đang đấu giá"){
@@ -90,5 +115,33 @@ export class HomeComponent implements OnInit {
         this.message="Hiện tại không có sản phẩm này đang đấu giá cho tìm kiếm này";
       }
     });
+  }
+  //hàm đếm ngược và xử lý kết thúc phiên đấu giá
+  updateCountdown(time) {
+
+    //time trên tham số là milliseconds parse ra từ endDate trong bảng product
+    //time này là remainingTime
+    time = time - new Date().getTime();
+
+    // xử lý remainingTime
+    let seconds: any = Math.floor((time / 1000) % 60);
+    let minutes: any = Math.floor((time / 1000 / 60) % 60);
+    let hours: any = Math.floor((time / (1000 * 60 * 60)) % 24);
+
+    // chế biến để lúc số nhỏ hơn 10 thì có số 0 đằng trước cho đẹp :))
+    hours = hours < 10 ? '0' + hours : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    
+    //xử lý sau khi kết thúc đấu giá
+    if (time == 0 || time < 0) {
+
+      // console.log(time);
+      $('#countdown').html('Sắp kết thúc');
+    }else{
+      //nếu remainingTime lớn hơn 0 thì in ra trên màn hình đếm ngược
+    $('#countdown').html(`${hours} : ${minutes} : ${seconds}`);
+    }
+    
   }
 }
