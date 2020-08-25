@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center align-items-center">
   <div class="col-sm-6">
-    <form [formGroup]="createProductForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="createProductForm">
       <div class="d-flex justify-content-center">
         <h1>Đăng sản phẩm</h1>
       </div>
@@ -39,7 +39,7 @@
       <div class="form-group row">
         <label for="inputPrice" class="col-sm-4 col-form-label">Giá ban đầu:<span
           class="text-danger">*</span></label>
-        <div class="col-sm-8">
+        <div class="col-sm-8 dollar">
           <input type="number" class="form-control" id="inputPrice" formControlName="initialPrice"
                  [class.mark-success]="initialPrice.valid">
           <div *ngIf="initialPrice.touched && initialPrice.invalid">
@@ -53,7 +53,7 @@
       <div class="form-group row">
         <label for="step" class="col-sm-4 col-form-label">Mỗi lần tăng ít nhất:<span
           class="text-danger">*</span></label>
-        <div class="col-sm-8">
+        <div class="col-sm-8 dollar">
           <input type="number" class="form-control" id="step" list="defaultNumbers" formControlName="increaseAmount"
                  [class.mark-success]="increaseAmount.valid">
           <datalist id="defaultNumbers">
@@ -160,8 +160,26 @@
       </fieldset>
       <div class="d-flex justify-content-center">
         <div class="col-sm-4">
-          <input type="submit" class="btn btn-primary" value="Đăng ký sản phẩm" id="submitbtn"
-                 [disabled]="createProductForm.invalid">
+          <input type="button" class="btn btn-primary" value="Đăng ký sản phẩm" id="submitbtn"
+                 [disabled]="createProductForm.invalid" data-toggle="modal" data-target="#exampleModal">
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Đã đăng ký sản phẩm thành công. Vui lòng chờ phê duyệt
+              </div>
+              <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" value="Ok" (click)="onSubmit()" data-dismiss="modal">
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col-sm-4">
           <input type="reset" onClick="window.location.reload();" class="btn btn-primary" value="Nhập lại">
