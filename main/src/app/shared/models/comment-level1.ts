@@ -4,5 +4,6 @@ export interface CommentLevel1 {
   id: number;
   content: string;
   product: Product;
+  images: string;
   user: User;
 }

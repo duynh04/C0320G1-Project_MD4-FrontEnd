@@ -23,12 +23,13 @@ export class CommentBoxComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private commentLevel1Service: CommentLevel1Service,
-    private router: Router,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.commentForm = this.formBuilder.group({
-      content: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(1000)]]
+      content: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(1000)]],
+      images: ['']
     });
   }
 
@@ -47,7 +48,6 @@ export class CommentBoxComponent implements OnInit {
       this.commentInfo.push({
         commentId: this.id++,
         currentDate: new Date(),
-        user: this.commentLevel1User,
         commentTxt: this.commentForm.controls.content.value,
         replyComment: []
       });
