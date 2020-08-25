@@ -1,3 +1,4 @@
+import { NgxPaginationModule } from 'ngx-pagination';
 import {HomeComponent} from './home/home.component';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
@@ -17,7 +18,11 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {MaterialModule} from './material.module';
+import { CountdownModule, CountdownGlobalConfig, CountdownConfig } from 'ngx-countdown';
 
+export function countdownConfigFactory(): CountdownConfig {
+  return {'format':'HH:mm:ss'};
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,9 +44,12 @@ import {MaterialModule} from './material.module';
     AngularFirestoreModule,
     AngularFireStorageModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    CountdownModule,
+    NgxPaginationModule
   ],
-  providers: [httpInterceptorProviders],
+  providers: [httpInterceptorProviders,
+    { provide: CountdownGlobalConfig, useFactory: countdownConfigFactory }],
   bootstrap: [AppComponent],
 })
 export class AppModule {

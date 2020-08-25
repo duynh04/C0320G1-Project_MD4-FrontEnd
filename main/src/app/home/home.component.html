@@ -13,13 +13,10 @@
             <div class="ml-3 mr-3">
                 <input type="button" class="btn btn-light text-uppercase font-weight-bold text-black-50" value="top đấu giá" (click)= "navigateToTopAuctionPage()"> 
             </div>
-            <div class="ml-3 mr-3">
-                <input type="button" class="btn btn-light text-uppercase font-weight-bold text-black-50" value="tìm kiếm" (click)="showSearchForm()"> 
-            </div>
 
         </div>
     </div>
-<form *ngIf="showSearch" class="mb-0 mt-2" >
+<form class="mb-0 mt-2" >
     <div class="d-flex row mx-0 mb-0">
         <div class="form-group col-md-4 row">
             <label class=" col-md-6 col-form-label pl-5">Tên sản phẩm: </label>
@@ -51,6 +48,7 @@
         </div>
     </div>
 </form>
+
         <div class="row px-0 mx-0" style="height: 90%;" >
             <div class="col-2 px-0 mt-3 mr-3">
               <div class="list-group border border-dark rounded h-100 ">
@@ -69,7 +67,10 @@
                 <div *ngIf="message!=''"  class="alert alert-warning m-3 p-2" role="alert" >
                     {{message}}
                   </div>
-                <div *ngFor="let auction of auctionList " class=" col-md-2 mt-3 ml-3 mr-2 border h-100 w-100 rounded bg-light">
+                  <div *ngIf="isEmpty" class="text-danger">
+                    <h5> Không tìm thấy dữ liệu phù hợp </h5>
+                  </div>
+                <div *ngFor="let auction of auctionList index as i" class=" col-md-2 mt-3 ml-3 mr-2 border h-100 w-100 rounded bg-light">
                     <div class="row justify-content-center" style="height:60%">
                         <a [routerLink]="'auction/'+auction.id">
                             <img [src]="auction.product.productImages[0].link" alt="Picture"
@@ -79,20 +80,31 @@
                     <div class="row text-center justify-content-center font-weight-bold align-items-center" style="height:60px">
                         <a class="color-size" [routerLink]="'auction/'+auction.id" style="text-decoration: none; color: black;">{{auction.product.name}}</a>
                     </div>
+                    <div  *ngIf="auction.auctionStatus.id==2&&endDateList[i]!=0" class="text-danger font-weight-bold text-center">
+                        <countdown [config]="{leftTime: endDateList[i],formatDate:moreThan24Hours.formatDate}"></countdown>
+                    </div>
+                    <div *ngIf="auction.auctionStatus.id==2&&endDateList[i]==0" class="text-danger font-weight-bold text-center">
+                        <span>Sắp kết thúc</span>
+                    </div>
+                    <div *ngIf="auction.auctionStatus.id==3" class="text-danger font-weight-bold text-center">
+                        <span>Đã kết thúc</span>
+                    </div>
                     <ng-container *ngFor= "let record of auction.records index as i">
                         <div class="row text-center justify-content-center align-items-center " style="height:50px"*ngIf="record.isWinner==false&&auction.records.length==i+1">
                             Giá hiện tại: {{record.bidPrice|number}} VND
                         </div>
                     </ng-container>
-                        <ng-container *ngFor= "let record of auction.records">
+                        <ng-container *ngFor= "let record of auction.records" >
                             <div class="row text-center justify-content-center align-items-center " style="height:60px" *ngIf="record.isWinner==true">
                                 <span>Giá chiến thắng: {{record.bidPrice|number}} VND</span>
                             </div>
                         </ng-container>
                     <div class="row justify-content-center" style="height:10%" *ngIf="auctionStatusId==2">
-                        <button type="button" class="btn btn-info "><a [routerLink]="'auction/'+auction.id" style="color: white">Đấu giá</a></button>
+                        <button type="button" class="btn btn-primary "><a [routerLink]="'auction/'+auction.id" style="color: white">Đấu giá</a></button>
                     </div>
             </div>
+            
             </div>
+            
         </div>
 </div>
