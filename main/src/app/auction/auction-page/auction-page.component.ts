@@ -114,16 +114,13 @@ export class AuctionPageComponent implements OnInit {
 
     //xử lý ban đầu nếu chưa có người đấu giá
     this.auctionService.getRecordHavingBestPrice(this.auctionId).subscribe(data => {
-      // console.log(data);
-      if (this.currentBid == null) {
+      if (data == null){
         this.currentBid = 0;
-      }
-      if (this.currentWinner == null) {
         this.currentWinner = 'đặt đi rồi có';
+      } else {
+        this.currentBid = data.bidPrice;
+        this.currentWinner = data.bidder.email;
       }
-      this.currentBid = data.bidPrice;
-      this.currentWinner = data.bidder.email;
-
     });
 
 
@@ -163,13 +160,13 @@ export class AuctionPageComponent implements OnInit {
     this.auctionService.getRecordByAuctionAndUser(this.auctionId, this.tokenStorageService.getJwtResponse().userId).subscribe(data => {
       if (data == null) {
 
+        this.auction.product.auction = null;
         //chuẩn bị đối tượng record để chuẩn bị lưu xuống db
         let auctionRecord: AuctionRecord = {
-
           auction: this.auction,
           // lấy userId từ token trong storage
           bidder: {id: this.tokenStorageService.getJwtResponse().userId},
-          bidTime: new Date(),
+          bidTime: new Date().toISOString().substring(0, 19),
           bidPrice: this.newBid.value,
           isWinner: false
         };
@@ -212,9 +209,9 @@ export class AuctionPageComponent implements OnInit {
           this.socket.emit('remaining', new Date().getTime() + 30000);
         }
 
-        data.bidTime = new Date();
+        data.bidTime = new Date().toISOString().substring(0, 19);
         data.bidPrice = this.newBid.value;
-
+        data.auction.product.auction = null;
 
         this.auctionService.saveNewAuctionRecord(data).subscribe(data => {
           //đồng thời cập nhật lại bảng lịch sử đấu giá và các thông tin
@@ -291,7 +288,8 @@ export class AuctionPageComponent implements OnInit {
         }
 
 
-        this.finalRecord = data;
+        this.finalRecord = data as AuctionRecord;
+        this.finalRecord.auction.product.auction = null;
         //chuyển thành string để lưu db
         this.auction.closeTime = new Date().toISOString().substring(0, 19);
 

@@ -6,7 +6,7 @@ export interface AuctionRecord {
     bidder: {
         id: number
     };
-    bidTime: Date;
+    bidTime: string;
     bidPrice: number;
     isWinner: boolean;
 
