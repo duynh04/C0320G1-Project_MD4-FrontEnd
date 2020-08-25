@@ -1,27 +1,32 @@
-body,html {
+body,
+html {
   height: 100%;
 }
-.progress{
+
+.progress {
   width: 410px;
 }
+
 .mark-success {
   background-image: url(https://cdn.chilindo.com/gfx/checkmark-green.png);
   background-position: right center;
   background-repeat: no-repeat;
 }
+
 select {
   /* for Firefox */
   -moz-appearance: none;
   /* for Chrome */
   -webkit-appearance: none;
 }
-.dollar:before {
+
+/* .dollar:before {
   position: absolute;
-  content:"₫";
+  content: "vnd ";
   padding: 8px 5px;
   text-align: right;
 }
-.dollar input{
-  padding-left:15px;
-}
 
+.dollar input {
+  padding-left: 15px;
+} */
