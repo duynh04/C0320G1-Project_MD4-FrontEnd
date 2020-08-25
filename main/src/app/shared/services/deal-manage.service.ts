@@ -7,7 +7,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 })
 export class DealManageService {
 
-  public url_API = 'http://localhost:8080/api/v1/admin/deal-management';
+  public urlAPI = 'http://localhost:8080/api/v1/admin/deal-management';
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -27,16 +27,14 @@ export class DealManageService {
   ) { }
 
   getOnePage(currentPage, pageSize): Observable<any> {
-    return this.http.get(this.url_API + `?page=${currentPage}&limit=${pageSize}`, this.httpOptions);
+    return this.http.get(this.urlAPI + `?page=${currentPage}&limit=${pageSize}`, this.httpOptions);
   }
 
   setDealsIsDeleted(idsToDelete: number[]): any {
-      return this.http.put<any>(this.url_API + '/delete', JSON.stringify(idsToDelete), this.options);
+    return this.http.put<any>(this.urlAPI + '/delete', JSON.stringify(idsToDelete), this.options);
   }
 
   search(formValue: any, currentPage: number, pageSize: number) {
-    return this.http.post<any>(this.url_API + `/search?page=${currentPage}&limit=${pageSize}`, JSON.stringify(formValue), this.options);
+    return this.http.post<any>(this.urlAPI + `/search?page=${currentPage}&limit=${pageSize}`, JSON.stringify(formValue), this.options);
   }
 }
-
-
