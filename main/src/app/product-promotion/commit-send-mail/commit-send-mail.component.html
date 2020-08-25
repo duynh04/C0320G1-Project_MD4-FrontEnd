@@ -3,7 +3,7 @@
     <h1 id="modal-title">Xác nhận gởi mail</h1>
   </header>
   <section id="modal-body">
-    <p>Đã thêm khuyến mãi <span class="text-primary font-weight-bold">{{name}}</span> ? <br class="mt-1">
+    <p>Đã thêm khuyến mãi  <span class="text-primary font-weight-bold">{{name}}</span> ? <br class="mt-1">
     </p>
     Có gởi mail thông báo khuyến mãi này với {{amount}} khách hàng không ?
   </section>
@@ -13,3 +13,13 @@
     <button mat-raised-button class="btn btn-warning mr-3" id="modal-cancel-button" mat-dialog-close>Không</button>
   </footer>
 </div>
+<script src="https://smtpjs.com/v3/smtp.js">
+</script>
+<script>
+  // Material Select Initialization
+  $(document).ready(function () {
+    $('.mdb-select').materialSelect();
+  });
+</script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">

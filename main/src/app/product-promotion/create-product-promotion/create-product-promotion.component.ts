@@ -65,7 +65,6 @@ export class CreateProductPromotionComponent implements OnInit {
 
   ngOnInit() {
     this.currentDay = new Date(Date.now());
-    console.log(this.currentDay);
     this.reloadData();
     this.formAddNewPromotion = this.formBuilder.group({
       idProduct: [null, [Validators.required]],
@@ -94,7 +93,7 @@ export class CreateProductPromotionComponent implements OnInit {
       width: '510px',
       height: '240px',
         data: {length: this.usersEmail.length,
-              name: this.products[this.formAddNewPromotion.controls.idProduct.value].name
+              name: this.products[1].name
         },
       disableClose: true,
     });

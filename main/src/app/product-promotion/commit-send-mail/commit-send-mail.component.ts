@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {Product} from '../../shared/models/product';
 import {ProductPromotionService} from '../../shared/services/product-promotion.service';
 import {Router} from '@angular/router';
 
@@ -44,9 +43,10 @@ export class CommitSendMailComponent implements OnInit {
         To: this.usersEmail[i].email,
         From: 'thong220700@gmail.com',
         Subject: 'khuyến mãi',
-        Body: this.usersEmail[i].content
+        Body: 'Body'
       }).then(message => {
       });
+      console.log(this.usersEmail[i].email);
     }
     this.dialogRef.close();
   }

@@ -19,7 +19,7 @@ export class DeleteProductPromotionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.content = this.data.data1.content;
+    this.content = this.data.data1.product.name;
     this.id = this.data.data1.id;
   }
 

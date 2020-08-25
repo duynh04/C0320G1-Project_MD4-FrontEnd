@@ -8,10 +8,6 @@ import {UpdateProductPromotionComponent} from './update-product-promotion/update
 const routes: Routes = [
   {
     path: '', component: ProductPromotionListComponent,
-    children: [
-      // { path: 'add', component: CreateProductPromotionComponent },
-      // { path: 'update/:id', component: UpdateProductPromotionComponent },
-      ]
   },
   { path: 'add', component: CreateProductPromotionComponent },
   { path: 'update/:id', component: UpdateProductPromotionComponent },
