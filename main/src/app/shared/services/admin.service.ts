@@ -7,6 +7,7 @@ import { Page } from "../models/dtos/page";
 import { ProductSearchDTO } from "../models/dtos/productSearchDTO";
 import { ProductDto } from '../models/dtos/productDto';
 import { UserSearchField } from '../models/dtos/user-search-field';
+import {User} from "../models/user";
 
 @Injectable({
   providedIn: 'root'
@@ -107,5 +108,9 @@ export class AdminService {
       console.log(data);
     });
     return of({});
+  }
+
+  createUser(user: Object): Observable<User> {
+    return this.http.post<User>(this.ADMIN_URL + "/user-create", JSON.stringify(user), this.options);
   }
 }
