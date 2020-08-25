@@ -1,21 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {
   AbstractControl, FormArray,
   FormBuilder, FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ProductService } from '../../shared/services/product.service';
-import { Router } from '@angular/router';
-import { CategoryService } from '../../shared/services/category.service';
-import { finalize, tap } from 'rxjs/operators';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
-import { Observable, Subscription } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { PRODUCT_MESSAGES } from '../../shared/validations/error-messages';
-import { UserValidatorService } from '../../shared/validations/user-validator.service';
-import { validCompareDate, validDate, validMaxImage } from '../../shared/validations/custom-validators';
-
+import {ProductService} from '../../shared/services/product.service';
+import {Router} from '@angular/router';
+import {CategoryService} from '../../shared/services/category.service';
+import {finalize, tap} from 'rxjs/operators';
+import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
+import {Observable, Subscription} from 'rxjs';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {PRODUCT_MESSAGES} from '../../shared/validations/error-messages';
+import {UserValidatorService} from '../../shared/validations/user-validator.service';
+import {validCompareDate, validDate, validMaxImage} from '../../shared/validations/custom-validators';
+import {TokenStorageService} from '../../auth/token-storage.service';
 
 
 @Component({
@@ -25,12 +25,13 @@ import { validCompareDate, validDate, validMaxImage } from '../../shared/validat
 })
 export class ProductAddComponent implements OnInit {
   constructor(private fb: FormBuilder,
-    private userValidatorService: UserValidatorService,
-    private productService: ProductService,
-    private router: Router,
-    private categoryService: CategoryService,
-    private storage: AngularFireStorage,
-    private db: AngularFirestore) {
+              private userValidatorService: UserValidatorService,
+              private productService: ProductService,
+              private router: Router,
+              private categoryService: CategoryService,
+              private storage: AngularFireStorage,
+              private db: AngularFirestore,
+              private tokenStorageService: TokenStorageService) {
   }
 
   // Thành
@@ -46,6 +47,7 @@ export class ProductAddComponent implements OnInit {
   downloadURL: string;
   newProduct: any;
 
+
   // Lựa chọn file để upload, lựa xong push vào mảng. Nếu chọn sai chọn lại thì xóa mảng làm lại từ đầu
   onDrop(files: FileList) {
     this.files.splice(0);
@@ -58,7 +60,7 @@ export class ProductAddComponent implements OnInit {
   ngOnInit() {
     this.createProductForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
-      name: ['', [Validators.required, Validators.pattern('^[A-Z]{1}[ a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$')]],
+      name: ['', [Validators.required, Validators.pattern('^[A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴÝỶỸ]{1}[ a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$')]],
       initialPrice: ['', [Validators.required, Validators.min(0)]],
       increaseAmount: ['', [Validators.required, Validators.min(0)]],
       date: this.fb.group({
@@ -74,6 +76,9 @@ export class ProductAddComponent implements OnInit {
       }),
       productImageList: this.fb.array([], [Validators.required, validMaxImage]),
       registerDate: [''],
+      owner: this.fb.group({
+        id: [this.tokenStorageService.getJwtResponse().userId]
+      })
     });
     this.categoryService.getCategoriesList().subscribe(data => {
       this.categoriesList = data;
@@ -90,17 +95,17 @@ export class ProductAddComponent implements OnInit {
       endDate: this.createProductForm.value.date.endDate,
       description: this.createProductForm.value.description,
       category: this.createProductForm.value.category,
+      owner: this.createProductForm.value.owner,
       productImages: []
     }
-      ;
+    ;
     (this.createProductForm.get('productImageList') as FormArray).controls.forEach(val => {
-      this.newProduct.productImages.push({ link: val.value });
+      this.newProduct.productImages.push({link: val.value});
     });
     console.log(this.newProduct);
     this.productService.createProduct(this.newProduct).subscribe(
       data => {
         this.router.navigateByUrl('product/myProduct');
-        alert('Đã gửi yêu cầu đấu giá thành công. Vui lòng chờ phê duyệt!');
       }
     );
   }
@@ -131,10 +136,11 @@ export class ProductAddComponent implements OnInit {
         this.downloadURL = await ref.getDownloadURL().toPromise();
         (this.createProductForm.get('productImageList') as FormArray).push(new FormControl(this.downloadURL));
         console.log(this.downloadURL);
-        this.db.collection('files').add({ downloadURL: this.downloadURL, path });
+        this.db.collection('files').add({downloadURL: this.downloadURL, path});
       })
     ).subscribe();
   }
+
   get name() {
     return this.createProductForm.get('name');
   }
@@ -166,6 +172,7 @@ export class ProductAddComponent implements OnInit {
   get to() {
     return this.createProductForm.get('date.endDate');
   }
+
   get productImageList(): FormArray {
     return this.createProductForm.get('productImageList') as FormArray;
   }

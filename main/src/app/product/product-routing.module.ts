@@ -10,7 +10,7 @@ import { MyProductsComponent } from './my-products/my-products.component';
 const routes: Routes = [
   { path: 'myProduct', component: MyProductsComponent, canActivate: [UserGuard] },
   { path: '', component: ProductComponent },
-  { path: 'add', component: ProductAddComponent }
+  { path: 'add', component: ProductAddComponent, canActivate: [UserGuard]}
 ];
 
 
