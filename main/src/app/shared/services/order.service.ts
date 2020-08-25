@@ -1,9 +1,9 @@
-import {OrderDto} from './../models/dtos/orderDto';
-import {Order} from './../models/order';
-import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {TokenStorageService} from 'src/app/auth/token-storage.service';
+import { OrderDto } from './../models/dtos/orderDto';
+import { Order } from './../models/order';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 
 @Injectable({
   providedIn: "root",
@@ -33,7 +33,7 @@ export class OrderService {
   }
 
   updateOrder(order: Order): Observable<Order> {
-    return this.httpClient.put<Order>(this.API_URL, order, this.httpOptions);
+    return this.httpClient.put<Order>(this.API_URL, JSON.stringify(order), this.httpOptions);
   }
 
 }

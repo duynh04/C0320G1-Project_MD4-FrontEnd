@@ -1,13 +1,14 @@
-import {PaymentService} from 'src/app/shared/services/payment.service';
-import {Router} from '@angular/router';
-import {OrderService} from './../../shared/services/order.service';
-import {Order} from './../../shared/models/order';
-import {Component, OnInit} from '@angular/core';
+import { PaymentService } from 'src/app/shared/services/payment.service';
+import { Router } from '@angular/router';
+import { OrderService } from './../../shared/services/order.service';
+import { Order } from './../../shared/models/order';
+import { Component, OnInit } from '@angular/core';
 // import { AddressInfo } from 'dgram'; Lỗi nè
-import {OrderAddressInfo} from 'src/app/shared/models/dtos/delivery-adddress-dto';
-import {TokenStorageService} from 'src/app/auth/token-storage.service';
+import { OrderAddressInfo } from 'src/app/shared/models/dtos/delivery-adddress-dto';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 
 declare let Email: any;
+declare let $: any;
 @Component({
   selector: "app-order-status",
   templateUrl: "./order-status.component.html",
@@ -16,7 +17,7 @@ declare let Email: any;
 
 //creator: Đặng Hồng Quân team C
 export class OrderStatusComponent implements OnInit {
-  order: Order;
+  order: Order = null;
   deliveryPrice: number;
   serviceFee: number;
   totalCost: number;
@@ -39,7 +40,13 @@ export class OrderStatusComponent implements OnInit {
       this.totalCost =
         data.cart.totalPrice + this.serviceFee + this.deliveryPrice;
       console.table(this.order);
-    });
+    }, (error) => {
+      console.log("abc")
+      $(document).ready(function () {
+        $("#myModal").modal('show');
+      });
+    }
+    );
     this.deliveryAddress = this.paymentService.addressInfo
   }
 
@@ -56,14 +63,19 @@ export class OrderStatusComponent implements OnInit {
       console.log(message);
     });
     this.order.status = false;
+    this.order.cart.cartDetails = null;
     this.orderService.updateOrder(this.order).subscribe((data) => {
       console.log(data);
+      if (buttonStatus === "không") {
+        // this.router.navigate(["/"]);
+      } else {
+        this.router.navigate(["/payment/invoice", this.order.id]);
+      }
     });
 
-    if (buttonStatus == "không") {
-      this.router.navigate(["/"]);
-    } else {
-      this.router.navigate(["/payment/invoice", this.order.id]);
-    }
+
   }
 }
+
+
+
