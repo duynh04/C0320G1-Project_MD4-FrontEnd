@@ -48,10 +48,6 @@ export class OrderStatusComponent implements OnInit {
     }
     );
     this.deliveryAddress = this.paymentService.addressInfo
-
-
-
-
   }
 
   sendMail(buttonStatus) {
@@ -67,15 +63,17 @@ export class OrderStatusComponent implements OnInit {
       console.log(message);
     });
     this.order.status = false;
+    this.order.cart.cartDetails = null;
     this.orderService.updateOrder(this.order).subscribe((data) => {
       console.log(data);
+      if (buttonStatus === "không") {
+        // this.router.navigate(["/"]);
+      } else {
+        this.router.navigate(["/payment/invoice", this.order.id]);
+      }
     });
 
-    if (buttonStatus == "không") {
-      this.router.navigate(["/"]);
-    } else {
-      this.router.navigate(["/payment/invoice", this.order.id]);
-    }
+
   }
 }
 
