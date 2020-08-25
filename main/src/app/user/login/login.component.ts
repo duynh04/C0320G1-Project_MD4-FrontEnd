@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthLoginInfo} from '../../auth/login-info';
-import {AuthJwtService} from '../../auth/auth-jwt.service';
-import {TokenStorageService} from '../../auth/token-storage.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthLoginInfo } from '../../auth/login-info';
+import { AuthJwtService } from '../../auth/auth-jwt.service';
+import { TokenStorageService } from '../../auth/token-storage.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SocialAuthService } from "angularx-social-login";
+import { FacebookLoginProvider } from "angularx-social-login";
 
 declare let $: any;
 
@@ -21,6 +23,7 @@ export class LoginComponent implements OnInit {
   showPassword = false;
 
   constructor(
+    private authService: SocialAuthService,
     private auth: AuthJwtService,
     private fb: FormBuilder,
     private tokenStorage: TokenStorageService,
@@ -31,7 +34,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, validateWhitespace,
-        Validators.pattern('^[a-z][a-z0-9_\\.]{2,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$')]],
+      Validators.pattern('^[a-z][a-z0-9_\\.]{2,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$')]],
       password: ['', [Validators.required]],
     });
 
@@ -48,6 +51,13 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
+  signInWithFB() {
+    console.log(FacebookLoginProvider.PROVIDER_ID);
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(res => {
+      console.log(res);
+    });
+  };
 
   onSubmit() {
     this.submitted = true;
@@ -94,7 +104,7 @@ function validateWhitespace(c: AbstractControl) {
   if (c.value !== '') {
     const isWhitespace = c.value.trim().length === 0;
     const isValid = !isWhitespace;
-    return isValid ? null : {whitespace: true};
+    return isValid ? null : { whitespace: true };
   }
   return null;
 }

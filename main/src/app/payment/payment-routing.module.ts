@@ -28,7 +28,7 @@ const routes: Routes = [
       { path: 'order', component: OrderStatusComponent, canActivate: [PaymentGuard] },
     ]
   },
-  { path: 'invoice/:id',component: PaymentInvoiceComponent,canActivate:[UserGuard] }
+  { path: 'invoice/:id', component: PaymentInvoiceComponent, canActivate: [UserGuard] }
 ];
 
 @NgModule({
