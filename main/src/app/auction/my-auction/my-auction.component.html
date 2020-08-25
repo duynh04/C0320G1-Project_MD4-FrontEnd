@@ -10,16 +10,16 @@
         <div class="col">
             <div class="row">
                 <div class="col-md">
-                    <label>Tên Sản Phẩm</label>
+                    <label>Tên sản phẩm</label>
                     <input type="text" #focusOn [(ngModel)]="currentProductName" class="form-control" placeholder="Vd : Iphone">
                 </div>
                 <div class="col-md">
-                    <label>Tình Trạng Đấu Giá</label>
+                    <label>Tình trạng đấu giá</label>
                     <select class="custom-select" [(ngModel)]="currentRecordStatusName">
-                        <option selected value="">Tất Cả</option>
-                        <option value="đang đấu giá">Đang Đấu Giá</option>
-                        <option value="đấu giá thành công">Đấu Giá Thành Công</option>
-                        <option value="đấu giá thất bại">Đấu Giá Thất Bại</option>
+                        <option selected value="">Tất cả</option>
+                        <option value="đang đấu giá">Đang đấu giá</option>
+                        <option value="đấu giá thành công">Thành công</option>
+                        <option value="đấu giá thất bại">Thất bại</option>
                     </select>
                 </div>
                 <div class="col-md">
@@ -39,13 +39,13 @@
             <table class="table table-striped text-center">
                 <thead class="bg-primary text-white">
                     <tr>
-                        <th scope="col">STT</th>
-                        <th scope="col">Mã Sản Phẩm</th>
-                        <th scope="col">Tên Sản Phẩm</th>
-                        <th scope="col">Thông Tin Sản Phẩm</th>
-                        <th scope="col">Giá Đăng Ký</th>
-                        <th scope="col">Ngày Đấu Giá</th>
-                        <th scope="col">Tình Trạng Đấu Giá</th>
+                        <th scope="col">Stt</th>
+                        <th scope="col">Mã sản phẩm</th>
+                        <th scope="col">Tên sản phẩm</th>
+                        <th scope="col">Thông tin sản phẩm</th>
+                        <th scope="col">Giá đăng ký</th>
+                        <th scope="col">Ngày đấu giá</th>
+                        <th scope="col">Tình trạng đấu giá</th>
                         
                     </tr>
                 </thead>
