@@ -48,9 +48,9 @@ export class MyAuctionComponent implements OnInit {
       return "đang đấu giá";
     } else {
         if (isWinner == true) {
-          return "đấu giá thành công";
+          return "thành công";
         } else {
-          return "đấu giá thất bại";
+          return "thất bại";
         }
     }
   }

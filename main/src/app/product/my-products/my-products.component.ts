@@ -36,11 +36,11 @@ export class MyProductsComponent implements OnInit {
 
   getColor(approvementStatusName: string): string {
     switch (approvementStatusName) {
-      case 'đang chờ duyệt':
+      case 'chờ duyệt':
         return 'text-warning';
-      case 'duyệt thành công':
+      case 'thành công':
         return 'text-success';
-      case 'duyệt thất bại':
+      case 'thất bại':
         return 'text-danger';
       case 'đã hủy':
         return 'text-secondary';
