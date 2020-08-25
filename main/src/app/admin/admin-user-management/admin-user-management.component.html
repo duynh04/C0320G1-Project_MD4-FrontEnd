@@ -18,7 +18,7 @@
             </div>
             <div class="form-group col-md-4">
                 <label class="col-form-label mr-2">Tên Thành Viên</label>
-                <input class="form-control" type="text" placeholder="VD: Tùng" id="fullname" formControlName="fullname">
+                <input class="form-control" type="text" placeholder="VD: Tùng" id="fullName" formControlName="fullName">
             </div>
 
         </div>
@@ -73,7 +73,7 @@
                     *ngFor="let user of userList$  | async | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalElements}; index as i">
                     <th scope="row">{{stt[i]}}</th>
                     <td>{{user.id}}</td>
-                    <td><a href="">{{user.fullname}}</a> </td>
+                    <td><a href="">{{user.fullName}}</a> </td>
                     <td>{{user.address}}</td>
                     <td>{{user.rate}}</td>
                     <td>{{user.email}}</td>
@@ -96,9 +96,9 @@
 <!--                    <input class="form-control" style="width: 10px" disabled [formControl]="userAdd.get('id')">-->
                   </td>
                   <td class="form-group">
-                    <input class="form-control" style="width: 100px" [formControl]="userAdd.get('fullname')">
+                    <input class="form-control" style="width: 100px" [formControl]="userAdd.get('fullName')">
                     <div class="alert alert-danger" role="alert"
-                         *ngIf="userAdd.get('fullname').invalid && userAdd.get('fullname').touched">
+                         *ngIf="userAdd.get('fullName').invalid && userAdd.get('fullName').touched">
                       Tên thành viên không để trống
                     </div>
                   </td>

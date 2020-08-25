@@ -53,7 +53,7 @@ export class AdminUserManagementComponent implements OnInit {
     this.createForm = new FormGroup({
       id: new FormControl(''),
       address: new FormControl(''),
-      fullname: new FormControl(''),
+      fullName: new FormControl(''),
       email: new FormControl(''),
       rate: new FormControl(''),
     });
@@ -106,7 +106,7 @@ export class AdminUserManagementComponent implements OnInit {
 
   createUserFormGroup(): FormGroup {
     return this.fb.group({
-      fullname: ["", Validators.required],
+      fullName: ["", Validators.required],
       address: ["", Validators.required],
       rate: ["", Validators.required],
       email: ["", [Validators.required, Validators.pattern(/^[a-z][a-z0-9_\.]{2,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/)]],
@@ -138,7 +138,7 @@ export class AdminUserManagementComponent implements OnInit {
       name: formGroup.rate
     };
     let user: Object = {
-      fullname: formGroup.fullname,
+      fullName: formGroup.fullName,
       address: formGroup.address,
       rate: currentRate,
       email: formGroup.email,
