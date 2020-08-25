@@ -1,7 +1,7 @@
 <div class="container mt-5 secondary-color" id="container" style="height:100%;width: 60%;">
     <div class="row border w-100" style="height: 10%;">
         <div class="col-md-6 d-flex align-items-center ">
-            <p class="font-weight-bold m-0 " style="font-size: 26px;" id="code">Đơn hàng <span>{{order.code}}</span></p>
+            <p class="font-weight-bold m-0 " style="font-size: 26px;" id="code">Đơn hàng <span>{{order?.code}}</span></p>
         </div>
         <div class="col-md-6 ">
             <!-- <img class="float-right mr-5" style="height: 35px; width: 70px;" src="https://rubee.com.vn/admin/webroot/upload/image//images/tin-tuc/logo-tiki-2.jpg" alt="Logo"> -->
@@ -11,19 +11,19 @@
         <div class="w-100 h-100 ml-3 ">
             <p class="w-100 mt-2 mb-0">
                 <span class="font-weight-bold">Hình thức thanh toán: </span>
-                <span>{{order.paymentMethod}}</span>
+                <span>{{order?.paymentMethod}}</span>
             </p>
             <p class="w-100mt-2 mb-0" >
                 <span class="font-weight-bold">Trạng thái đơn hàng: </span>
-                <span>{{order.paymentStatus}}</span>
+                <span>{{order?.paymentStatus}}</span>
             </p>
             <p class="w-100mt-2 mb-0" >
                 <span class="font-weight-bold">Loại giao hàng: </span>
-                <span>{{order.deliveryMethod}}</span>
+                <span>{{order?.deliveryMethod}}</span>
             </p>
             <p class="w-100 mt-2 mb-0">
-                Thanh toán <span class="font-weight-bold">{{order.cart.totalPrice|number}}</span> VND trước
-                <span class="font-weight-bold">{{order.deadlineDelivery|date:'dd/MM/yyyy'}}</span>
+                Thanh toán <span class="font-weight-bold">{{order?.cart.totalPrice|number}}</span> VND trước
+                <span class="font-weight-bold">{{order?.deadlineDelivery|date:'dd/MM/yyyy'}}</span>
             </p>
         </div>
     </div>
@@ -103,8 +103,8 @@
               <tr>
                 <th scope="row">Phí dịch vụ 10%</th>
                 <td></td>
-                <td>{{(order.cart.totalPrice)*10/100|number}}</td>
-                <td>{{(order.cart.totalPrice)*10/100|number}}</td>
+                <td>{{(order?.cart.totalPrice)*10/100|number}}</td>
+                <td>{{(order?.cart.totalPrice)*10/100|number}}</td>
               </tr>
               <tr>
                 <th scope="row">Giao hàng</th>
@@ -115,8 +115,8 @@
               <tr>
                 <th scope="row">Tổng</th>
                 <td></td>
-                <td>{{(order.cart.totalPrice+deliveryPrice)|number}}</td>
-                <td>{{(order.cart.totalPrice+deliveryPrice)|number}}</td>
+                <td>{{(order?.cart.totalPrice+deliveryPrice)|number}}</td>
+                <td>{{(order?.cart.totalPrice+deliveryPrice)|number}}</td>
               </tr>
             </tbody>
           </table>
@@ -137,8 +137,8 @@
     <div class="row secondary-color mt-3 mb-2 border w-100" style="height: 10%;">
         <div class="col-md-6 mt-1">
             <p class="font-weight-bold headerdetail m-0">Chi tiết thanh toán</p>
-            <p class="m-0">Hình thức thanh toán: {{order.paymentMethod}}</p>
-            <p class="m-0">Trạng thái đơn hàng: {{order.paymentStatus}}</p>
+            <p class="m-0">Hình thức thanh toán: {{order?.paymentMethod}}</p>
+            <p class="m-0">Trạng thái đơn hàng: {{order?.paymentStatus}}</p>
         </div>
         <div class="col-md-6 mt-1 text-right">
             <p class="font-weight-bold headerdetail m-0">Thông tin khác</p>

@@ -13,16 +13,15 @@ import { UserSearchField } from '../models/dtos/user-search-field';
 })
 export class AdminService {
 
-  private readonly ADMIN_URL = "http://localhost:8080/api/v1/admin"
+  private readonly ADMIN_URL = "http://localhost:8080/api/v1/admin";
   // Thành Long
   private options = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     }),
-    'Access-Control-Allow-Origin': 'http://localhost:4200',
-    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
     responseType: 'text' as 'json'
   };
+
   constructor(private http: HttpClient) {
   }
 
@@ -32,16 +31,14 @@ export class AdminService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
-      'Access-Control-Allow-Origin': 'http://localhost:4200',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
       params: {
-        name: searchField.name,
-        category: searchField.category,
-        minPrice: searchField.minPrice,
-        maxPrice: searchField.maxPrice,
-        status: searchField.status,
-        owner: searchField.owner,
-        page
+      name: searchField.name,
+      category: searchField.category,
+      minPrice: searchField.minPrice,
+      maxPrice: searchField.maxPrice,
+      status: searchField.status,
+      owner: searchField.owner,
+      page
       }
     };
     return product;

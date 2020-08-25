@@ -65,9 +65,8 @@ export class OrderStatusComponent implements OnInit {
     this.order.status = false;
     this.order.cart.cartDetails = null;
     this.orderService.updateOrder(this.order).subscribe((data) => {
-      console.log(data);
       if (buttonStatus === "không") {
-        // this.router.navigate(["/"]);
+        this.router.navigate(["/"]);
       } else {
         this.router.navigate(["/payment/invoice", this.order.id]);
       }
