@@ -1,0 +1,159 @@
+<div class="container mt-5 secondary-color" id="container" style="height:100%;width: 60%;">
+    <div class="row border w-100" style="height: 10%;">
+        <div class="col-md-6 d-flex align-items-center ">
+            <p class="font-weight-bold m-0 " style="font-size: 26px;" id="code">Đơn hàng <span>{{order.code}}</span></p>
+        </div>
+        <div class="col-md-6 ">
+            <!-- <img class="float-right mr-5" style="height: 35px; width: 70px;" src="https://rubee.com.vn/admin/webroot/upload/image//images/tin-tuc/logo-tiki-2.jpg" alt="Logo"> -->
+        </div>
+    </div>
+    <div class="row border secondary-color mt-2 w-100" style="height: 10%;">
+        <div class="w-100 h-100 ml-3 ">
+            <p class="w-100 mt-2 mb-0">
+                <span class="font-weight-bold">Hình thức thanh toán: </span>
+                <span>{{order.paymentMethod}}</span>
+            </p>
+            <p class="w-100mt-2 mb-0" >
+                <span class="font-weight-bold">Trạng thái đơn hàng: </span>
+                <span>{{order.paymentStatus}}</span>
+            </p>
+            <p class="w-100mt-2 mb-0" >
+                <span class="font-weight-bold">Loại giao hàng: </span>
+                <span>{{order.deliveryMethod}}</span>
+            </p>
+            <p class="w-100 mt-2 mb-0">
+                Thanh toán <span class="font-weight-bold">{{order.cart.totalPrice|number}}</span> VND trước
+                <span class="font-weight-bold">{{order.deadlineDelivery|date:'dd/MM/yyyy'}}</span>
+            </p>
+        </div>
+    </div>
+    <div class="row secondary-color mt-2 mb-2 border w-100" style="height: 20%;">
+           <div class= "col-md-6 mt-2 mb-2 h-100 w-50">
+               <p class="font-weight-bold headerdetail m-0">Thông tin khách hàng:</p>
+               <p class="m-0">
+                   <span class="font-weight-bold">Họ và tên: </span>
+                   <span>{{deliveryAddress?.fullName}}</span>
+                </p>
+                <p class="m-0">
+                    <span class="font-weight-bold">Địa chỉ: </span>
+                    <span>{{deliveryAddress?.street}}</span>
+                </p>
+                <p class="m-0">
+                    <span class="font-weight-bold">Quận/Huyện: </span>
+                    <span>{{deliveryAddress?.district}}</span>
+                </p>
+                <p class="m-0">
+                    <span class="font-weight-bold">Phường/Xã: </span>
+                    <span>{{deliveryAddress?.ward}}</span>
+                </p>
+                <p class="m-0">
+                    <span class="font-weight-bold">Thành phố: </span>
+                    <span>{{deliveryAddress?.city}}</span>
+                </p>
+                <p class="m-0">
+                    <span class="font-weight-bold">Quốc gia: </span>
+                    <span>{{deliveryAddress?.nation}}</span>
+                </p>
+           </div>
+           <div class="col-md-6 mt-2 mb-2 h-100 w-50 text-right">
+                <p class="font-weight-bold headerdetail m-0">Thông tin công ty:</p>
+                <p class="m-0">
+                    <span class="font-weight-bold">Tên công ty: </span>
+                    <span>Công ty TNHH TMDV Tahaka</span>
+                </p>
+                <p class="m-0">
+                    <span class="font-weight-bold">Địa chỉ: </span>
+                    <span>145 đường Nguyễn Văn Linh</span>
+                </p>
+                <p class="m-0">
+                    <span class="font-weight-bold">Quận/Huyện: </span>
+                    <span>Thanh Khê</span>
+                </p>
+                <p class="m-0">
+                    <span class="font-weight-bold">Phường/Xã: </span>
+                    <span>Vình Trung</span>
+                </p>
+                <p class="m-0">
+                    <span class="font-weight-bold">Thành phố: </span>
+                    <span>Đà Nẵng</span>
+                </p>
+                <p class="m-0">
+                    <span class="font-weight-bold">Quốc gia: </span>
+                    <span>Việt Nam</span>
+                </p>
+        </div>
+    </div>
+    <div class="row w-100 secondary-color" style="height: 30%;">
+        <table class="table table-striped ">
+            <thead class="bg-primary text-white">
+              <tr>
+                <th scope="col">Sản phẩm</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Giá</th>
+                <th scope="col">Thành tiền/đơn vị</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cart of cartDetail">
+                <th scope="row">{{cart.auction.product.name}}</th>
+                <td>{{cart.productQuantity}}</td>
+                <td>{{cart.productWinPrice|number}}</td>
+                <td>{{cart.productWinPrice|number}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Phí dịch vụ 10%</th>
+                <td></td>
+                <td>{{(order.cart.totalPrice)*10/100|number}}</td>
+                <td>{{(order.cart.totalPrice)*10/100|number}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Giao hàng</th>
+                <td></td>
+                <td>{{deliveryPrice|number}}</td>
+                <td>{{deliveryPrice|number}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Tổng</th>
+                <td></td>
+                <td>{{(order.cart.totalPrice+deliveryPrice)|number}}</td>
+                <td>{{(order.cart.totalPrice+deliveryPrice)|number}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <div class="row secondary-color mt-2 w-100 " style="height: 10%;">
+            <div class="col-md-2 mt-2 w-50 h-100">
+                <i class="fas fa-exclamation-triangle" style="font-size: 70px;"></i>
+            </div>
+            <div class="col-md-10 w-50 h-100">
+                <span>Nếu bạn không chuyển khoản số tiền chính xác, hoặc kết hợp nhiều đơn hàng,
+                    vui lòng gửi bản sao phiếu thanh toán cùng số đơn hàng tới</span>
+                <p class="mt-2 mb-0">
+                    <i class="fas fa-envelope"></i><span> Email: supportabcd@gmail.com  |</span>
+                    <i class="fab fa-facebook-square"></i><a href="#" style="text-decoration: none; color: black;"> Facebook</a>
+                </p>
+            </div>
+    </div>
+    <div class="row secondary-color mt-3 mb-2 border w-100" style="height: 10%;">
+        <div class="col-md-6 mt-1">
+            <p class="font-weight-bold headerdetail m-0">Chi tiết thanh toán</p>
+            <p class="m-0">Hình thức thanh toán: {{order.paymentMethod}}</p>
+            <p class="m-0">Trạng thái đơn hàng: {{order.paymentStatus}}</p>
+        </div>
+        <div class="col-md-6 mt-1 text-right">
+            <p class="font-weight-bold headerdetail m-0">Thông tin khác</p>
+            <p class="m-0">Giấy phép ĐKKD số: ABCD123456</p>
+            <p class="mt-2 mb-0">Hỗ trợ khách hàng: (+84)0123456789</p>
+            <p class="m-0">supportabcd@gmail.com</p>
+        </div>
+    </div>
+</div>
+<div class=" row mb-5 mt-3" id="printPage">
+    <div class="col-md-7"></div>
+    <div class="col-md-5">
+        <a class="btn btn-warning mr-3 printPageButton" (click)="backToHomePage()" id="huy" >Hủy</a>
+        <button id="generate" class="btn btn-danger printPageButton" >Xuất file PDF</button>
+        <button id="printPageButton" class="btn btn-success ml-2 printPageButton " style="background-color: #3bb33a;">In</button>
+    </div>
+</div>
+

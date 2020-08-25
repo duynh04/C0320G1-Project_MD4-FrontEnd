@@ -1,0 +1,120 @@
+<div class="container" id="shopping-cart">
+  <div class="row my-3 mx-0">
+    <ul class="nav nav-tabs w-100">
+      <li class="nav-item">
+        <a id="cart" class="nav-link active" routerLink="/user/cart">Giỏ hàng</a>
+      </li>
+      <li id="favorites" class="nav-item">
+        <a class="nav-link" routerLink="/user/favorite">Danh sách yêu thích</a>
+      </li>
+      <li id="bid" class="nav-item">
+        <a class="nav-link" routerLink="/user/approved">Danh sách sẽ đấu giá</a>
+      </li>
+      <li id="bid-later" class="nav-item">
+        <a class="nav-link" routerLink="/user/wait-for-approval">Danh sách đấu giá sau</a>
+      </li>
+    </ul>
+  </div>
+  <div class="alert alert-info my-3" role="alert" *ngIf="!cartDetails">
+    Không có sản phẩm nào trong giỏ hàng.
+  </div>
+  <div class="row mx-0 my-2" *ngIf="cartDetails">
+    <div class="col-8">
+      <div *ngFor="let item of cartDetails; index as i" class="row mx-0 p-2 border-bottom">
+        <div class="col-3 px-2 py-2">
+          <img alt="product" class="w-100" src="{{item.auction.product.productImages[0].link}}" srcset="">
+        </div>
+        <div class="col-5 px-2 py-2">
+          <div class="row mx-0">
+            {{item.auction.product.name}}
+          </div>
+          <div class="btn-delete-item">
+            <button (click)="pickDeletedIndex(i)" class="btn btn-link" data-target="#deleteCartItemModal"
+              data-toggle="modal" type="button">Xóa
+            </button>
+          </div>
+        </div>
+        <div class="col-4 px-0">
+          <div class="row mx-0 d-flex justify-content-between">
+            <div class="px-2 py-2">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <button (click)="decreaseQty(i)" [disabled]="item.productQuantity <= 1"
+                    class="btn btn-outline-primary btn-adjust-qty" type="button">-
+                  </button>
+                </div>
+                <input class="form-control text-center input-adjust-qt" type="text" [value]="item.productQuantity"
+                  (change)="itemQuantityChange($event.target,i)">
+                <div class="input-group-append">
+                  <button (click)="increaseQty(i)" class="btn btn-outline-primary btn-adjust-qty" type="button">+
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="px-2 py-2 font-weight-bold">
+              {{item.productWinPrice * item.productQuantity | currency:"VND":'symbol'}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="row mx-0 d-flex justify-content-between my-2 bg-light border rounded p-3">
+        <div>
+          Tạm tính:
+        </div>
+        <div class="text-primary font-weight-bold" id="totalCost">
+          {{totalCost|currency:"VND"}}
+        </div>
+      </div>
+      <div>
+        <button class="btn form-control btn-success mr-3" type="button" (click)="goToPayment()">Tiến hành đặt
+          hàng
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Delete Cart Item-->
+  <div aria-hidden="true" class="modal fade" id="deleteCartItemModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cảnh báo</h5>
+          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger font-weight-bold">Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-warning" data-dismiss="modal" type="button">Hủy</button>
+          <button (click)="deleteItem()" class="btn btn-danger" data-dismiss="modal" id="deleteCartItemBtn"
+            type="button">Xóa
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal alert -->
+  <button id="alertCaller" data-target="#alertModal" data-toggle="modal" style="display: none;">Alert</button>
+  <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cảnh báo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <span class="font-weight-bold">Vui lòng nhập số lượng là số nguyên dương!</span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

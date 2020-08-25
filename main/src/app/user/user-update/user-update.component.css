@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+select {
+    /* for Firefox */
+    -moz-appearance: none;
+    /* for Chrome */
+    -webkit-appearance: none;
+}
+input[type=checkbox] {
+    transform: scale(1.3);
+}
+input[type=radio] {
+    transform: scale(1.3);
+}
+#primary-color {
+    color: #189EFF;
+}
+p{
+    margin: 0;
+}
+#secondary-color {
+    color: #FFFFFF;
+}
+label.error{
+    color:red;
+}
+.headerdetail{
+    font-size: 20px;
+}
+@media print {
+    .printPageButton {
+      display: none;
+    }
+  }
+
+

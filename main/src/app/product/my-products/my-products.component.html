@@ -1,0 +1,98 @@
+
+<div class="container mt-3 ">
+    <div class="row">
+        <div class="col">
+            <h1>Mặt Hàng Của Tôi</h1>
+            <a class="mt-2 btn btn-success text-white"><i class="fas fa-plus-circle"></i> Mặt hàng</a>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+            <div class="row">
+                <div class="col-md">
+                    <label>Tên Sản Phẩm</label>
+                    <input type="text" class="form-control" #focusOn [(ngModel)]="currentProductName" placeholder="Vd : Iphone">
+                </div>
+                <div class="col-md">
+                    <label>Tình Trạng Duyệt</label>
+                    <select class="custom-select" [(ngModel)]="currentApprovementStatusName">
+                        <option selected value="">Tất Cả</option>
+                        <option value="đang chờ duyệt">Đang Chờ Duyệt</option>
+                        <option value="duyệt thành công">Duyệt Thành Công</option>
+                        <option value="duyệt thất bại">Duyệt Thất Bại</option>
+                        <option value="đã hủy">Đã Hủy</option>
+                    </select>
+                </div>
+                <div class="col-md">
+                    <label>&nbsp;</label><br>
+                    <button (click)="search()" class="btn btn-primary"><i class="fas fa-search"></i> Lọc</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-3">
+        <div class="col">
+            <div *ngIf="isEmpty" class="text-danger">
+                <h5> Không tìm thấy dữ liệu phù hợp </h5>
+            <br>
+            </div>
+            <table class="table table-sm table-striped text-center">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Mã Sản Phẩm</th>
+                        <th scope="col">Tên Sản Phẩm</th>
+                        <th scope="col">Thông Tin Sản Phẩm</th>
+                        <th scope="col">Ngày Đăng Ký</th>
+                        <th scope="col">Tình Trạng Duyệt</th>
+                        <th scope="col">Hủy Đăng Ký</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of myProductList  | async | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalElements}; index as i">
+                        <th>{{stt[i]}}</th>
+                        <td>{{product.id}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>{{product.registerDate | date : 'dd-MM-yyyy , HH:mm:ss'}}</td>
+                        <td [class]="getColor(product.approvementStatus.name)">{{product.approvementStatus.name | titlecase}}</td>
+                        <td>
+                            <button [disabled]="product.approvementStatus.name != 'đang chờ duyệt' " 
+                            class="btn btn-danger text-white" data-toggle="modal" data-target="#myModal"
+                            (click)="setCancelProduct(product)" >Hủy Đăng Ký</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal" id="myModal">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Hủy Đăng Ký</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div *ngIf="cancelProduct" class="alert alert-danger">Có chắc bạn muốn hủy đăng ký sản phẩm " {{cancelProduct.name}} " ?</div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" 
+                        (click)="cancelRegister()">Xác Nhận</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mt-3 d-flex justify-content-end">
+        <pagination-controls (pageChange)="getPage($event)"></pagination-controls>
+    </div>
+</div>

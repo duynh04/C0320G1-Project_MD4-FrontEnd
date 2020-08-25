@@ -1,0 +1,118 @@
+/* creator: Đặng Hồng Quân team C */
+
+img {
+    width: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.card>img{
+    margin-left: 5px;
+}
+
+.pay{
+    width: 45px;
+}
+
+.container {
+    max-width: 960px !important;
+}
+
+.progress_bar {
+    background-color: #eee;
+}
+
+#payment_progress .progress_bar, .card-header-customer {
+    font-weight: bold;
+}
+
+#payment_progress .progress_bar a {
+    width: 280px;
+    height: 45px;
+    text-align: center;
+    display: table-cell;
+    color: #007bff;
+    vertical-align: middle;
+    text-decoration: none;
+    border-left: 1px solid #fff;
+}
+
+#payment_progress .progress_bar a.active {
+    position: relative;
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+#payment_progress .progress_bar a.active::after {
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid #007bff;
+    bottom: -15px;
+    content: "";
+    height: 0;
+    left: 50%;
+    margin: auto;
+    position: absolute;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: 0;
+    z-index: 1;
+}
+
+div.card {
+    margin-top: 10px;
+}
+
+#help_center {
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#help_center h5 {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 10px 0;
+    margin-bottom: 0 !important;
+}
+
+#help_center > p:nth-child(2) {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+}
+
+#help_center .customer_support_tel {
+    color: #007bff;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.list-group-item + .list-group-item {
+    border-top-width: 0 !important;
+}
+.list-group-item {
+    border: 1px solid #007bff !important;
+    color: #007bff;
+}
+
+.list-group-item.active {
+    background-color: #007bff !important;
+}
+
+.list-group-item  .order_item_label {
+    display: table-cell;
+    padding-right: 15px;
+    width: 100%;
+}
+.list-group-item .order_item_price {
+    display: table-cell;
+    width: 100%;
+}
+
+.list-group-item .total_payment {
+    font-weight: bold;
+    color: #dc3545;
+}

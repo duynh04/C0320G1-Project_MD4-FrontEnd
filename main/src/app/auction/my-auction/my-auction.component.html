@@ -1,0 +1,72 @@
+<div class="container mt-3 ">
+
+    <div class="row">
+        <div class="col">
+            <h1>Đấu Giá Của Tôi</h1>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+            <div class="row">
+                <div class="col-md">
+                    <label>Tên Sản Phẩm</label>
+                    <input type="text" #focusOn [(ngModel)]="currentProductName" class="form-control" placeholder="Vd : Iphone">
+                </div>
+                <div class="col-md">
+                    <label>Tình Trạng Đấu Giá</label>
+                    <select class="custom-select" [(ngModel)]="currentRecordStatusName">
+                        <option selected value="">Tất Cả</option>
+                        <option value="đang đấu giá">Đang Đấu Giá</option>
+                        <option value="đấu giá thành công">Đấu Giá Thành Công</option>
+                        <option value="đấu giá thất bại">Đấu Giá Thất Bại</option>
+                    </select>
+                </div>
+                <div class="col-md">
+                    <label>&nbsp;</label><br>
+                    <button class="btn btn-primary" (click)="search()"><i class="fas fa-search"></i> Lọc</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-3">
+        <div class="col">
+            <div *ngIf="isEmpty" class="text-danger">
+                <h5> Không tìm thấy dữ liệu phù hợp </h5>
+            <br>
+            </div>
+            <table class="table table-striped text-center">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Mã Sản Phẩm</th>
+                        <th scope="col">Tên Sản Phẩm</th>
+                        <th scope="col">Thông Tin Sản Phẩm</th>
+                        <th scope="col">Giá Đăng Ký</th>
+                        <th scope="col">Ngày Đấu Giá</th>
+                        <th scope="col">Tình Trạng Đấu Giá</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let auctionRecord of myAuctionRecordList | async | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalElements}; index as i">
+                        <th>{{stt[i]}}</th>
+                        <td>{{auctionRecord.auction.product.id}}</td>
+                        <td>{{auctionRecord.auction.product.name}}</td>
+                        <td class="pro-info">{{auctionRecord.auction.product.description}}</td>
+                        <td>{{auctionRecord.bidPrice | number}}</td>
+                        <td>{{auctionRecord.bidTime | date : 'dd-MM-yyyy , HH:mm:ss'}}</td>
+                        <td [class]="getColor(auctionRecord.isWinner,auctionRecord.auction.auctionStatus.name)">
+                            {{getRecordStatusName(auctionRecord.isWinner,auctionRecord.auction.auctionStatus.name) | titlecase}}
+                        </td>                       
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-3 d-flex justify-content-end">
+        <pagination-controls (pageChange)="getPage($event)"></pagination-controls>
+    </div>
+</div>

@@ -1,0 +1,117 @@
+<!-- creator: Đặng Hồng Quân team C -->
+
+<div class="row">
+    <div id="payment_wrapper" class="col-md-9">
+        <div id="payment_progress" class="d-md-table w-100 mt-md-2">
+            <span class="progress_bar d-md-table-cell align-middle"><a href="">Địa chỉ thanh toán</a></span>
+            <span class="progress_bar d-md-table-cell align-middle"><a href="">Hình thức giao hàng</a></span>
+            <span class="progress_bar d-md-table-cell align-middle"><a class="active" href="">Tình trạng đơn
+                    hàng</a></span>
+        </div>
+
+        <div class="mt-4">
+            <h3>Đơn hàng {{order?.code}}</h3>
+            <div class="border mt-2 p-2">
+                <h6>Hình thức thanh toán: {{order?.paymentMethod}}</h6>
+                <h6>Hạn thanh toán: {{order?.deadlineDelivery| date:"dd/MM/yyyy"}} </h6>
+            </div>
+            <div class="mt-3">
+                <h3>Thông tin khách hàng</h3>
+                <div class="border mt-2 p-2">
+                    <div class="row">
+                        <div class="col-md-6 ">
+                            <p><span>Họ và tên: </span>{{deliveryAddress?.fullName}}</p>
+                            <p><span>Thành phố: </span>{{deliveryAddress?.city}} </p>
+                            <p class="mt-2"> <span>Địa chỉ: </span>{{deliveryAddress?.street}} </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><span>Quận/Huyện: </span>{{deliveryAddress?.ward}} </p>
+                            <p class="mt-2"> <span>Quốc gia: </span>{{deliveryAddress?.nation}}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <table class="table table-striped  mt-3">
+                <thead>
+                    <tr class="bg-primary text-white">
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Giá/VND</th>
+                        <th scope="col">Thành tiền/VND</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let sp of order?.cart?.cartDetails">
+                        <th scope="row">
+                            <div>
+                                <img style="width: 50px;height: 50px"
+                                    src="{{sp.auction.product.productImages[0].link}}">
+                                {{sp.auction.product.name}}
+
+                            </div>
+                        </th>
+                        <td>{{sp.productQuantity}}</td>
+                        <td>{{sp.productWinPrice|currency:"VND"}} </td>
+                        <td>{{sp.productWinPrice*sp.productQuantity|currency:"VND"}} </td>
+
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Phí dịch vụ 10%</th>
+                        <td></td>
+                        <td></td>
+                        <td>{{serviceFee|currency:"VND":'symbol'}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Giao hàng</th>
+                        <td></td>
+                        <td></td>
+                        <td>{{deliveryPrice|currency:"VND":'symbol'}} </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Tổng</th>
+                        <td></td>
+                        <td></td>
+                        <td>{{totalCost|currency:"VND":'symbol'}} </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class=" d-flex justify-content-center m-3">
+                <button class="btn btn-success ml-3" data-toggle="modal" data-target="#exampleModal">In Hóa
+                    Đơn</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 ">
+        <div class="row">
+            <div id="help_center">
+                <h5>Có câu hỏi?</h5>
+                <p>Vui lòng liên hệ bộ phận hỗ trợ 24 giờ của chúng tôi.</p>
+                <p class="customer_support_tel">Sdt. (028)-36222111</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title font-weight-bold" id="exampleModalLabel">In hóa đơn</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center ">
+                <span> Bạn có muốn in hóa đơn không?</span>
+            </div>
+            <div class="modal-footer ">
+                <button type="button" (click)="sendMail('không')" class="btn btn-warning text-white"
+                    data-dismiss="modal">Không</button>
+                <button type="button" (click)="sendMail('có')" data-dismiss="modal" class="btn btn-success">Có</button>
+            </div>
+        </div>
+    </div>
+</div>

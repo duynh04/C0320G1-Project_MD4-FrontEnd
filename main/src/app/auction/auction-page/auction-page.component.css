@@ -1,0 +1,63 @@
+/*  Creator: Hoai Ngan team C */
+
+img {
+    width: 100%;
+    height: 100%;
+    box-shadow: azure;
+}
+
+.content-wrapper {
+    width: auto;
+    height: 100vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #edf5ef;
+}
+
+.auction {
+    width: 85%;
+    height: 95%;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.image {
+    width: 40%;
+    height: auto;
+    text-align: center;
+    float: left;
+    border: #adadad 2px solid; border-radius: 8px
+}
+.mini-image {
+    width: 10%;
+    height: 70%;
+    float: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    
+
+}
+
+.mini-image img {
+    height: 25%;
+    margin: 10px;
+    border: #adadad 2px solid; border-radius: 8px
+}
+
+.records {
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    background-color: #edf5ef;
+}
+.records table {
+    margin: 10px;
+    width: 85%;
+    text-align: center;
+    background-color: #FFFFFF;
+}
+

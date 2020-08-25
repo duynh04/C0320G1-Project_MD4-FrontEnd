@@ -12,8 +12,6 @@ export class DealManageService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'http://localhost:4200',
-      Authorization: 'my-auth-token'
     })
   };
 
@@ -21,8 +19,6 @@ export class DealManageService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     }),
-    'Access-Control-Allow-Origin': 'http://localhost:4200',
-    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
     responseType: 'text' as 'json'
   };
 
