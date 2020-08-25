@@ -3,14 +3,14 @@ import {Validators} from '@angular/forms';
 export  const NOTIFICATION_USER = {
   fullNameErrors: [
     {code: 'required', message: 'vui lòng nhập họ tên'},
-    {code: 'pattern', message: 'họ tên không hợp lệ'}
+    {code: 'pattern', message: 'Họ tên không hợp lệ'}
   ],
   genderErrors: [
     {code: 'required', message: 'vui lòng chọn giới tính'}
   ],
   birthdayErrors: [
     {code: 'required', message: 'vui lòng nhập ngày sinh'},
-    {code: 'checkBirthday', message: 'ôi bạn ơi!! bạn chưa đủ 18 tuổi'}
+    {code: 'checkBirthday', message: 'hê thống chỉ đăng ký vói thành viên trên 18 tuổi'}
   ],
   emailErrors: [
     {code: 'required', message: 'vui lòng nhập địa chỉ email'},

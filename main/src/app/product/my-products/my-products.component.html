@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col">
             <h1>Mặt Hàng Của Tôi</h1>
-            <a class="mt-2 btn btn-success text-white"><i class="fas fa-plus-circle"></i> Mặt hàng</a>
+            <a class="mt-2 btn btn-success text-white" [routerLink]="['../add']"><i class="fas fa-plus-circle"></i> Mặt hàng</a>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row mt-3">
         <div class="col">
             <div *ngIf="isEmpty" class="text-danger">
@@ -59,7 +59,7 @@
                         <td>{{product.registerDate | date : 'dd-MM-yyyy , HH:mm:ss'}}</td>
                         <td [class]="getColor(product.approvementStatus.name)">{{product.approvementStatus.name | titlecase}}</td>
                         <td>
-                            <button [disabled]="product.approvementStatus.name != 'chờ duyệt' " 
+                            <button [disabled]="product.approvementStatus.name != 'chờ duyệt' "
                             class="btn btn-danger text-white" data-toggle="modal" data-target="#myModal"
                             (click)="setCancelProduct(product)" >Hủy Đăng Ký</button>
                         </td>
@@ -83,7 +83,7 @@
                     <!-- Modal footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning" data-dismiss="modal">Hủy</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" 
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"
                         (click)="cancelRegister()">Xác Nhận</button>
                     </div>
                 </div>
