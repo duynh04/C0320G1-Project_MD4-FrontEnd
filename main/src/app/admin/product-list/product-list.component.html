@@ -9,7 +9,7 @@
             formControlName="name">
           <p *ngIf="formSearchList.controls.name.errors?.pattern && formSearchList.controls.name.touched"
             class="text-danger font-weight-bold">
-            Trường này không được chứa kí tự đặc biệt !!</p>
+            Tên sản phẩm không được chứa kí tự đặc biệt !!</p>
         </div>
         <div class="form-group col-md-4">
           <label class="col-form-label mr-2">Loại sản phẩm</label>
@@ -30,7 +30,7 @@
           <input id="fullName" class="form-control" type="text" placeholder="Vd: Nguyễn Văn A" formControlName="owner">
           <p *ngIf="formSearchList.controls.owner.errors?.pattern && formSearchList.controls.owner.touched"
             class="text-danger font-weight-bold">
-            Trường này không được chứa kí tự đặc biệt !!</p>
+            Tên người đăng không được chứa kí tự đặc biệt và số !!</p>
         </div>
       </div>
       <div class="row">
@@ -93,11 +93,11 @@
           <td>{{stt[i]}}</td>
           <td><input type="checkbox" class="checkthis" value={{product.id}} /></td>
           <td>{{product.id}}</td>
-          <td><a [routerLink]="['/admin/approvement/', product.id]">{{product.name}}</a></td>
+          <td><a [routerLink]="['/admin/approvement/', product.id]" >{{product.name}}</a></td>
           <td>{{product.category}}</td>
-          <td>{{product.name}}</td>
+          <td>{{product.owner}}</td>
           <td>{{product.initialPrice}}</td>
-          <td>{{product.approvementStatus}}</td>
+          <td [class]="getColor(product.approvementStatus)">{{product.approvementStatus | titlecase}}</td>
           <td>{{product.auctionStatus}}</td>
           <td><img src="{{product.productImages}}" style="width: 150px" alt="img"></td>
           <td>
@@ -109,7 +109,26 @@
   </div>
   <div class="row d-flex justify-content-between mt-3">
     <div>
-      <button (click)="deleteProducts()" class="btn btn-danger mr-3"><i class="far fa-trash-alt"></i> Xóa</button>
+      <button class="btn btn-danger mr-3" data-toggle="modal" data-target="#exampleModal"><i class="far fa-trash-alt"></i> Xóa</button>
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Xác nhận xóa sản phẩm</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <span class="text-danger font-weight-bold">Bạn có chắc chắn muốn xóa ?</span> <br> Lưu ý: Thao tác không thể hoàn tác !!
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+              <button (click)="deleteProducts()" type="button" class="btn btn-danger" id="check">Xóa</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <button class="btn btn-success mr-3"><i class="fas fa-plus-square"></i> Thêm</button>
       <button class="btn btn-primary"><i class="fas fa-save"></i> Lưu chỉnh sửa</button>
     </div>

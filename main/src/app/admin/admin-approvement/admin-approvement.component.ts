@@ -36,6 +36,7 @@ export class AdminApprovementComponent implements OnInit {
     this.adminService.approvementProduct(this.id)
       .subscribe(data => console.log(data), error => console.log(error));
     this.router.navigate(['admin/product-list']);
+    alert('Duyệt thành công');
   }
 
   // Thành Long
