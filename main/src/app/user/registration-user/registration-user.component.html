@@ -152,15 +152,15 @@
       <label for="subDistrict" class="col-md-3 col-form-label">Câu Hỏi Bảo Mật<span
         class="text-danger">*</span></label>
       <div class="col-md-9">
-        <select formControlName="answer" class="form-control" id="subDistrict" [class.mark-success]="answer.valid">
+        <select formControlName="question" class="form-control" id="subDistrict" [class.mark-success]="answer.valid">
           <option value="Thành phố bạn sinh ra ?" [selected]="true" disabled>chọn câu hỏi bảo mật</option>
           <option value="Thành phố bạn sinh ra ?">Thành phố bạn sinh ra ?</option>
           <option value="Con vật yêu thích của bạn ?">Con vật yêu thích của bạn ?</option>
           <option value="Tên cha mẹ bạn ?">Tên cha mẹ bạn ?</option>
         </select>
-        <div *ngIf="answer.touched">
-          <ng-container *ngFor="let error of errors.answerErrors">
-            <small *ngIf="answer.hasError(error.code)" class="d-block text-danger"
+        <div *ngIf="question.touched">
+          <ng-container *ngFor="let error of errors.questionErrors">
+            <small *ngIf="question.hasError(error.code)" class="d-block text-danger"
                    role="alert">{{error.message}}</small>
           </ng-container>
         </div>
@@ -171,11 +171,11 @@
       <label for="answer" class="col-md-3 col-form-label">Trả lời<span
         class="text-danger">*</span></label>
       <div class="col-md-9">
-        <input formControlName="question" maxlength="9" type="text" class="form-control" id="answer"
-               [class.mark-success]="question.valid">
-        <div *ngIf="question.touched">
-          <ng-container *ngFor="let error of errors.questionErrors">
-            <small *ngIf="question.hasError(error.code)" class="d-block text-danger"
+        <input formControlName="answer" maxlength="9" type="text" class="form-control" id="answer"
+               [class.mark-success]="answer.valid">
+        <div *ngIf="answer.touched">
+          <ng-container *ngFor="let error of errors.answerErrors">
+            <small *ngIf="answer.hasError(error.code)" class="d-block text-danger"
                    role="alert">{{error.message}}</small>
           </ng-container>
         </div>
