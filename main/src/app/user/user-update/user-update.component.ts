@@ -78,7 +78,7 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
     });
     this.user.id= this.tokenStorageService.getJwtResponse().userId;
       this.userService.getUserById(this.user.id).subscribe(data=>{
-  
+
         this.userForm.patchValue(data);
       },error=>{this.errorMessage="Lỗi!! Không tìm thấy tài khoản của bạn"})
   }
@@ -102,7 +102,7 @@ export class UserUpdateComponent implements OnInit,AfterViewInit {
 
   backToHomePage(){
     this.router.navigateByUrl("/home");
-  }  
+  }
   togglePass(){
     if(this.hideableDiv==true){
       this.hideableDiv=false;

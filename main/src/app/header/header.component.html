@@ -28,14 +28,14 @@
                 </li>
             </ul>
             <div>
-                <button class="btn btn-primary my-2 my-sm-0 ml-2" *ngIf="!email" (click)="logIn()">Đăng nhập</button>
+                <button class="btn btn-primary my-2 my-sm-0 mr-3" *ngIf="!email" (click)="logIn()"><i class="fas fa-sign-in-alt"></i> Đăng nhập</button>  
+                <button class="btn btn-primary my-2 my-sm-0 mr-5" *ngIf="!email" routerLink="/user/registration" ><i class="fas fa-registered"></i> Đăng ký</button>      
                 <div class="dropdown" *ngIf="email">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         {{email}}
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item">Xem hồ sơ</a>
-                        <a class="dropdown-item">Đổi mật khẩu</a>
+                        <a class="dropdown-item" routerLink="/user/update">Xem hồ sơ</a>
                         <a class="dropdown-item" *ngIf="isAdmin">Đến trang Admin</a>
                         <div class="dropdown-divider"></div>
                         <button class="dropdown-item" (click)="logOut()">Đăng xuất</button>

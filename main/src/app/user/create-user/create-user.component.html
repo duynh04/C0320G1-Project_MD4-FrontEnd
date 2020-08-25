@@ -1,0 +1,59 @@
+<div class="container">
+  <h2 class="text-center mb-5 mt-4">Thêm thành viên</h2>
+  <form class="w-75 mx-auto" [formGroup]="formAddUser" >
+    <div class=" row">
+      <label  class="col-sm-3 col-form-label">Họ và tên<span style="color: red">*</span>:</label>
+      <div class="form-group col-sm-9">
+        <input type="text" class="form-control" formControlName="fullName">
+        <p *ngIf="formAddUser.controls.fullName.errors?.required && formAddUser.controls.fullName.touched" class="text-danger">Họ và tên không được để trống</p>
+        <p *ngIf="formAddUser.controls.fullName.errors?.pattern && formAddUser.controls.fullName.touched" class="text-danger">Họ và tên không đúng định dạng</p>
+      </div>
+    </div>
+    <div class="row">
+      <label  class="col-sm-3 col-form-label">Email<span style="color: red">*</span>:</label>
+      <div class="form-group col-sm-9">
+        <input type="text" class="form-control"  formControlName="email">
+        <p *ngIf="formAddUser.controls.email.errors?.required && formAddUser.controls.email.touched" class="text-danger">Email không được để trống</p>
+        <p *ngIf="formAddUser.controls.email.errors?.pattern && formAddUser.controls.email.touched" class="text-danger">Email không đúng định dạng</p>
+      </div>
+    </div>
+    <div class="row">
+      <label  class="col-sm-3 col-form-label">Ngày sinh<span style="color: red">*</span>:</label>
+      <div class="form-group col-sm-9">
+        <input type="date" class="form-control"  formControlName="birthday">
+        <p *ngIf="formAddUser.controls.birthday.errors?.required && formAddUser.controls.birthday.touched" class="text-danger">Ngày sinh không được để trống</p>
+        <p *ngIf="formAddUser.controls.birthday.errors?.chooseDateGreaterThanCurrentDate && formAddUser.controls.birthday.touched" class="text-danger">Ngày sinh không được lớn hơn ngày hiện tại</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label  class="col-sm-3 col-form-label">Địa chỉ<span style="color: red">*</span>:</label>
+      <div class="form-group col-sm-9">
+        <input type="text" class="form-control"  formControlName="address">
+        <p *ngIf="formAddUser.controls.address.errors?.required && formAddUser.controls.address.touched" class="text-danger">Địa chỉ không được để trống</p>
+        <p *ngIf="formAddUser.controls.address.errors?.maxLength && formAddUser.controls.address.touched" class="text-danger">Địa chỉ không quá 255 ký tự</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label  class="col-sm-3 col-form-label">SĐT<span style="color: red">*</span>:</label>
+      <div class="form-group col-sm-9">
+        <input type="text" class="form-control"  formControlName="phoneNumber">
+        <p *ngIf="formAddUser.controls.phoneNumber.errors?.required && formAddUser.controls.phoneNumber.touched" class="text-danger">SĐT không được để trống</p>
+        <p *ngIf="formAddUser.controls.phoneNumber.errors?.pattern && formAddUser.controls.phoneNumber.touched" class="text-danger">SĐT không đúng định dạng</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label  class="col-sm-3 col-form-label">CMND<span style="color: red">*</span>:</label>
+      <div class="form-group col-sm-9">
+        <input type="text" class="form-control"  formControlName="idCard">
+        <p *ngIf="formAddUser.controls.idCard.errors?.required && formAddUser.controls.idCard.touched" class="text-danger">CMND không được để trống</p>
+        <p *ngIf="formAddUser.controls.idCard.errors?.pattern && formAddUser.controls.idCard.touched" class="text-danger">CMND không đúng định dạng</p>
+      </div>
+    </div>
+
+    <div class="row d-flex justify-content-center mt-4">
+      <input class="btn btn-success mr-3" type="submit" (click)="addNewUser()" value="Thêm">
+      <input class="btn btn-success mr-3" type="button" (click)="retype()" value="Nhập lại">
+      <!--      <button class="btn btn-warning" type="button" [routerLink]=['/list-user']>Hủy</button>-->
+    </div>
+  </form>
+</div>

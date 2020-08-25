@@ -25,7 +25,8 @@ export class OrderStatusComponent implements OnInit {
   constructor(private orderService: OrderService,
     private router: Router,
     private paymentService: PaymentService,
-    private tokenStorageService: TokenStorageService) { }
+    private tokenStorageService: TokenStorageService
+  ) { }
 
   ngOnInit() {
     this.orderService.getOrderByBuyerId(this.tokenStorageService.getJwtResponse().userId).subscribe((data) => {
