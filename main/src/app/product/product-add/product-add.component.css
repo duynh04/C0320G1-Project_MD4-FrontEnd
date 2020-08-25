@@ -15,3 +15,13 @@ select {
   /* for Chrome */
   -webkit-appearance: none;
 }
+.dollar:before {
+  position: absolute;
+  content:"₫";
+  padding: 8px 5px;
+  text-align: right;
+}
+.dollar input{
+  padding-left:15px;
+}
+
