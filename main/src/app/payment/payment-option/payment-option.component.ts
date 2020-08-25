@@ -1,109 +1,79 @@
 import { Router } from "@angular/router";
-import { User } from "./../../shared/models/user";
-import { DeliveryAddress } from "./../../shared/models/delivery-address";
 import { OrderDto } from "./../../shared/models/dtos/orderDto";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
 import { IPayPalConfig } from 'ngx-paypal';
-
 import { OrderService } from "src/app/shared/services/order.service";
 import { PaymentService } from 'src/app/shared/services/payment.service';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import { Observable } from 'rxjs';
 @Component({
   selector: "app-payment-option",
   templateUrl: "./payment-option.component.html",
   styleUrls: ["./payment-option.component.css"],
 })
+
+//creator: Đặng Hồng Quân team C
 export class PaymentOptionComponent implements OnInit {
-  // Duy 
+
+  // Duy
   //paypal config
-  public payPalConfig?: IPayPalConfig;
+  payPalConfig?: IPayPalConfig;
   //
   orderForm: FormGroup;
   payments: any;
-  orderDto: OrderDto = new OrderDto();
-  paymentMethod: String;
-  deliveryMethod: String = "Giao hàng tiêu chuẩn";
+  orderDto: OrderDto = {} as OrderDto;
+  paymentMethod: string;
+  deliveryMethod: string = "Giao hàng tiêu chuẩn";
+  deliveryAddress: string = "da nang"
+  paymentStatus = "Fail";
 
-  buyer: User = {
-    id: 1,
-    fullname: "Lương",
-    email: "cuong@gmail.com",
-    phoneNumber: "0123111222",
-    address: "Da Nang",
-    birthday: "1996-11-08",
-    idCard: "123123123",
-    gender: "Nam",
-    rate: {
-      id: 1,
-      name: "kim cương",
-    },
-    point: 100,
-    lastLogin: "2020-08-13T00:00:00",
-    status: true,
-  };
-
-  deliveryAddress: DeliveryAddress = {
-    id: 2,
-    nation: "Viet Nam",
-    city: "Da Nang",
-    district: "Hoa Phuoc",
-    ward: "Hoa Vang",
-    street: "Đường 605",
-    phoneNumber: "0123456789",
-    isDefault: true,
-    user: {
-      id: 1,
-      // fullname: "Lương",
-      // email: "cuong@gmail.com",
-      // phoneNumber: "0123111222",
-      // address: "Da Nang",
-      // birthday: "1996-11-08",
-      // idCard: "123123123",
-      // gender: "Nam",
-      // rate: {
-      //   id: 1,
-      //   name: "kim cương",
-      // },
-      // point: 100,
-      // lastLogin: "2020-08-13T00:00:00",
-      // status: true,
-    },
-  };
-
+  result: string = "";
+  cssResult: string = "";
   constructor(
-    private formBuilder: FormBuilder,
     private orderService: OrderService,
     private router: Router,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private tokenStorageService: TokenStorageService
   ) { }
+
 
   ngOnInit() {
     // initialize paypal
     this.initPayPalSdk();
-    this.orderForm = this.formBuilder.group({
-      paymentMethod: "",
-      deliveryMethod: "",
-    });
-  }
+    this.tokenStorageService.getAuthorities()
+    this.deliveryAddress = this.paymentService.addressInfo.street + ', '
+      + this.paymentService.addressInfo.ward + ', '
+      + this.paymentService.addressInfo.district + ', '
+      + this.paymentService.addressInfo.city + '.'
+  };
+
 
   selectPayment(pay) {
     this.payments = pay;
+    if (pay == "TT") {
+      this.paymentStatus = "Success"
+    } else {
+      this.paymentStatus = "Fail"
+    }
   }
 
   onSubmit() {
-    console.log(this.orderForm.value.paymentMethod);
-    this.orderDto.paymentMethod = this.paymentMethod;
-    this.orderDto.deliveryMethod = this.deliveryMethod;
-    if (this.orderForm.value.paymentMethod == "Thanh toán trực tiếp") {
-      this.orderDto.paymentState = "Đang chờ thanh toán";
+    const orderDto = {} as OrderDto;
+    orderDto.paymentMethod = this.paymentMethod;
+    orderDto.deliveryMethod = this.deliveryMethod;
+    if (this.paymentMethod == "Thanh toán trực tiếp") {
+      orderDto.paymentState = "Đang chờ thanh toán";
     } else {
-      this.orderDto.paymentState = "Đã thanh toán thành công";
+      orderDto.paymentState = "Đã thanh toán thành công";
     }
-    this.orderDto.deliveryAddress = this.deliveryAddress;
-    this.orderDto.buyer = this.buyer;
+    orderDto.deliveryAddress = this.deliveryAddress;
 
+    orderDto.buyer = { id: this.tokenStorageService.getJwtResponse().userId }
+    console.log(orderDto)
+    console.log(this.paymentStatus)
     this.orderService
-      .createOrder(this.orderDto)
+      .createOrder(orderDto)
       .subscribe(() => this.router.navigate(["payment/order"]));
   }
 
@@ -114,20 +84,54 @@ export class PaymentOptionComponent implements OnInit {
         layout: 'horizontal'
       },
       createOrderOnServer: (data: any) => {
-        return this.paymentService.setTransaction(1).toPromise().then(res => {
+        return this.paymentService.setPayPalTransaction(this.deliveryMethod).toPromise().then(res => {
           // console.log(res);
           this.paymentService.captureOrder = res;
           return res.id;
         });
       },
       onApprove: (data) => {
-        this.paymentService.confirmTransaction(data.orderID).subscribe(res => {
-          console.log(`confirm transaction: ${res.status}`);
+        this.paymentService.confirmPayPalTransaction(data.orderID).subscribe(res => {
+          this.paymentStatus = res.status;
+          if (this.paymentStatus == "COMPLETED") {
+            this.result = "Thanh toán thành công.";
+            this.cssResult = "text-success";
+          } else {
+            this.result = "Thanh toán thất bại. Hãy thử lại.";
+            this.cssResult = "text-danger";
+          }
         });
       },
       onError: err => {
         console.log('OnError', err);
       },
+      onCancel: (cancel) => {
+        this.paymentStatus = "Fail"
+        this.result = "Thanh toán thất bại. Hãy thử lại.";
+        this.cssResult = "text-danger";
+      }
     };
+  }
+
+  getClientTokenFn(): Observable<string> {
+    return this.paymentService.retrieveVisaToken();
+  }
+
+  createPurchase(nonce: string): Observable<any> {
+    const data = { nonce: nonce };
+    console.log(data);
+    return this.paymentService.createVisaTransaction(nonce, this.deliveryMethod);
+  }
+
+  onPaymentStatus(response): void {
+    if (response.status != undefined) {
+      this.paymentStatus = "Success";
+      this.result = "Thanh toán thành công.";
+      this.cssResult = "text-success";
+    } else {
+      this.paymentStatus = "Fail";
+      this.result = "Thanh toán thất bại. Hãy thử lại.";
+      this.cssResult = "text-danger";
+    }
   }
 }

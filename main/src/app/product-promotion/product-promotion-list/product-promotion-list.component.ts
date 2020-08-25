@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {Observable} from 'rxjs';
 
 import {Router} from '@angular/router';
 import {ProductPromotion} from '../../shared/models/ProductPromotion';
 import {Product} from '../../shared/models/product';
+import {ProductService} from '../../shared/services/product.service';
 import {ProductPromotionService} from '../../shared/services/product-promotion.service';
 import {DeleteProductPromotionComponent} from '../delete-product-promotion/delete-product-promotion.component';
 import {MatDialog} from '@angular/material';
@@ -18,6 +20,8 @@ export class ProductPromotionListComponent implements OnInit {
   idProduct: number;
   private mapProduct = new Map();
   private mapProductPromotion = new Map();
+  page: 1;
+  totalRec: number;
 
   constructor(private productPromotionService: ProductPromotionService,
               private router: Router,
@@ -58,7 +62,7 @@ export class ProductPromotionListComponent implements OnInit {
     this.productPromotionService.getProductPromotion(id).subscribe(dataOfPromotion => {
       const dialogRef = this.dialog.open(DeleteProductPromotionComponent, {
         width: '500px',
-        height: '200px',
+        height: '220px',
         data: {data1: dataOfPromotion},
         disableClose: true,
       });

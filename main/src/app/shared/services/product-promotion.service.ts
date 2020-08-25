@@ -10,10 +10,10 @@ import {ProductPromotionDto} from '../models/dtos/product-promotion-dto';
 })
 export class ProductPromotionService {
 
-  private baseUrl = 'http://localhost:8080/api/v1/productPromotions';
-  private baseUrlDto = 'http://localhost:8080/api/v1/productPromotionsDto';
-  private baseUrProduct = 'http://localhost:8080//api/v1/products';
-  private baseUrlUser = 'http://localhost:8080//api/v1/users';
+  private baseUrl = 'http://localhost:8080/api/v1/admin/productPromotions';
+  private baseUrlDto = 'http://localhost:8080/api/v1/admin/productPromotionsDto';
+  private baseUrProduct = 'http://localhost:8080/api/v1/admin/products';
+  private baseUrlUser = 'http://localhost:8080/api/v1/admin/users';
 
   constructor(private http: HttpClient) { }
 

@@ -1,0 +1,16 @@
+{
+  "name": "socket-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "nodemon server.js"
+  },
+  "author": "Anlee",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.5",
+    "nodemon": "^2.0.4",
+    "socket.io": "^2.3.0"
+  }
+}

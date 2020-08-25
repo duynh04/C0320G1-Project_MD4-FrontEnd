@@ -26,14 +26,14 @@ function checkPercent(control: AbstractControl): { [key: string]: boolean } | nu
 }
 
 function checkDate(control: AbstractControl): { [key: string]: boolean } | null {
-  if (control.value !== undefined && (isNaN(control.value) || control.value < Date.now())) {
+  if (control.value !== undefined && (isNaN(control.value) || control.value <= new Date(Date.now()))) {
     return { dateInvalid: true };
   }
   return null;
 }
 
 function checkEndDate(control: AbstractControl): { [key: string]: boolean } | null {
-  if (control.value !== undefined && (isNaN(control.value) || control.value < Date.now())) {
+  if (control.value !== undefined && (isNaN(control.value) || control.value <= new Date(Date.now()))) {
     return { endDateInvalid: true };
   }
   return null;
@@ -88,18 +88,18 @@ export class CreateProductPromotionComponent implements OnInit {
 
   save() {
       this.productPromotionService.createProductPromotion(this.formAddNewPromotion.value).subscribe(data => {
-    });
-      const dialogRef = this.dialog.open(CommitSendMailComponent, {
-      width: '510px',
-      height: '240px',
-        data: {length: this.usersEmail.length,
-              name: this.products[1].name
-        },
-      disableClose: true,
-    });
+        const dialogRef = this.dialog.open(CommitSendMailComponent, {
+          width: '510px',
+          height: '240px',
+          data: {length: this.usersEmail.length,
+            name: data.product.name
+          },
+          disableClose: true,
+        });
 
-      dialogRef.afterClosed().subscribe(result => {
-      this.gotoList();
+        dialogRef.afterClosed().subscribe(result => {
+          this.gotoList();
+        });
     });
   }
 
@@ -116,7 +116,7 @@ export class CreateProductPromotionComponent implements OnInit {
     if (a == null || b == null) {
       return 0;
     }
-    if (a.getTime() > b.getTime()) {
+    if (a.getTime() >= b.getTime()) {
       this.timeValidate = true;
     } else {
       this.timeValidate = false;

@@ -1,3 +1,5 @@
+<!-- creator: Đặng Hồng Quân team C -->
+
 <div class="row">
     <div id="payment_wrapper" class="col-md-9">
         <div id="payment_progress" class="d-md-table w-100 mt-md-2">
@@ -18,19 +20,19 @@
                 <div class="border mt-2 p-2">
                     <div class="row">
                         <div class="col-md-6 ">
-                            <p><span>Họ và tên: </span>{{order?.buyer?.fullname}}</p>
-                            <p><span>Thành phố:</span> {{order?.deliveryAddress?.city}}</p>
-                            <p class="mt-2"> <span>Địa chỉ:</span> {{order?.deliveryAddress?.street}}</p>
+                            <p><span>Họ và tên: </span>{{deliveryAddress?.fullName}}</p>
+                            <p><span>Thành phố: </span>{{deliveryAddress?.city}} </p>
+                            <p class="mt-2"> <span>Địa chỉ: </span>{{deliveryAddress?.street}} </p>
                         </div>
                         <div class="col-md-6">
-                            <p><span>Quận/Huyện:</span> {{order?.deliveryAddress?.ward}}</p>
-                            <p class="mt-2"> <span>Quốc gia:</span> {{order?.deliveryAddress?.nation}}</p>
+                            <p><span>Quận/Huyện: </span>{{deliveryAddress?.ward}} </p>
+                            <p class="mt-2"> <span>Quốc gia: </span>{{deliveryAddress?.nation}}</p>
                         </div>
                     </div>
 
                 </div>
             </div>
-            <table class="table table-striped   mt-3">
+            <table class="table table-striped  mt-3">
                 <thead>
                     <tr class="bg-primary text-white">
                         <th scope="col">Sản phẩm</th>
@@ -50,8 +52,8 @@
                             </div>
                         </th>
                         <td>{{sp.productQuantity}}</td>
-                        <td>{{sp.productWinPrice|currency:"VND":"symbol"}} </td>
-                        <td>{{sp.productWinPrice*sp.productQuantity|currency:"VND":'symbol'}} </td>
+                        <td>{{sp.productWinPrice|currency:"VND"}} </td>
+                        <td>{{sp.productWinPrice*sp.productQuantity|currency:"VND"}} </td>
 
 
                     </tr>

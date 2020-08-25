@@ -11,11 +11,11 @@
             <div class="row">
                 <div class="col-md">
                     <label>Tên Sản Phẩm</label>
-                    <input type="text" [(ngModel)]="productName" class="form-control" placeholder="Vd : Iphone">
+                    <input type="text" #focusOn [(ngModel)]="currentProductName" class="form-control" placeholder="Vd : Iphone">
                 </div>
                 <div class="col-md">
                     <label>Tình Trạng Đấu Giá</label>
-                    <select class="custom-select" [(ngModel)]="recordStatusName">
+                    <select class="custom-select" [(ngModel)]="currentRecordStatusName">
                         <option selected value="">Tất Cả</option>
                         <option value="đang đấu giá">Đang Đấu Giá</option>
                         <option value="đấu giá thành công">Đấu Giá Thành Công</option>
@@ -32,6 +32,10 @@
     
     <div class="row mt-3">
         <div class="col">
+            <div *ngIf="isEmpty" class="text-danger">
+                <h5> Không tìm thấy dữ liệu phù hợp </h5>
+            <br>
+            </div>
             <table class="table table-striped text-center">
                 <thead class="bg-primary text-white">
                     <tr>
@@ -46,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let auctionRecord of myAuctionRecordList; index as i">
+                    <tr *ngFor="let auctionRecord of myAuctionRecordList | async | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalElements}; index as i">
                         <th>{{stt[i]}}</th>
                         <td>{{auctionRecord.auction.product.id}}</td>
                         <td>{{auctionRecord.auction.product.name}}</td>
@@ -62,23 +66,7 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-end">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link text-primary" (click)="previous()" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link text-primary" >{{page + 1}}</a></li>
-            <li class="page-item"><a class="page-link text-primary" >/</a></li>
-            <li class="page-item"><a class="page-link text-primary" >{{totalPages}}</a></li>
-            <li class="page-item">
-                <a class="page-link text-primary" (click)="next()" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-            </ul>
-        </nav>
+    <div class="mt-3 d-flex justify-content-end">
+        <pagination-controls (pageChange)="getPage($event)"></pagination-controls>
     </div>
 </div>

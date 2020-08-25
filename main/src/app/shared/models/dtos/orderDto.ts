@@ -1,9 +1,13 @@
-import { User } from "./../user";
-import { DeliveryAddress } from "../delivery-address";
-export class OrderDto {
-  paymentMethod: String;
-  deliveryMethod: String;
-  paymentState: String;
-  buyer: User;
-  deliveryAddress: DeliveryAddress;
+
+
+
+//creator: Đặng Hồng Quân team C
+export interface OrderDto {
+  paymentMethod: string,
+  deliveryMethod: string,
+  paymentState: string,
+  buyer: {
+    id: number
+  },
+  deliveryAddress: string,
 }

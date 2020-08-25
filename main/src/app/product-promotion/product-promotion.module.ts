@@ -9,6 +9,7 @@ import {UpdateProductPromotionComponent} from './update-product-promotion/update
 import {MatButtonModule, MatDatepickerModule, MatDialogModule, MatInputModule, MatNativeDateModule} from '@angular/material';
 import { CommitSendMailComponent } from './commit-send-mail/commit-send-mail.component';
 import { DeleteProductPromotionComponent } from './delete-product-promotion/delete-product-promotion.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 
@@ -21,18 +22,19 @@ import { DeleteProductPromotionComponent } from './delete-product-promotion/dele
     CommitSendMailComponent,
     DeleteProductPromotionComponent,
   ],
-  imports: [
-    CommonModule,
-    ProductPromotionRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    FormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatButtonModule,
-    MatDialogModule,
-  ],
+    imports: [
+        CommonModule,
+        ProductPromotionRoutingModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        FormsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatInputModule,
+        MatButtonModule,
+        MatDialogModule,
+        NgxPaginationModule,
+    ],
   entryComponents: [
     DeleteProductPromotionComponent,
     CommitSendMailComponent,

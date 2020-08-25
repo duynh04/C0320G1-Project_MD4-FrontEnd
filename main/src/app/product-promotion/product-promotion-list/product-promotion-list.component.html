@@ -17,7 +17,10 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let productPromotion of productPromotions ">
+      <tr *ngFor="let productPromotion of productPromotions | paginate:{id:'listing_pagination',
+                                                                            itemsPerPage:5,
+                                                                            currentPage:page,
+                                                                            totalItems:totalRec} ">
         <td>{{mapProduct.get(mapProductPromotion.get(productPromotion.id))}}</td>
         <td>{{productPromotion.content}}</td>
         <td>{{productPromotion.price}}</td>
@@ -32,6 +35,8 @@
       </tr>
       </tbody>
     </table>
+    <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true"
+                         (pageChange)="page = $event"></pagination-controls>
   </div>
 </div>
 
