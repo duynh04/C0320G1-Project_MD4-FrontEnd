@@ -1,0 +1,139 @@
+<!-- creator: Nguyễn Xuân Hùng -->
+<div class="container w-50 mt-3">
+    <h3 class="mt-4 mb-4 text-center">Thông tin cá nhân</h3>
+    <div *ngIf="message!=''"  class="alert alert-success p-2" role="alert">
+        {{message}}
+      </div>
+      <div *ngIf="errorMessage!=''" class="alert alert-warning p-2" role="alert">
+        {{errorMessage}}
+      </div>
+      <div *ngFor="let mess of backendMessages">
+        <div class="alert alert-warning p-2" role="alert" >
+            {{mess}}
+        </div>
+    </div>
+    <form class="mt-3 mb-5" [formGroup]="userForm" (ngSubmit)="updateUser();">
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">Họ và tên<span class="text-danger">*</span></label>
+            <div class="col-md-9">
+                <input class="form-control" type="text" formControlName="fullName" #focusCheck>
+                <div *ngIf="userForm.get('fullName').invalid && userForm.get('fullName').touched" class="alert alert-danger mt-2 mb-0">
+                    <span *ngIf= "userForm.get('fullName').hasError('required')" >Họ và tên không được để trống.</span>
+                    <span *ngIf= "userForm.get('fullName').hasError('whitespace')" >Họ và tên không được chỉ chứa mỗi khoảng trắng.</span>
+                    <span *ngIf= "userForm.get('fullName').hasError('containSpecialCharacters')" >Họ và tên không được chứa ký tự đặc biệt.</span>
+                    <span *ngIf= "userForm.get('fullName').hasError('maxlength')" >Họ và tên không được nhiều hơn 255 ký tự.</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">Email<span class="text-danger">*</span></label>
+            <div class="col-md-9">
+                <input class="form-control" type="text" formControlName="email">
+                <div *ngIf="userForm.get('email').invalid && userForm.get('email').touched" class="alert alert-danger mt-2 mb-0">
+                    <span *ngIf= "userForm.get('email').hasError('required')" >Email không được để trống.</span>
+                    <span *ngIf= "userForm.get('email').hasError('pattern')" >Email không đúng định dạng.</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">Ngày sinh<span class="text-danger">*</span></label>
+            <div class="col-md-9 row">
+                <div class="col-md-5">
+                    <input class="form-control" type="date" formControlName="birthday">
+                </div>
+                <div class="col-md-6"></div>
+                <div *ngIf="userForm.get('birthday').invalid && userForm.get('birthday').touched" class="alert alert-danger mt-2 mb-0 ml-3">
+                    <span *ngIf= "userForm.get('birthday').hasError('required')" >Ngày sinh không được để trống.</span>
+                    <span *ngIf= "userForm.get('birthday').hasError('pattern')" >Ngày sinh không đúng định dạng.</span>
+                    <span *ngIf= "userForm.get('birthday').hasError('chooseDateGreaterThanCurrentDate')" >Ngày sinh không được lớn hơn ngày hiện tại.</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">Giới tính<span class="text-danger">*</span></label>
+            <div class="row col-md-9">
+                <div class="col-md-2 mt-2 ml-3 form-check">
+                    <input class="form-check-input"  type="radio" value="Nam"  formControlName="gender"><span class="form-check-label"> Nam</span>
+                </div>
+                <div class="col-md-2 mt-2 form-check">
+                    <input class="form-check-input"  type="radio" value="Nữ"  formControlName="gender"><span class="form-check-label"> Nữ</span>
+                </div>       
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">CMND<span class="text-danger">*</span></label>
+            <div class="col-md-9">
+                <input class="form-control" type="text" formControlName="idCard">
+                <div *ngIf="userForm.get('idCard').invalid && userForm.get('idCard').touched" class="alert alert-danger mt-2 mb-0">
+                    <span *ngIf= "userForm.get('idCard').hasError('required')" >CMND không được để trống.</span>
+                    <span *ngIf= "userForm.get('idCard').hasError('pattern')" >CMND không đúng định dạng.</span>
+                    <span *ngIf= "userForm.get('idCard').hasError('minlength')||userForm.get('idCard').hasError('maxlength')" >CMND phải có ít nhất 6 số và nhiều nhất 20 số.</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">Số điện thoại<span class="text-danger">*</span></label>
+            <div class="col-md-9">
+                <input class="form-control" type="text" formControlName="phoneNumber">
+                <div *ngIf="userForm.get('phoneNumber').invalid && userForm.get('phoneNumber').touched" class="alert alert-danger mt-2 mb-0">
+                    <span *ngIf= "userForm.get('phoneNumber').hasError('required')" >Số điện thoại không được để trống.</span>
+                    <span *ngIf= "userForm.get('phoneNumber').hasError('pattern')" >Số điện thoại bắt buộc là số.</span>
+                    <span *ngIf= "userForm.get('phoneNumber').hasError('maxlength')" >Số điện thoại không được nhiều hơn 20 số.</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="nation" class="col-md-3 col-form-label">Địa chỉ<span class="text-danger">*</span></label>
+                <div class="col-md-9">
+                    <input required type="text" class="form-control" formControlName="address">
+                    <div *ngIf="userForm.get('address').invalid && userForm.get('address').touched" class="alert alert-danger mt-2 mb-0">
+                        <span *ngIf= "userForm.get('address').hasError('required')" >Địa chỉ không được để trống.</span>
+                        <span *ngIf= "userForm.get('address').hasError('maxlength')" >Địa chỉ không được nhiều hơn 255 ký tự.</span>
+                    </div>
+                </div>       
+            </div>
+        <div class="row form-group mb-3">
+            <div class="col-md-3 col-form-label mr-4"></div>
+            <div class="col-md-8">
+                <input type="checkbox" class="form-check-input" id="triggerDiv" (change)="togglePass()" >
+                <label class="form-check-label" for="exampleCheck1">Đổi mật khẩu</label>
+            </div>
+        </div>
+        <div class="mt-3" formGroupName="pwGroup" id="hideableDiv" *ngIf="hideableDiv">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Mật khẩu hiện tại</label>
+                <div class="col-md-9">
+                    <input class="form-control" type="password"  formControlName="password">
+                    <div *ngIf="userForm.get('pwGroup').get('password').invalid && userForm.get('pwGroup').get('password').touched" class="alert alert-danger mt-2 mb-0">
+                        <span *ngIf= "userForm.get('pwGroup').get('password').hasError('minlength')||userForm.get('pwGroup').get('password').hasError('maxlength')" >Mật khẩu phải có ít nhất 6 kí tự và nhiều nhất 20 kí tự.</span>
+                        <span *ngIf= "userForm.get('pwGroup').get('password').hasError('whitespace')">Mật khẩu hiện tại không cho phép chỉ chứa khoảng trắng.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Mật khẩu mới</label>
+                <div class="col-md-9">
+                    <input class="form-control" type="password"  formControlName="newPassword">
+                    <div *ngIf="userForm.get('pwGroup').get('newPassword').invalid && userForm.get('pwGroup').get('newPassword').touched" class="alert alert-danger mt-2 mb-0">
+                        <span *ngIf= "userForm.get('pwGroup').get('newPassword').hasError('whitespace')">Mật khẩu mới không cho phép chỉ chứa khoảng trắng. </span>
+                        <span *ngIf= "userForm.get('pwGroup').get('newPassword').hasError('minlength')||userForm.get('pwGroup').get('newPassword').hasError('maxlength')" >Mật khẩu mới phải có ít nhất 6 kí tự và nhiều nhất 20 kí tự.</span>
+                    </div>
+                </div>  
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Xác nhận mật khẩu</label>
+                <div class="col-md-9">
+                    <input class="form-control" type="password"  formControlName="confirmPassword">
+                    <div class="alert alert-danger mt-2 mb-0" *ngIf="userForm.hasError('passwordnotmatch', ['pwGroup']) && userForm.get('pwGroup').touched">
+                <span>Vui lòng nhập mật khẩu mới trùng với xác nhận mật khẩu</span>
+                </div>  
+                </div>
+            </div>
+        </div>
+    <div class="row mt-2 mb-5 d-flex justify-content-center">
+        <input type="submit" value="Cập nhật" class="btn btn-success ml-5 mr-2" [disabled] = "!userForm.valid">
+        <a id="check" class="btn btn-warning" (click)="backToHomePage()">Hủy</a>
+    </div>
+</form>
+
+

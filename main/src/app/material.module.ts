@@ -1,34 +1,35 @@
-import { CommonModule } from '@angular/common';
+
 import { NgModule } from '@angular/core';
+import { MatDatepickerModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatDialogModule} from "@angular/material/dialog";
 import {
-  MatNativeDateModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatButton,
-  MatButtonModule} from '@angular/material';
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule
+} from '@angular-material-components/datetime-picker';
 
 @NgModule({
   imports: [
-
+    MatDatepickerModule,
     MatFormFieldModule,
     MatNativeDateModule,
     MatInputModule,
-    CommonModule,
-    MatButtonModule,
-    MatDatepickerModule
+    MatDialogModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule
   ],
   exports: [
-
+    MatDatepickerModule,
     MatFormFieldModule,
     MatNativeDateModule,
     MatInputModule,
-    CommonModule,
-    MatButtonModule,
-    MatDatepickerModule
-  ],
-  providers: [ ],
+    MatDialogModule,
+    NgxMatTimepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule
+  ]
 })
 
 export class MaterialModule {}

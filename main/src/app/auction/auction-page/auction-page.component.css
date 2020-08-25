@@ -1,3 +1,5 @@
+/*  Creator: Hoai Ngan team C */
+
 img {
     width: 100%;
     height: 100%;
@@ -41,7 +43,7 @@ img {
 
 .mini-image img {
     height: 25%;
-    margin: 15px;
+    margin: 10px;
     border: #adadad 2px solid; border-radius: 8px
 }
 

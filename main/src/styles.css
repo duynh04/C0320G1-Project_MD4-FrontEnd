@@ -1,4 +1,139 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+
+/* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  /* font-family: 'Josefin Sans', sans-serif; */
+}
+body {
+  background: #f3f5f9;
+}
+.wrapper {
+  display: flex;
+  position: relative;
+}
+.wrapper .sidebar {
+  position: fixed;
+  width: 200px;
+  height: 100%;
+  background: #007bff;
+  padding: 30px 0;
+}
+.wrapper .sidebar h2 {
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.wrapper .sidebar ul li {
+  padding: 15px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.wrapper .sidebar ul li a{
+  color: #bdb8d7;
+  display: block;
+}
+.wrapper .sidebar ul li a .fas {
+  width: 25px;
+}
+.wrapper .sidebar ul li:hover{
+  background: #007bff;
+}
+.wrapper .sidebar ul li:hover a{
+  color: #fff;
+}
+.wrapper .sidebar .social_media {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+}
+.wrapper .sidebar .social_media a {
+  display: block;;
+  width: 40px;
+  background: #007bff;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  margin: 0 5px;
+  color: #bdb8d7;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.wrapper .main_content {
+  width: 100%;
+  margin-left: 200px;
+}
+.wrapper .main_content .header {
+  padding: 50px;
+  background: #ffffff;
+  color: #717171;
+  border-bottom: 1px solid #e0e4e8;
+}
+.wrapper .main_content .info {
+  margin: 20px;
+  line-height: 25px;
+}
+.wrapper .main_content .info div{
+  margin-bottom: 20px;
+}
+.content_table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 35px 0;
+  font-size: 0.9em;
+  min-width: 400px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.content_table thead{
+  font-size: .9em;
+}
+.content_table thead tr{
+  height: 60px;
+  background-color: #007bff;
+  color: white;
+  text-align: left;
+  font-weight: bold;
+}
+.content_table thead tr .id_Title {
+  text-align: center;
+}
+.content_table thead tr .product_title {
+  text-align: center;
+}
+.content_table tbody tr {
+  border-bottom: 1px solid #dddddd;
+  text-align: left;
+}
+.content_table tbody tr .id {
+  text-align: center;
+}
+.content_table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+.content_table td {
+  padding: 12px 15px;
+}
+.content_table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+.content_table tbody tr .active-row {
+  font-weight: bold;
+  color: #009879;
+}
+
+
+
+
+

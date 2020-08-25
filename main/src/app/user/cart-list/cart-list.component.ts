@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { CartService } from 'src/app/shared/services/cart.service';
-import { Cart } from '../../shared/models/cart';
-import { CartDetail } from '../../shared/models/cart-detail';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {CartService} from 'src/app/shared/services/cart.service';
+import {Cart} from '../../shared/models/cart';
+import {CartDetail} from '../../shared/models/cart-detail';
+import {Router} from '@angular/router';
+import {TokenStorageService} from 'src/app/auth/token-storage.service';
+import {UserService} from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-cart-list',
@@ -14,17 +16,22 @@ export class CartListComponent implements OnInit {
   cart: Cart;
   cartDetails: CartDetail[];
   totalCost = 0;
-  userId = 1; // userId mẫu để test
+  userId: number;
   deleteIndex: number;
+  alertCaller: HTMLButtonElement;
 
   constructor(
     private cartService: CartService,
     private router: Router,
-    private route: ActivatedRoute
-  ) { }
+    private token: TokenStorageService,
+    private userService: UserService) {
+    this.userId = this.token.getJwtResponse().userId;
+    userService.getUserById(this.userId).subscribe(value => console.log(value.fullName));
+  }
 
   ngOnInit() {
     this.getCart(this.userId);
+    this.alertCaller = document.getElementById('alertCaller') as HTMLButtonElement;
   }
 
   getCart(userId: number): void {
@@ -54,7 +61,7 @@ export class CartListComponent implements OnInit {
   decreaseQty(i: number): void {
     const cartDetailId = this.cartDetails[i].id;
     const currentQuantity = this.cartDetails[i].productQuantity;
-    this.cartService.updateItem(cartDetailId, currentQuantity - 1).subscribe(value => {
+    this.cartService.updateItem(cartDetailId, currentQuantity - 1).subscribe(() => {
       this.cartDetails[i].productQuantity = currentQuantity - 1;
       this.updateTotalCost();
     });
@@ -65,15 +72,33 @@ export class CartListComponent implements OnInit {
   }
 
   deleteItem() {
-    this.cartService.deleteItem(this.cartDetails[this.deleteIndex].id).subscribe(value => {
+    this.cartService.deleteItem(this.cartDetails[this.deleteIndex].id).subscribe(() => {
       this.cartDetails = this.cartDetails.filter((_, index) => index !== this.deleteIndex);
       this.updateTotalCost();
     });
   }
 
   goToPayment() {
-    this.cartService.updateTotalCost(this.cart.id).subscribe(() => {
-      this.router.navigate(['payment']);
-    });
+    // this.cartService.updateTotalCost(this.cart.id).subscribe(() => {
+    this.router.navigate(['payment']);
+    // });
+  }
+
+  itemQuantityChange(target: any, i: number) {
+    const cartDetailId = this.cartDetails[i].id;
+    const currentQuantity = Number(target.value);
+    if (!Number.isInteger(currentQuantity) || (currentQuantity < 1)) {
+      this.alertCaller.click();
+      this.cartService.updateItem(cartDetailId, 1).subscribe(() => {
+        this.cartDetails[i].productQuantity = 1;
+        target.value = 1;
+        this.updateTotalCost();
+      });
+    } else {
+      this.cartService.updateItem(cartDetailId, currentQuantity).subscribe(() => {
+        this.cartDetails[i].productQuantity = currentQuantity;
+        this.updateTotalCost();
+      });
+    }
   }
 }

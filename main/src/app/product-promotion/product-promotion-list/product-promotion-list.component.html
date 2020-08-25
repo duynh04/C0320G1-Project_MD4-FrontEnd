@@ -1,0 +1,37 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h2 style="text-align: center">Sản phẩm khuyến mãi</h2>
+    <input type="button" [routerLink]="['add']" value="Thêm mới" class="btn-primary mt-1">
+  </div>
+  <div class="panel-body">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Tên sản phẩm</th>
+        <th>Nội dung khuyến mãi</th>
+        <th>Giá gốc</th>
+        <th>Khuyến mãi</th>
+        <th>Ngày kết thúc</th>
+        <th >Hành động</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let productPromotion of productPromotions ">
+        <td>{{productPromotion.content}}</td>
+        <td>{{productPromotion.content}}</td>
+        <td>{{productPromotion.price}}</td>
+        <td>{{productPromotion.percent}}</td>
+        <td>{{productPromotion.endDate}}</td>
+        <td>
+          <button [routerLink]="['/productPromotion/update/'+productPromotion.id]" class="btn btn-info" >Update</button>
+<!--          <button (click)="ProductPromotionDetails(productPromotion.discount_id)" class="btn btn-info" style="margin-left: 10px">Details</button>-->
+<!--          <button (click)="deleteProductPromotion(productPromotion.id)" class="btn btn-danger" style="margin-left: 10px">Delete</button>-->
+          <button (click)="openDialog(productPromotion.id)" class="btn btn-danger" style="margin-left: 10px">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
