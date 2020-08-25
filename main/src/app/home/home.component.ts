@@ -105,16 +105,6 @@ export class HomeComponent implements OnInit {
     },
   };
 
-  //Hàm đổi endDte product sang seconds
-  
-  generateTimeLeft(endtime) : number{
-        var date = new Date(endtime);
-        var time = (date.getTime() - new Date().getTime())/1000;
-        if(time<=0){
-          time=0;
-        }
-        return time;
-  }
   changeStatusAuction(value){
     if(value=="đang đấu giá"){
       this.auctionStatusId=2;
