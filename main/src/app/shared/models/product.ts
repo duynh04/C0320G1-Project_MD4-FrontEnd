@@ -1,19 +1,26 @@
-import { User } from "./user";
-import { Category } from "./category";
-import { ApprovementStatus } from "./approvement-status";
-import { ProductImage } from "./product-image";
+import {Category} from './category';
+import {User} from './user';
+import {ApprovementStatus} from './approvement-status';
+import {ProductImage} from './product-image';
 
+// Coder: Nguyen Thanh Tu
 export interface Product {
   id: number;
   name: string;
   initialPrice: number;
-  increasingAmount: number;
-  registerDate: string;
-  startDate: string;
-  endDate: string;
+  increaseAmount: number;
+  registerDate: Date;
+  startDate: Date;
+  endDate: Date;
   approvementStatus: ApprovementStatus;
   description: string;
   category: Category;
   owner: User;
-  productImages: ProductImage[];
+  productImages: string;
 }
+
+
+
+
+
+

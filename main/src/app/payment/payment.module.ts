@@ -12,7 +12,7 @@ import { DeliveryAddressComponent } from './delivery-address/delivery-address.co
     CommonModule,
     PaymentRoutingModule,
     ReactiveFormsModule,
-    NgxPayPalModule,
+    // NgxPayPalModule,
     FormsModule,
   ],
 })

@@ -1,18 +1,15 @@
-import { Rate } from "./rate";
+import { Rate } from './rate';
 
 export interface User {
-  [prop: string]: any;
-  // mọi người add thêm prop của đối tượng dưới này,
-  // nếu có người add rồi thì xin bỏ qua. xin cảm ơn.
-  id: Number;
-  fullname: String;
-  email: String;
-  phoneNumber: String;
-  address: String;
-  birthday: String;
-  idCard: String;
-  gender: String;
+  id: number;
+  fullName: string;
+  email: string;
+  phoneNumber: number;
+  address: string;
+  birthday: string;
+  idCard: string;
+  gender: string;
   rate: Rate;
-  lastLogin: String;
+  lastLogin: string;
   status: boolean;
 }

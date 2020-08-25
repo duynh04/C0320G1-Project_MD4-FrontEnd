@@ -1,5 +1,7 @@
 <div class="container-fluid px-0">
   <h1 class="mt-2 text-center">Quản lý sản phẩm</h1>
+
+  <!--  search product-->
   <form [formGroup]="formSearchList">
     <div class="container px-0">
       <div class="row mt-3">
@@ -60,12 +62,15 @@
     </div>
 
   </form>
+
+<!--  Son modal -->
   <div class="container">
     <div class="row d-flex justify-content-left">
       <button class="btn btn-success "  data-toggle="modal" data-target="#addProduct" (click)="getListCategory()"><i class="fas fa-plus-square"></i> Thêm sản phẩm</button>
     </div>
      <!-- Modal -->
      <div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" >
+
       <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -75,10 +80,7 @@
             </button>
           </div>
           <div class="modal-body">
-
-
             <div class="container-fluid">
-
                 <div class="container-fluid px-3 m-2">
                   <form [formGroup]="formAddNewProduct">
                     <div class="form-group">
@@ -261,13 +263,12 @@
                     </div>
                   </form>
                 </div>
-
-
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-warning" data-dismiss="modal">Đóng</button>
             <button type="button" class="btn btn-secondary" id="dismiss" >Nhập lại</button>
             <button type="button" [disabled]="formAddNewProduct.invalid" class="btn btn-primary" (click)=" addNewProduct()" data-dismiss="modal" id="saveProduct">Lưu lại</button>
+
           </div>
         </div>
       </div>
@@ -276,52 +277,155 @@
 
  <!-- End modal -->
 
-
+  <div class="container">
     <div class="row justify-content-center mt-3">
-      <table class="table mt-2 table-striped">
-        <thead style="background-color: #189EFF; color: white;">
-        <tr>
-          <th>STT</th>
-          <th>Chọn</th>
-          <th>ID sản phẩm</th>
-          <th>Tên sản phẩm</th>
-          <th>Chủng loại</th>
-          <th>Người đăng</th>
-          <th>Giá ban đầu</th>
-          <th>Trạng thái duyệt</th>
-          <th>Tình trạng</th>
-          <th>Chi tiết sản phẩm</th>
-          <th>Hình ảnh</th>
-          <th>Sửa</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let product of products | async">
-          <td>{{product.id}}</td>
-          <td><input type="checkbox"></td>
-          <td>{{product.id}}</td>
-          <td><a [routerLink]="['/admin/approvement/', product.id]">{{product.name}}</a></td>
-          <td>{{product.category.name}}</td>
-          <td>{{product.owner.fullname}}</td>
-          <td>{{product.initialPrice}}</td>
-          <td>{{product.approvementStatus.name}}</td>
-          <td>{{product}}</td>
-          <td>{{product.description}}</td>
-          <td>{{product.productImages}}</td>
-          <td>
-            <button class="btn btn-primary" (click)="openModalWithComponent(product)" >Sửa</button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <form [formGroup]="formArrayEdit">
+        <table class="table mt-2 table-striped">
+          <thead style="background-color: #189EFF; color: white;">
+          <tr>
+            <th>STT</th>
+            <th>Chọn</th>
+            <th>ID sản phẩm</th>
+            <th>Tên sản phẩm</th>
+            <th>Chủng loại</th>
+            <th>Người đăng</th>
+            <th>Giá ban đầu</th>
+            <th>Trạng thái duyệt</th>
+            <th>Tình trạng</th>
+            <th>Chi tiết sản phẩm</th>
+            <th>Hình ảnh</th>
+            <th>Hành động</th>
+          </tr>
+          </thead>
+          <tbody>
+
+
+          <tr *ngFor="let product of products | async; index as i">
+            <td>{{i+1}}</td>
+            <td><input type="checkbox" (click)="insertListUpdateToDb(i)"></td>
+            <td>
+              <span class="editProduct" (blur)="updateProductField(i, 'id', $event)" contenteditable="true">{{product.id}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'name', $event)" contenteditable="true">{{product.name}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'category.name', $event)" contenteditable="true">{{product.category.name}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'owner.fullName', $event)" contenteditable="true">{{product.owner.fullName}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'initialPrice', $event)" contenteditable="true">{{product.initialPrice}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'approvementStatusId', $event)" contenteditable="true">{{product.approvementStatus.name}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'product', $event)" contenteditable="true">{{product.id}}</span>
+            </td>
+            <td>
+              <span (blur)="updateProductField(i, 'description', $event)" contenteditable="true">{{product.description}}</span>
+            </td>
+<!--            <td>-->
+<!--              <input multiple (blur)="updateProductField(i, 'productImages', $event)" contenteditable="true" src="https://salt.tikicdn.com/cache/280x280/media/catalog/product//e/x/ex200-2.u425.d20170309.t162916.222253.jpg">-->
+<!--            </td>-->
+            <td>
+              <button class="btn btn-primary" (click)="openModalWithComponent(product)" >Sửa</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </form>
     </div>
 
-
+    <!--    creator Tu-->
+    <!--    direct add new product from list of product-->
+    <div class="row justify-content-center mt-1">
+      <form [formGroup]="formArray" style="overflow-x: auto">
+        <ng-container *ngFor="let form of formArray.controls;let i=index" [formGroup]="form">
+          <table aria-describedby="danhsach" class="table" style="margin-bottom: 0px">
+            <tbody>
+            <tr id="row1" style="height: 20px; margin-bottom: 5px">
+              <td>
+                <button class="btn btn-primary mr-2 mb-2" (click)="removeRow(formArray.at(i))">Xóa</button>
+                <button class="btn btn-warning mr-1" (click)="checkOwnerInfor()">Kiểm tra</button>
+              </td>
+              <td >
+                <input required style="width: 150px" type="text" placeholder="Tên sản phẩm" formControlName="name" class="form-control">
+                <i class="alert-danger" role="alert" *ngIf="form.get('name').hasError('required') && form.get('name').touched"> Tên sản phẩm bắt buộc nhập </i>
+                <i class="alert-danger" role="alert" *ngIf="form.get('name').hasError('pattern') && form.get('name').touched"> Tên sản phẩm không được chứa ký tự đặc biệt</i>
+                <!--                <i class="alert-danger" role="alert" *ngIf="group.get('name').hasError('pattern') && group.get('name').touched"> Tên sản phẩm không được không chứa khoảng trắng</i>-->
+              </td>
+              <td>
+                <ng-container>
+                  <select style="width: 180px" formControlName="categoryId" class="form-control">
+                    <option selected disabled value="">Chọn chủng loại</option>
+                    <option *ngFor="let category of listCategory" [ngValue]="category.id">
+                      {{category.name}}
+                    </option>
+                  </select>
+                </ng-container>
+                <i class="alert-danger" role="alert" *ngIf="form.get('categoryId').hasError('required') && form.get('categoryId').touched"> Vui chọn chọn chủng loại sản phẩm  </i>
+              </td>
+              <td>
+                <input style="width: 150px" placeholder="ID người đăng" formControlName="ownerId" class="form-control">
+                <i class="alert-danger" role="alert" *ngIf="form.get('ownerId').hasError('required') && form.get('ownerId').touched"> Id người đăng bắt buộc nhập </i>
+                <i id="checkOwnerId" class="alert-danger">{{thongtin}}</i>
+              </td>
+              <td>
+                <select style="width: 180px" formControlName="approvementStatusId" class="form-control">
+                  <option selected disabled value="">Chọn Trạng thái</option>
+                  <option *ngFor="let approvementStatus of listApprovementStatuses" [ngValue]="approvementStatus.id">
+                    {{approvementStatus.name}}
+                  </option>
+                </select>
+                <i class="alert-danger" role="alert" *ngIf="form.get('approvementStatusId').hasError('required') && form.get('approvementStatusId').touched"> Vui chọn trạng thái duyệt  </i>
+              </td>
+              <td>
+                <input style="width: 150px" placeholder="Giá ban đầu" formControlName="initialPrice" class="form-control">
+                <i class="alert-danger" role="alert" *ngIf="form.get('initialPrice').hasError('required') && form.get('initialPrice').touched"> Vui lòng nhập giá ban đầu của sản phẩm  </i>
+              </td>
+              <td>
+                <input style="width: 150px" placeholder="Bước giá" formControlName="increaseAmount" class="form-control">
+                <i class="alert-danger" role="alert" *ngIf="form.get('increaseAmount').hasError('required') && form.get('increaseAmount').touched"> Vui lòng nhập giá ban đầu của sản phẩm  </i>
+              </td>
+              <td  style="height: 37.097px">
+                <textarea style="height: 37.097px; width: 200px" placeholder="Thông tin chi tiết" formControlName="description" class="form-control"></textarea>
+                <i class="alert-danger" role="alert" *ngIf="form.get('description').hasError('required') && form.get('description').touched"> Vui lòng nhập thông tin sản phẩm  </i>
+              </td>
+              <td>
+                <input style="width: 200px" type="date" placeholder="Ngày đăng" formControlName="registerDate" class="form-control">
+                <i class="alert-danger" role="alert" *ngIf="form.get('registerDate').hasError('required') && form.get('registerDate').touched"> Vui lòng nhập thời gian đăng ký  </i>
+              </td>
+              <td>
+                <input style="width: 200px" type="date" placeholder="Thời gian bắt đầu" formControlName="startDate" class="form-control">
+                <i class="alert-danger" role="alert" *ngIf="form.get('startDate').hasError('required') && form.get('startDate').touched"> Vui lòng nhập thời gian bắt đầu  </i>
+              </td>
+              <td>
+                <input style="width: 200px" type="date" placeholder="Thời gian kết thúc" formControlName="endDate" class="form-control">
+                <i class="alert-danger" role="alert" *ngIf="form.get('endDate').hasError('required') && form.get('endDate').touched"> Vui lòng nhập thời gian kết thúc  </i>
+              </td>
+              <td>
+                <div formControlName="productImage">
+                  <input style="width: 200px" type="file"  name="productImages"
+                         (change) = "showPreview($event)" placeholder="Chọn hình ảnh" id="productImages" #fileUpLoad   class="form-control" >
+                  <img [src]="imgSrc" height="125" width="100" (click)="fileUpLoad.click()"/>
+                  <!--                <input type="file" id="image" (change)="onDrop($event.target.files)" accept=".jpg, .jpeg, .png" multiple>-->
+                  <!--                <small class="preview text-danger d-block "></small>-->
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </ng-container>
+      </form>
+    </div>
     <div class="row d-flex justify-content-between mt-3">
       <div>
         <button class="btn btn-danger mr-3"><i class="far fa-trash-alt"></i> Xóa</button>
-        <button class="btn btn-success mr-3"><i class="fas fa-plus-square"></i> Thêm</button>
-        <button class="btn btn-primary"><i class="fas fa-save"></i> Lưu chỉnh sửa</button>
+        <button class="btn btn-success mr-3" (click)="addRow()"><i class="fas fa-plus-square"></i> Thêm sản phẩm</button>
+        <button class="btn btn-primary" (click)="saveAll()"><i class="fas fa-save"></i> Lưu chỉnh sửa</button>
       </div>
       <div>
         <nav aria-label="Page navigation example">
@@ -344,4 +448,6 @@
       </div>
     </div>
   </div>
+</div>
+
 </div>

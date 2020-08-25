@@ -8,13 +8,14 @@ import { IPayPalConfig } from 'ngx-paypal';
 
 import { OrderService } from "src/app/shared/services/order.service";
 import { PaymentService } from 'src/app/shared/services/payment.service';
+import { Observable, of } from 'rxjs';
 @Component({
   selector: "app-payment-option",
   templateUrl: "./payment-option.component.html",
   styleUrls: ["./payment-option.component.css"],
 })
 export class PaymentOptionComponent implements OnInit {
-  // Duy 
+  // Duy
   //paypal config
   public payPalConfig?: IPayPalConfig;
   //
@@ -129,5 +130,9 @@ export class PaymentOptionComponent implements OnInit {
         console.log('OnError', err);
       },
     };
+  }
+
+  getClientTokenFunction(): Observable<string> {
+    return of('sandbox_4xxgm5r2_vvk2j2ryjqmc4tn5');
   }
 }
