@@ -45,15 +45,6 @@ export class DealManageComponent implements OnInit {
       statusOfDeal: new FormControl(''),
     });
 
-<<<<<<< HEAD
-    this.httpClient
-      .get( 'http://localhost:8080/api/v1/admin/deal-management', { observe: 'response' })
-      .toPromise()
-      // .then( resp => console.log('Success writed by Thao', resp))
-      .catch(err => {
-        this.message = 'Lỗi kết nối server';
-      });
-=======
     // this.httpClient
     //   .get('http://localhost:8080/api/v1/admin/deal-management')
     //   .toPromise()
@@ -61,7 +52,6 @@ export class DealManageComponent implements OnInit {
     //   .catch(err => {
     //     this.message = 'Lỗi kết nối server';
     //   });
->>>>>>> 064502fd7395123122affaa5d91ea2f0aeea8cf2
   }
 
   reloadData(page, pageSize, commandToPagination) {
