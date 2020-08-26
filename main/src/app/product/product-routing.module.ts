@@ -5,6 +5,9 @@ import { ProductComponent } from './product-center/product.component';
 import { ProductAddComponent } from './product-add/product-add.component';
 import { AdminGuard } from '../auth/admin.guard';
 import { MyProductsComponent } from './my-products/my-products.component';
+import {ProductListComponent} from "./product-list/product-list.component";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MaterialModule} from "../material.module";
 
 
 const routes: Routes = [

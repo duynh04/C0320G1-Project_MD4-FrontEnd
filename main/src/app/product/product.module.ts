@@ -9,11 +9,12 @@ import { ProductComponent } from './product-center/product.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductAddComponent } from './product-add/product-add.component';
 import { MaterialModule } from "../material.module";
+import {ProductListComponent} from "./product-list/product-list.component";
 
 
 
 @NgModule({
-  declarations: [MyProductsComponent, ProductComponent, ProductAddComponent],
+  declarations: [MyProductsComponent, ProductComponent, ProductAddComponent, ProductListComponent],
   imports: [
     CommonModule,
     ProductRoutingModule,

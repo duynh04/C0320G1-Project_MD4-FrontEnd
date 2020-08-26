@@ -8,13 +8,14 @@ import { Page } from './../models/dtos/page';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {ProductDto} from "../models/dtos/productDto";
 
 @Injectable({
   providedIn: 'root'
 })
 // Coder: Nguyen Thanh Tu
 export class ProductService {
-  ApiProduct = 'http://localhost:8081/api/v1/products';
+  ApiProduct = 'http://localhost:8080/api/v1/products';
   // Creator: Cường
   private readonly API_URL = 'http://localhost:8080/api/v1';
   private readonly baseUrl = 'http://localhost:8080/api/v1/products';
@@ -79,17 +80,17 @@ export class ProductService {
 
   // Creator: Cường
   getMyProducts(ownerId: number, productName: string, approvementStatusName: string,
-    page: number): Observable<Page<Product>> {
+                page: number): Observable<Page<Product>> {
 
-    return this.http.get<Page<Product>>(this.API_URL + "/myProduct/" + ownerId,
+    return this.http.get<Page<Product>>(this.API_URL + '/myProduct/' + ownerId,
       this.getMyProductHttpOptions(productName, approvementStatusName, page))
   }
 
   // Creator: Cường
   cancelRegister(ownerId: number, productName: string, approvementStatusName: string,
-    cancelProductId: number, page: number): Observable<Page<Product>> {
+                 cancelProductId: number, page: number): Observable<Page<Product>> {
 
-    return this.http.put<Page<Product>>(this.API_URL + "/myProduct/cancel/" + ownerId, null,
+    return this.http.put<Page<Product>>(this.API_URL + '/myProduct/cancel/' + ownerId, null,
       this.getCancelProductHttpOptions(productName, approvementStatusName, cancelProductId, page))
   }
 
@@ -99,8 +100,8 @@ export class ProductService {
     return this.http.get<Product[]>(this.ApiProduct);
   }
 
-  addProduct(productCreateDto: AbstractControl): Observable<ProductDto > {
-    return this.http.post<ProductDto >(this.ApiProduct, JSON.stringify(productCreateDto), this.httpOptions);
+  addProduct(productDto: ProductDto): Observable<ProductDto > {
+    return this.http.post<ProductDto >(this.ApiProduct, JSON.stringify(productDto), this.httpOptions);
   }
 
   deleteProduct(id: number): Observable<any> {

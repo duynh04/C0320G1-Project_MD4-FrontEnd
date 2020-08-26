@@ -75,13 +75,13 @@ export class UserService {
     return this.http.post<any>(this.API_URL_USER + 'checkPhone', phoneNumber, this.httpOptions);
   }
 
-  //Creator: Tu
+  // Creator: Tu
   getUserList(): Observable<User[]> {
-    return this.http.get<User[]>(this.ApiUser);
+    return this.http.get<User[]>(this.API_URL_USER);
   }
 
-  getUserById(id): Observable<any> {
-    console.log("Id: " +id);
-    return this.http.get(this.ApiUser + '/' + id);
-  }
+  // getUserById(id): Observable<any> {
+  //   console.log("Id: " +id);
+  //   return this.http.get(this.ApiUser + '/' + id);
+  // }
 }

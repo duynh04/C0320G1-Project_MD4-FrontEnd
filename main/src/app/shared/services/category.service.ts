@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {Category} from '../models/category';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Observable } from 'rxjs';
 // Creator Nguyen Thanh Tu
 export class CategoryService {
   private readonly baseUrl = 'http://localhost:8080/api/v1/categories' ;
-  ApiCategories = 'http://localhost:8081/api/v1/categories';
+  ApiCategories = 'http://localhost:8080/api/v1/categories';
   constructor(private http: HttpClient) { }
 
   httpOption = {
@@ -22,11 +23,5 @@ export class CategoryService {
   }
   getCategoryList(): Observable<Category[]> {
     return this.http.get<Category[]>(this.ApiCategories, this.httpOption);
-=======
-export class CategoryService {
-  private readonly baseUrl = 'http://localhost:8080/api/v1/categories' ;
-  constructor(private http: HttpClient) { }
-  getCategoriesList(): Observable<any> {
-    return this.http.get(`${this.baseUrl}`);
   }
 }

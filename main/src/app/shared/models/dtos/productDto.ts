@@ -5,9 +5,9 @@ export interface ProductDto {
   name: string;
   initialPrice: bigint;
   increaseAmount: bigint;
-  registerDate: DateTimeFormat;
-  startDate: DateTimeFormat;
-  endDate: DateTimeFormat;
+  registerDate: Date;
+  startDate: Date;
+  endDate: Date;
   approvementStatus: string;
   description: string;
   category: string;
