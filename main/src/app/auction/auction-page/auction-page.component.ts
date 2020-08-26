@@ -86,6 +86,10 @@ export class AuctionPageComponent implements OnInit {
 
   ngOnInit(): void {
 
+    // this.activatedRoute.data.subscribe((data: { auctionId: number }) => {
+    //   this.auctionId = data.auctionId
+    // });
+
     // lấy auctionId từ url để dùng cho những service sau
     this.activatedRoute.params.subscribe(data => this.auctionId = data.id);
 
@@ -94,6 +98,7 @@ export class AuctionPageComponent implements OnInit {
 
       //thông tin phiên đấu giá để interpolation
       this.auction = data;
+      console.log("vào ngân");
       this.increment = data.product.increaseAmount;
       this.productName = data.product.name;
 

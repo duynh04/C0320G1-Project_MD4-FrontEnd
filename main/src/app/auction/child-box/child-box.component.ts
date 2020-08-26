@@ -53,7 +53,6 @@ export class ChildBoxComponent implements OnInit {
     } else {
       this.replyComment.push({
         currentDate: new Date(),
-        user: this.commentLevel2User,
         commentTxt: this.childForm.controls.content.value
       });
       this.userReplyComment.emit(this.replyComment);

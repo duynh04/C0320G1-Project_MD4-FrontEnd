@@ -1,17 +1,17 @@
-import { Component, OnInit, OnChanges, EventEmitter,
-  Directive, ViewContainerRef, ViewChildren, QueryList, ComponentFactoryResolver } from '@angular/core';
+import {
+  Component, OnInit, OnChanges, EventEmitter,
+  Directive, ViewContainerRef, ViewChildren, QueryList, ComponentFactoryResolver, Input
+} from '@angular/core';
 import { ProductService } from '../../shared/services/product.service';
 import { UserService } from '../../shared/services/user.service';
 import { AuctionService } from '../../shared/services/auction.service';
 import { AuctionRecordService } from '../../shared/services/auction-record.service';
 import { Product } from '../../shared/models/product';
-import { User } from '../../shared/models/user';
 import { Auction } from '../../shared/models/auction';
 import { AuctionRecord } from '../../shared/models/auction-record';
 import { CommentLevel1Service } from '../../shared/services/comment-level1.service';
 import { CommentLevel1 } from '../../shared/models/comment-level1';
 import { CommentLevel2Service } from '../../shared/services/comment-level2.service';
-import { CommentLevel2 } from '../../shared/models/comment-level2';
 import { ProductCommentDto } from "../../shared/models/dtos/product-comment-dto";
 import { ChildBoxComponent } from "../child-box/child-box.component";
 import $ from 'jquery';
@@ -33,17 +33,20 @@ export class ReplyContainerDirective {
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit, OnChanges {
-  public productDetails: Product;
-  public auctionParticipants: User[];
-  public auctionInformation: Auction;
+  public productDetails;
   public auctionRecords: AuctionRecord[] = [];
   public commentLevel1List: CommentLevel1[];
-  public commentLevel2List: CommentLevel2[];
   public commentLv1List: ProductCommentDto[];
-  public productId = 1;
-  public userId = 1;
-  public auctionId = 1;
-  public auctionRecordId = 1;
+  public auctionId;
+  public productName;
+
+  @Input()
+  public productId : number = 1;
+  public productNameCategory;
+  public productStartTime;
+  public productEndTime;
+  public productInitialPrice;
+  public auctionStatus;
   public commentLevel1Id = 1;
   public commentProductId = 1;
   public comments: string;
@@ -64,33 +67,39 @@ export class ProductDetailsComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    this.productService.getProductById(this.productId).subscribe(dataOfProductId => {
-      this.productDetails = dataOfProductId;
-      // console.log(this.productDetails);
+    console.log("vào bách");
+    console.log(this.productId);
+    // this.auctionService.getAuctionByProductId(this.productId).subscribe(dataOfAuctionId => {
+    //   console.log(dataOfAuctionId);
+    //   // this.productDetails = dataOfAuctionId.product;
+    //   this.auctionInformation = dataOfAuctionId;
+    //   // this.auctionRecords = dataOfAuctionId.records;
+    // });
+
+    this.productService.getProductById(this.productId).subscribe(data => {
+      this.productName = data.name;
+      this.productId = data.id;
+      this.productNameCategory = data.category.name;
+      this.productStartTime = data.startDate;
+      this.productEndTime = data.endDate;
+      this.productInitialPrice = data.initialPrice;
+      this.auctionStatus = data.auction.auctionStatus.name;
     });
 
-    this.auctionService.getAuctionByProductId(this.productId).subscribe(dataOfAuctionId => {
-      console.log(dataOfAuctionId);
-      // this.productDetails = dataOfAuctionId.product;
-      this.auctionInformation = dataOfAuctionId;
-      // this.auctionRecords = dataOfAuctionId.records;
-    });
-
-    this.auctionRecordService.getAllAuctionRecord().subscribe(dataOfAuctionRecord => {
-      this.auctionRecords = dataOfAuctionRecord;
-    });
+    // this.auctionService.getAuctionById(this.auctionId).subscribe(data => {
+    //   this.productName = data.product.name;
+    //   console.log(this.productName);
+    //   this.productId = data.product.id;
+    //   this.productNameCategory = data.product.category.name;
+    //   this.productStartTime = data.product.startDate;
+    //   this.productEndTime = data.product.endDate;
+    //   this.productInitialPrice = data.product.initialPrice;
+    //   this.auctionStatus = data.auctionStatus.name;
+    // });
 
     this.count = 0;
 
-    this.commentLevel1Service.getAllCommentLevel1().subscribe(data => {
-      this.commentLevel1List = data;
-    });
-
-    this.commentLevel2Service.getAllCommentLevel2().subscribe(data => {
-      this.commentLevel2List = data;
-    });
-
-    this.commentLevel1Service.getCommentLevel1ByProductId(this.commentProductId).subscribe(data => {
+    this.commentLevel1Service.getCommentLevel1ByProductId(this.productId).subscribe(data => {
       this.commentLv1List = data;
     });
 
