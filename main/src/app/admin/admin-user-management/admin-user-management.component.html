@@ -73,7 +73,7 @@
                     *ngFor="let user of userList$  | async | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalElements}; index as i">
                     <th scope="row">{{stt[i]}}</th>
                     <td>{{user.id}}</td>
-                    <td><a href="">{{user.fullName}}</a> </td>
+                    <td><a href="">{{user.fullname}}</a> </td>
                     <td>{{user.address}}</td>
                     <td>{{user.rate}}</td>
                     <td>{{user.email}}</td>

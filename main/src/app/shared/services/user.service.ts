@@ -62,8 +62,8 @@ export class UserService {
   }
 
   // creator: Trương Khánh Mậu
-  createUser(userDto: UserDto): Observable<UserDto> {
-    return this.http.post<UserDto>(this.API_URL_USER + 'register', JSON.stringify(userDto), this.httpOptions);
+  createUser(userDto: UserDto): Observable<string> {
+    return this.http.post<string>(this.API_URL_USER + 'register', JSON.stringify(userDto), this.httpOptions);
   }
 
   // creator: Trương Khánh Mậu

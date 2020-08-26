@@ -325,7 +325,7 @@ export class AuctionPageComponent implements OnInit {
 
 //  The End of Sorrow  :))))
   goToHomePage() {
-    this.router.navigateByUrl('/home');
+    this.router.navigateByUrl('/');
   }
 
   goToCart() {

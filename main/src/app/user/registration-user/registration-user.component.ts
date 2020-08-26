@@ -90,7 +90,7 @@ export class RegistrationUserComponent implements OnInit {
         const userInfo: AuthLoginInfo = {
           email: this.registerForm.value.email,
           password: this.registerForm.value.password
-        }
+        };
         return this.auth.attemptAuth(userInfo);
       })
     ).subscribe((data: JwtResponse) => {
