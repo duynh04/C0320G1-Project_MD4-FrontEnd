@@ -1,9 +1,9 @@
-<div class="row">
+<div class="row" style="width: 100%;">
     <div class="nav nav-tabs" role="tablist" style="display: block;">
         <h1 class="active" style="text-align: center;"><strong>Quản Lý Thành Viên</strong> </h1>
     </div>
 
-    <form class="px-0" [formGroup]="createForm" (ngSubmit)="search()">
+    <form class="px-0" [formGroup]="createForm" (ngSubmit)="search()" style="width: 100%;">
         <div class="row mt-3">
             <div class="form-group col-md-4">
                 <label class="col-form-label mr-2">ID</label>
@@ -13,7 +13,7 @@
                 <label class="col-form-label mr-2">Địa Chỉ</label>
                 <select class="custom-select" id="address" formControlName="address">
                     <option selected disabled value="">Chọn...</option>
-                    <option value="volvo" *ngFor="let user of user">{{user.address}}</option>
+                    <option value="volvo" *ngFor="let user of userList$">{{user.address}}</option>
                 </select>
             </div>
             <div class="form-group col-md-4">
