@@ -1,13 +1,9 @@
-import { TokenStorageService } from 'src/app/auth/token-storage.service';
-import { ErrorDetail } from './../models/dtos/error-detail';
-import { TestUser } from './../models/dtos/test-user';
-import { handler } from './../exceptions/exception-handler';
-import { catchError } from 'rxjs/operators';
-import { Product } from './../models/product';
-import { Page } from './../models/dtos/page';
-import { Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {TokenStorageService} from 'src/app/auth/token-storage.service';
+import {Product} from './../models/product';
+import {Page} from './../models/dtos/page';
+import {Observable} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +18,8 @@ export class ProductService {
   constructor(
     private http: HttpClient,
     private tokenStorage: TokenStorageService
-  ) { }
+  ) {
+  }
 
   // Creator: Cường
   // testError() : Observable<TestUser | ErrorDetail> {
@@ -73,18 +70,18 @@ export class ProductService {
 
   // Creator: Cường
   getMyProducts(ownerId: number, productName: string, approvementStatusName: string,
-    page: number): Observable<Page<Product>> {
+                page: number): Observable<Page<Product>> {
 
-    return this.http.get<Page<Product>>(this.API_URL + "/myProduct/" + ownerId,
-      this.getMyProductHttpOptions(productName, approvementStatusName, page))
+    return this.http.get<Page<Product>>(this.API_URL + '/myProduct/' + ownerId,
+      this.getMyProductHttpOptions(productName, approvementStatusName, page));
   }
 
   // Creator: Cường
   cancelRegister(ownerId: number, productName: string, approvementStatusName: string,
-    cancelProductId: number, page: number): Observable<Page<Product>> {
+                 cancelProductId: number, page: number): Observable<Page<Product>> {
 
-    return this.http.put<Page<Product>>(this.API_URL + "/myProduct/cancel/" + ownerId, null,
-      this.getCancelProductHttpOptions(productName, approvementStatusName, cancelProductId, page))
+    return this.http.put<Page<Product>>(this.API_URL + '/myProduct/cancel/' + ownerId, null,
+      this.getCancelProductHttpOptions(productName, approvementStatusName, cancelProductId, page));
   }
 
   /**
@@ -103,5 +100,10 @@ export class ProductService {
    */
   getWaitingProducts(userId: number, page: number): Observable<any> {
     return this.http.get<any>(this.API_URL + `/product/waiting?userId=${userId}&page=${page}`);
+  }
+
+  //Bach
+  getProductById(productId: number): Observable<any> {
+    return this.http.get(this.baseUrl + '/' + productId);
   }
 }

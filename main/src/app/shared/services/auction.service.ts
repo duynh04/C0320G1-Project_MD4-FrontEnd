@@ -119,5 +119,9 @@ export class AuctionService {
       }
     });
   }
+  //Bach
+  getAuctionByProductId(productId: number): Observable<Auction> {
+    return this.httpClient.get<Auction>(this.auctionAPI + '/product/' + productId);
+  }
 
 }
