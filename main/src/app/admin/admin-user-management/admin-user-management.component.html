@@ -13,7 +13,7 @@
                 <label class="col-form-label mr-2">Địa Chỉ</label>
                 <select class="custom-select" id="address" formControlName="address">
                     <option selected disabled value="">Chọn...</option>
-                    <option value="volvo" *ngFor="let user of userList$">{{user.address}}</option>
+                    <option value="volvo" *ngFor="let user of userList$ | async ">{{user.address}}</option>
                 </select>
             </div>
             <div class="form-group col-md-4">
