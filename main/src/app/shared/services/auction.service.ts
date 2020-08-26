@@ -39,7 +39,6 @@ export class AuctionService {
 
   getAuctionById(auctionId: number): Observable<Auction> {
     return this.httpClient.get<Auction>(this.auctionAPI + `/${auctionId}`, this.httpOptions);
-
   }
 
   getTopAuctionRecords(auctionId: number): Observable<any> {

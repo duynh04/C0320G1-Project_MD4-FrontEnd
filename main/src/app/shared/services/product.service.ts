@@ -105,9 +105,9 @@ export class ProductService {
     return this.http.get<any>(this.API_URL + `/product/waiting?userId=${userId}&page=${page}`);
   }
 
-  private API = 'http://localhost:8080/api/v1/product';
+  private API = 'http://localhost:8080/api/v1/products';
 
-  getProductById(productId: number): Observable<any> {
-    return this.http.get(this.API + '/' + productId);
+  getProductById(productId: number): Observable<Product> {
+    return this.http.get<Product>(this.API + '/' + productId);
   }
 }

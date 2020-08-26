@@ -1,4 +1,4 @@
-<div class="wrapper">
+
 <!--  <div class="content-wrapper">-->
 <!--    <div class="content">-->
 <!--      <div class="mini-image">-->
@@ -94,11 +94,11 @@
       </thead>
       <tbody>
       <tr>
-        <td>{{productDetails?.name}}</td>
-        <td>{{productDetails?.category.name}}</td>
-        <td>{{productDetails?.startDate}}</td>
-        <td>{{productDetails?.endDate}}</td>
-        <td>{{productDetails?.initialPrice}}</td>
+        <td>{{productName}}</td>
+        <td>{{productNameCategory}}</td>
+        <td>{{productStartTime}}</td>
+        <td>{{productEndTime}}</td>
+        <td>{{productInitialPrice}}</td>
       </tr>
       </tbody>
     </table>
@@ -117,8 +117,8 @@
           </thead>
           <tbody>
           <tr>
-            <td>{{auctionInformation?.product?.id}}</td>
-            <td>{{auctionInformation?.auctionStatus?.name}}</td>
+            <td>{{productId}}</td>
+            <td>{{auctionStatus}}</td>
           </tr>
           </tbody>
         </table>
@@ -297,5 +297,5 @@
       </div>
     </div>
   </div>
-</div>
+
 
