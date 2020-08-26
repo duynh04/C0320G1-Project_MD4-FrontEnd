@@ -15,7 +15,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { PRODUCT_MESSAGES } from '../../shared/validations/error-messages';
 import { UserValidatorService } from '../../shared/validations/user-validator.service';
 import { validCompareDate, validDate, validMaxImage } from '../../shared/validations/custom-validators';
-
+import { TokenStorageService } from '../../auth/token-storage.service';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -30,7 +31,8 @@ export class ProductAddComponent implements OnInit {
     private router: Router,
     private categoryService: CategoryService,
     private storage: AngularFireStorage,
-    private db: AngularFirestore) {
+    private db: AngularFirestore,
+    private tokenStorageService: TokenStorageService) {
   }
 
   // Thành
@@ -46,6 +48,7 @@ export class ProductAddComponent implements OnInit {
   downloadURL: string;
   newProduct: any;
 
+
   // Lựa chọn file để upload, lựa xong push vào mảng. Nếu chọn sai chọn lại thì xóa mảng làm lại từ đầu
   onDrop(files: FileList) {
     this.files.splice(0);
@@ -58,7 +61,7 @@ export class ProductAddComponent implements OnInit {
   ngOnInit() {
     this.createProductForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
-      name: ['', [Validators.required, Validators.pattern('^[A-Z]{1}[ a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$')]],
+      name: ['', [Validators.required, Validators.pattern('^[A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴÝỶỸ]{1}[ a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$')]],
       initialPrice: ['', [Validators.required, Validators.min(0)]],
       increaseAmount: ['', [Validators.required, Validators.min(0)]],
       date: this.fb.group({
@@ -68,12 +71,15 @@ export class ProductAddComponent implements OnInit {
         validators: [validCompareDate]
       }),
       // tslint:disable-next-line:max-line-length
-      description: ['', [Validators.required]],
+      description: ['', [Validators.required, Validators.maxLength(250)]],
       category: this.fb.group({
         id: ['', Validators.required]
       }),
       productImageList: this.fb.array([], [Validators.required, validMaxImage]),
       registerDate: [''],
+      owner: this.fb.group({
+        id: [this.tokenStorageService.getJwtResponse().userId]
+      })
     });
     this.categoryService.getCategoriesList().subscribe(data => {
       this.categoriesList = data;
@@ -81,15 +87,19 @@ export class ProductAddComponent implements OnInit {
   }
 
   onSubmit() {
+    let from = new DatePipe('vi-VN').transform(this.createProductForm.value.date.startDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", 'GMT+7');
+    let to = new DatePipe('vi-VN').transform(this.createProductForm.value.date.endDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", 'GMT+7');
+    let _registerDate = new DatePipe('vi-VN').transform(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", 'GMT+7');
     this.newProduct = {
       name: this.createProductForm.value.name,
       initialPrice: this.createProductForm.value.initialPrice,
       increaseAmount: this.createProductForm.value.increaseAmount,
-      registerDate: new Date(),
-      startDate: this.createProductForm.value.date.startDate,
-      endDate: this.createProductForm.value.date.endDate,
+      registerDate: _registerDate,
+      startDate: from,
+      endDate: to,
       description: this.createProductForm.value.description,
       category: this.createProductForm.value.category,
+      owner: this.createProductForm.value.owner,
       productImages: []
     }
       ;
@@ -100,7 +110,6 @@ export class ProductAddComponent implements OnInit {
     this.productService.createProduct(this.newProduct).subscribe(
       data => {
         this.router.navigateByUrl('product/myProduct');
-        alert('Đã gửi yêu cầu đấu giá thành công. Vui lòng chờ phê duyệt!');
       }
     );
   }
@@ -135,6 +144,7 @@ export class ProductAddComponent implements OnInit {
       })
     ).subscribe();
   }
+
   get name() {
     return this.createProductForm.get('name');
   }
@@ -166,6 +176,7 @@ export class ProductAddComponent implements OnInit {
   get to() {
     return this.createProductForm.get('date.endDate');
   }
+
   get productImageList(): FormArray {
     return this.createProductForm.get('productImageList') as FormArray;
   }

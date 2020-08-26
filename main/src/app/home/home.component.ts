@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
   showSearch :boolean;
   productName :string="";
   price : string="";
-  categoryName : string=""; 
+  categoryName : string="";
   currentProductName :string="";
   currentPrice : string="";
   currentCategoryName : string="";
@@ -57,11 +57,11 @@ export class HomeComponent implements OnInit {
   totalElements : number;
   stt: number[];
   isEmpty : boolean = false;
-  
+
   constructor(private auctionService: AuctionService,
     private router:Router,
     private webSocket: WebsocketService,
-    private tokenStorage:TokenStorageService) { 
+    private tokenStorage:TokenStorageService) {
       //Nếu có đấu giá thành công thì refresh
       this.webSocket.listen('message-from-server').subscribe(data=>{
         this.ngOnInit();
@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit {
          }
          this.endDateList.push(time);
        }
-      }) 
+      })
   }
 
   //config nếu endDate lớn hơn 24h
@@ -157,6 +157,6 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-  
-  
+
+
 }

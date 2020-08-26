@@ -1,19 +1,18 @@
-<div class="d-flex justify-content-center align-items-center">
+<div class="d-flex justify-content-center align-items-center my-md-3">
   <div class="col-sm-6">
-    <form [formGroup]="createProductForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="createProductForm">
       <div class="d-flex justify-content-center">
         <h1>Đăng sản phẩm</h1>
       </div>
       <div class="form-group row">
-        <label for="inputName" class="col-md-4 col-form-label">Tên sản phẩm:<span
-          class="text-danger">*</span></label>
+        <label for="inputName" class="col-md-4 col-form-label">Tên sản phẩm:<span class="text-danger">*</span></label>
         <div class="col-md-8">
           <input type="text" class="form-control" id="inputName" formControlName="name"
-                 [class.mark-success]="name.valid">
+            [class.mark-success]="name.valid">
           <div *ngIf="name.touched && name.invalid">
             <ng-container *ngFor="let error of errors.productNameErrors">
               <small *ngIf="name.hasError(error.code)" class="d-block text-danger"
-                     role="alert">{{error.message}}</small>
+                role="alert">{{error.message}}</small>
             </ng-container>
           </div>
         </div>
@@ -30,32 +29,32 @@
             <div *ngIf="category.touched && category.invalid">
               <ng-container *ngFor="let error of errors.categoryIdErrors">
                 <small *ngIf="category.hasError(error.code)" class="d-block text-danger"
-                       role="alert">{{error.message}}</small>
+                  role="alert">{{error.message}}</small>
               </ng-container>
             </div>
           </div>
         </div>
       </fieldset>
       <div class="form-group row">
-        <label for="inputPrice" class="col-sm-4 col-form-label">Giá ban đầu:<span
-          class="text-danger">*</span></label>
-        <div class="col-sm-8">
+        <label for="inputPrice" class="col-sm-4 col-form-label">Giá ban đầu (VND):<span
+            class="text-danger">*</span></label>
+        <div class="col-sm-8 dollar">
           <input type="number" class="form-control" id="inputPrice" formControlName="initialPrice"
-                 [class.mark-success]="initialPrice.valid">
+            [class.mark-success]="initialPrice.valid">
           <div *ngIf="initialPrice.touched && initialPrice.invalid">
             <ng-container *ngFor="let error of errors.initialPriceErrors">
               <small *ngIf="initialPrice.hasError(error.code)" class="d-block text-danger"
-                     role="alert">{{error.message}}</small>
+                role="alert">{{error.message}}</small>
             </ng-container>
           </div>
         </div>
       </div>
       <div class="form-group row">
-        <label for="step" class="col-sm-4 col-form-label">Mỗi lần tăng ít nhất:<span
-          class="text-danger">*</span></label>
-        <div class="col-sm-8">
+        <label for="step" class="col-sm-4 col-form-label">Mỗi lần tăng ít nhất (VND):<span
+            class="text-danger">*</span></label>
+        <div class="col-sm-8 dollar">
           <input type="number" class="form-control" id="step" list="defaultNumbers" formControlName="increaseAmount"
-                 [class.mark-success]="increaseAmount.valid">
+            [class.mark-success]="increaseAmount.valid">
           <datalist id="defaultNumbers">
             <option value="5000">
             <option value="10000">
@@ -66,7 +65,7 @@
           <div *ngIf="increaseAmount.touched && increaseAmount.invalid">
             <ng-container *ngFor="let error of errors.increaseAmountErrors">
               <small *ngIf="increaseAmount.hasError(error.code)" class="d-block text-danger"
-                     role="alert">{{error.message}}</small>
+                role="alert">{{error.message}}</small>
             </ng-container>
           </div>
         </div>
@@ -74,7 +73,7 @@
       <fieldset formArrayName="productImageList">
         <div class="form-group row">
           <label for="image" class="col-sm-4 col-form-label">Hình ảnh sản phẩm:<span
-            class="text-danger">*</span></label>
+              class="text-danger">*</span></label>
           <div class="col-sm-8">
             <input type="file" id="image" (change)="onDrop($event.target.files)" accept=".jpg, .jpeg, .png" multiple>
             <small class="preview text-danger d-block "></small>
@@ -85,7 +84,7 @@
         <label class="col-sm-4 col-form-label">Vui lòng chọn hình ảnh, sau đó click để upload ảnh</label>
         <div class="col-sm-2">
           <input type="button" value="Upload" (click)="onClick()" [disabled]="files.length > 5 || files.length == 0"
-                 class="btn btn-success">
+            class="btn btn-success">
         </div>
       </div>
       <div class="form-group row">
@@ -93,9 +92,7 @@
         <div class="col-sm-5">
           <div *ngFor="let file of files">
             <div *ngIf="percentage | async as pct">
-              <progress class="progress is-success"
-                        [value]="pct"
-                        max="100">
+              <progress class="progress is-success" [value]="pct" max="100">
               </progress>
               <p></p>
               {{ pct | number }}%
@@ -105,14 +102,14 @@
       </div>
       <div class="form-group row">
         <label for="informationDetail" class="col-sm-4 col-form-label">Thông tin chi tiết:<span
-          class="text-danger">*</span></label>
+            class="text-danger">*</span></label>
         <div class="col-sm-8">
-              <textarea class="form-control" rows="5" id="informationDetail" formControlName="description"
-                        [class.mark-success]="description.valid"></textarea>
+          <textarea class="form-control" rows="5" id="informationDetail" formControlName="description"
+            [class.mark-success]="description.valid"></textarea>
           <div *ngIf="description.touched && description.invalid">
             <ng-container *ngFor="let error of errors.descriptionErros">
               <small *ngIf="description.hasError(error.code)" class="d-block text-danger"
-                     role="alert">{{error.message}}</small>
+                role="alert">{{error.message}}</small>
             </ng-container>
           </div>
         </div>
@@ -120,11 +117,11 @@
       <fieldset formGroupName="date">
         <div class="form-group row">
           <label for="startDate" class="col-sm-4 col-form-label">Ngày giờ bắt đầu:<span
-            class="text-danger">*</span></label>
+              class="text-danger">*</span></label>
           <div class="col-sm-8">
             <mat-form-field>
               <input [min]="minDate" matInput [ngxMatDatetimePicker]="picker" placeholder="Chọn ngày bắt đầu"
-                     class="form-control" id="startDate" formControlName="startDate">
+                class="form-control" id="startDate" formControlName="startDate">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
             </mat-form-field>
@@ -137,11 +134,11 @@
         </div>
         <div class="form-group row">
           <label for="endDate" class="col-sm-4 col-form-label">Ngày giờ kết thúc:<span
-            class="text-danger">*</span></label>
+              class="text-danger">*</span></label>
           <div class="col-sm-8">
             <mat-form-field>
               <input [min]="minDate" matInput [ngxMatDatetimePicker]="picker1" placeholder="Chọn ngày kết thúc"
-                     class="form-control" id="endDate" formControlName="endDate">
+                class="form-control" id="endDate" formControlName="endDate">
               <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
               <ngx-mat-datetime-picker #picker1></ngx-mat-datetime-picker>
             </mat-form-field>
@@ -160,8 +157,27 @@
       </fieldset>
       <div class="d-flex justify-content-center">
         <div class="col-sm-4">
-          <input type="submit" class="btn btn-primary" value="Đăng ký sản phẩm" id="submitbtn"
-                 [disabled]="createProductForm.invalid">
+          <input type="button" class="btn btn-primary" value="Đăng ký sản phẩm" id="submitbtn"
+            [disabled]="createProductForm.invalid" data-toggle="modal" data-target="#exampleModal">
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Đã đăng ký sản phẩm thành công. Vui lòng chờ phê duyệt
+              </div>
+              <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" value="Ok" (click)="onSubmit()" data-dismiss="modal">
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col-sm-4">
           <input type="reset" onClick="window.location.reload();" class="btn btn-primary" value="Nhập lại">
@@ -170,4 +186,3 @@
     </form>
   </div>
 </div>
-

@@ -15,7 +15,6 @@ import { Observable } from 'rxjs';
 
 //creator: Đặng Hồng Quân team C
 export class PaymentOptionComponent implements OnInit {
-
   // Duy
   //paypal config
   payPalConfig?: IPayPalConfig;

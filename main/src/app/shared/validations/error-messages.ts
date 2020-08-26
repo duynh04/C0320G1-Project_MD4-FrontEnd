@@ -15,8 +15,8 @@ export const DELIVERRY_MESSAGES = {
   ],
   phoneNumberErrors: [
     { code: 'required', message: 'Vui lòng nhập số điện thoại giao hàng' },
-    { code: 'format', message: 'Số điện thoại không hợp lệ' },
-    { code: 'alphabel', message: 'Kí tự không hợp lệ' },
+    { code: 'format', message: 'Số điện thoại không hợp lệ. Số điện thoại bao gồm 10 kí tự số' },
+    { code: 'alphabel', message: 'Kí tự không hợp lệ. Vui lòng nhập kí tự số' },
   ]
 };
 export const PRODUCT_MESSAGES = {
@@ -42,7 +42,7 @@ export const PRODUCT_MESSAGES = {
   ],
   descriptionErros: [
     { code: 'required', message: 'Vui lòng nhập mô tả sản phẩm' },
-    { code: 'pattern', message: 'Vui lòng bắt đầu bằng chữ hoa chữ cái đầu tiên và không nhập ký tự đặc biệt' }
+    { code: 'maxlength', message: 'Mô tả sản phẩm không quá 250 kí tự. Vui lòng nhập lại' }
   ],
   categoryIdErrors: [
     { code: 'required', message: 'Vui lòng chọn loại sản phẩm' }
