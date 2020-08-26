@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {UserService} from '../../shared/services/user.service';
-import {UserDto} from '../../shared/models/dtos/userDto';
-import {NOTIFICATION_USER} from '../../shared/validations/createUserValidator';
-import {validPhoneNumber} from '../../shared/validations/custom-validators';
-import {checkBirthday} from '../../shared/validations/validatorBirthday';
-import {uniqueEmail} from '../../shared/validations/uniqueEmail';
-import {uniquePhoneNumber} from '../../shared/validations/uniquePhoneNumber';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AuthJwtService} from '../../auth/auth-jwt.service';
-import {TokenStorageService} from '../../auth/token-storage.service';
-import {AuthLoginInfo} from '../../auth/login-info';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { UserService } from '../../shared/services/user.service';
+import { UserDto } from '../../shared/models/dtos/userDto';
+import { NOTIFICATION_USER } from '../../shared/validations/createUserValidator';
+import { validPhoneNumber } from '../../shared/validations/custom-validators';
+import { checkBirthday } from '../../shared/validations/validatorBirthday';
+import { uniqueEmail } from '../../shared/validations/uniqueEmail';
+import { uniquePhoneNumber } from '../../shared/validations/uniquePhoneNumber';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthJwtService } from '../../auth/auth-jwt.service';
+import { TokenStorageService } from '../../auth/token-storage.service';
+import { AuthLoginInfo } from '../../auth/login-info';
+import { JwtResponse } from 'src/app/auth/jwt-response';
+import { map, switchMap, concatMap } from 'rxjs/operators';
 declare var $: any;
 declare let Email: any;
 
@@ -21,28 +23,14 @@ declare let Email: any;
 })
 export class RegistrationUserComponent implements OnInit {
   constructor(private fb: FormBuilder,
-              private  userService: UserService,
-              private activatedRoute: ActivatedRoute,
-              private router: Router,
-              private tokenStorage: TokenStorageService,
-              private auth: AuthJwtService) {
+    private userService: UserService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private tokenStorage: TokenStorageService,
+    private auth: AuthJwtService) {
   }
 
-  user: UserDto = {
-    id: null,
-    fullName: null,
-    email: null,
-    birthday: null,
-    password: null,
-    confirmPassword: null,
-    idCard: null,
-    gender: null,
-    phoneNumber: null,
-    address: null,
-    question: null,
-    answer: null,
-    confirmCaptchaCode: null,
-  };
+  user: UserDto = {} as UserDto;
   registerForm: FormGroup;
   date: any;
   captchaCode: string;
@@ -50,7 +38,7 @@ export class RegistrationUserComponent implements OnInit {
   test;
   authenticationFailed = '';
   isRemember: boolean;
-  userInfo: AuthLoginInfo;
+  // userInfo: AuthLoginInfo;
 
   ngOnInit() {
     this.date = new Date().toISOString().slice(0, 10);
@@ -70,7 +58,7 @@ export class RegistrationUserComponent implements OnInit {
       question: ['', [Validators.required]],
       answer: ['', [Validators.required]],
       confirmCaptchaCode: ['', [Validators.required]],
-    }, {validators: [ checkPassword, this.checkCaptchaCode.bind(this)]});
+    }, { validators: [checkPassword, this.checkCaptchaCode.bind(this)] });
   }
 
   sendEmail() {
@@ -91,30 +79,34 @@ export class RegistrationUserComponent implements OnInit {
     if (this.test.toString() === cf.toString()) {
       this.onSubmit();
       $('#myModal').modal('hide');
-      this.login(this.userInfo);
+      // this.login(this.userInfo);
     } else {
       this.authenticationFailed = 'Mã xác nhận không đúng! vui lòng nhập lại';
     }
   }
   onSubmit() {
-    this.userService.createUser(this.registerForm.value)
-      .subscribe(data => console.log(data), error => console.log(error));
+    this.userService.createUser(this.registerForm.value).pipe(
+      concatMap((res: string) => {
+        const userInfo: AuthLoginInfo = {
+          email: this.registerForm.value.email,
+          password: this.registerForm.value.password
+        }
+        return this.auth.attemptAuth(userInfo);
+      })
+    ).subscribe((data: JwtResponse) => {
+      this.tokenStorage.saveJwtResponse(data, false);
+      this.router.navigateByUrl('/');
+    })
+
+    // this.userService.createUser(this.registerForm.value)
+    //   .subscribe((data: JwtResponse) => {}, error => console.log(error));
   }
   public login(userInfo) {
     this.auth.attemptAuth(userInfo).subscribe(
       data => {
         this.tokenStorage.saveJwtResponse(data, this.isRemember);
-      }, () => {
-        this.activatedRoute.queryParamMap.subscribe(value => {
-          const returnUrl = value.get('returnUrl');
-          if (returnUrl) {
-            this.router.navigateByUrl(returnUrl);
-          } else {
-            this.router.navigateByUrl('/');
-          }
-        });
-      }
-    );
+        this.router.navigateByUrl('/');
+      });
   }
 
   createCaptcha() {
@@ -148,7 +140,7 @@ export class RegistrationUserComponent implements OnInit {
     const cap: UserDto = formGroup.value;
     const confirm = cap.confirmCaptchaCode;
     if (confirm !== this.captchaCode) {
-      return {checkCaptchaCode: true};
+      return { checkCaptchaCode: true };
     }
     return null;
   }
@@ -209,7 +201,7 @@ function checkPassword(formGroup: AbstractControl): ValidationErrors | null {
   const password = pass.password;
   const confirmPassword = pass.confirmPassword;
   if (password !== confirmPassword) {
-    return {checkPassword: true};
+    return { checkPassword: true };
   }
   return null;
 }

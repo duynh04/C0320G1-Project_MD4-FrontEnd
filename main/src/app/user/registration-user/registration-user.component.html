@@ -1,29 +1,25 @@
 <div class="container">
   <h2 class="mt-3" style="text-align: center">Đăng ký tài khoản</h2>
-
   <form [formGroup]="registerForm" (ngSubmit)="sendEmail()" class="w-75 mx-auto">
-
     <div class="form-group row">
-      <label for="fullName" class="col-md-3 col-form-label">Họ và tên <span
-        class="text-danger">*</span></label>
+      <label for="fullName" class="col-md-3 col-form-label">Họ và tên <span class="text-danger">*</span></label>
       <div class="col-md-9">
         <input formControlName="fullName" type="text" class="form-control" id="fullName"
-               [class.mark-success]="fullName.valid">
+          [class.mark-success]="fullName.valid">
         <div *ngIf="fullName.touched">
           <ng-container *ngFor="let error of errors.fullNameErrors">
             <small *ngIf="fullName.hasError(error.code)" class="d-block text-danger"
-                   role="alert">{{error.message}}</small>
+              role="alert">{{error.message}}</small>
           </ng-container>
         </div>
       </div>
     </div>
 
     <div class="form-group row">
-      <label class="col-md-3 col-form-label">Giới tính<span
-        class="text-danger">*</span></label>
+      <label class="col-md-3 col-form-label">Giới tính<span class="text-danger">*</span></label>
       <div class="col-md-9">
         <label>
-          <input  formControlName="gender" type="radio" name="gender" value="Nam">
+          <input formControlName="gender" type="radio" name="gender" value="Nam">
         </label> Nam
         <label>
           <input formControlName="gender" type="radio" name="gender" value="Nữ">
@@ -31,22 +27,19 @@
         <div *ngIf="gender.touched">
           <ng-container *ngFor="let error of errors.genderErrors">
             <small *ngIf="gender.hasError(error.code)" class="d-block text-danger"
-                   role="alert">{{error.message}}</small>
+              role="alert">{{error.message}}</small>
           </ng-container>
         </div>
       </div>
     </div>
 
     <div class="form-group row">
-      <label for="email" class="col-md-3 col-form-label">Email<span
-        class="text-danger">*</span></label>
+      <label for="email" class="col-md-3 col-form-label">Email<span class="text-danger">*</span></label>
       <div class="col-md-9">
-        <input formControlName="email" type="text" class="form-control" id="email"
-               [class.mark-success]="email.valid">
+        <input formControlName="email" type="text" class="form-control" id="email" [class.mark-success]="email.valid">
         <div *ngIf="email.touched">
           <ng-container *ngFor="let error of errors.emailErrors">
-            <small *ngIf="email.hasError(error.code)" class="d-block text-danger"
-                   role="alert">{{error.message}}</small>
+            <small *ngIf="email.hasError(error.code)" class="d-block text-danger" role="alert">{{error.message}}</small>
           </ng-container>
         </div>
       </div>
@@ -54,29 +47,27 @@
 
 
     <div class="form-group row">
-      <label for="birthday" class="col-md-3 col-form-label">Ngày sinh<span
-        class="text-danger">*</span></label>
+      <label for="birthday" class="col-md-3 col-form-label">Ngày sinh<span class="text-danger">*</span></label>
       <div class="col-md-9">
         <input formControlName="birthday" type="date" class="form-control" id="birthday" max="{{this.date}}">
         <div *ngIf="birthday.touched">
           <ng-container *ngFor="let error of errors.birthdayErrors">
             <small *ngIf="birthday.hasError(error.code)" class="d-block text-danger"
-                   role="alert">{{error.message}}</small>
+              role="alert">{{error.message}}</small>
           </ng-container>
         </div>
       </div>
     </div>
 
     <div class="form-group row">
-      <label for="sdt" class="col-md-3 col-form-label">SDT<span
-        class="text-danger">*</span></label>
+      <label for="sdt" class="col-md-3 col-form-label">SĐT<span class="text-danger">*</span></label>
       <div class="col-md-9">
         <input formControlName="phoneNumber" maxlength="11" type="text" class="form-control" id="sdt"
-               [class.mark-success]="phoneNumber.valid">
+          [class.mark-success]="phoneNumber.valid">
         <div *ngIf="phoneNumber.touched">
           <ng-container *ngFor="let error of errors.phoneNumberErrors">
             <small *ngIf="phoneNumber.hasError(error.code)" class="d-block text-danger"
-                   role="alert">{{error.message}}</small>
+              role="alert">{{error.message}}</small>
           </ng-container>
         </div>
       </div>
@@ -84,45 +75,42 @@
 
 
     <div class="form-group row">
-      <label for="idCard" class="col-md-3 col-form-label">CMND<span
-        class="text-danger">*</span></label>
+      <label for="idCard" class="col-md-3 col-form-label">CMND<span class="text-danger">*</span></label>
       <div class="col-md-9">
         <input formControlName="idCard" maxlength="12" type="text" class="form-control" id="idCard"
-               [class.mark-success]="idCard.valid">
+          [class.mark-success]="idCard.valid">
         <div *ngIf="idCard.touched">
           <ng-container *ngFor="let error of errors.idCardErrors">
             <small *ngIf="idCard.hasError(error.code)" class="d-block text-danger"
-                   role="alert">{{error.message}}</small>
+              role="alert">{{error.message}}</small>
           </ng-container>
         </div>
       </div>
     </div>
 
     <div class="form-group row">
-      <label for="address" class="col-md-3 col-form-label">Địa chỉ <span
-        class="text-danger">*</span></label>
+      <label for="address" class="col-md-3 col-form-label">Địa chỉ <span class="text-danger">*</span></label>
       <div class="col-md-9">
         <input formControlName="address" type="text" class="form-control" id="address"
-               [class.mark-success]="address.valid">
+          [class.mark-success]="address.valid">
         <div *ngIf="address.touched">
           <ng-container *ngFor="let error of errors.addressError">
             <small *ngIf="address.hasError(error.code)" class="d-block text-danger"
-                   role="alert">{{error.message}}</small>
+              role="alert">{{error.message}}</small>
           </ng-container>
         </div>
       </div>
     </div>
 
     <div class="form-group row">
-      <label for="password" class="col-md-3 col-form-label">Mật Khẩu<span
-        class="text-danger">*</span></label>
+      <label for="password" class="col-md-3 col-form-label">Mật khẩu<span class="text-danger">*</span></label>
       <div class="col-md-9">
         <input maxlength="16" formControlName="password" type="password" class="form-control" id="password"
-               [class.mark-success]="password.valid">
+          [class.mark-success]="password.valid">
         <div *ngIf="password.touched">
           <ng-container *ngFor="let error of errors.passwordErrors">
             <small *ngIf="password.hasError(error.code)" class="d-block text-danger"
-                   role="alert">{{error.message}}</small>
+              role="alert">{{error.message}}</small>
           </ng-container>
         </div>
       </div>
@@ -130,30 +118,29 @@
 
     <div class="form-group row">
       <label for="confirmPassword" class="col-md-3 col-form-label">Xác nhận mật khẩu<span
-        class="text-danger">*</span></label>
+          class="text-danger">*</span></label>
       <div class="col-md-9">
         <input formControlName="confirmPassword" type="password" class="form-control" id="confirmPassword"
-               [class.mark-success]="confirmPassword.valid">
+          [class.mark-success]="confirmPassword.valid">
         <div *ngIf="confirmPassword.touched">
           <ng-container *ngFor="let error of errors.confirmPasswordError">
             <small *ngIf="confirmPassword.hasError(error.code)" class="d-block text-danger"
-                   role="alert">{{error.message}}</small>
+              role="alert">{{error.message}}</small>
           </ng-container>
         </div>
         <div class="d-block text-danger" role="alert"
-             *ngIf="registerForm.hasError('checkPassword') && confirmPassword.touched"><small>mật khẩu không trùng
-          khớp</small>
+          *ngIf="registerForm.hasError('checkPassword') && confirmPassword.touched"><small>Mật khẩu không trùng
+            khớp</small>
         </div>
       </div>
     </div>
 
 
     <div class="form-group row">
-      <label for="subDistrict" class="col-md-3 col-form-label">Câu Hỏi Bảo Mật<span
-        class="text-danger">*</span></label>
+      <label for="subDistrict" class="col-md-3 col-form-label">Câu hỏi bảo mật<span class="text-danger">*</span></label>
       <div class="col-md-9">
-        <select formControlName="answer" class="form-control" id="subDistrict" [class.mark-success]="answer.valid">
-          <option value="Thành phố bạn sinh ra ?" [selected]="true" disabled>chọn câu hỏi bảo mật</option>
+        <select formControlName="question" class="form-control" id="subDistrict" [class.mark-success]="answer.valid">
+          <option value="Thành phố bạn sinh ra ?" [selected]="true" disabled>Chọn câu hỏi bảo mật</option>
           <option value="Thành phố bạn sinh ra ?">Thành phố bạn sinh ra ?</option>
           <option value="Con vật yêu thích của bạn ?">Con vật yêu thích của bạn ?</option>
           <option value="Tên cha mẹ bạn ?">Tên cha mẹ bạn ?</option>
@@ -161,22 +148,21 @@
         <div *ngIf="answer.touched">
           <ng-container *ngFor="let error of errors.answerErrors">
             <small *ngIf="answer.hasError(error.code)" class="d-block text-danger"
-                   role="alert">{{error.message}}</small>
+              role="alert">{{error.message}}</small>
           </ng-container>
         </div>
       </div>
     </div>
 
     <div class="form-group row">
-      <label for="answer" class="col-md-3 col-form-label">Trả lời<span
-        class="text-danger">*</span></label>
+      <label for="answer" class="col-md-3 col-form-label">Trả lời<span class="text-danger">*</span></label>
       <div class="col-md-9">
-        <input formControlName="question" maxlength="9" type="text" class="form-control" id="answer"
-               [class.mark-success]="question.valid">
+        <input formControlName="answer" maxlength="9" type="text" class="form-control" id="answer"
+          [class.mark-success]="question.valid">
         <div *ngIf="question.touched">
           <ng-container *ngFor="let error of errors.questionErrors">
             <small *ngIf="question.hasError(error.code)" class="d-block text-danger"
-                   role="alert">{{error.message}}</small>
+              role="alert">{{error.message}}</small>
           </ng-container>
         </div>
       </div>
@@ -192,19 +178,19 @@
 
     <div class="form-group row">
       <label for="confirmCaptchaCode" class="col-md-3 col-form-label">Nhập mã captcha<span
-        class="text-danger">*</span></label>
+          class="text-danger">*</span></label>
       <div class="col-md-9">
         <input formControlName="confirmCaptchaCode" type="text" class="form-control" id="confirmCaptchaCode"
-               [class.mark-success]="confirmCaptchaCode.valid">
+          [class.mark-success]="confirmCaptchaCode.valid">
         <div *ngIf="confirmCaptchaCode.touched">
           <ng-container *ngFor="let error of errors.captchaErrors">
             <small *ngIf="confirmCaptchaCode.hasError(error.code)" class="d-block text-danger"
-                   role="alert">{{error.message}}</small>
+              role="alert">{{error.message}}</small>
           </ng-container>
         </div>
         <div class="d-block text-danger" role="alert"
-             *ngIf="registerForm.hasError('checkCaptchaCode') && confirmCaptchaCode.touched"><small>mã xác minh không
-          đúng</small>
+          *ngIf="registerForm.hasError('checkCaptchaCode') && confirmCaptchaCode.touched"><small>Mã xác minh không
+            đúng</small>
         </div>
       </div>
     </div>
@@ -216,8 +202,8 @@
         <label for="agree"></label><input type="checkbox" id="agree" name="agree">
         <label style="margin-left: 5px">Đồng ý <a style="color: #189EFF; text-decoration: underline">điều khoản</a> của
           website</label><br>
-        <input id="registration" type="submit" class="btn btn-success " [disabled] = "!registerForm.valid"
-               data-toggle="modal" data-target="#myModal" value="Đăng Ký">
+        <input id="registration" type="submit" class="btn btn-success " [disabled]="!registerForm.valid"
+          data-toggle="modal" data-target="#myModal" value="Đăng Ký">
 
       </div>
     </div>
@@ -228,23 +214,20 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">xác nhận đăng ký thành viên</h4>
+          <h4 class="modal-title">Xác nhận đăng ký thành viên</h4>
         </div>
         <div class="modal-body">
-          <h6>vui lòng vào gmail để lấy mã hoặc bấm vào <a target="_blank" href="https://mail.google.com/mail/u/0/#spam">đây</a></h6>
+          <h6>Vui lòng vào gmail để lấy mã hoặc bấm vào <a target="_blank"
+              href="https://mail.google.com/mail/u/0/#spam">đây</a></h6>
           <label for="confirmRegistration"></label><input class="form-control" placeholder="nhập mã xác nhận"
-                                                          id="confirmRegistration">
+            id="confirmRegistration">
           <small class="d-block text-danger">{{authenticationFailed}}</small>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-          <button type="button" (click)="confirmRegistration()"  class="btn btn-primary">Xác nhận</button>
+          <button type="button" (click)="confirmRegistration()" class="btn btn-primary">Xác nhận</button>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
-
-
