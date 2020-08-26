@@ -63,7 +63,7 @@ export class AuctionService {
   }
 
   saveNewAuctionRecord(auctionRecord: AuctionRecord): Observable<any> {
-    return this.httpClient.post(this.recordAPI, auctionRecord, this.httpOptions);
+    return this.httpClient.post(this.recordAPI,JSON.stringify(auctionRecord), this.httpOptions);
   }
 
 
@@ -118,6 +118,10 @@ export class AuctionService {
         categoryName: categoryName
       }
     });
+  }
+  //Bach
+  getAuctionByProductId(productId: number): Observable<Auction> {
+    return this.httpClient.get<Auction>(this.auctionAPI + '/product/' + productId);
   }
 
 }

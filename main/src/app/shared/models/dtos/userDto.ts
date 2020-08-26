@@ -12,6 +12,4 @@ export class UserDto {
   answer: string;
   question: string;
   confirmCaptchaCode: string;
-
-
 }

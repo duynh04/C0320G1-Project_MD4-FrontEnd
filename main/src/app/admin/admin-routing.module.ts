@@ -13,10 +13,7 @@ const routes: Routes = [
   {
     path: '', component: AdminDashboardComponent, canActivate: [AdminGuard],
     children: [
-      {
-        path: 'deal-management',
-        component: DealManageComponent,
-      },
+      {path: 'deal-management',component: DealManageComponent},
       {path: '', component: AdminUserManagementComponent},
       {path: 'login', component: AdminLoginComponent},
       {path: 'approvement/:id', component: AdminApprovementComponent},

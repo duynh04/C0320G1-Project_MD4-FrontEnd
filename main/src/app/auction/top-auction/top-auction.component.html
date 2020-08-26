@@ -22,7 +22,7 @@
               <td *ngIf="record.isWinner==true">{{record.bidTime|date:"dd/MM/yyyy hh:mm:ss"}}</td>
             </ng-container>
             <ng-container *ngFor="let record of auction.records">
-              <td *ngIf="record.isWinner==true">{{record.bidder.fullname}}</td>
+              <td *ngIf="record.isWinner==true">{{record.bidder.fullName}}</td>
             </ng-container>
           </tr>
         </tbody>

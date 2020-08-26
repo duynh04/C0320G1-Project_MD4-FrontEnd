@@ -86,6 +86,10 @@ export class AuctionPageComponent implements OnInit {
 
   ngOnInit(): void {
 
+    // this.activatedRoute.data.subscribe((data: { auctionId: number }) => {
+    //   this.auctionId = data.auctionId
+    // });
+
     // lấy auctionId từ url để dùng cho những service sau
     this.activatedRoute.params.subscribe(data => this.auctionId = data.id);
 
@@ -94,6 +98,7 @@ export class AuctionPageComponent implements OnInit {
 
       //thông tin phiên đấu giá để interpolation
       this.auction = data;
+      console.log("vào ngân");
       this.increment = data.product.increaseAmount;
       this.productName = data.product.name;
 
@@ -114,16 +119,13 @@ export class AuctionPageComponent implements OnInit {
 
     //xử lý ban đầu nếu chưa có người đấu giá
     this.auctionService.getRecordHavingBestPrice(this.auctionId).subscribe(data => {
-      // console.log(data);
-      if (this.currentBid == null) {
+      if (data == null){
         this.currentBid = 0;
-      }
-      if (this.currentWinner == null) {
         this.currentWinner = 'đặt đi rồi có';
+      } else {
+        this.currentBid = data.bidPrice;
+        this.currentWinner = data.bidder.email;
       }
-      this.currentBid = data.bidPrice;
-      this.currentWinner = data.bidder.email;
-
     });
 
 
@@ -157,19 +159,19 @@ export class AuctionPageComponent implements OnInit {
     // clearInterval(loop1);
 
     //in thông báo cho client trên modal
-    $('#reaffirm').html('Bạn đang là người thắng với giá ' + newPrice + 'k');
+    $('#reaffirm').html('Giá hiện tại đang là ' + newPrice + 'k');
 
 
     this.auctionService.getRecordByAuctionAndUser(this.auctionId, this.tokenStorageService.getJwtResponse().userId).subscribe(data => {
       if (data == null) {
 
+        this.auction.product.auction = null;
         //chuẩn bị đối tượng record để chuẩn bị lưu xuống db
         let auctionRecord: AuctionRecord = {
-
           auction: this.auction,
           // lấy userId từ token trong storage
           bidder: {id: this.tokenStorageService.getJwtResponse().userId},
-          bidTime: new Date(),
+          bidTime: new Date().toISOString().substring(0, 19),
           bidPrice: this.newBid.value,
           isWinner: false
         };
@@ -212,9 +214,9 @@ export class AuctionPageComponent implements OnInit {
           this.socket.emit('remaining', new Date().getTime() + 30000);
         }
 
-        data.bidTime = new Date();
+        data.bidTime = new Date().toISOString().substring(0, 19);
         data.bidPrice = this.newBid.value;
-
+        data.auction.product.auction = null;
 
         this.auctionService.saveNewAuctionRecord(data).subscribe(data => {
           //đồng thời cập nhật lại bảng lịch sử đấu giá và các thông tin
@@ -257,7 +259,6 @@ export class AuctionPageComponent implements OnInit {
     minutes = minutes < 10 ? '0' + minutes : minutes;
     seconds = seconds < 10 ? '0' + seconds : seconds;
 
-
     //xử lý sau khi kết thúc đấu giá
     if (time == 0 || time < 0) {
 
@@ -273,51 +274,40 @@ export class AuctionPageComponent implements OnInit {
       //lấy record người thắng để xử lý
       this.auctionService.getRecordHavingBestPrice(this.auctionId).subscribe(data => {
 
-        // thêm vào cart và hiện pop-up cho người thắng
-        if (data.bidder.email === this.tokenStorageService.getJwtResponse().accountName) {
-
-          let productToCart = {
-            userId: this.tokenStorageService.getJwtResponse().userId,
-            auctionId: this.auctionId,
-            winPrice: data.bidPrice,
-            closeTime: new Date().toISOString().substring(0, 19)
-          };
-          this.cartService.saveToCart(productToCart).subscribe();
-
-          $('#finished-success').modal('show');
-        } else {
-          // hiện pop-up thua cuộc
-          $('#finished-failure').modal('show');
-        }
-
-
-        this.finalRecord = data;
-        //chuyển thành string để lưu db
-        this.auction.closeTime = new Date().toISOString().substring(0, 19);
-
-        // trường hợp ko có ai đấu giá
-        if (this.finalRecord == null) {
+        if (data == null) {
           this.auction.auctionStatus = {
             id: 4,
             name: 'đấu giá thất bại'
           };
-          // trường hợp có người thắng
         } else {
+          this.finalRecord = data;
+          this.finalRecord.auction.product.auction = null;
           this.finalRecord.isWinner = true;
           this.auction.auctionStatus = {
             id: 3,
             name: 'đấu giá thành công'
           };
-          //cập nhật lại auction của Record (thấy sai sai mà kệ)
-          // this.finalRecord.auction = this.auction;
+          if (data.bidder.email === this.tokenStorageService.getJwtResponse().accountName) {
+
+            let productToCart = {
+              userId: this.tokenStorageService.getJwtResponse().userId,
+              auctionId: this.auctionId,
+              winPrice: data.bidPrice,
+              closeTime: new Date().toISOString().substring(0, 19)
+            };
+            this.cartService.saveToCart(productToCart).subscribe();
+
+            $('#finished-success').modal('show');
+          } else {
+            // hiện pop-up thua cuộc
+            $('#finished-failure').modal('show');
+          }
+
+          this.auctionService.editRecordHavingBestPrice(this.finalRecord).subscribe();
         }
-        // console.log(this.auction);
+        this.auction.closeTime = new Date().toISOString().substring(0, 19);
         this.auctionService.closeAuctionById(this.auctionId, this.auction.auctionStatus.id, this.auction.closeTime)
           .subscribe();
-        //edit lại phiên đấu giá và record của người thắng khi phiên đấu giá kết thúc
-        // this.auctionService.editAuctionById(this.auction).subscribe();
-        this.auctionService.editRecordHavingBestPrice(this.finalRecord).subscribe();
-
       });
 
     } else {
@@ -338,20 +328,9 @@ export class AuctionPageComponent implements OnInit {
     return check ? {bidPrice: true} : null;
   }
 
-  //validate giá đấu phải lớn hơn giá hiện tại và là bội số của bước giá, nhưng ko dùng đc
-  // bidPriceValidator(control: AbstractControl){
-
-  // const price = control.value;
-  //   let check: boolean = false;
-  //   if (price <= this.currentBid && price != ""||price%this.increment!=0&& price != ""){
-  //     check = true
-  //   }
-  //   return  check? {invalidBid: true} : null;
-  // }
-
 //  The End of Sorrow  :))))
   goToHomePage() {
-    this.router.navigateByUrl('/home');
+    this.router.navigateByUrl('/');
   }
 
   goToCart() {

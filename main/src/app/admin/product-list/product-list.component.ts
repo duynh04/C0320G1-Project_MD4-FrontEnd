@@ -37,8 +37,8 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit() {
     this.formSearchList = this.formBuilder.group({
-      name: ['', [Validators.pattern('^[a-zA-Z0-9\\ ]*$')]],
-      owner: ['', [Validators.pattern('^[a-zA-Z0-9\\ ]*$')]],
+      name: ['', [Validators.pattern('^[A-ZẮẰẲẴẶĂẤẦẨẪẬÂÁÀÃẢẠĐẾỀỂỄỆÊÉÈẺẼẸÍÌỈĨỊỐỒỔỖỘÔỚỜỞỠỢƠÓÒÕỎỌỨỪỬỮỰƯÚÙỦŨỤÝỲỶỸỴa-zắằẳẵặăấầẩẫậâáàãảạđếềểễệêéèẻẽẹíìỉĩịốồổỗộôớờởỡợơóòõỏọứừửữựưúùủũụýỳỷỹỵ0-9\\ ]*$')]],
+      owner: ['', [Validators.pattern('^[A-ZẮẰẲẴẶĂẤẦẨẪẬÂÁÀÃẢẠĐẾỀỂỄỆÊÉÈẺẼẸÍÌỈĨỊỐỒỔỖỘÔỚỜỞỠỢƠÓÒÕỎỌỨỪỬỮỰƯÚÙỦŨỤÝỲỶỸỴa-zắằẳẵặăấầẩẫậâáàãảạđếềểễệêéèẻẽẹíìỉĩịốồổỗộôớờởỡợơóòõỏọứừửữựưúùủũụýỳỷỹỵ\\ ]*$')]],
       category: [''],
       price: [''],
       status: ['']
@@ -129,5 +129,21 @@ export class ProductListComponent implements OnInit {
       }),
       map(res => res.content)
     );
+  }
+
+  // Thành Long
+  getColor(status: string): string {
+    switch (status) {
+      case 'đang chờ duyệt':
+        return 'text-warning';
+      case 'duyệt thành công':
+        return 'text-success';
+      case 'duyệt thất bại':
+        return 'text-danger';
+      case 'đã hủy':
+        return 'text-secondary';
+      default:
+        return '';
+    }
   }
 }

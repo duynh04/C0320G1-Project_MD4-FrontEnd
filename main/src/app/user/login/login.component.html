@@ -12,7 +12,7 @@
                 <input id="name" type="email" class="form-control" formControlName="email" placeholder="Email của bạn">
               </div>
               <small class="d-block text-danger"
-                     *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">
+                *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">
                 <span *ngIf="loginForm.get('email').hasError('required')">Email không được để trống </span>
                 <span *ngIf="loginForm.get('email').hasError('validateWhitespace')">Email không được để trống</span>
                 <span *ngIf="loginForm.get('email').hasError('pattern')">Email sai định dạng</span>
@@ -23,7 +23,7 @@
               <label>Mật khẩu</label>
               <div class="input-group">
                 <input class="form-control" placeholder="******" type="password" id="password"
-                       formControlName="password">
+                  formControlName="password">
                 <div class="input-group-append">
                   <button type="button" id="togglePassword" class="input-group-text">
                     <i class="fas fa-eye my-eye" *ngIf="!showPassword"></i>
@@ -32,7 +32,7 @@
                 </div>
               </div>
               <small class="d-block text-danger"
-                     *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
+                *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
                 <span *ngIf="loginForm.get('password').hasError('required')">Mật khẩu không được để trống</span>
               </small>
             </div>
@@ -40,16 +40,16 @@
             <div class="custom-control custom-checkbox mb-3">
               <input type="checkbox" (change)="remember($event)" class="custom-control-input" id="customCheck1">
               <label class="custom-control-label" for="customCheck1">Nhớ mật khẩu</label>
-              <a class="float-right" href="#">Quên mật khẩu?</a>
+              <a data-toggle="modal" data-target="#exampleModal" href="#" class="float-right">Forgot Password?</a>
             </div>
             <input type="submit" [disabled]="loginForm.invalid" class="btn btn-primary btn-block text-uppercase"
-                   value="Đăng Nhập">
+              value="Đăng Nhập">
             <div class="text-danger" role="alert">
               {{message}}
             </div>
             <hr class="hr-text my-4" data-content="HOẶC">
-            <button type="button" class="btn btn-block btn-outline-primary" data-toggle="modal"
-                    data-target="#faceBookPopup"><i class="fab fa-facebook-f"> </i> Đăng nhập với Facebook
+            <button (click)="signInWithFB()" type="button" class="btn btn-block btn-outline-primary" data-toggle="modal"
+              data-target="#faceBookPopup"><i class="fab fa-facebook-f"> </i> Đăng nhập với Facebook
             </button>
             <div class="d-flex justify-content-center mt-5">
               <p class="text-muted mr-2"> Bạn chưa có tài khoản ?</p>
@@ -61,3 +61,4 @@
     </div>
   </div>
 </div>
+<app-reset-password></app-reset-password>

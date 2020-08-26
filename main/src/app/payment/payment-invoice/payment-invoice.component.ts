@@ -36,7 +36,7 @@ export class PaymentInvoiceComponent implements OnInit {
     })
   }
   backToHomePage() {
-    this.router.navigateByUrl("/home");
+    this.router.navigateByUrl("/");
   }
 
 }

@@ -1,7 +1,7 @@
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Product } from './../../shared/models/product';
+import { Product } from '../../shared/models/product';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { tap, map, subscribeOn } from 'rxjs/operators';
@@ -85,8 +85,8 @@ export class MyProductsComponent implements OnInit {
 
         this.stt = [];
         let firstIndex = this.pageSize * (this.currentPage - 1) + 1;
-        let lastIndeex = this.pageSize * this.currentPage;
-        for (let i = firstIndex; i <= lastIndeex; i++) {
+        let lastIndex = this.pageSize * this.currentPage;
+        for (let i = firstIndex; i <= lastIndex; i++) {
           this.stt.push(i);
         }
 

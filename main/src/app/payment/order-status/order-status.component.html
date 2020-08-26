@@ -37,8 +37,8 @@
                     <tr class="bg-primary text-white">
                         <th scope="col">Sản phẩm</th>
                         <th scope="col">Số lượng</th>
-                        <th scope="col">Giá/VND</th>
-                        <th scope="col">Thành tiền/VND</th>
+                        <th class="text-right" scope="col">Giá/VND</th>
+                        <th class="text-right" scope="col">Thành tiền/VND</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,8 +52,8 @@
                             </div>
                         </th>
                         <td>{{sp.productQuantity}}</td>
-                        <td>{{sp.productWinPrice|currency:"VND"}} </td>
-                        <td>{{sp.productWinPrice*sp.productQuantity|currency:"VND"}} </td>
+                        <td class="text-right">{{sp.productWinPrice|currency:"VND"}} </td>
+                        <td class="text-right">{{sp.productWinPrice*sp.productQuantity|currency:"VND"}} </td>
 
 
                     </tr>
@@ -61,19 +61,19 @@
                         <th scope="row">Phí dịch vụ 10%</th>
                         <td></td>
                         <td></td>
-                        <td>{{serviceFee|currency:"VND":'symbol'}}</td>
+                        <td class="text-right">{{serviceFee|currency:"VND":'symbol'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">Giao hàng</th>
                         <td></td>
                         <td></td>
-                        <td>{{deliveryPrice|currency:"VND":'symbol'}} </td>
+                        <td class="text-right">{{deliveryPrice|currency:"VND":'symbol'}} </td>
                     </tr>
                     <tr>
                         <th scope="row">Tổng</th>
                         <td></td>
                         <td></td>
-                        <td>{{totalCost|currency:"VND":'symbol'}} </td>
+                        <td class="text-right">{{totalCost|currency:"VND":'symbol'}} </td>
                     </tr>
                 </tbody>
             </table>
@@ -111,6 +111,25 @@
                 <button type="button" (click)="sendMail('không')" class="btn btn-warning text-white"
                     data-dismiss="modal">Không</button>
                 <button type="button" (click)="sendMail('có')" data-dismiss="modal" class="btn btn-success">Có</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title font-weight-bold" id="exampleModalLabel">Thông báo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center ">
+                <span> Hiện tại không có hóa đơn nào</span>
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-danger text-white" data-dismiss="modal">Đóng</button>
             </div>
         </div>
     </div>
