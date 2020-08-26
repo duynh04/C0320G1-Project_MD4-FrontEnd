@@ -14,7 +14,7 @@ import {HttpClient} from '@angular/common/http';
 export class DealManageComponent implements OnInit {
 
   private dealList: DealDTO[];
-  private pageSize: number = 10;
+  private pageSize: number = 3;
   private lastPage: number;
   private currentPage: number;
   private commandToPagination: string;
@@ -44,14 +44,6 @@ export class DealManageComponent implements OnInit {
       totalPayment: new FormControl('', [Validators.min(1), Validators.pattern('[0-9]{1,}')]),
       statusOfDeal: new FormControl(''),
     });
-
-    // this.httpClient
-    //   .get('http://localhost:8080/api/v1/admin/deal-management')
-    //   .toPromise()
-    //   // .then( resp => console.log('Success writed by Thao', resp))
-    //   .catch(err => {
-    //     this.message = 'Lỗi kết nối server';
-    //   });
   }
 
   reloadData(page, pageSize, commandToPagination) {
@@ -62,28 +54,28 @@ export class DealManageComponent implements OnInit {
         this.currentPage = data.currentPage;
         this.lastPage = data.totalPage;
         this.message = 'Danh sách hiện thời có ' + data.totalItems + ' giao dịch';
-        console.log(this.commandToPagination);
       });
-    // load data for search
-      } else if ( commandToPagination === 'search' ) {
-        if (this.createForm.value.totalPayment === '' ) {
-          this.createForm.patchValue({totalPayment: 1});
-        }
-        this.dealManageService.search(this.createForm.value, page, pageSize)
-          .pipe(map(value => JSON.parse(value)))
-          .subscribe(data => {
-            if (data === null) {
-              this.dealList = null;
-              this.message = 'Không tìm thấy dữ liệu khớp với tìm kiếm';
-            }
-            this.dealList =  data.items;
-            this.currentPage = data.currentPage;
-            this.lastPage = data.totalPage;
-            this.message = 'Có ' + data.totalItems + ' kết quả được tìm thấy';
-            console.log(data);
-            console.log(this.commandToPagination);
-          });
+      // load data for search
+    } else if ( commandToPagination === 'search' ) {
+      let temp: number = this.createForm.value.totalPayment;
+      if (this.createForm.value.totalPayment === '' ) {
+        this.createForm.patchValue({totalPayment: 1});
       }
+      this.dealManageService.search(this.createForm.value, page, pageSize)
+        .pipe(map(value => JSON.parse(value)))
+        .subscribe(data => {
+          if (data === null) {
+            this.dealList = null;
+            this.message = 'Không tìm thấy dữ liệu khớp với tìm kiếm';
+          }
+          this.dealList =  data.items;
+          this.currentPage = data.currentPage;
+          this.lastPage = data.totalPage;
+          this.message = 'Có ' + data.totalItems + ' kết quả được tìm thấy';
+          console.log(data);
+        });
+      this.createForm.patchValue({totalPayment: temp});
+    }
   }
 
   // delete function
@@ -122,11 +114,11 @@ export class DealManageComponent implements OnInit {
 
   // search by fields function
   searchDeals(): void {
+    this.dealList = [];
     this.commandToPagination = 'search';
-    console.log(this.commandToPagination);
     if ( this.createForm.valid ) {
       this.reloadData(1, this.pageSize, this.commandToPagination);
-      this.createForm.patchValue({totalPayment: ''});
+      // this.createForm.patchValue({totalPayment: ''});
     } else {
       this.message = 'Vui lòng nhập đúng thông tin hợp lệ để tìm kiếm';
     }
@@ -134,26 +126,22 @@ export class DealManageComponent implements OnInit {
 
   // pagination function
   goFirstPage() {
-    console.log(this.commandToPagination);
     this.reloadData(1, this.pageSize, this.commandToPagination);
   }
 
   goPreviousPage() {
-    console.log(this.commandToPagination);
     if (this.currentPage > 1) {
       return this.reloadData(this.currentPage - 1, this.pageSize, this.commandToPagination);
     }
   }
 
   goNextPage() {
-    console.log(this.commandToPagination);
     if (this.currentPage < this.lastPage) {
       return this.reloadData(this.currentPage + 1, this.pageSize, this.commandToPagination);
     }
   }
 
   goLastPage() {
-    console.log(this.commandToPagination);
     this.reloadData(this.lastPage, this.pageSize, this.commandToPagination);
   }
 

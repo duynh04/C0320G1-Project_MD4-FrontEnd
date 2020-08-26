@@ -39,8 +39,8 @@
             </div>
             <div class="row mt-3">
                 <div class="col-md">
-                    <label for="totalPayment">Thành tiền</label>
-                    <input formControlName="totalPayment" type="text" class="form-control" id="totalPayment" placeholder="Kết quả lớn hơn hoặc bằng giá trị nhập vào">
+                    <label for="totalPayment">Thành tiền từ</label>
+                    <input formControlName="totalPayment" type="text" class="form-control" id="totalPayment" placeholder="Vd: 1000000">
                     <div *ngIf="createForm.get('totalPayment').invalid && createForm.get('totalPayment').touched">
                       <div *ngIf="createForm.get('totalPayment').hasError('min')">
                         <p class="text-danger">Vui lòng nhập số nguyên dương lớn hơn 0</p>
@@ -74,7 +74,8 @@
           <div class="table-responsive">
             <table id="mytable" class="table table-border table-striped">
               <thead class="bg-primary">
-                <th><input type="checkbox" id="checkall" /></th>
+<!--                <th><input type="checkbox" id="checkall" /></th>-->
+                <th></th>
                 <th style="width:10%">Mã giao dịch</th>
                 <th style="width:10%">Thời gian đấu giá thành công</th>
                 <th style="width:12%">Người đăng</th>
